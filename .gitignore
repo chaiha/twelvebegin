@@ -45,3 +45,5 @@ storage
 .env
 tests
 vendor
+.env.example
+.gitattributes
