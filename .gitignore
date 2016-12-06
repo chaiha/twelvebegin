@@ -48,3 +48,5 @@ vendor
 .env.example
 .gitattributes
 artisan
+readme.md
+README.md
