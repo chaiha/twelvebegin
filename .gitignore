@@ -47,3 +47,4 @@ tests
 vendor
 .env.example
 .gitattributes
+artisan
