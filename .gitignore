@@ -36,4 +36,12 @@
 ehthumbs.db
 Thumbs.db
 
+composer.lock
+config
+server.php
+bootstrap
+public
+storage
+.env
+tests
 vendor
