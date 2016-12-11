@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('/test', function () {
     return view('pages.one');
 });
+
+Route::get('/login', function () {
+    return view('pages.login');
+});

@@ -13,6 +13,7 @@
     {{ Html::style('assets/css/ie10-viewport-bug-workaround.css')}}
     {{ Html::style('assets/js/ie-emulation-modes-warning.js')}}
     {{ Html::style('css/navbar.css') }}
+    @yield('styles')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -22,9 +23,12 @@
   </head>
   <body>
     <body id="page-top" class="index">
-    
+    <?php
+        $x=0;
+    ?>
+    @if($x!=0)
         @include('layouts.partials._navigation')
-    
+    @endif
         @yield('content')
     
         @include('layouts.partials._footer')
