@@ -22,3 +22,10 @@ Route::get('/test', function () {
 Route::get('/login', function () {
     return view('pages.login');
 });
+Route::get('/create_user','UserController@create_user');
+Route::post('/login', 'UserController@login');
+Route::get('logout', 'UserController@logout');
+Route::get('/check', 'UserController@checKdi');
+Route::get('/earnings','AdminController@earnings')->middleware('admin');
+Route::get('/admin/create_new_record', 'AdminController@create_new_record');
+Route::get('/admin/edit/{id}','AdminController@get_edit_record');

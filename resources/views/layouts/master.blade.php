@@ -23,12 +23,9 @@
   </head>
   <body>
     <body id="page-top" class="index">
-    <?php
-        $x=0;
-    ?>
-    @if($x!=0)
+
         @include('layouts.partials._navigation')
-    @endif
+
         @yield('content')
     
         @include('layouts.partials._footer')
