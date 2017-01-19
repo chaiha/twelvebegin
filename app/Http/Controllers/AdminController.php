@@ -7,9 +7,20 @@ use App\Record;
 
 class AdminController extends Controller
 {
+	public function index()
+  	{
+    	return view('admin.index');
+  	}
+  	
     public function earnings()
     {
     	return "result 9999";
+    }
+
+    public function list_records()
+    {
+    	$records = Record::paginate(100);
+    	return view('admin.list_records')->with('records',$records);
     }
 
     public function create_new_record()

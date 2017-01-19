@@ -24,19 +24,19 @@
   <body>
     <body id="page-top" class="index">
 
-        @include('layouts.partials._navigation')
+        @include('admin.layouts.partials._navigation')
 
         @yield('content')
-    
-        @include('layouts.partials._footer')
+        
+        @include('admin.layouts.partials._footer')
     
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     @section('js_files')
-    {{ Html::script('js/jquery-3.1.1.min.js')}}
+    @show
+    {{ Html::script('js/jquery-3.1.1.min.js')}} 
     {{ Html::script('bootstrap/js/bootstrap.min.js') }}
     {{ Html::script('assets/js/ie10-viewport-bug-workaround.js') }}
-    @show
   </body>
 </html>

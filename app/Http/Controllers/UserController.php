@@ -8,6 +8,7 @@ use User;
 
 class UserController extends Controller
 {
+
 	public function create_user()
 	{
 		$new_user =[
@@ -32,7 +33,14 @@ class UserController extends Controller
     	 	'password' => $password,
     	 ];
     	 Sentinel::authenticate($credentials);
-    	 return Sentinel::check();
+    	 //$user = Sentinel::check();
+       $user = Sentinel::getUser();
+       if ($user->inRole('admin'))
+        {
+          return Redirect('/admin/home');
+        }
+
+       
     }
 
     public function logout()
