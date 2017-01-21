@@ -24,6 +24,24 @@ class UserController extends Controller
 		echo "Finish";
 	}
 
+  public function create_user_sale()
+  {
+    for($i=2;$i<10;$i++)
+     { 
+    $new_user =[
+      'email' => 'sale'.$i.'@gmail.com',
+      'password' => '1234',
+      'first_name' => 'first_sale'.$i,
+      'last_name' => 'last_sale'.$i,
+    ];
+    $register = Sentinel::registerAndActivate($new_user);
+    $role = Sentinel::findRoleBySlug('sale');
+    $role->users()->attach($register);
+
+    echo "Finish";
+  }
+  }
+
     public function login(Request $request)
     {
     	 $email = $request->input('email');

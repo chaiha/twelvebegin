@@ -23,6 +23,7 @@ Route::get('/login', function () {
     return view('pages.login');
 });
 Route::get('/create_user','UserController@create_user');
+Route::get('/create_user_sale','UserController@create_user_sale');
 Route::post('/login', 'UserController@login');
 Route::get('logout', 'UserController@logout');
 Route::get('/check', 'UserController@checkdi');
@@ -41,6 +42,10 @@ Route::post('/admin/record/edit_record/','RecordController@preview_edit_record')
 Route::get('/admin/record/preview_edit_record','RecordController@show_preview_edit_record');
 Route::post('/admin/record/preview_edit_record','RecordController@submit_edit_record');
 Route::get('/admin/record/success_edit_reocord','RecordController@success_edit_reocord');
+
+//---------select record for sale --------------------
+Route::get('/admin/select_record/select_sale','SelectRecordController@select_sale');
+Route::get('/admin/select_record/select_sale/{id}','SelectRecordController@select_record');
 
 // Route::get('/admin/create_new_record', 'RecordController@preview_new_record');
 // Route::get('/admin/edit/{id}','AdminController@get_edit_record');
