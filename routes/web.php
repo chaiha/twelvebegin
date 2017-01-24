@@ -47,5 +47,9 @@ Route::get('/admin/record/success_edit_reocord','RecordController@success_edit_r
 Route::get('/admin/select_record/select_sale','SelectRecordController@select_sale');
 Route::get('/admin/select_record/select_sale/{id}','SelectRecordController@select_record');
 
+Route::get('/admin/selected_record/reset_selected_record','SelectRecordController@reset_selected_record');
+Route::post('/admin/selected_record/add_selected_record','SelectRecordController@add_selected_record');
+Route::post('/admin/selected_record/remove_selected_record','SelectRecordController@remove_selected_record');
+
 // Route::get('/admin/create_new_record', 'RecordController@preview_new_record');
 // Route::get('/admin/edit/{id}','AdminController@get_edit_record');
