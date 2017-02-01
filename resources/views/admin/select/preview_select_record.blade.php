@@ -89,13 +89,13 @@ use App\SelectRecord;
 <!-- Services Section -->
 <div class="content">
 	<div class="row">
-		<h1>Select Records for {{$sale->first_name}}</h1>
+		<h1>Reocord ที่เลือกให้สำหรับ เซล {{$sale->first_name}}</h1>
 		จำนวน Record ที่เลือก : <span style="color:red;"><?php $mem_selected_record = session('mem_selected_record'); echo sizeof($mem_selected_record	);?></span>
-		{{Form::open(array('action' => 'SelectRecordController@preview_select_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'SelectRecordController@submit_select_record','id'=>'submit_form'))}}
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
-		      <th>Select<input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" /></th>
+		      <input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" />
 		      <th>#</th>
 		      <th>no</th>
 		      <th>code</th>
@@ -125,9 +125,8 @@ use App\SelectRecord;
 		    </tr>
 		  </thead>
 		  <tbody>
-		  @foreach ($record_list as $each_record)
+		  @foreach ($selected_record_list as $each_record)
 		    <tr>
-		      <td><input type="checkbox" class="select_checkbox" name="selected_record[]" id="{{$each_record->id}}" value="{{$each_record->id}}" onClick="select_record_checkbox({{$each_record->id}})" <?php $has_record = SelectRecord::check_selected_record($each_record->id); if($has_record=="1"){echo "checked";}?>/></td>
 		      <td>{{$each_record->id}}</td>
 		      <td>{{$each_record->no}}</td>
 		      <td>{{$each_record->code}}</td>
@@ -161,7 +160,6 @@ use App\SelectRecord;
 		
 		</table>
 		{{ Form::close() }}
-		{{$record_list->links()}}
 	</div>
 	<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
 </div>

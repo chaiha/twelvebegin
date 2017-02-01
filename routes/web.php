@@ -50,6 +50,10 @@ Route::get('/admin/select_record/select_sale/{id}','SelectRecordController@selec
 Route::get('/admin/selected_record/reset_selected_record','SelectRecordController@reset_selected_record');
 Route::post('/admin/selected_record/add_selected_record','SelectRecordController@add_selected_record');
 Route::post('/admin/selected_record/remove_selected_record','SelectRecordController@remove_selected_record');
+Route::post('/admin/selected_record/select_sale/','SelectRecordController@preview_select_record');
+Route::get('/admin/selected_record/select_sale/preview','SelectRecordController@show_preview_select_record');
+Route::post('/admin/selected_record/select_sale/preview','SelectRecordController@submit_select_record');
+Route::get('/admin/selected_record/select_sale/success','SelectRecordController@success_select_record');
 
 // Route::get('/admin/create_new_record', 'RecordController@preview_new_record');
 // Route::get('/admin/edit/{id}','AdminController@get_edit_record');

@@ -53,6 +53,7 @@ class UserController extends Controller
     	 Sentinel::authenticate($credentials);
     	 //$user = Sentinel::check();
        $user = Sentinel::getUser();
+       session(['user'=>$user]);
        if ($user->inRole('admin'))
         {
           return Redirect('/admin/home');

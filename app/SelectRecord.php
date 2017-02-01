@@ -29,5 +29,18 @@ class SelectRecord extends Model
         }
         return $has_record;
     }
+
+    static public function is_selected_sale($sale_id)
+    {
+        $result = SelectRecord::where('sale_id','=',$sale_id)->first();
+        if($result)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
 }
