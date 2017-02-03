@@ -57,3 +57,6 @@ Route::get('/admin/selected_record/select_sale/success','SelectRecordController@
 
 // Route::get('/admin/create_new_record', 'RecordController@preview_new_record');
 // Route::get('/admin/edit/{id}','AdminController@get_edit_record');
+
+Route::get('/sale/home','CallController@index');
+Route::get('/sale/show_selected_record_list','CallController@show_list_record');

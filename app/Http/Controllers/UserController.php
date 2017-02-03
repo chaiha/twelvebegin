@@ -58,6 +58,10 @@ class UserController extends Controller
         {
           return Redirect('/admin/home');
         }
+      elseif($user->inRole('sale'))
+      {
+        return Redirect('/sale/home');
+      }
 
        
     }
