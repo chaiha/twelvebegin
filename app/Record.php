@@ -101,5 +101,13 @@ class Record extends Model
         	return "No result";//State เริ่มต้นยังไม่มีการกรอกข้อมูล
 		}
     }
+
+    static public function increase_call_amount($record_id)
+    {
+        $record = Record::where('id','=',$record_id)->first();
+        $new_call_amount = $record->call_amount+1;
+        $record->call_amount = $new_call_amount;
+        $record->save();
+    }
     
 }

@@ -29,10 +29,25 @@ class CallController extends Controller
             $record_list[$n]=$selected_record_each->id;
             $n++;
         }
-        $result = DB::table('records')->whereIn('id', $record_list)->get();
+        $result = DB::table('records')->whereIn('id', $record_list)->paginate(100);
         
         return view('sale.select.show_select_list')->with('sale',$user)->with('record_list',$result);
 
+    }
+
+    public function select_record_call($id)
+    {
+        $record = Record::increase_call_amount($id);
+        $record = Record::where('id','=',$id)->first();
+        $user = session('user');
+        $select_record = SelectRecord::where('record_id','=',$id)->where('sale_id','=',$user->id)->first();
+        $call_amount = $select_record->call_amount;
+        return view('sale.select.select_call_record')->with('record',$record)->with('call_amount',$call_amount);
+    }
+
+    public function preview_filled_record()
+    {
+        return "ok";
     }
 }
 
