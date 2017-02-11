@@ -299,7 +299,8 @@ use App\Record;
 		<div class="row">
 			<div class="col-xs-2">
 				<label>No.</label>
-				<input type="hidden" id="id" name="id" value="{{$record->id}}" />
+				<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record->id}}" />
+				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				{{$select_record->record->no}}
 			</div>
 			<div class="col-xs-2">
@@ -313,7 +314,7 @@ use App\Record;
 				{
 					echo "Available";
 				}
-				elseif ($record->status=="Not_available") 
+				elseif ($select_record->record->status=="Not_available") 
 				{
 					echo "Not Available";
 				}
@@ -613,7 +614,7 @@ use App\Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>จำนวนครั้งที่โทรก่อนหน้า</label>
-						<input type="text" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="" class="form-control no_reply_form" />
+						<input type="text" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="{{$select_record->record->call_amount}}" class="form-control no_reply_form" />
 					</div>
 				</div>
 				<div class="row add-margin-20">

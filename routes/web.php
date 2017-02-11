@@ -62,3 +62,6 @@ Route::get('/sale/home','CallController@index');
 Route::get('/sale/show_selected_record_list','CallController@show_list_record');
 Route::get('/sale/select_record/call/{id}','CallController@select_record_call');
 Route::post('/sale/select_record/preview_filled_record','CallController@preview_filled_record');
+Route::get('/sale/select_record/show_preview_filled_record','CallController@show_preview_filled_record');
+Route::post('/sale/select_record/show_preview_filled_record','CallController@submit_filled_record');
+Route::get('/sale/select_record/call/success/{id}','CallController@call_success');
