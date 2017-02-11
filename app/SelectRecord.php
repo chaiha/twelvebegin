@@ -42,5 +42,10 @@ class SelectRecord extends Model
             return false;
         }
     }
+
+    public function record()
+    {
+        return $this->hasOne('App\Record','id','record_id');
+    }
     
 }

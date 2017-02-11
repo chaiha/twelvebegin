@@ -109,5 +109,10 @@ class Record extends Model
         $record->call_amount = $new_call_amount;
         $record->save();
     }
+
+    public function select_record()
+    {
+        return $this->belongsTo('App\SelectRecord');
+    }
     
 }
