@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('super.layouts.master')
 @section('js_files')
 
 <script>
@@ -19,18 +19,17 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="content">
+<div class="content add-margin-left-right">
 	<div class="row">
 		<div class="form-group">
-		<h1>Edit record</h1>
+		<h1>Create new record</h1>
 		<h3>กรุณาตรวจทานข้อมูลก่อนยืนยัน</h3>
-		{{Form::open(array('action' => 'AdminController@submit_edit_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'SuperController@submit_new_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-2">
 				<label>No.</label>
 				{{$record['no']}}
-				<input class="form-control" type="hidden" id="record_id" name="record_id" value="{{$record['id']}}"/>
 				<input class="form-control" type="hidden" id="no" name="no" value="{{$record['no']}}"/>
 			</div>
 			<div class="col-xs-2">
@@ -166,8 +165,8 @@ use App\Record;
 		</div>
 		<br />
 		<a class="btn btn-success" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-primary" href="{{ url('admin/record/edit_record/'.$record['id']) }}" role="button" id="edit_btn">Edit</a>
-		<a class="btn btn-danger" href="{{ url('admin/record/list_records') }}" role="button" id="cancel_btn">Cancel</a>
+		<a class="btn btn-primary" href="{{ url('super/record/edit_new_record') }}" role="button" id="edit_btn">Edit</a>
+		<a class="btn btn-danger" href="{{ url('super/record/create_new_record') }}" role="button" id="cancel_btn">Cancel</a>
 		{{ Form::close() }}
 		</div>
 	</div>

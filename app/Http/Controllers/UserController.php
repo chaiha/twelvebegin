@@ -9,7 +9,7 @@ use User;
 class UserController extends Controller
 {
 
-	public function create_user()
+	public function create_user_admin()
 	{
 		$new_user =[
 			'email' => 'chai@gmail.com',
@@ -39,7 +39,21 @@ class UserController extends Controller
     $role->users()->attach($register);
 
     echo "Finish";
+    }
   }
+  public function create_user_super()
+  {
+    $new_user =[
+      'email' => 'superadmin@gmail.com',
+      'password' => '1234',
+      'first_name' => 'jay',
+      'last_name' => 'lim',
+    ];
+    $register = Sentinel::registerAndActivate($new_user);
+    $role = Sentinel::findRoleBySlug('super');
+    $role->users()->attach($register);
+
+    echo "Finish";
   }
 
     public function login(Request $request)
@@ -61,6 +75,10 @@ class UserController extends Controller
       elseif($user->inRole('sale'))
       {
         return Redirect('/sale/home');
+      }
+      elseif($user->inRole('super'))
+      {
+        return Redirect('/super/home');
       }
 
        

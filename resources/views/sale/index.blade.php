@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Services Section -->
-<div class="content">
+<div class="container-fluid">
 	<div class="row">
 		<h1>Welcome {{$user->first_name}}</h1>
 	</div>

@@ -21,12 +21,6 @@
 
 <script>
 
-  $(document).ready(function(){
-
-    $("#confirm_btn").click(function(){
-    	$("#submit_form").submit();	
-    	});
-  });
 </script>
 @stop
 <?php
@@ -38,8 +32,6 @@ use App\Record;
 		<div class="form-group">
 		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}}</h3>
-		
-			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-2">
 				<label>No.</label>
@@ -267,12 +259,63 @@ use App\Record;
 		</div>
 		<hr>
 		<div class="row">
-			
+			<div class="col-xs-12">
+				<label>เบอร์โทรศัพท์: </label> <?php if($select_record->record->is_tel_correct=="1"){ echo "ถูกต้อง";} else { echo "เบอร์โทรศัพท์ไม่ถูกต้อง เบอร์ที่ถูกต้องคือ ".$select_record->record->wrong_number_new_tel_number; } ?>
+				
+			</div>
+			<div class="row">
+		</div>
+		<div class="row">
+			<div class="col-xs-12"><b>ผลการโทร : </b>
+				@if($select_record->record->result=="yes") 
+					<span>Yes</span><br />
+					<b>Feedback : </b> {{$select_record->record->yes_feedback}} <br />
+					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> 
+					<?php
+					$start_date_array =Record::convert_date($select_record->record->yes_privilege_start);
+					echo $start_date_array['2']."/".$start_date_array['1']."/".$start_date_array['0'];
+					?>
+					<br />
+					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b>
+					<?php
+					$end_date_array =Record::convert_date($select_record->record->yes_privilege_end);
+					echo $end_date_array['2']."/".$end_date_array['1']."/".$end_date_array['0'];
+					?>
+					<br />
+
+				@elseif($select_record->record->result=="no_reply")
+					<span>No Reply</span><br />
+					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->record->call_amount ;?> <br />
+					<b>เหตุผล : </b> {{$select_record->record->cannot_contact_reason}} <br />
+					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> 
+					<?php 
+					$date_array =Record::convert_date($select_record->record->cannot_contact_appointment);
+					echo $date_array['2']."/".$date_array['1']."/".$date_array['0'];
+					?> <br />
+					
+				@elseif($select_record->record->result=="rejected")
+					<span>Rejected</span><br />
+					<b>No Reason : </b> {{$select_record->record->no_reason}} <br />
+					<b>No Note : </b> {{$select_record->record->no_note}} <br />
+
+				@elseif($select_record->record->result=="waiting")
+					<span>Waiting</span><br />
+					<b>เหตุผลที่ขอพิจารณาดูก่อน : </b> {{$select_record->record->consider_reason}} <br />
+					<b>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ] </b> 
+					<?php
+					$date_array =Record::convert_date($select_record->record->consider_appointment_feedback);
+					echo $date_array['2']."/".$date_array['1']."/".$date_array['0'];
+					?>
+					<br />
+
+				@elseif($select_record->record->result=="closed")
+					<span>ร้านปิดไปแล้ว</span><br />
+				@endif
+				
+			</div>
+		</div>
 		<br />
-		<a class="btn btn-success" href="#" role="button" id="confirm_btn">ยืนยัน</a>
-		<a class="btn btn-primary" href="#" role="button" id="edit_btn">แก้ไข</a>
-		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">ยกเลิก</a>
-		
+		<a class="btn btn-success" href="{{url('sale/show_selected_record_list')}}" role="button" id="confirm_btn">กลับไปหน้าเลือก Lead</a>
 		</div>
 	</div>
 </div>

@@ -91,7 +91,7 @@ use App\SelectRecord;
 	<div class="row">
 		<h1>Select Records for {{$sale->first_name}}</h1>
 		จำนวน Record ที่เลือก : <span style="color:red;"><?php $mem_selected_record = session('mem_selected_record'); echo sizeof($mem_selected_record	);?></span>
-		{{Form::open(array('action' => 'SelectRecordController@preview_select_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'AdminController@preview_select_record','id'=>'submit_form'))}}
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>

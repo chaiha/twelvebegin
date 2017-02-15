@@ -24,7 +24,7 @@ use App\Record;
 		<div class="form-group">
 		<h1>Create new record</h1>
 		<h3>กรุณาตรวจทานข้อมูลก่อนยืนยัน</h3>
-		{{Form::open(array('action' => 'RecordController@submit_new_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'AdminController@submit_new_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-2">

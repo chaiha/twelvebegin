@@ -26,7 +26,9 @@
     $("#confirm_btn").click(function(){
     	$("#submit_form").submit();	
     });
-
+    $("#edit_btn").click(function(){
+    	$("#edit_form").submit();	
+    });
   });
 </script>
 @stop
@@ -308,6 +310,9 @@ use App\Record;
 		<a class="btn btn-success" href="#" role="button" id="confirm_btn">ยืนยัน</a>
 		<a class="btn btn-primary" href="#" role="button" id="edit_btn">แก้ไข</a>
 		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">ยกเลิก</a>
+		{{Form::close() }}
+		{{Form::open(array('action' => 'CallController@edit_filled_record','id'=>'edit_form'))}}
+		<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record->id}}" />
 		{{Form::close() }}
 		</div>
 	</div>

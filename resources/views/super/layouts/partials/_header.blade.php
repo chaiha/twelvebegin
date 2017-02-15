@@ -1,6 +1,6 @@
 <!-- Header -->
     <header>
-        <div class="container-fluid">
+        <div class="container">
             <div class="intro-text">
                 <div class="intro-lead-in">Welcome To Our Studio!</div>
                 <div class="intro-heading">It's Nice To Meet You</div>

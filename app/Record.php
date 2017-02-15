@@ -110,6 +110,12 @@ class Record extends Model
         $record->save();
     }
 
+    static public function convert_date($date)
+    {
+        $date = explode("-", $date);
+        return $date;
+    }
+
     public function select_record()
     {
         return $this->belongsTo('App\SelectRecord');

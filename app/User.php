@@ -26,4 +26,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    static public function get_first_name_by_id($id)
+    {
+        $user = User::where('id','=',$id)->first();
+        //echo $user->first_name;
+        return $user->first_name;
+    }
 }

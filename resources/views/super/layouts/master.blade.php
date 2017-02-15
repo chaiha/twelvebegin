@@ -13,6 +13,7 @@
     {{ Html::style('assets/css/ie10-viewport-bug-workaround.css')}}
     {{ Html::style('assets/js/ie-emulation-modes-warning.js')}}
     {{ Html::style('css/navbar.css') }}
+      {{ Html::style('css/chai.css') }}
     @yield('styles')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,11 +25,11 @@
   <body>
     <body id="page-top" class="index">
 
-        @include('sale.layouts.partials._navigation')
+        @include('super.layouts.partials._navigation')
 
         @yield('content')
         
-        @include('sale.layouts.partials._footer')
+        @include('super.layouts.partials._footer')
     
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

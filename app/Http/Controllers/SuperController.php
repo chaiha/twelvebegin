@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
 use Session;
-use User;
+use User;   
 use App\Record;
-use App\SelectRecord;
+use App\Setting;
 
-class AdminController extends Controller
+class SuperController extends Controller
 {
 	public function index()
-  	{
-    	return view('admin.index');
+  	{    
+        return view('super.index');
   	}
   	
     public function earnings()
@@ -27,12 +27,12 @@ class AdminController extends Controller
     public function list_records()
     {
         $records = Record::paginate(100);
-        return view('admin.record.list_records')->with('records',$records);
+        return view('super.record.list_records')->with('records',$records);
     }
     public function create_new_record()
     {
         
-        return view('admin.record.create_new_record');
+        return view('super.record.create_new_record');
         
     }
     public function preview_new_record(Request $request)
@@ -69,23 +69,24 @@ class AdminController extends Controller
 
         session(['new_record' => $record]);
 
-        return redirect('/admin/record/preview_new_record');
+        return redirect('/super/record/preview_new_record');
 
     }
     public function show_preview_new_record()
     {
         $preview_record = session('new_record');
-        return view('admin.record.preview_new_record')->with('record',$preview_record);
+        return view('super.record.preview_new_record')->with('record',$preview_record);
     }
 
     public function edit_new_record()
     {
         $edit_record = session('record');
-        return view('admin.record.edit_new_record')->with('record',$edit_record);
+        return view('super.record.edit_new_record')->with('record',$edit_record);
     }
 
     public function submit_new_record(Request $request)
     {
+        $user = Sentinel::check();
         $record = new Record;
         $record->no= $request->input('no');
         $record->code = $request->input('code');
@@ -113,24 +114,38 @@ class AdminController extends Controller
         $record->province = $request->input('province');
         $record->links = $request->input('links');
         $record->remarks = $request->input('remarks');
-        $record->created_by ="chai";
+        $record->created_by = $user->id;
         $record->created_at = date("Y-m-d H:i:s");
-        $record->updated_by ="chai";
+        $record->updated_by = $user->id;
         $record->updated_at = date("Y-m-d H:i:s");
         $record->save();
 
-        return redirect('/admin/record/success_create_new_reocord');
+        return redirect('/super/record/success_create_new_reocord');
     }
 
     public function success_new_record()
     {
-        return view('admin.record.success_new_record');
+        return view('super.record.success_new_record');
     }
 
      public function get_edit_record($id)
     {
         $record = Record::find($id);
-        return view('admin.record.edit_record')->with('record',$record);
+        return view('super.record.edit_record')->with('record',$record);
+    }
+
+    public function submit_delete_record(Request $request)
+    {
+        $id = $request->input('id');
+        $record = Record::where('id','=',$id)->first();
+        $record->delete();
+
+        return redirect('/super/record/success_delete_record');
+    }
+
+    public function success_delete_record()
+    {
+        return view('super.record.success_delete_record');
     }
 
     public function preview_edit_record(Request $request)
@@ -168,15 +183,16 @@ class AdminController extends Controller
 
         session(['edit_record' => $record]);
 
-        return redirect('/admin/record/preview_edit_record');
+        return redirect('/super/record/preview_edit_record');
     }
     public function show_preview_edit_record()
     {
         $preview_record = session('edit_record');
-        return view('admin.record.preview_edit_record')->with('record',$preview_record);
+        return view('super.record.preview_edit_record')->with('record',$preview_record);
     }
     public function submit_edit_record(Request $request)
     {
+        $user = Sentinel::check();
         $record_id = $request->input('record_id');
 
         $record = Record::where('id','=',$record_id)->first() ;
@@ -206,18 +222,16 @@ class AdminController extends Controller
         $record->province = $request->input('province');
         $record->links = $request->input('links');
         $record->remarks = $request->input('remarks');
-        $record->created_by ="chai";
-        $record->created_at = date("Y-m-d H:i:s");
-        $record->updated_by ="chai";
+        $record->updated_by =$user->id;
         $record->updated_at = date("Y-m-d H:i:s");
         $record->save();
 
-        return redirect('/admin/record/success_edit_reocord');
+        return redirect('/super/record/success_edit_reocord');
     }
 
     public function success_edit_reocord()
     {
-        return view('admin.record.success_edit_record');
+        return view('super.record.success_edit_record');
     }
 
     //----from SelectRecordController
@@ -243,7 +257,7 @@ class AdminController extends Controller
             $new_sale_list[$n] = Sentinel::findById($sale_list_id_each);
             $n++;
         }
-         return view('admin.select.select_sale')->with('sale_list',$new_sale_list);
+         return view('super.select.select_sale')->with('sale_list',$new_sale_list);
     }
 
     public function select_record($id)
@@ -251,7 +265,7 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $record_list = Record::where('status','=','Available')->paginate(2);
 
-        return view('admin.select.select_record')->with('sale',$sale)->with('record_list',$record_list);
+        return view('super.select.select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
 
     public function add_selected_record()
@@ -302,8 +316,8 @@ class AdminController extends Controller
         session(['mem_selected_record_list'=>$selected_record_list]);//put select record
         session(['mem_sale'=>$sale]);
 
-        return Redirect('/admin/selected_record/select_sale/preview');
-        //return view('admin.select.preview_select_record')->with('sale',$sale)->with('selected_record_list',$selected_record_list);
+        return Redirect('/super/selected_record/select_sale/preview');
+        //return view('super.select.preview_select_record')->with('sale',$sale)->with('selected_record_list',$selected_record_list);
         
     }
 
@@ -311,7 +325,7 @@ class AdminController extends Controller
     {
         $sale = session('mem_sale');
         $selected_record_list = session('mem_selected_record_list');
-        return view('admin.select.preview_select_record')->with('sale',$sale)->with('selected_record_list',$selected_record_list);
+        return view('super.select.preview_select_record')->with('sale',$sale)->with('selected_record_list',$selected_record_list);
     }
 
     public function submit_select_record(Request $request)
@@ -334,7 +348,7 @@ class AdminController extends Controller
             $select_record->save();
             
         }
-        return Redirect('/admin/selected_record/select_sale/success');
+        return Redirect('/super/selected_record/select_sale/success');
         
     }
 
@@ -346,6 +360,18 @@ class AdminController extends Controller
         Session::forget('mem_selected_record');
         Session::forget('mem_selected_record_list');
         //ทำการ ลบ ข้อมูลที่อยู่ใน session ออก
-        return view('admin.select.success')->with('sale',$sale);
+        return view('super.select.success')->with('sale',$sale);
+    }
+
+    public function get_delete_record($id)
+    {
+        $record = Record::where('id','=',$id)->first();
+        return view('super.record.delete_record')->with('record',$record);
+    }
+    public function get_setting()
+    {
+        $setting = Setting::all();
+
+        return view('super.setting.index')->with('setting',$setting);
     }
 }

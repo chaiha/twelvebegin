@@ -1,4 +1,4 @@
-@extends('sale.layouts.master')
+@extends('super.layouts.master')
 @section('js_files')
 
 <script>
@@ -12,7 +12,7 @@ function select_record_checkbox(record_id)
 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
             $.ajax({
 		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/add_selected_record')}}",
+		    	url: "{{url('/super/selected_record/add_selected_record')}}",
 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
 		    	cache: false,
 
@@ -27,7 +27,7 @@ function select_record_checkbox(record_id)
 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
             $.ajax({
 		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/remove_selected_record')}}",
+		    	url: "{{url('/super/selected_record/remove_selected_record')}}",
 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
 		    	cache: false,
 
@@ -67,7 +67,7 @@ function select_record_checkbox(record_id)
 		// // $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
   // //       $.ajax({
 		// //         type: "POST",
-		// //         url: "{{url('/admin/selected_record/add_selected_record')}}",
+		// //         url: "{{url('/super/selected_record/add_selected_record')}}",
 		// //         data: {"data" : jsonString,"_token": $('#token').val()}, 
 		// //         cache: false,
 
@@ -85,35 +85,39 @@ function select_record_checkbox(record_id)
 <?php
 use App\Record;
 use App\SelectRecord;
-use App\User;
 ?>
 <!-- Services Section -->
-<div class="container" style="margin-left: 5px;">
-	<div class="row" style="width:2000px;">
-		<h1>Select Records for {{$sale->first_name}}</h1>
-		จำนวน Record ที่เลือก : <span style="color:red;"><?php echo sizeof($record_list);?></span>
-		{{Form::open(array('action' => 'SelectRecordController@preview_select_record','id'=>'submit_form'))}}
+<div class="content add-margin-left-right">
+	<div class="row">
+		<h1>Reocord ที่เลือกให้สำหรับ เซล {{$sale->first_name}}</h1>
+		จำนวน Record ที่เลือก : <span style="color:red;"><?php $mem_selected_record = session('mem_selected_record'); echo sizeof($mem_selected_record	);?></span>
+		{{Form::open(array('action' => 'SuperController@submit_select_record','id'=>'submit_form'))}}
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
-              <th>Call</th>
-		      <th>ผลการโทร</th>
-		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
+		      <input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" />
+		      <th>#</th>
+		      <th>no</th>
 		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
+		      <th>status</th>
+		      <th>effective date</th>
 		      <th>sources</th>
 		      <th>categories</th>
-		      <th>shop type</th>
 		      <th>dtact type</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
 		      <th>deadline</th>
+		      <th>name th</th>
+		      <th>name en</th>
+		      <th>branch</th>
+		      <th>province</th>
+		      <th>address</th>
 		      <th>contact person</th>
 		      <th>contact email</th>
+		      <th>contact tel</th>
 		      <th>contact date</th>
+		      <th>shop type</th>
+		      <th>sale name</th>
 		      <th>created_by</th>
 		      <th>created_at</th>
 		      <th>updated_by</th>
@@ -121,61 +125,33 @@ use App\User;
 		    </tr>
 		  </thead>
 		  <tbody>
-		  @foreach ($record_list as $each_record)
+		  @foreach ($selected_record_list as $each_record)
 		    <tr>
-              <td>
-              <?php
-              if($each_record->result=="yes")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="no_reply")
-              {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->id)}}">Call</a></td>
-              <?php
-              }
-              else if($each_record->result=="rejected")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="waiting")
-              {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->id)}}">Call</a></td>
-              <?php
-              }
-              else if($each_record->result=="closed")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else
-              {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->id)}}">Call</a></td>
-              <?php
-              }
-              ?>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
+		      <td>{{$each_record->id}}</td>
+		      <td>{{$each_record->no}}</td>
 		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->name_th}}</td>
-		      <td>{{$each_record->name_en}}</td>
-		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
+		      <td>{{$each_record->status}}</td>
+		      <td>{{$each_record->effective_date}}</td>
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->categories}}</td>
-		      <td>{{$each_record->shop_type}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
 		      <td>{{$each_record->input_date}}</td>
 		      <td>{{$each_record->distributed_date}}</td>
 		      <td>{{$each_record->deadline}}</td>
+		      <td>{{$each_record->name_th}}</td>
+		      <td>{{$each_record->name_en}}</td>
+		      <td>{{$each_record->branch}}</td>
+		      <td>{{$each_record->province}}</td>
+		      <td>{{$each_record->address}}</td>
 		      <td>{{$each_record->contact_person}}</td>
 		      <td>{{$each_record->contact_email}}</td>
+		      <td>{{$each_record->contact_tel}}</td>
 		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
+		      <td>{{$each_record->shop_type}}</td>
+		      <td>{{$each_record->sale_name}}</td>
+		      <td>{{$each_record->created_by}}</td>
 		      <td>{{$each_record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
+		      <td>{{$each_record->updated_by}}</td>
 		      <td>{{$each_record->updated_at}}</td>
 		    </tr>
 		   @endforeach
@@ -184,8 +160,8 @@ use App\User;
 		
 		</table>
 		{{ Form::close() }}
-		{{$record_list->links()}}
 	</div>
+	<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
 </div>
 
 @endsection

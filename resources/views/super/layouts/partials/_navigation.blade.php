@@ -14,8 +14,8 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
+              <li class="active"><a href="{{url('/super/record/list_records')}}">List Records</a></li>
+              <li><a href="{{url('/super/setting/index')}}">Setting</a></li>
               <li><a href="#">Contact</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -51,4 +51,3 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-</div>

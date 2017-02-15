@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('super.layouts.master')
 @section('js_files')
 
 <script>
@@ -19,11 +19,11 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="content">
+<div class="content add-margin-left-right">
 	<div class="row">
 		<div class="form-group">
 		<h1>Create new record</h1>
-		{{Form::open(array('action' => 'AdminController@preview_new_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'SuperController@preview_new_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-2">
@@ -168,7 +168,7 @@ use App\Record;
 		</div>
 		<br />
 		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">Cancel</a>
+		<a class="btn btn-danger" href="{{url('/super/record/list_records')}}" role="button" id="cancel">Cancel</a>
 		{{ Form::close() }}
 		</div>
 	</div>

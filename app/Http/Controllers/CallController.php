@@ -97,7 +97,7 @@ class CallController extends Controller
         }
         else if($call_result=="closed")
         {
-            $sale_filled['closed'] = $request->input('closed');
+            $sale_filled['closed'] = "1";
         }
 
         session(['sale_filled' => $sale_filled]);
@@ -156,11 +156,15 @@ class CallController extends Controller
 
         if($sale_filled['is_tel_correct']=="0")
         {
+            $record->is_tel_correct = "0";
             $record->wrong_number_new_tel_number = $sale_filled['new_tel'];
         }
-
-        $record->created_by = $user->id;
-        $record->created_at = date("Y-m-d H:i:s");
+        else
+        {
+            $record->is_tel_correct = "0";
+            $record->wrong_number_new_tel_number = "";
+        }
+        
         $record->updated_by = $user->id;
         $record->updated_at = date("Y-m-d H:i:s");
         
@@ -173,6 +177,85 @@ class CallController extends Controller
 
         return redirect('/sale/select_record/call/success/'.$sale_filled['record_id']);
 
+    }
+
+    public function edit_filled_record(Request $request)
+    {
+        $user = session('user');
+        $sale_filled = session('sale_filled');
+        $select_record = SelectRecord::where('record_id','=',$sale_filled['record_id'])->where('sale_id','=',$user->id)->first();
+        session(['select_record' => $select_record]);
+        
+
+        return redirect('/sale/select_record/show_edit_preview_filled_record');
+    }
+
+    public function show_edit_filled_record()
+    {
+        $user = session('user');
+        $sale_filled = session('sale_filled');
+        $select_record = session('select_record');
+        return view('sale.select.edit_call_record')->with('user',$user)->with('select_record',$select_record)->with('sale_filled',$sale_filled);
+    }
+
+    public function submit_edit_call_record(Request $request)
+    {
+        $sale_filled = array();
+        $sale_filled['call_result'] = $request->input('call_result');
+        $call_result = $request->input('call_result');
+        $sale_filled['is_tel_correct'] = $request->input('is_tel_correct');
+        $is_tel_correct = $request->input('is_tel_correct');
+        $sale_filled['record_id'] = $request->input('record_id');
+        $record_id = $request->input('record_id');
+
+        if($is_tel_correct=="0")
+        {
+            $sale_filled['new_tel'] = $request->input('new_tel');
+        }
+        else
+        {
+            $new_tel = "";
+        }
+
+        if($call_result=="yes")
+        {
+            $sale_filled['feedback'] = $request->input('feedback');
+            $sale_filled['start_priviledge_day'] = $request->input('start_priviledge_day');
+            $sale_filled['start_priviledge_month'] = $request->input('start_priviledge_month');
+            $sale_filled['start_priviledge_year'] = $request->input('start_priviledge_year');
+            $sale_filled['end_priviledge_day'] = $request->input('end_priviledge_day');
+            $sale_filled['end_priviledge_month'] = $request->input('end_priviledge_month');
+            $sale_filled['end_priviledge_year'] = $request->input('end_priviledge_year');
+
+        }
+        else if($call_result=="no_reply")
+        {
+            $sale_filled['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
+            $sale_filled['cannot_contact_reason'] = $request->input('cannot_contact_reason');
+            $sale_filled['cannot_contact_appointment_day'] = $request->input('cannot_contact_appointment_day');
+            $sale_filled['cannot_contact_appointment_month'] = $request->input('cannot_contact_appointment_month');
+            $sale_filled['cannot_contact_appointment_year'] = $request->input('cannot_contact_appointment_year');
+        }
+        else if($call_result=="rejected")
+        {
+            $sale_filled['no_reason'] = $request->input('no_reason');
+            $sale_filled['no_note'] = $request->input('no_note');
+        }
+        else if($call_result=="waiting")
+        {
+            $sale_filled['consider_reason'] = $request->input('consider_reason');
+            $sale_filled['consider_appointment_feedback_day'] = $request->input('consider_appointment_feedback_day');
+            $sale_filled['consider_appointment_feedback_month'] = $request->input('consider_appointment_feedback_month');
+            $sale_filled['consider_appointment_feedback_year'] = $request->input('consider_appointment_feedback_year');
+        }
+        else if($call_result=="closed")
+        {
+            $sale_filled['closed'] = "1";
+        }
+
+        session(['sale_filled' => $sale_filled]);
+        
+        return redirect('/sale/select_record/show_preview_filled_record');
     }
 
     public function call_success($id)
