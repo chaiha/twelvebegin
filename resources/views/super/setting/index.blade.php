@@ -8,7 +8,7 @@ use App\User;
 <!-- Services Section -->
 <div class="content add-margin-left-right">
 	<div class="row">
-		<h1>List Records</h1>
+		<h1>List Setting</h1>
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
@@ -30,9 +30,9 @@ use App\User;
 		      <td>{{$each_setting->name}}</td>
 		      <td>{{$each_setting->value_int}}</td>
 		      <td>{{$each_setting->value_char}}</td>
-		      <td>{{$each_setting->created_by}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_setting->created_by); ?></td>
 		      <td>{{$each_setting->created_at}}</td>
-		      <td>{{$each_setting->updated_by}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_setting->updated_by); ?></td>
 		      <td>{{$each_setting->updated_at}}</td>
 		      <td><a href="{{ url('super/setting/edit_setting/'.$each_setting->id) }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
 		    </tr>

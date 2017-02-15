@@ -50,6 +50,9 @@ Route::post('/super/record/delete_record/','SuperController@submit_delete_record
 Route::get('/super/record/success_delete_record','SuperController@success_delete_record');
 
 //---------select record for sale --------------------
+Route::get('/super/select_record/list_selected_sale','SuperController@list_selected_sale');
+Route::get('/super/select_record/show_selected_record/{sale_id}','SuperController@show_selected_record_list');
+
 Route::get('/super/select_record/select_sale','SuperController@select_sale');
 Route::get('/super/select_record/select_sale/{id}','SuperController@select_record');
 
@@ -63,6 +66,9 @@ Route::get('/super/selected_record/select_sale/success','SuperController@success
 
 //---------- Setting value
 Route::get('/super/setting/index','SuperController@get_setting');
+Route::get('/super/setting/edit_setting/{id}','SuperController@get_edit_setting');
+Route::post('/super/setting/edit_setting/','SuperController@submit_edit_setting');
+Route::get('/super/edit_redcord/success_edit_setting','SuperController@show_succes_edit_setting');
 
 //--admin
 Route::get('/earnings','AdminController@earnings')->middleware('admin');

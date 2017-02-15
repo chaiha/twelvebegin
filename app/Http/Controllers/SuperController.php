@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
 use Session;
-use User;   
+// use User;   
 use App\Record;
 use App\Setting;
+use App\SelectRecord;
+use App\User;
 
 class SuperController extends Controller
 {
@@ -373,5 +375,62 @@ class SuperController extends Controller
         $setting = Setting::all();
 
         return view('super.setting.index')->with('setting',$setting);
+    }
+
+    public function get_edit_setting($id)
+    {
+        $result = Setting::where('id','=',$id)->first();
+        return view('super.setting.edit_setting')->with('result',$result);
+    }
+
+    public function submit_edit_setting(Request $request)
+    {
+        $user = Sentinel::check();
+        $id = $request->input('id');
+        $edit_setting = Setting::where('id','=',$id)->first();
+        $edit_setting->value_int = $request->input('value_int');
+        $edit_setting->value_char = $request->input('value_char');
+        $edit_setting->updated_by = $user->id;
+        $edit_setting->updated_at = date("Y-m-d H:i:s");
+        $edit_setting->save();
+
+        return redirect('/super/edit_redcord/success_edit_setting');
+    }
+
+    public function show_succes_edit_setting()
+    {
+        return view('super.setting.success_edit_setting');
+    }
+
+    public function list_selected_sale()
+    {
+        $role = Sentinel::findRoleById(3);
+        $sale_list = $role->users()->with('roles')->get();
+        $sale_list_id = array();
+        $n=0;
+        foreach ($sale_list as $sale_list_each)
+        {
+            if((SelectRecord::is_selected_sale($sale_list_each->id)))
+            {
+                $sale_list_id[$n]=$sale_list_each->id;
+            }
+            $n++;
+        }
+        
+        $new_sale_list = array();
+        $n = 0;
+        foreach ($sale_list_id as $sale_list_id_each)
+        {
+            $new_sale_list[$n] = Sentinel::findById($sale_list_id_each);
+            $n++;
+        }
+         return view('super.select.select_sale')->with('sale_list',$new_sale_list);
+    }
+
+    public function show_selected_record_list($sale_id)
+    {
+        $record_list = SelectRecord::where('sale_id','=',$sale_id)->get();
+        $sale = User::where('id','=',$sale_id)->first();
+        return view('super.select.show_select_record_list')->with('record_list',$record_list)->with('sale',$sale);
     }
 }

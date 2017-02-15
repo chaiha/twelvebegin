@@ -14,7 +14,8 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="{{url('/super/record/list_records')}}">List Records</a></li>
+              <li><a href="{{url('/super/record/list_records')}}">List Records</a></li>
+              <li><a href="{{url('/super/select_record/list_selected_sale')}}">List Selected Sale</a></li>
               <li><a href="{{url('/super/setting/index')}}">Setting</a></li>
               <li><a href="#">Contact</a></li>
               <li class="dropdown">

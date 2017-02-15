@@ -25,7 +25,7 @@ use App\Record;
 		  		<td>{{$sale_each->first_name}}</td>
 		  		<td>{{$sale_each->last_name}}</td>
 		  		<td>{{$sale_each->email}}</td>
-		  		<td><a href="{{url('super/select_record/select_sale/'.$sale_each->id)}}" >เลือก</a></td>
+		  		<td><a href="{{url('super/select_record/show_selected_record/'.$sale_each->id)}}" ><span class="glyphicon glyphicon-eye-open"></span></a></td>
 		  	</tr>
 		  </tbody>
 		@endforeach
