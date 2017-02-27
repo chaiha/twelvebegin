@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Services Section -->
-<div class="content">
+<div class="container">
 	<div class="row">
 		<h1>Welcome Admin</h1>
 	</div>

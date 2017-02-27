@@ -92,7 +92,7 @@ use App\User;
 	<div class="row" style="width:2000px;">
 		<h1>Select Records for {{$sale->first_name}}</h1>
 		จำนวน Record ที่เลือก : <span style="color:red;"><?php echo sizeof($record_list);?></span>
-		{{Form::open(array('action' => 'SelectRecordController@preview_select_record','id'=>'submit_form'))}}
+		
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
@@ -183,7 +183,7 @@ use App\User;
 		  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 		
 		</table>
-		{{ Form::close() }}
+		
 		{{$record_list->links()}}
 	</div>
 </div>

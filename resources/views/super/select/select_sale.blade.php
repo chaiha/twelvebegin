@@ -5,7 +5,7 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="content add-margin-left-right">
+<div class="container add-margin-left-right">
 	<div class="row">
 		<h1>Select Sale</h1>
 		<table class="table">

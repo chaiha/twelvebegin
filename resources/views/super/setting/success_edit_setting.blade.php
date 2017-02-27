@@ -21,7 +21,7 @@ use App\Record;
 use App\User;
 ?>
 <!-- Services Section -->
-<div class="content add-margin-left-right">
+<div class="container add-margin-left-right">
 	<div class="row">
 		<h1>SuccessEdit Setting</h1>
 		<h1>การแก้ไขค่า Setting เสร้จสิ้น</h1>

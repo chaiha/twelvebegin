@@ -43,7 +43,7 @@ use App\Record;
 use App\SelectRecord;
 ?>
 <!-- Services Section -->
-<div class="content add-margin-left-right">
+<div class="container add-margin-left-right">
 	<div class="row">
 		<h1>Reocord ที่เลือกให้สำหรับ เซล {{$sale->first_name}}</h1>
 		<h2>ทำการเลือก Record ให้เซล {{$sale->first_name}} เสร็จสิ้น</h2>

@@ -5,7 +5,7 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="content">
+<div class="container">
 	<div class="row">
 		<div class="form-group">
 		<h1>Create new record</h1>

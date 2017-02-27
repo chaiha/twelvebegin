@@ -23,14 +23,15 @@ class CallController extends Controller
         $user = session('user');
         $selected_record = SelectRecord::where('sale_id','=',$user->id)->get();
         $record_list = array();
+        //print_r($selected_record);
         $n=0;
         foreach ($selected_record as $selected_record_each)
         {
-            $record_list[$n]=$selected_record_each->id;
+            $record_list[$n]=$selected_record_each->record->id;
             $n++;
         }
         $result = DB::table('records')->whereIn('id', $record_list)->paginate(100);
-        
+        //print_r($record_list);
         return view('sale.select.show_select_list')->with('sale',$user)->with('record_list',$result);
 
     }

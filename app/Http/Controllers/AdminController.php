@@ -14,7 +14,19 @@ use App\SelectRecord;
 class AdminController extends Controller
 {
 	public function index()
-  	{
+  	{    
+        // $new_array = array();
+        // $x_array = ['a','b','c','d','e'];
+        // unset($x_array[1]);
+        // $i=0;
+        // foreach ($x_array as $x_array_each)
+        // {
+        //     $new_array[$i] = $x_array_each;
+        //     $i++;
+        // }
+        // print_r($new_array);
+        
+
     	return view('admin.index');
   	}
   	
@@ -86,6 +98,7 @@ class AdminController extends Controller
 
     public function submit_new_record(Request $request)
     {
+        $user = Sentinel::check(); 
         $record = new Record;
         $record->no= $request->input('no');
         $record->code = $request->input('code');
@@ -113,9 +126,9 @@ class AdminController extends Controller
         $record->province = $request->input('province');
         $record->links = $request->input('links');
         $record->remarks = $request->input('remarks');
-        $record->created_by ="chai";
+        $record->created_by = $user->id;
         $record->created_at = date("Y-m-d H:i:s");
-        $record->updated_by ="chai";
+        $record->updated_by = $user->id;
         $record->updated_at = date("Y-m-d H:i:s");
         $record->save();
 
@@ -177,6 +190,8 @@ class AdminController extends Controller
     }
     public function submit_edit_record(Request $request)
     {
+        $user = Sentinel::check();
+
         $record_id = $request->input('record_id');
 
         $record = Record::where('id','=',$record_id)->first() ;
@@ -206,9 +221,9 @@ class AdminController extends Controller
         $record->province = $request->input('province');
         $record->links = $request->input('links');
         $record->remarks = $request->input('remarks');
-        $record->created_by ="chai";
+        $record->created_by = $user->id;
         $record->created_at = date("Y-m-d H:i:s");
-        $record->updated_by ="chai";
+        $record->updated_by = $user->id;
         $record->updated_at = date("Y-m-d H:i:s");
         $record->save();
 
@@ -347,5 +362,194 @@ class AdminController extends Controller
         Session::forget('mem_selected_record_list');
         //ทำการ ลบ ข้อมูลที่อยู่ใน session ออก
         return view('admin.select.success')->with('sale',$sale);
+    }
+
+    public function create_new_record_list()
+    {
+        return view('admin.record.create_new_record_list');
+    }
+
+    public function preview_new_record_list(Request $request)
+    {
+        $record_list_array = array();
+        $j=0;
+        for ($i=1; $i<=10 ; $i++) 
+        { 
+
+            if($request->input('sources-'.$i)!="empty")
+            {
+                $record_list_array[$j]['sources'] = $request->input('sources-'.$i);
+                $record_list_array[$j]['categories'] = $request->input('categories-'.$i);
+                $record_list_array[$j]['dtac_type'] = $request->input('dtac_type-'.$i);
+                $record_list_array[$j]['shop_type'] = $request->input('shop_type-'.$i);
+                $record_list_array[$j]['name_th'] = $request->input('name_th-'.$i);
+                $record_list_array[$j]['name_en'] = $request->input('name_en-'.$i);
+                $record_list_array[$j]['branch'] = $request->input('branch-'.$i);
+                $record_list_array[$j]['address'] = $request->input('address-'.$i);
+                $record_list_array[$j]['province'] = $request->input('province-'.$i);
+                $record_list_array[$j]['latitude'] = $request->input('latitude-'.$i);
+                $record_list_array[$j]['longtitude'] = $request->input('longtitude-'.$i);
+                $record_list_array[$j]['contact_person'] = $request->input('contact_person-'.$i);
+                $record_list_array[$j]['contact_tel'] = $request->input('contact_tel-'.$i);
+                $record_list_array[$j]['contact_email'] = $request->input('contact_email-'.$i);
+                $record_list_array[$j]['links'] = $request->input('links-'.$i);
+                $record_list_array[$j]['remarks'] = $request->input('remarks-'.$i);
+                $j++;
+            }
+        }
+        //actualy it must be the process to check duplicated data! and then throw the error to user.
+        //checking by using name_th name_en and branch and then store the data to session to show in preview page!
+
+        // put array_value to session and then display to the preview page.
+        session(['preview_record_list_array' => $record_list_array]);
+
+        //return to the preview page
+        return Redirect('/admin/record/show_preview_new_record_list');
+
+    }
+
+    public function show_preview_new_record_list()
+    {
+           $preview_new_record_list = session('preview_record_list_array');
+           return view('admin.record.show_preview_new_record_list')->with('preview_new_record_list',$preview_new_record_list);
+    }
+
+    public function edit_duplicate_new_record_list($id_array)
+    {
+        $array_new_record = session('preview_record_list_array');
+        $edit_array_new_record = $array_new_record[$id_array];
+        $search_result = Record::where('name_th','=',$edit_array_new_record['name_th'])->orwhere('name_en','=',$edit_array_new_record['name_en'])->orwhere('address','=',$edit_array_new_record['address'])->get();
+        
+        return view('admin.record.edit_duplicate_new_record_list')->with('search_result',$search_result)->with('edit_duplicate_record',$edit_array_new_record)->with('id_array',$id_array);
+
+    }
+
+    public function submit_edit_duplicate_new_record_list(Request $request)
+    {
+        $id_array = $request->input('id_array');
+        $array_new_record = session('preview_record_list_array');
+        $array_new_record[$id_array]['sources'] = $request->input('sources_edit');
+        $array_new_record[$id_array]['categories'] = $request->input('categories_edit');
+        $array_new_record[$id_array]['dtac_type'] = $request->input('dtac_type_edit');
+        $array_new_record[$id_array]['shop_type'] = $request->input('shop_type_edit');
+        $array_new_record[$id_array]['name_th'] = $request->input('name_th_edit');
+        $array_new_record[$id_array]['name_en'] = $request->input('name_en_edit');
+        $array_new_record[$id_array]['branch'] = $request->input('branch_edit');
+        $array_new_record[$id_array]['address'] = $request->input('address_edit');
+        $array_new_record[$id_array]['province'] = $request->input('province_edit');
+        $array_new_record[$id_array]['latitude'] = $request->input('latitude_edit');
+        $array_new_record[$id_array]['longtitude'] = $request->input('longtitude_edit');
+        $array_new_record[$id_array]['contact_person'] = $request->input('contact_person_edit');
+        $array_new_record[$id_array]['contact_tel'] = $request->input('contact_tel_edit');
+        $array_new_record[$id_array]['contact_email'] = $request->input('contact_email_edit');
+        $array_new_record[$id_array]['links'] = $request->input('links_edit');
+        $array_new_record[$id_array]['remarks'] = $request->input('remarks_edit');
+
+        session(['preview_record_list_array' => $array_new_record]);
+        return Redirect('/admin/record/show_preview_new_record_list');
+
+    }
+
+    public function edit_new_record_list()
+    {
+        $edit_new_record_list = session('preview_record_list_array');
+        return view('admin.record.edit_new_record_list')->with('edit_new_record_list',$edit_new_record_list);
+    }
+     public function submit_edit_new_record_list(Request $request)
+    {
+        $size_array = $request->input('size_array');
+        $record_list_array = array();
+        $j=0;
+        for ($i=1; $i<=$size_array ; $i++) 
+        { 
+
+            if($request->input('sources-'.$i)!="empty")
+            {
+                $record_list_array[$j]['sources'] = $request->input('sources-'.$i);
+                $record_list_array[$j]['categories'] = $request->input('categories-'.$i);
+                $record_list_array[$j]['dtac_type'] = $request->input('dtac_type-'.$i);
+                $record_list_array[$j]['shop_type'] = $request->input('shop_type-'.$i);
+                $record_list_array[$j]['name_th'] = $request->input('name_th-'.$i);
+                $record_list_array[$j]['name_en'] = $request->input('name_en-'.$i);
+                $record_list_array[$j]['branch'] = $request->input('branch-'.$i);
+                $record_list_array[$j]['address'] = $request->input('address-'.$i);
+                $record_list_array[$j]['province'] = $request->input('province-'.$i);
+                $record_list_array[$j]['latitude'] = $request->input('latitude-'.$i);
+                $record_list_array[$j]['longtitude'] = $request->input('longtitude-'.$i);
+                $record_list_array[$j]['contact_person'] = $request->input('contact_person-'.$i);
+                $record_list_array[$j]['contact_tel'] = $request->input('contact_tel-'.$i);
+                $record_list_array[$j]['contact_email'] = $request->input('contact_email-'.$i);
+                $record_list_array[$j]['links'] = $request->input('links-'.$i);
+                $record_list_array[$j]['remarks'] = $request->input('remarks-'.$i);
+                $j++;
+            }
+        }
+        
+         session(['preview_record_list_array' => $record_list_array]);
+
+        //return to the preview page
+        return Redirect('/admin/record/show_preview_new_record_list'); 
+    }
+
+    public function delete_new_record_list($id_array)
+    {
+        $new_array =array();
+        $edit_new_record_list = session('preview_record_list_array');
+        unset($edit_new_record_list[$id_array]);
+        $i=0;
+        foreach ($edit_new_record_list as $edit_new_record_list_each)
+        {
+            $new_array[$i] = $edit_new_record_list_each;
+            $i++;
+        }
+        session(['preview_record_list_array' => $new_array]);
+
+        return redirect('/admin/record/edit_new_record_list');
+
+    }
+
+    public function submit_new_record_list(Request $request)
+    {
+        $record_list = session('preview_record_list_array');
+        $user = Sentinel::check();
+       foreach($record_list as $record_list_each)
+        {
+            $new_record = new Record;
+            $new_record->no = $new_record->next_no();
+            $new_record->code = $new_record->next_code();
+            $new_record->status = "Available";
+            $new_record->effective_date = date('Y-m-d');
+            $new_record->sources = $record_list_each['sources'];
+            $new_record->categories = $record_list_each['categories'];
+            $new_record->dtac_type = $record_list_each['dtac_type'];
+            $new_record->shop_type = $record_list_each['shop_type'];
+            $new_record->name_th = $record_list_each['name_th'];
+            $new_record->name_en = $record_list_each['name_en'];
+            $new_record->branch = $record_list_each['branch'];
+            $new_record->address = $record_list_each['address'];
+            $new_record->province = $record_list_each['province'];
+            $new_record->latitude = $record_list_each['latitude'];
+            $new_record->longtitude = $record_list_each['longtitude'];
+            $new_record->contact_person = $record_list_each['contact_person'];
+            $new_record->contact_tel = $record_list_each['contact_tel'];
+            $new_record->contact_email = $record_list_each['contact_email'];
+            $new_record->links = $record_list_each['links'];
+            $new_record->remarks = $record_list_each['remarks'];
+            $new_record->input_date = date('Y-m-d');
+            $new_record->contact_date = date('Y-m-d');
+            $new_record->created_by = $user->id;
+            $new_record->created_at = date("Y-m-d H:i:s");
+            $new_record->updated_by = $user->id;
+            $new_record->updated_at = date("Y-m-d H:i:s");
+            $new_record->save();
+
+       }
+       
+        return redirect('/admin/record/success_new_record_list');
+    }
+
+    public function show_success_new_record_list()
+    {
+        return view('admin.record.success_new_record_list');
     }
 }

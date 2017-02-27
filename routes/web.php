@@ -75,6 +75,20 @@ Route::get('/earnings','AdminController@earnings')->middleware('admin');
 Route::get('/admin/home','AdminController@index')->middleware('admin');
 Route::get('/admin/record/list_records','AdminController@list_records');
 Route::get('/admin/record/create_new_record', 'AdminController@create_new_record');
+
+// record list
+Route::get('/admin/record/create_new_record_list','AdminController@create_new_record_list');
+Route::post('/admin/reocord/preview_new_record_list','AdminController@preview_new_record_list');
+Route::get('/admin/record/show_preview_new_record_list','AdminController@show_preview_new_record_list');
+Route::get('/admin/record/edit_duplicate_new_record_list/{id_array}','AdminController@edit_duplicate_new_record_list');
+Route::post('/admin/record/submit_edit_duplicate_new_record_list','AdminController@submit_edit_duplicate_new_record_list');
+Route::get('/admin/record/edit_new_record_list','AdminController@edit_new_record_list');
+Route::post('/admin/record/edit_new_record_list','AdminController@submit_edit_new_record_list');
+Route::get('/admin/record/delete_edit_new_record_list/{id_array}','AdminController@delete_new_record_list');
+Route::post('/admin/record/show_preview_new_record_list','AdminController@submit_new_record_list');
+Route::get('/admin/record/success_new_record_list','AdminController@show_success_new_record_list');
+
+
 Route::post('/admin/record/create_new_record', 'AdminController@preview_new_record');
 Route::get('/admin/record/preview_new_record', 'AdminController@show_preview_new_record');
 Route::post('/admin/record/preview_new_record', 'AdminController@submit_new_record');

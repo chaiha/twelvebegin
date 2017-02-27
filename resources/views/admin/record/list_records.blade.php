@@ -5,7 +5,7 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="content">
+<div class="container">
 	<div class="row">
 		<h1>List Records</h1>
 		<table class="table">
@@ -17,7 +17,6 @@ use App\Record;
 		      <th>source</th>
 		      <th>status</th>
 		      <th>categories</th>
-		      <th>sub-categories</th>
 		      <th>name_th</th>
 		      <th>name_en</th>
 		      <th>province</th>
@@ -37,10 +36,9 @@ use App\Record;
 		      <th scope="row">{{$each_record->id}}</th>
 		      <td>{{$each_record->no}}</td>
 		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->source}}</td>
+		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->status}}</td>
 		      <td>{{$each_record->categories}}</td>
-		      <td>{{$each_record->sub_categories}}</td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->province}}</td>

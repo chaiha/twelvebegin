@@ -6,7 +6,7 @@ use App\Record;
 use App\User;
 ?>
 <!-- Services Section -->
-<div class="content add-margin-left-right">
+<div class="container add-margin-left-right">
 	<div class="row">
 		<h1>List Records</h1>
 		<table class="table">

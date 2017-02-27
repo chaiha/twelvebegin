@@ -87,7 +87,7 @@ use App\Record;
 use App\SelectRecord;
 ?>
 <!-- Services Section -->
-<div class="content add-margin-left-right">
+<div class="container add-margin-left-right">
 	<div class="row">
 		<h1>Select Records for {{$sale->first_name}}</h1>
 		จำนวน Record ที่เลือก : <span style="color:red;"><?php $mem_selected_record = session('mem_selected_record'); echo sizeof($mem_selected_record	);?></span>
