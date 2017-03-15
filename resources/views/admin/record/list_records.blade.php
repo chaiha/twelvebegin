@@ -5,10 +5,10 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<h1>List Records</h1>
-		<table class="table">
+		<table class="table table-bordered">
 		  <thead class="thead-inverse">
 		    <tr>
 		      <th>#</th>

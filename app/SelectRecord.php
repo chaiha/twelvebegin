@@ -8,11 +8,77 @@ class SelectRecord extends Model
 {
     protected $table = 'select_record';
 
-    static public function check_selected_record($record_id)
+    static public function check_selected_record_extend($record_id)
     {
-        if(session('mem_selected_record'))
+        if(session('mem_selected_record_extend'))
         {
-            $selected_array = session('mem_selected_record');
+            $selected_array = session('mem_selected_record_extend');
+            $result = in_array($record_id,$selected_array);
+        }
+        else
+        {
+            $result=0;
+        }
+        if($result=='1')
+        {
+            $has_record = "1";
+        }
+        else
+        {
+            $has_record ="0";
+        }
+        return $has_record;
+    }
+
+    static public function check_selected_record_waiting($record_id)
+    {
+        if(session('mem_selected_record_waiting'))
+        {
+            $selected_array = session('mem_selected_record_waiting');
+            $result = in_array($record_id,$selected_array);
+        }
+        else
+        {
+            $result=0;
+        }
+        if($result=='1')
+        {
+            $has_record = "1";
+        }
+        else
+        {
+            $has_record ="0";
+        }
+        return $has_record;
+    }
+
+    static public function check_selected_record_noreply($record_id)
+    {
+        if(session('mem_selected_record_noreply'))
+        {
+            $selected_array = session('mem_selected_record_noreply');
+            $result = in_array($record_id,$selected_array);
+        }
+        else
+        {
+            $result=0;
+        }
+        if($result=='1')
+        {
+            $has_record = "1";
+        }
+        else
+        {
+            $has_record ="0";
+        }
+        return $has_record;
+    }
+
+    static public function check_selected_record_new($record_id)
+    {
+        if(session('mem_selected_record_new'))
+        {
+            $selected_array = session('mem_selected_record_new');
             $result = in_array($record_id,$selected_array);
         }
         else

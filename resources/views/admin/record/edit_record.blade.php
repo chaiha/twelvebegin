@@ -20,7 +20,7 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="form-group">
 		<h1>Edit record</h1>

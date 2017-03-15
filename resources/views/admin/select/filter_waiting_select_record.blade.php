@@ -12,7 +12,7 @@ function select_record_checkbox(record_id)
 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
             $.ajax({
 		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/add_selected_record_extend')}}",
+		    	url: "{{url('/admin/selected_record/add_selected_record_waiting')}}",
 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
 		    	cache: false,
 
@@ -27,7 +27,7 @@ function select_record_checkbox(record_id)
 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
             $.ajax({
 		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/remove_selected_record_extend')}}",
+		    	url: "{{url('/admin/selected_record/remove_selected_record_waiting')}}",
 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
 		    	cache: false,
 
@@ -46,7 +46,7 @@ function submit_form()
 		document.getElementById("submit_form").submit();	
 	}
 	
-}
+}  		
 
   		
 
@@ -97,7 +97,7 @@ use App\SelectRecord;
 		<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale/filter_waiting/'.$sale->id)}}" role="button" id="confirm_btn">รอการพิจารณา  ({{$check_amount->amount_waiting_record($sale->id)}})</a>
 		<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale/filter_noreply/'.$sale->id)}}" role="button" id="confirm_btn">ยังไม่สามารถติดต่อได้  ({{$check_amount->amount_noreply_record($sale->id)}})</a>
 		<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale/filter_new_record/'.$sale->id)}}" role="button" id="confirm_btn">Lead ใหม่  ({{$check_amount->amount_new_record()}})</a>
-		<h3>Lead ต่ออายุ</h3>
+		<h3>Lead รอการพิจารณา</h3>
 		จำนวน Record ที่เลือก : ต่อายุ: <span style="color:red;"><?php $mem_selected_record_extend = session('mem_selected_record_extend'); echo sizeof($mem_selected_record_extend	);?></span> + รอการพิจารณา: <span style="color:red;"><?php $mem_selected_record_waiting = session('mem_selected_record_waiting'); echo sizeof($mem_selected_record_waiting	);?></span> + ยังไม่สามารถติดต่อได้: <span style="color:red;"><?php $mem_selected_record_noreply = session('mem_selected_record_noreply'); echo sizeof($mem_selected_record_noreply	);?></span> + ใหม่: <span style="color:red;"><?php $mem_selected_record_new = session('mem_selected_record_new'); echo sizeof($mem_selected_record_new	);?></span> = รวมทั้งหมด <span style="color:red;"><?php $total_selected = sizeof($mem_selected_record_extend)+sizeof($mem_selected_record_waiting)+sizeof($mem_selected_record_noreply)+sizeof($mem_selected_record_new); echo $total_selected; ?></span>
 		{{Form::open(array('action' => 'AdminController@preview_select_record','id'=>'submit_form'))}}
 		<table class="table">
@@ -135,7 +135,7 @@ use App\SelectRecord;
 		  <tbody>
 		  @foreach ($record_list as $each_record)
 		    <tr>
-		      <td><input type="checkbox" class="select_checkbox" name="selected_record[]" id="{{$each_record->id}}" value="{{$each_record->id}}" onClick="select_record_checkbox({{$each_record->id}})" <?php $has_record = SelectRecord::check_selected_record_extend($each_record->id); if($has_record=="1"){echo "checked";}?>/></td>
+		      <td><input type="checkbox" class="select_checkbox" name="selected_record[]" id="{{$each_record->id}}" value="{{$each_record->id}}" onClick="select_record_checkbox({{$each_record->id}})" <?php $has_record = SelectRecord::check_selected_record_waiting($each_record->id); if($has_record=="1"){echo "checked";}?>/></td>
 		      <td>{{$each_record->id}}</td>
 		      <td>{{$each_record->no}}</td>
 		      <td>{{$each_record->code}}</td>
@@ -171,7 +171,7 @@ use App\SelectRecord;
 		{{ Form::close() }}
 		{{$record_list->links()}}
 	</div>
-	<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
+	<a class="btn btn-primary" href="#" role="button" id="confirm_btn" onClick="submit_form()">Submit</a>
 </div>
 
 @endsection

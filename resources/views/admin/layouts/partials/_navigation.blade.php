@@ -1,4 +1,4 @@
-    <div class="container">
+    <div class="container-fluid">
 
       <!-- Static navbar -->
       <nav class="navbar navbar-default">
@@ -14,8 +14,17 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
+              <li><a href="#">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Record <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{url('/admin/record/create_new_record_list')}}">Create new record</a></li>
+                  <li><a href="{{url('/admin/record/list_records')}}">Show Record List</a></li>
+                  <li><a href="{{url('/admin/select_record/select_sale')}}">Select Record for sale</a></li>
+                  <li><a href="{{url('/admin/export_excel/select_sale')}}">Export Adminกรอก Lead ลงไปในระบบ</a></li>
+                  <li><a href="{{url('/admin/export_excel/select_sale')}}">Export Adminกรอก Lead ลงไปในระบบ</a></li>
+                </ul>
+              </li>
               <li><a href="#">Contact</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>

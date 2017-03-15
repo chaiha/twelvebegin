@@ -104,14 +104,31 @@ Route::get('/admin/record/success_edit_reocord','AdminController@success_edit_re
 //---------select record for sale --------------------
 Route::get('/admin/select_record/select_sale','AdminController@select_sale');
 Route::get('/admin/select_record/select_sale/{id}','AdminController@select_record');
+Route::get('/admin/select_record/select_sale/filter_extend/{sale_id}','AdminController@filter_extend_select_record');
+Route::get('/admin/select_record/select_sale/filter_waiting/{sale_id}','AdminController@filter_waiting_select_record');
+Route::get('/admin/select_record/select_sale/filter_noreply/{sale_id}','AdminController@filter_noreply_select_record');
+Route::get('/admin/select_record/select_sale/filter_new_record/{sale_id}','AdminController@filter_new_select_record');
+
 
 Route::get('/admin/selected_record/reset_selected_record','AdminController@reset_selected_record');
-Route::post('/admin/selected_record/add_selected_record','AdminController@add_selected_record');
-Route::post('/admin/selected_record/remove_selected_record','AdminController@remove_selected_record');
+//Extend
+Route::post('/admin/selected_record/add_selected_record_extend','AdminController@add_selected_record_extend');
+Route::post('/admin/selected_record/remove_selected_record_extend','AdminController@remove_selected_record_extend');
+//Waiting
+Route::post('/admin/selected_record/add_selected_record_waiting','AdminController@add_selected_record_waiting');
+Route::post('/admin/selected_record/remove_selected_record_waiting','AdminController@remove_selected_record_waiting');
+//No reply
+Route::post('/admin/selected_record/add_selected_record_noreply','AdminController@add_selected_record_noreply');
+Route::post('/admin/selected_record/remove_selected_record_noreply','AdminController@remove_selected_record_noreply');
+//New record
+Route::post('/admin/selected_record/add_selected_record_new','AdminController@add_selected_record_new');
+Route::post('/admin/selected_record/remove_selected_record_new','AdminController@remove_selected_record_new');
+
+
 Route::post('/admin/selected_record/select_sale/','AdminController@preview_select_record');
 Route::get('/admin/selected_record/select_sale/preview','AdminController@show_preview_select_record');
 Route::post('/admin/selected_record/select_sale/preview','AdminController@submit_select_record');
-Route::get('/admin/selected_record/select_sale/success','AdminController@success_select_record');
+Route::get('/admin/selected_record/select_sale/success/{sale_id}','AdminController@success_select_record');
 
 // Route::get('/admin/create_new_record', 'RecordController@preview_new_record');
 // Route::get('/admin/edit/{id}','AdminController@get_edit_record');

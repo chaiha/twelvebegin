@@ -19,7 +19,7 @@
 use App\Record;
 ?>
 <!-- Services Section -->
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="form-group">
 		<h1>Create new record</h1>

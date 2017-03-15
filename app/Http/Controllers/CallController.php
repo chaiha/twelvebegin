@@ -21,18 +21,46 @@ class CallController extends Controller
     public function show_list_record()
     {
         $user = session('user');
-        $selected_record = SelectRecord::where('sale_id','=',$user->id)->get();
-        $record_list = array();
+        $selected_record_extend = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','extend')->get();
+        $selected_record_waiting = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','waiting')->get();
+        $selected_record_noreply = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','noreply')->get();
+        $selected_record_new = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','new')->get();
+        $record_list_extend = array();
+        $record_list_waiting = array();
+        $record_list_noreply = array();
+        $record_list_new = array();
         //print_r($selected_record);
         $n=0;
-        foreach ($selected_record as $selected_record_each)
+        foreach ($selected_record_extend as $selected_record_each)
         {
-            $record_list[$n]=$selected_record_each->record->id;
+            $record_list_extend[$n]=$selected_record_each->record->id;
             $n++;
         }
-        $result = DB::table('records')->whereIn('id', $record_list)->paginate(100);
+        $n=0;
+        foreach ($selected_record_waiting as $selected_record_each)
+        {
+            $record_list_waiting[$n]=$selected_record_each->record->id;
+            $n++;
+        }
+        $n=0;
+        foreach ($selected_record_noreply as $selected_record_each)
+        {
+            $record_list_noreply[$n]=$selected_record_each->record->id;
+            $n++;
+        }
+        $n=0;
+        foreach ($selected_record_new as $selected_record_each)
+        {
+            $record_list_new[$n]=$selected_record_each->record->id;
+            $n++;
+        }
+
+        $result_extend = DB::table('records')->whereIn('id', $record_list_extend)->get();
+        $result_waiting = DB::table('records')->whereIn('id', $record_list_waiting)->get();
+        $result_noreply = DB::table('records')->whereIn('id', $record_list_noreply)->get();
+        $result_new = DB::table('records')->whereIn('id', $record_list_new)->get();
         //print_r($record_list);
-        return view('sale.select.show_select_list')->with('sale',$user)->with('record_list',$result);
+        return view('sale.select.show_select_list')->with('sale',$user)->with('record_list_extend',$result_extend)->with('record_list_waiting',$result_waiting)->with('record_list_noreply',$result_noreply)->with('record_list_new',$result_new);
 
     }
 
@@ -133,6 +161,7 @@ class CallController extends Controller
             $record->yes_privilege_start = $sale_filled['start_priviledge_year']."-".$sale_filled['start_priviledge_month']."-".$sale_filled['start_priviledge_day'];
             $record->yes_privilege_end = $sale_filled['end_priviledge_year']."-".$sale_filled['end_priviledge_month']."-".$sale_filled['end_priviledge_day'];
             $record->yes_feedback = $sale_filled['feedback'];
+            $record->status="Not_Available";
         }
         else if($sale_filled['call_result']=="no_reply")
         {
@@ -144,6 +173,7 @@ class CallController extends Controller
         {
             $record->no_reason = $sale_filled['no_reason'];
             $record->no_note = $sale_filled['no_note'];
+            $record->status="Not_Available";
         }
         else if($sale_filled['call_result']=="waiting")
         {
@@ -153,6 +183,7 @@ class CallController extends Controller
         else if($sale_filled['call_result']=="closed")
         {
             $record->close = "1";
+            $record->status="Not_Available";
         }
 
         if($sale_filled['is_tel_correct']=="0")
@@ -173,7 +204,7 @@ class CallController extends Controller
         $record->save();
 
         $select_record = SelectRecord::where('record_id','=',$sale_filled['record_id'])->where('sale_id','=',$user->id)->first();
-        $select_record->status = "called";
+        $select_record->call_status = "called";
         $select_record->save();
 
         return redirect('/sale/select_record/call/success/'.$sale_filled['record_id']);

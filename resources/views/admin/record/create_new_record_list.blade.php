@@ -7,7 +7,7 @@
 
     $("#confirm_btn").click(function(){
     	var error = 0;
-    	for(i=1;i<=10;i++)
+    	for(i=1;i<=20;i++)
     	{
     			if(i==1)
     			{
@@ -260,7 +260,6 @@ use App\Record;
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 				<tr>
-					<th class="add_padding_15">ไม่มีข้อมูล</th>
 					<th class="add_padding_15">No.</th>
 					<th class="add_padding_15">Sources</th>
 					<th class="add_padding_15">Categories</th>
@@ -280,9 +279,8 @@ use App\Record;
 					<th class="add_padding_15">Remark</th>
 				</tr>
 				</thead>
-				<?php for($i=1;$i<=10;$i++){ ?>
+				<?php for($i=1;$i<=20;$i++){ ?>
 				<tr>
-					<td class="add_padding_15"><input type="checkbox" name="no_data-{{$i}}" id=no_data-{{$i}} value="1"></td>
 					<td class="add_padding_15">{{$i}}</td>
 					<td class="add_padding_15">
 						<select name="sources-{{$i}}"  class="selectpicker sources" id="sources-{{$i}}">

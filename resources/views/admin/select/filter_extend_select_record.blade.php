@@ -39,6 +39,16 @@ function select_record_checkbox(record_id)
 	  	}
 }
 
+  // $(document).ready(function(){
+
+  //   $("#confirm_btn").click(function(){
+  //   	alert("xxxx");
+  //       $("#submit_form").submit();
+
+  //   });
+
+  // });
+
 function submit_form()
 {
 	if(confirm('กรุณายืนยัน'))
@@ -46,9 +56,7 @@ function submit_form()
 		document.getElementById("submit_form").submit();	
 	}
 	
-}
-
-  		
+}  		
 
 //-------------------------
  //  if(document.getElementById('isAgeSelected').checked) {
@@ -171,7 +179,7 @@ use App\SelectRecord;
 		{{ Form::close() }}
 		{{$record_list->links()}}
 	</div>
-	<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
+	<a class="btn btn-primary" href="#" role="button" id="confirm_btn" onClick="submit_form()">Submit</a>
 </div>
 
 @endsection

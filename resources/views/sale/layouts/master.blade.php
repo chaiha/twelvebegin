@@ -13,6 +13,7 @@
     {{ Html::style('assets/css/ie10-viewport-bug-workaround.css')}}
     {{ Html::style('assets/js/ie-emulation-modes-warning.js')}}
     {{ Html::style('css/navbar.css') }}
+    {{ Html::style('css/chai.css') }}
     @yield('styles')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

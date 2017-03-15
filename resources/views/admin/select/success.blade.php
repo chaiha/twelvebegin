@@ -49,7 +49,7 @@ use App\SelectRecord;
 		<h2>ทำการเลือก Record ให้เซล {{$sale->first_name}} เสร็จสิ้น</h2>
 		
 	</div>
-	<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
+	<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale')}}" role="button" id="confirm_btn">ย้อนกลับ</a>
 </div>
 
 @endsection

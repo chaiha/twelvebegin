@@ -154,4 +154,33 @@ class Record extends Model
         $next_code = $max_code+1;
         return $next_code;
     }
+
+    static public function amount_extend_priviledge()
+    {
+        $result = Record::where('selective_status','=','extend')->get();
+        $size_of_result = sizeof($result);
+        return $size_of_result;
+    }
+
+    static public function amount_waiting_record($sale_id)
+    {
+        $result = Record::where('selective_status','=','waiting')->where('sale','=',$sale_id)->get();
+        $size_of_result = sizeof($result);
+        return $size_of_result;
+    }
+
+    static public function amount_noreply_record($sale_id)
+    {
+        $result = Record::where('selective_status','=','noreply')->where('sale','=',$sale_id)->get();
+        $size_of_result = sizeof($result);
+        return $size_of_result;
+    }
+
+    static public function amount_new_record()
+    {
+        $result = Record::where('selective_status','=','new')->get();
+        $size_of_result = sizeof($result);
+        return $size_of_result;
+    }
+
 }
