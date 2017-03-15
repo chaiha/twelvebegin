@@ -143,5 +143,6 @@ Route::post('/sale/select_record/edit_preview_filled_record','CallController@edi
 Route::get('/sale/select_record/show_edit_preview_filled_record','CallController@show_edit_filled_record');
 Route::post('/sale/select_record/submit_edit_filled_record','CallController@submit_edit_call_record');
 Route::get('/sale/select_record/call/success/{id}','CallController@call_success');
+Route::post('/sale/show_selected_record_list','CallController@submit_allresult_selected_record');
 
 

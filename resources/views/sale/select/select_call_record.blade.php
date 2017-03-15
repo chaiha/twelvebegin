@@ -740,7 +740,7 @@ use App\Record;
 		</div>
 		<br />
 		<a class="btn btn-success" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{ url('admin/record/list_records') }}" role="button" id="cancel_btn">Cancel</a>
+		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">Cancel</a>
 		{{Form::close() }}
 		</div>
 	</div>

@@ -84,6 +84,21 @@ class CallController extends Controller
         $sale_filled['record_id'] = $request->input('record_id');
         $record_id = $request->input('record_id');
 
+        $edit_address = $request->input('edit_address');
+        $edit_contact_person = $request->input('edit_contact_person');
+        if($edit_address!="")
+        {
+            //มีการแก้ไข address
+            $sale_filled['edit_address'] = $edit_address;
+            
+        }
+        if($edit_contact_person!="")
+        {
+            //มีการแก้ไข contact_person
+            $sale_filled['edit_contact_person'] = $edit_contact_person;
+            
+        }
+
         if($is_tel_correct=="0")
         {
             $sale_filled['new_tel'] = $request->input('new_tel');
@@ -141,9 +156,11 @@ class CallController extends Controller
         $record_id = $sale_filled['record_id'];
         $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
         $is_tel_correct = $sale_filled['is_tel_correct'];
+        $edit_address = $sale_filled['edit_address'];
+        $edit_contact_person = $sale_filled['edit_contact_person'];
         $call_result = $sale_filled['call_result'];
 
-        return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('call_result',$call_result);
+        return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
     }
 
     public function submit_filled_record()
@@ -151,6 +168,7 @@ class CallController extends Controller
         $user = session('user');
         $sale_filled = session('sale_filled');
         $record = Record::where('id','=',$sale_filled['record_id'])->first();
+        $select_record = SelectRecord::where('id','=',$sale_filled['record_id'])->first();
 
         $record->result = $sale_filled['call_result'];
         $record->result_date = date("Y-m-d");
@@ -295,6 +313,15 @@ class CallController extends Controller
         $user = session('user');
         $select_record = SelectRecord::where('record_id','=',$id)->where('sale_id','=',$user->id)->first();
         return view('sale.select.success_call_record')->with('select_record',$select_record);
+    }
+
+    public function submit_allresult_selected_record(Request $request)
+    {
+        $sale_id = $request->input('sale_id');
+        $sale_selected_record = SelectRecord::where('sale_id','=',$sale_id)->get();
+        // foreach ($sale_selected_record as $sale_selected_record_each ) {
+        //     if($sale_selected_record_each->)
+        // }
     }
 }
 

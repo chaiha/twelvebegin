@@ -1,84 +1,11 @@
 @extends('sale.layouts.master')
 @section('js_files')
 
-<script>
-
-// function select_record_checkbox(record_id)
-// {
-// 	var record_id = record_id;
-// 	var is_checked = document.getElementById(record_id).checked;
-// 	if(is_checked==true)
-// 	  	{
-// 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-//             $.ajax({
-// 		    	type: "POST",
-// 		    	url: "{{url('/admin/selected_record/add_selected_record')}}",
-// 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
-// 		    	cache: false,
-
-// 		        success: function(){
-// 		        	alert('เพิ่มเข้าสู่ระบบ');
-// 		             location.reload();
-// 	         	}
-//   			});
-// 	  	}
-// 	else
-// 	  	{
-// 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-//             $.ajax({
-// 		    	type: "POST",
-// 		    	url: "{{url('/admin/selected_record/remove_selected_record')}}",
-// 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
-// 		    	cache: false,
-
-// 		        success: function(){
-// 		        	alert('เอาออกจากระบบ');
-// 		             location.reload();
-// 	         	}
-//   			});
-// 	  	}
-// }
-
-//   $(document).ready(function(){
-
-//     $("#confirm_btn").click(function(){
-//         $("#submit_form").submit();
-
-//     });
-
-//   });
-
-  		
-
-//-------------------------
- //  if(document.getElementById('isAgeSelected').checked) {
-	//     // $("#txtAge").show();
-	//     alert("xxx");
-	// } else {
-	//     $("#txtAge").hide();
-	// }
-	//--------------------
-  //   $("#update_selected_record").click(function(){
-
-  // //   	alert("x");
-  // //   	 dataString = ['xx','yy','zz']; // array?
-  // //   	//dataString = "1"; // array?
-		// //  var jsonString = JSON.stringify(dataString);
-		// // $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-  // //       $.ajax({
-		// //         type: "POST",
-		// //         url: "{{url('/admin/selected_record/add_selected_record')}}",
-		// //         data: {"data" : jsonString,"_token": $('#token').val()}, 
-		// //         cache: false,
-
-		// //         success: function(){
-		// //             alert("OK");
-	 // //        	}
-  // //       	});
-  //    	});
-
-  // });
-
+<script type="text/javascript">
+function submit_all_result()
+{
+	document.getElementById("submit_form").submit();
+}
 </script>
 @stop
 @section('content')
@@ -90,7 +17,11 @@ use App\User;
 <!-- Services Section -->
 <div class="container" style="margin-left: 5px;">
 	<div class="row" style="width:2000px;">
-		<h1>Select Records for {{$sale->first_name}}</h1>
+	<?php 
+		$today = date('Y-m-d');
+		$today_array =explode('-', $today);
+	?>
+		<h1>Select Records for {{$sale->first_name}} / วันที่ {{$today_array[2]}}-{{$today_array[1]}}-{{$today_array[0]}}</h1>
 		จำนวน Record ที่เลือก : ต่อายุ: <span style="color:red;"><?php $mem_selected_record_extend = $record_list_extend; echo sizeof($mem_selected_record_extend	);?></span> + รอการพิจารณา: <span style="color:red;"><?php $mem_selected_record_waiting = $record_list_waiting; echo sizeof($mem_selected_record_waiting	);?></span> + ยังไม่สามารถติดต่อได้: <span style="color:red;"><?php $mem_selected_record_noreply = $record_list_noreply; echo sizeof($mem_selected_record_noreply	);?></span> + ใหม่: <span style="color:red;"><?php $mem_selected_record_new = $record_list_new; echo sizeof($mem_selected_record_new	);?></span> = รวมทั้งหมด <span style="color:red;"><?php $total_selected = sizeof($mem_selected_record_extend)+sizeof($mem_selected_record_waiting)+sizeof($mem_selected_record_noreply)+sizeof($mem_selected_record_new); echo $total_selected; ?></span>
 
 		<h3>Lead ต่ออายุ : <span class="red"><?php echo sizeof($record_list_extend); ?></span></h3>
@@ -457,6 +388,17 @@ use App\User;
 		  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 		
 		</table>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			{{Form::open(array('action' => 'CallController@submit_allresult_selected_record','id'=>'submit_form'))}}
+				{{csrf_field()}}
+				<input type="hidden" name="" value="" />
+				<input type="hidden" name="" value="" />
+				<hr>
+				<a href="#" class="btn btn-success" onClick="submit_all_result()">Submit</a>
+			{{Form::close() }}
+		</div>
 	</div>
 </div>
 
