@@ -92,11 +92,19 @@ class CallController extends Controller
             $sale_filled['edit_address'] = $edit_address;
             
         }
+        else
+        {
+            $sale_filled['edit_address'] ="none";
+        }
         if($edit_contact_person!="")
         {
             //มีการแก้ไข contact_person
             $sale_filled['edit_contact_person'] = $edit_contact_person;
             
+        }
+        else
+        {
+            $sale_filled['edit_contact_person']="none";
         }
 
         if($is_tel_correct=="0")
@@ -163,7 +171,7 @@ class CallController extends Controller
         return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
     }
 
-    public function submit_filled_record()
+    public function submit_filled_record()//16032560
     {
         $user = session('user');
         $sale_filled = session('sale_filled');
@@ -257,6 +265,22 @@ class CallController extends Controller
         $is_tel_correct = $request->input('is_tel_correct');
         $sale_filled['record_id'] = $request->input('record_id');
         $record_id = $request->input('record_id');
+
+        $edit_address = $request->input('edit_address');
+        $edit_contact_person = $request->input('edit_contact_person');
+        if($edit_address!="")
+        {
+            //มีการแก้ไข address
+            $sale_filled['edit_address'] = $edit_address;
+            
+        }
+        
+        if($edit_contact_person!="")
+        {
+            //มีการแก้ไข contact_person
+            $sale_filled['edit_contact_person'] = $edit_contact_person;
+            
+        }
 
         if($is_tel_correct=="0")
         {
