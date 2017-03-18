@@ -593,6 +593,12 @@ use App\Record;
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
+						<label>เงื่อนไขเพิ่มเติม: </label>
+							<input type="text" name="condition" id="condition" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['condition']; } ?>" class="form-control yes_form"/>
+					</div>
+				</div>
+				<div class="row add-margin-20">
+					<div class="col-xs-12">
 						<label>Start Privilege Date [ วัน / เดือน / ปี ]</label>
 						<div class="row">
 							<div class="col-xs-4">

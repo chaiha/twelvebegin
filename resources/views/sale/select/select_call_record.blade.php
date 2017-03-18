@@ -585,7 +585,7 @@ use App\Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เงื่อนไขเพิ่มเติม: </label>
-							<input type="text" name="feedback" id="feedback" value="" class="form-control yes_form"/>
+							<input type="text" name="condition" id="condition" value="" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">

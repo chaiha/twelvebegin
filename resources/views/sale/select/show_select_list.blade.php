@@ -88,27 +88,33 @@ use App\User;
               <?php
               }
               ?>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->name_th}}</td>
-		      <td>{{$each_record->name_en}}</td>
-		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
-		      <td>{{$each_record->sources}}</td>
-		      <td>{{$each_record->categories}}</td>
-		      <td>{{$each_record->shop_type}}</td>
-		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->input_date}}</td>
-		      <td>{{$each_record->distributed_date}}</td>
-		      <td>{{$each_record->deadline}}</td>
-		      <td>{{$each_record->contact_person}}</td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->updated_at}}</td>
+		      <td>{{$each_record->record->result}}</td>
+		      <td>{{$each_record->record->call_amount}}</td>
+		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->name_th}}</td>
+		      <td>{{$each_record->record->name_en}}</td>
+		      <td>{{$each_record->record->branch}}</td>
+		      <td>{{$each_record->record->province}}</td>
+		      <td>{{$each_record->record->sources}}</td>
+		      <td>{{$each_record->record->categories}}</td>
+		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->dtac_type}}</td>
+		      <td>{{$each_record->record->input_date}}</td>
+		      <td>{{$each_record->record->distributed_date}}</td>
+		      <td>{{$each_record->record->deadline}}</td>
+		      <td>
+		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
+		      		{{$each_record->record->contact_person}}
+		      	@else
+		      		{{$each_record->edit_contact_person}}
+		      	@endif
+		      </td>
+		      <td>{{$each_record->record->contact_email}}</td>
+		      <td>{{$each_record->record->contact_date}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td>{{$each_record->record->created_at}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -179,27 +185,33 @@ use App\User;
               <?php
               }
               ?>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->name_th}}</td>
-		      <td>{{$each_record->name_en}}</td>
-		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
-		      <td>{{$each_record->sources}}</td>
-		      <td>{{$each_record->categories}}</td>
-		      <td>{{$each_record->shop_type}}</td>
-		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->input_date}}</td>
-		      <td>{{$each_record->distributed_date}}</td>
-		      <td>{{$each_record->deadline}}</td>
-		      <td>{{$each_record->contact_person}}</td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->updated_at}}</td>
+		      <td>{{$each_record->record->result}}</td>
+		      <td>{{$each_record->record->call_amount}}</td>
+		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->name_th}}</td>
+		      <td>{{$each_record->record->name_en}}</td>
+		      <td>{{$each_record->record->branch}}</td>
+		      <td>{{$each_record->record->province}}</td>
+		      <td>{{$each_record->record->sources}}</td>
+		      <td>{{$each_record->record->categories}}</td>
+		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->dtac_type}}</td>
+		      <td>{{$each_record->record->input_date}}</td>
+		      <td>{{$each_record->record->distributed_date}}</td>
+		      <td>{{$each_record->record->deadline}}</td>
+		      <td>
+		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
+		      		{{$each_record->record->contact_person}}
+		      	@else
+		      		{{$each_record->edit_contact_person}}
+		      	@endif
+		      </td>
+		      <td>{{$each_record->record->contact_email}}</td>
+		      <td>{{$each_record->record->contact_date}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td>{{$each_record->record->created_at}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -270,27 +282,33 @@ use App\User;
               <?php
               }
               ?>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->name_th}}</td>
-		      <td>{{$each_record->name_en}}</td>
-		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
-		      <td>{{$each_record->sources}}</td>
-		      <td>{{$each_record->categories}}</td>
-		      <td>{{$each_record->shop_type}}</td>
-		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->input_date}}</td>
-		      <td>{{$each_record->distributed_date}}</td>
-		      <td>{{$each_record->deadline}}</td>
-		      <td>{{$each_record->contact_person}}</td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->updated_at}}</td>
+		      <td>{{$each_record->record->result}}</td>
+		      <td>{{$each_record->record->call_amount}}</td>
+		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->name_th}}</td>
+		      <td>{{$each_record->record->name_en}}</td>
+		      <td>{{$each_record->record->branch}}</td>
+		      <td>{{$each_record->record->province}}</td>
+		      <td>{{$each_record->record->sources}}</td>
+		      <td>{{$each_record->record->categories}}</td>
+		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->dtac_type}}</td>
+		      <td>{{$each_record->record->input_date}}</td>
+		      <td>{{$each_record->record->distributed_date}}</td>
+		      <td>{{$each_record->record->deadline}}</td>
+		      <td>
+		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
+		      		{{$each_record->record->contact_person}}
+		      	@else
+		      		{{$each_record->edit_contact_person}}
+		      	@endif
+		      </td>
+		      <td>{{$each_record->record->contact_email}}</td>
+		      <td>{{$each_record->record->contact_date}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td>{{$each_record->record->created_at}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -362,26 +380,32 @@ use App\User;
               }
               ?>
 		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->name_th}}</td>
-		      <td>{{$each_record->name_en}}</td>
-		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
-		      <td>{{$each_record->sources}}</td>
-		      <td>{{$each_record->categories}}</td>
-		      <td>{{$each_record->shop_type}}</td>
-		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->input_date}}</td>
-		      <td>{{$each_record->distributed_date}}</td>
-		      <td>{{$each_record->deadline}}</td>
-		      <td>{{$each_record->contact_person}}</td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
+		      <td>{{$each_record->record->call_amount}}</td>
+		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->name_th}}</td>
+		      <td>{{$each_record->record->name_en}}</td>
+		      <td>{{$each_record->record->branch}}</td>
+		      <td>{{$each_record->record->province}}</td>
+		      <td>{{$each_record->record->sources}}</td>
+		      <td>{{$each_record->record->categories}}</td>
+		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->dtac_type}}</td>
+		      <td>{{$each_record->record->input_date}}</td>
 		      <td>{{$each_record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->updated_at}}</td>
+		      <td>{{$each_record->record->deadline}}</td>
+		      <td>
+		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
+		      		{{$each_record->record->contact_person}}
+		      	@else
+		      		{{$each_record->edit_contact_person}}
+		      	@endif
+		      </td>
+		      <td>{{$each_record->record->contact_email}}</td>
+		      <td>{{$each_record->record->contact_date}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td>{{$each_record->record->created_at}}</td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>

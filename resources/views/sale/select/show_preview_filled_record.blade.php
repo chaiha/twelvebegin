@@ -41,7 +41,7 @@ use App\Record;
 		<div class="form-group">
 		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
-		{{Form::open(array('action' => 'CallController@preview_filled_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'CallController@submit_filled_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-12">
@@ -280,8 +280,9 @@ use App\Record;
 		<div class="row">
 			<div class="col-xs-12"><b>ผลการโทร : </b>
 				@if($call_result=="yes") 
-					<span>Yes</span><br />
+					<span>Yes</span><br />					
 					<b>Feedback : </b> {{$sale_filled['feedback']}} <br />
+					<b>เงื่อนไข : </b> {{$sale_filled['condition']}} <br />
 					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['start_priviledge_day']}} / {{$sale_filled['start_priviledge_month']}} / {{$sale_filled['start_priviledge_year']}} <br />
 					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['end_priviledge_day']}} / {{$sale_filled['end_priviledge_month']}} / {{$sale_filled['end_priviledge_year']}}
 
