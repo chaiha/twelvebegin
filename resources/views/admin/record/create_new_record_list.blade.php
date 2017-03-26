@@ -321,8 +321,12 @@ use App\Record;
 					</td>
 					<td class="add_padding_15"><input type="text" name="name_th-{{$i}}" id="name_th-{{$i}}" value="" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en-{{$i}}" id="name_en-{{$i}}" value="" /></td>
-					<td class="add_padding_15"><input type="text" name="branch-{{$i}}" id="branch-{{$i}}" value="" /></td>
-					<td class="add_padding_15"><input type="text" name="address-{{$i}}" id="address-{{$i}}" value="" size="50"/></td>
+					<td class="add_padding_15">
+						<textarea name="branch-{{$i}}" id="branch-{{$i}}" cols="50" /></textarea>
+					</td>
+					<td class="add_padding_15">
+						<textarea name="address-{{$i}}" id="address-{{$i}}" cols="50"></textarea>
+					</td>
 					<td class="add_padding_15">
 						<select name="province-{{$i}}" id="province-{{$i}}" class="selectpicker">
 							<option value="empty">กรุณาเลือกจังหวัด</option>
@@ -335,10 +339,17 @@ use App\Record;
 							?>
 						</select>
 					</td>
-					<td class="add_padding_15"><input type="text" name="latitude-{{$i}}" id="latitude-{{$i}}" value="" /></td>
-					<td class="add_padding_15"><input type="text" name="longtitude-{{$i}}" id="longtitude-{{$i}}" value="" /></td>
+					<td class="add_padding_15">
+						<textarea name="latitude-{{$i}}" id="latitude-{{$i}}" cols="30"></textarea>
+					</td>
+					<td class="add_padding_15">
+						<textarea name="longtitude-{{$i}}" id="longtitude-{{$i}}" cols="30"></textarea>
+					</td>
 					<td class="add_padding_15"><input type="text" name="contact_person-{{$i}}" id="contact_person-{{$i}}" value="" /></td>
-					<td class="add_padding_15"><input type="text" name="contact_tel-{{$i}}" id="contact_tel-{{$i}}" value="" /></td>
+					<td class="add_padding_15">
+					<textarea name="contact_tel-{{$i}}" id="contact_tel-{{$i}}">
+					</textarea>
+					</td>
 					<td class="add_padding_15"><input type="text" name="contact_email-{{$i}}" id="contact_email-{{$i}}" value="" /></td>
 					<td class="add_padding_15"><input type="text" name="links-{{$i}}" id="links-{{$i}}" value="" /></td>
 					<td class="add_padding_15"><input type="text" name="remarks-{{$i}}" id="remarks-{{$i}}" value="" /></td>

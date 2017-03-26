@@ -39,7 +39,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
+		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@submit_filled_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -171,6 +171,7 @@ use App\Record;
 						<th>ชื่อภาษาไทย</th>
 						<th>ชื่อภาษาอังกฤษ</th>
 						<th>สาขา</th>
+						<th>จำนวนสาขา</th>
 						<th>ที่อยู่  </th>
 						<th>จังหวัด</th>
 						<th>ละติจูด</th>
@@ -180,6 +181,7 @@ use App\Record;
 						<td>{{$select_record->record->name_th}}</td>
 						<td>{{$select_record->record->name_en}}</td>
 						<td>{{$select_record->record->branch}}</td>
+						<td>{{$sale_filled['branch_amount']}}</td>
 						<td>
 						@if($edit_address!="none")
 							{{$edit_address}}
@@ -263,6 +265,22 @@ use App\Record;
 								}
 								
 							?>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</div>
+		<br />
+		<div class="row">
+			<div class="col-xs-12">
+			<label>หมายเหตุ</label>
+			<table class="table table-bordered table-striped">
+					<tr>
+						<th>หมายเหตุ</th>
+					</tr>
+					<tr>
+						<td>
+							{{$sale_filled['note']}}
 						</td>
 					</tr>
 				</table>

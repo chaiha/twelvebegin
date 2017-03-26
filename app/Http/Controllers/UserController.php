@@ -70,7 +70,7 @@ class UserController extends Controller
        session(['user'=>$user]);
        if ($user->inRole('admin'))
         {
-          return Redirect('/admin/home');
+          return Redirect('/admin/checkupdate');
         }
       elseif($user->inRole('sale'))
       {

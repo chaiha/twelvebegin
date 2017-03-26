@@ -348,8 +348,12 @@ use App\Record;
 					</td>
 					<td class="add_padding_15"><input type="text" name="name_th_edit" id="name_th_edit" value="{{$edit_duplicate_record['name_th']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en_edit" id="name_en_edit" value="{{$edit_duplicate_record['name_en']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="branch_edit" id="branch_edit" value="{{$edit_duplicate_record['branch']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="address_edit" id="address_edit" value="{{$edit_duplicate_record['address']}}" size="50"/></td>
+					<td class="add_padding_15">
+						<textarea name="branch_edit" id="branch_edit">{{$edit_duplicate_record['branch']}}</textarea>
+					</td>
+					<td class="add_padding_15">
+						<textarea name="address_edit" id="address_edit" >{{$edit_duplicate_record['address']}}</textarea>
+					</td>
 					<td class="add_padding_15">
 						<select name="province_edit" id="province_edit" class="selectpicker">
 							<option value="empty">กรุณาเลือกจังหวัด</option>
@@ -369,10 +373,17 @@ use App\Record;
 							?>
 						</select>
 					</td>
-					<td class="add_padding_15"><input type="text" name="latitude_edit" id="latitude_edit" value="{{$edit_duplicate_record['latitude']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="longtitude_edit" id="longtitude_edit" value="{{$edit_duplicate_record['longtitude']}}" /></td>
+					<td class="add_padding_15">
+					<textarea name="latitude_edit" id="latitude_edit">{{$edit_duplicate_record['latitude']}}</textarea>
+					</td>
+					<td class="add_padding_15">
+					<textarea name="longtitude_edit" id="longtitude_edit">{{$edit_duplicate_record['longtitude']}}</textarea>
+					</td>
 					<td class="add_padding_15"><input type="text" name="contact_person_edit" id="contact_person_edit" value="{{$edit_duplicate_record['contact_person']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="contact_tel_edit" id="contact_tel_edit" value="{{$edit_duplicate_record['contact_tel']}}" /></td>
+					<td class="add_padding_15">
+					<textarea name="contact_tel_edit" id="contact_tel_edit">{{$edit_duplicate_record['contact_tel']}}
+					</textarea>
+					</td>
 					<td class="add_padding_15"><input type="text" name="contact_email_edit" id="contact_email_edit" value="{{$edit_duplicate_record['contact_email']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="links_edit" id="links_edit" value="{{$edit_duplicate_record['links']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="remarks_edit" id="remarks_edit" value="{{$edit_duplicate_record['remarks']}}" /></td>

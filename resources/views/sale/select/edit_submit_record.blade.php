@@ -281,7 +281,6 @@
         }
     });
 
-
 $("#btn_edit_address").click(function(){
 	$("#edit_address").toggle(function() {
 		var text = $("#btn_edit_address").text();
@@ -323,9 +322,9 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
+		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
-		{{Form::open(array('action' => 'CallController@preview_filled_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'CallController@submit_edit_call_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-12">
@@ -466,11 +465,16 @@ use App\Record;
 						<td>{{$select_record->record->name_en}}</td>
 						<td>{{$select_record->record->branch}}</td>
                         <td>
-                        <input type="text" name="branch_amount" id="branch_amount" value="{{$select_record->record->branch_amount}}" class="form-control"/>
+                        <input type="text" name="branch_amount" id="branch_amount" class="form-control" value="{{$select_record->record->branch_amount}}" />
                         </td>
 						<td>
+						@if($select_record->edit_address!="none")
+							{{$select_record->edit_address}}
+							<textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
+						@else
 							{{$select_record->record->address}}<br />
 							<textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
+						@endif
 						</td>
 						<td>{{$select_record->record->province}}</td>
 						<td>{{$select_record->record->latitude}}</td>
@@ -492,8 +496,13 @@ use App\Record;
 					</tr>
 					<tr>
 						<td>
+						@if($select_record->edit_contact_person!="none")
+							{{$select_record->edit_contact_person}}
+							<input type="text" name="edit_contact_person" id="edit_contact_person" value="" size="30" class="form-control"  style="display: none" />
+						@else
 							{{$select_record->record->contact_person}}<br />
 							<input type="text" name="edit_contact_person" id="edit_contact_person" value="" size="30" class="form-control"  style="display: none" />
+						@endif
 						</td>
 						<td>{{$select_record->record->contact_tel}}</td>
 						<td>{{$select_record->record->contact_email}}</td>
@@ -551,32 +560,32 @@ use App\Record;
 			</div>
 			</div>
             <br />
-            <div class="row">
-                <div class="col-xs-12">
-                <label>หมายเหตุ</label>
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th>หมายเหตุ</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <textarea id="note" name="note" class="form-control"></textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <label>หมายเหตุ</label>
+            <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>หมายเหตุ</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="note" id="note" class="form-control">{{$select_record->note}}</textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             </div>
 		</div>
 		<hr>
-		<div class="row add-margin-20">
+		<div class="row">
 			<div class="col-xs-12">
 				<label>เบอร์โทรศัพท์ </label>
-				<label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" />
-				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" />
-				<div class="row hide" id="new_tel_form">
+				<label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" <?php if($select_record->is_tel_correct=="1"){echo "checked";} ;?>/>
+				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" <?php if($select_record->is_tel_correct=="0"){echo "checked";} ;?>/>
+				<div class="row <?php if($select_record->is_tel_correct=="0"){ echo "show"; }else{ echo "hide"; } ;?>" id="new_tel_form">
 					<div class="col-xs-12  add-margin-20">
 						<label>หมายเลขที่ถูกต้องคือ</label>
-						<input type="text" name="new_tel" id="new_tel" value=""/>
+						<input type="text" name="new_tel" id="new_tel" value="<?php if($select_record->is_tel_correct=="0"){ echo $select_record->new_tel; } ?>"/>
 					</div>
 				</div>
 			</div>
@@ -586,48 +595,54 @@ use App\Record;
 			<div class="col-xs-12"><label>ผลการโทร : </label>
 				<select name="call_result" id="call_result">
 					<option value="empty">กรุณาเลือกผลการโทร</option>
-					<option value="yes">Yes</option>
-					<option value="no_reply">No Reply</option>
-					<option value="rejected">Rejected</option>
-					<option value="waiting">Waiting</option>
-					<option value="closed">Closed</option>
+					<option value="yes" <?php if($select_record->result=="yes"){ echo "selected"; } ;?> >Yes</option>
+					<option value="no_reply" <?php if($select_record->result=="no_reply"){ echo "selected"; } ;?> >No Reply</option>
+					<option value="rejected" <?php if($select_record->result=="rejected"){ echo "selected"; } ;?> >Rejected</option>
+					<option value="waiting" <?php if($select_record->result=="waiting"){ echo "selected"; } ;?> >Waiting</option>
+					<option value="closed" <?php if($select_record->result=="closed"){ echo "selected"; } ;?> >Closed</option>
 				</select>
 			</div>
 		</div>
-		<div class="row hide" id="yes_form">
+		<div class="row <?php if($select_record->result=="yes"){ echo "show"; }else{ echo "hide"; } ;?>" id="yes_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>Feedback: </label>
-							<input type="text" name="feedback" id="feedback" value="" class="form-control yes_form"/>
+							<input type="text" name="feedback" id="feedback" value="<?php if($select_record->result=="yes"){ echo $select_record->feedback; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เงื่อนไขเพิ่มเติม: </label>
-							<input type="text" name="condition" id="condition" value="" class="form-control yes_form"/>
+							<input type="text" name="condition" id="condition" value="<?php if($select_record->result=="yes"){ echo $select_record->condition; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>Start Privilege Date [ วัน / เดือน / ปี ]</label>
+                        <?php 
+                            if($select_record->result=="yes")
+                            {
+                                $yes_privilege_start = explode('-', $select_record->yes_privilege_start);
+                            }
+                        ?>
 						<div class="row">
 							<div class="col-xs-4">
 								<div class="input-group">
 									<span class="input-group-addon">วัน</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_day" name="start_priviledge_day" value=""/>
+									<input class="form-control yes_form" type="text" id="start_priviledge_day" name="start_priviledge_day" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_start[2]; } ?>"/>
 								</div>
 							</div>
 							<div class="col-xs-4">
 								<div class="input-group">
 									<span class="input-group-addon">เดือน</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_month" name="start_priviledge_month" value=""/>
+									<input class="form-control yes_form" type="text" id="start_priviledge_month" name="start_priviledge_month" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_start[1]; } ?>"/>
 								</div>
 							</div>
 							<div class="col-xs-4">
 								<div class="input-group">
 									<span class="input-group-addon">ปี</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_year" name="start_priviledge_year" value=""/>
+									<input class="form-control yes_form" type="text" id="start_priviledge_year" name="start_priviledge_year" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_start[0]; } ?>"/>
 								</div>
 							</div>
 						</div>
@@ -636,23 +651,29 @@ use App\Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>End Privilege Date [ วัน / เดือน / ปี ]</label>
+                        <?php
+                            if($select_record->result=="yes")
+                            {
+                                $yes_privilege_end = explode('-', $select_record->yes_privilege_end);
+                            }
+                        ?>
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">วัน</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_day" name="end_priviledge_day" value=""/>
+										<input class="form-control yes_form" type="text" id="end_priviledge_day" name="end_priviledge_day" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_end[2]; } ?>"/>
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">เดือน</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_month" name="end_priviledge_month" value=""/>
+										<input class="form-control yes_form" type="text" id="end_priviledge_month" name="end_priviledge_month" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_end[1]; } ?>"/>
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">ปี</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_year" name="end_priviledge_year" value=""/>
+										<input class="form-control yes_form" type="text" id="end_priviledge_year" name="end_priviledge_year" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_end[0]; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -660,40 +681,47 @@ use App\Record;
 					</div>
 				</div>
 		</div>
-		<div class="row hide" id="no_reply_form">
+		<div class="row  <?php if($select_record->result=="no_reply"){ echo "show"; }else{ echo "hide"; } ;?>" id="no_reply_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
-						<label>จำนวนครั้งที่โทรก่อนหน้า</label>
-						<input type="text" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="{{$select_record->record->call_amount}}" class="form-control no_reply_form" />
+						<label>จำนวนครั้งที่โทรก่อนหน้า : </label>
+						<?php if($select_record->result=="no_reply"){ echo $select_record->cannot_contact_amount_call; } ?>
+						<input type="hidden" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="<?php if($select_record->result=="no_reply"){ echo $select_record->cannot_contact_amount_call; } ?>" class="form-control no_reply_form" />
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผล</label>
-						<input type="text" name="cannot_contact_reason" id="cannot_contact_reason" value="" class="form-control no_reply_form" />
+						<input type="text" name="cannot_contact_reason" id="cannot_contact_reason" value="<?php if($select_record->result=="no_reply"){ echo $select_record->cannot_contact_reason; } ?>" class="form-control no_reply_form" />
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ]</label>
+                        <?php
+                            if($select_record->result=="no_reply")
+                            {
+                                $cannot_contact_appointment = explode('-', $select_record->cannot_contact_appointment);
+                            }
+                        ?>
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">วัน</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_day" name="cannot_contact_appointment_day" value=""/>
+										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_day" name="cannot_contact_appointment_day" value="<?php if($select_record->result=="no_reply"){ echo $cannot_contact_appointment[2]; } ?>"/>
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">เดือน</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_month" name="cannot_contact_appointment_month" value=""/>
+										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_month" name="cannot_contact_appointment_month" value="<?php if($select_record->result=="no_reply"){ echo $cannot_contact_appointment[1]; } ?>"/>
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">ปี</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_year" name="cannot_contact_appointment_year" value=""/>
+										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_year" name="cannot_contact_appointment_year" value="<?php if($select_record->result=="no_reply"){ echo $cannot_contact_appointment[0]; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -701,50 +729,56 @@ use App\Record;
 				</div>
 			</div>
 		</div>
-		<div class="row hide" id="rejected_form">
+		<div class="row  <?php if($select_record->result=="rejected"){ echo "show"; }else{ echo "hide"; } ;?>" id="rejected_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
-						<label>เหตุผลที่ปฏิเสธ</label>
-						<input type="text" name="no_reason" id="no_reason" value="" class="form-control rejected_form" />
+						<label>No Reason</label>
+						<input type="text" name="no_reason" id="no_reason" value="<?php if($select_record->result=="rejected"){ echo $select_record->no_reason; } ?>" class="form-control rejected_form" />
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
-						<label>หมายเหตุ</label>
-						<input type="text" name="no_note" id="no_note" value="" class="form-control rejected_form" />
+						<label>No Note</label>
+						<input type="text" name="no_note" id="no_note" value="<?php if($select_record->result=="rejected"){ echo $select_record->no_note; } ?>" class="form-control rejected_form" />
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row hide" id="waiting_form">
+		<div class="row  <?php if($select_record->result=="waiting"){ echo "show"; }else{ echo "hide"; } ;?>" id="waiting_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผลที่ขอพิจารณาดูก่อน</label>
-						<input type="text" name="consider_reason" value="" class="form-control waiting_form" />
+						<input type="text" name="consider_reason" value="<?php if($select_record->result=="waiting"){ echo $select_record->consider_reason; } ?>" class="form-control waiting_form" />
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ]</label>
+                        <?php
+                            if($select_record->result=="waiting")
+                            {
+                                $consider_appointment_feedback=explode('-', $select_record->consider_appointment_feedback);
+                            }
+                        ?>
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">วัน</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_day" name="consider_appointment_feedback_day" value=""/>
+										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_day" name="consider_appointment_feedback_day" value="<?php if($select_record->result=="waiting"){ echo $consider_appointment_feedback[2]; } ?>"/>
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">เดือน</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_month" name="consider_appointment_feedback_month" value=""/>
+										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_month" name="consider_appointment_feedback_month" value="<?php if($select_record->result=="waiting"){ echo $consider_appointment_feedback[1]; } ?>"/>
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">ปี</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_year" name="consider_appointment_feedback_year" value=""/>
+										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_year" name="consider_appointment_feedback_year" value="<?php if($select_record->result=="waiting"){ echo $consider_appointment_feedback[0]; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -752,15 +786,15 @@ use App\Record;
 				</div>
 			</div>
 		</div>
-		<div class="row hide" id="closed_form">
+		<div class="row  <?php if($select_record->result=="closed"){ echo "show"; }else{ echo "hide"; } ;?>" id="closed_form">
 			<div class="col-xs-12">
 				<label>ร้านปิดไปแล้ว </label>
-				<input type="checkbox" name="closed" id="closed" value="1" />
+				<input type="checkbox" name="closed" id="closed" value="1" <?php if($select_record->result=="closed"){ echo "checked"; }else{ echo ""; } ;?>/>
 			</div>
 		</div>
 		<br />
-		<a class="btn btn-success" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">Cancel</a>
+		<a class="btn btn-success" href="#" role="button" id="confirm_btn">ยืนยันแก้ไข</a>
+		<a class="btn btn-danger" href="{{ url('sale/select_record/show_preview_filled_record') }}" role="button" id="cancel_btn">ยกเลิกแก้ไข</a>
 		{{Form::close() }}
 		</div>
 	</div>

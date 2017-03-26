@@ -22,6 +22,7 @@ use App\Record;
 <!-- Services Section -->
 <div class="container-fluid">
 	<div class="row">
+	<div class="col-md-12">
 		<div class="form-group">
 		<h1>Edit record</h1>
 		<h3>กรุณาตรวจทานข้อมูลก่อนยืนยัน</h3>
@@ -96,13 +97,13 @@ use App\Record;
 			</div>
 			<div class="col-xs-4">
 				<label>สาขา.</label>
-				<input class="form-control" type="text" id="branch" name="branch" value="{{$record->branch}}"/>
+				<textarea class="form-control" id="branch" name="branch">{{$record->branch}}</textarea>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-6">
 				<label>ที่อยู่.</label>
-				<input class="form-control" type="text" id="address" name="address" value="{{$record->address}}"/>
+				<textarea class="form-control" id="address" name="address">{{$record->address}}</textarea>
 			</div>
 			<div class="col-xs-6">
 				<label>จังหวัด.</label>
@@ -112,11 +113,11 @@ use App\Record;
 		<div class="row">
 			<div class="col-xs-6">
 				<label>ละติจูด.</label>
-				<input class="form-control" type="text" id="latitude" name="latitude" value="{{$record->latitude}}"/>
+				<textarea class="form-control" id="latitude" name="latitude">{{$record->latitude}}</textarea>
 			</div>
 			<div class="col-xs-6">
 				<label>ลองติจูด.</label>
-				<input class="form-control" type="text" id="longitude" name="longitude" value="{{$record->longitude}}"/>
+				<textarea class="form-control" id="longtitude" name="longtitude">{{$record->longtitude}}</textarea>
 			</div>
 		</div>
 		<div class="row">
@@ -126,7 +127,7 @@ use App\Record;
 			</div>
 			<div class="col-xs-4">
 				<label>Contact Telephone number.</label>
-				<input class="form-control" type="text" id="contact_tel" name="contact_tel" value="{{$record->contact_tel}}"/>
+				<textarea class="form-control" id="contact_tel" name="contact_tel">{{$record->contact_tel}}</textarea>
 			</div>
 			<div class="col-xs-4">
 				<label>Contact Email.</label>
@@ -178,6 +179,7 @@ use App\Record;
 		<a class="btn btn-danger" href="{{ url('admin/record/list_records') }}" role="button" id="cancel_btn">Cancel</a>
 		{{ Form::close() }}
 		</div>
+	</div>
 	</div>
 </div>
 

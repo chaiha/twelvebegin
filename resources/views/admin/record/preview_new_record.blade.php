@@ -103,8 +103,8 @@ use App\Record;
 			</div>
 			<div class="col-xs-6">
 				<label>ลองติจูด.</label>
-				{{$record['longitude']}}
-				<input class="form-control" type="hidden" id="longitude" name="longitude" value="{{$record['longitude']}}"/>
+				{{$record['longtitude']}}
+				<input class="form-control" type="hidden" id="longtitude" name="longtitude" value="{{$record['longtitude']}}"/>
 			</div>
 		</div>
 		<div class="row">

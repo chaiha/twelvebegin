@@ -335,8 +335,12 @@ use App\Record;
 					</td>
 					<td class="add_padding_15"><input type="text" name="name_th-{{$i}}" id="name_th-{{$i}}" value="{{$edit_new_record_list_each['name_th']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en-{{$i}}" id="name_en-{{$i}}" value="{{$edit_new_record_list_each['name_en']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="branch-{{$i}}" id="branch-{{$i}}" value="{{$edit_new_record_list_each['branch']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="address-{{$i}}" id="address-{{$i}}" value="{{$edit_new_record_list_each['address']}}" size="50"/></td>
+					<td class="add_padding_15">
+					<textarea name="branch-{{$i}}" id="branch-{{$i}}" cols="50">{{$edit_new_record_list_each['branch']}}</textarea>
+					</td>
+					<td class="add_padding_15">
+					<textarea name="address-{{$i}}" id="address-{{$i}}" cols="50">{{$edit_new_record_list_each['address']}}</textarea>
+					</td>
 					<td class="add_padding_15">
 						<select name="province-{{$i}}" id="province-{{$i}}" class="selectpicker">
 							<option value="empty">กรุณาเลือกจังหวัด</option>
@@ -356,10 +360,17 @@ use App\Record;
 							?>
 						</select>
 					</td>
-					<td class="add_padding_15"><input type="text" name="latitude-{{$i}}" id="latitude-{{$i}}" value="{{$edit_new_record_list_each['latitude']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="longtitude-{{$i}}" id="longtitude-{{$i}}" value="{{$edit_new_record_list_each['longtitude']}}" /></td>
+					<td class="add_padding_15">
+					<textarea name="latitude-{{$i}}" id="latitude-{{$i}}" cols="30">{{$edit_new_record_list_each['latitude']}}
+					</textarea>
+					</td>
+					<td class="add_padding_15">
+					<textarea name="longtitude-{{$i}}" id="longtitude-{{$i}}" cols="30">{{$edit_new_record_list_each['longtitude']}}</textarea>
+					</td>
 					<td class="add_padding_15"><input type="text" name="contact_person-{{$i}}" id="contact_person-{{$i}}" value="{{$edit_new_record_list_each['contact_person']}}" /></td>
-					<td class="add_padding_15"><input type="text" name="contact_tel-{{$i}}" id="contact_tel-{{$i}}" value="{{$edit_new_record_list_each['contact_tel']}}" /></td>
+					<td class="add_padding_15">
+					<textarea name="contact_tel-{{$i}}" id="contact_tel-{{$i}}" cols="30">{{$edit_new_record_list_each['contact_tel']}}</textarea>
+					</td>
 					<td class="add_padding_15"><input type="text" name="contact_email-{{$i}}" id="contact_email-{{$i}}" value="{{$edit_new_record_list_each['contact_email']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="links-{{$i}}" id="links-{{$i}}" value="{{$edit_new_record_list_each['links']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="remarks-{{$i}}" id="remarks-{{$i}}" value="{{$edit_new_record_list_each['remarks']}}" /></td>

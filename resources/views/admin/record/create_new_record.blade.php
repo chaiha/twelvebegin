@@ -114,7 +114,7 @@ use App\Record;
 			</div>
 			<div class="col-xs-6">
 				<label>ลองติจูด.</label>
-				<input class="form-control" type="text" id="longitude" name="longitude" value=""/>
+				<input class="form-control" type="text" id="longtitude" name="longtitude" value=""/>
 			</div>
 		</div>
 		<div class="row">

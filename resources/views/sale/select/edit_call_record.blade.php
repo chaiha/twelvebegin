@@ -454,6 +454,7 @@ use App\Record;
 						<th>ชื่อภาษาไทย</th>
 						<th>ชื่อภาษาอังกฤษ</th>
 						<th>สาขา</th>
+                        <th>จำนวนสาขา</th>
 						<th>ที่อยู่  <a href="#" class="btn btn-danger pull-right" id="btn_edit_address">แก้ไข</a></th>
 						<th>จังหวัด</th>
 						<th>ละติจูด</th>
@@ -463,6 +464,9 @@ use App\Record;
 						<td>{{$select_record->record->name_th}}</td>
 						<td>{{$select_record->record->name_en}}</td>
 						<td>{{$select_record->record->branch}}</td>
+                        <td>
+                        <input type="text" name="branch_amount" id="branch_amount" class="form-control" value="{{$select_record->record->branch_amount}}" />
+                        </td>
 						<td>
 						@if($sale_filled['edit_address']!="none")
 							{{$sale_filled['edit_address']}}
@@ -555,6 +559,22 @@ use App\Record;
 				</table>
 			</div>
 			</div>
+            <br />
+        <div class="row">
+            <div class="col-xs-12">
+            <label>หมายเหตุ</label>
+            <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>หมายเหตุ</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="note" id="note" class="form-control">{{$sale_filled['note']}}</textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </div>
 		</div>
 		<hr>
 		<div class="row">

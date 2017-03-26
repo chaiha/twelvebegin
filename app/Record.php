@@ -128,12 +128,20 @@ class Record extends Model
         return $province;
     }
 
-    static public function check_duplicate_record($name_th,$name_en,$address)
+    static public function check_duplicate_record($name_th,$name_en,$province)
     {
-        $result = Record::where('name_th','=',$name_th)->orwhere('name_en','=',$name_en)->orwhere('address','=',$address)->first();
-        if($result!=NULL)
+        $check_dupl_name = Record::where('name_th','=',$name_th)->orwhere('name_en','=',$name_en)->first();
+        if($check_dupl_name!=NULL)
         {
-            return 1;
+            //check province is duplicate?
+            if($check_dupl_name->province==$province)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
         else
         {
@@ -157,28 +165,28 @@ class Record extends Model
 
     static public function amount_extend_priviledge()
     {
-        $result = Record::where('selective_status','=','extend')->get();
+        $result = Record::where('selective_status','=','extend')->where('status','=','Available')->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }
 
     static public function amount_waiting_record($sale_id)
     {
-        $result = Record::where('selective_status','=','waiting')->where('sale','=',$sale_id)->get();
+        $result = Record::where('selective_status','=','waiting')->where('sale','=',$sale_id)->where('status','=','Available')->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }
 
     static public function amount_noreply_record($sale_id)
     {
-        $result = Record::where('selective_status','=','noreply')->where('sale','=',$sale_id)->get();
+        $result = Record::where('selective_status','=','noreply')->where('sale','=',$sale_id)->where('status','=','Available')->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }
 
     static public function amount_new_record()
     {
-        $result = Record::where('selective_status','=','new')->get();
+        $result = Record::where('selective_status','=','new')->where('status','=','Available')->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }

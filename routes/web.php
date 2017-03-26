@@ -72,6 +72,9 @@ Route::get('/super/edit_redcord/success_edit_setting','SuperController@show_succ
 
 //--admin
 Route::get('/earnings','AdminController@earnings')->middleware('admin');
+Route::get('/admin/checkupdate','AdminController@check_is_update')->middleware('admin');
+Route::get('/admin/test_cookie','AdminController@test_cookie');
+Route::get('/admin/forget_cookie','AdminController@forget_cookie');
 Route::get('/admin/home','AdminController@index')->middleware('admin');
 Route::get('/admin/record/list_records','AdminController@list_records');
 Route::get('/admin/record/create_new_record', 'AdminController@create_new_record');
@@ -108,6 +111,7 @@ Route::get('/admin/select_record/select_sale/filter_extend/{sale_id}','AdminCont
 Route::get('/admin/select_record/select_sale/filter_waiting/{sale_id}','AdminController@filter_waiting_select_record');
 Route::get('/admin/select_record/select_sale/filter_noreply/{sale_id}','AdminController@filter_noreply_select_record');
 Route::get('/admin/select_record/select_sale/filter_new_record/{sale_id}','AdminController@filter_new_select_record');
+Route::get('/admin/select_record/show_selected_list_sale/{sale_id}','AdminController@show_selected_list_sale');
 
 
 Route::get('/admin/selected_record/reset_selected_record','AdminController@reset_selected_record');
@@ -144,5 +148,6 @@ Route::get('/sale/select_record/show_edit_preview_filled_record','CallController
 Route::post('/sale/select_record/submit_edit_filled_record','CallController@submit_edit_call_record');
 Route::get('/sale/select_record/call/success/{id}','CallController@call_success');
 Route::post('/sale/show_selected_record_list','CallController@submit_allresult_selected_record');
+Route::get('/sale/select_record/edit_record/{record_id}','CallController@edit_submit_record');
 
 

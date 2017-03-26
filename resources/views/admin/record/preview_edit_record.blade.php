@@ -21,6 +21,7 @@ use App\Record;
 <!-- Services Section -->
 <div class="container-fluid">
 	<div class="row">
+	<div class="col-md-12">
 		<div class="form-group">
 		<h1>Edit record</h1>
 		<h3>กรุณาตรวจทานข้อมูลก่อนยืนยัน</h3>
@@ -104,8 +105,8 @@ use App\Record;
 			</div>
 			<div class="col-xs-6">
 				<label>ลองติจูด.</label>
-				{{$record['longitude']}}
-				<input class="form-control" type="hidden" id="longitude" name="longitude" value="{{$record['longitude']}}"/>
+				{{$record['longtitude']}}
+				<input class="form-control" type="hidden" id="longtitude" name="longtitude" value="{{$record['longtitude']}}"/>
 			</div>
 		</div>
 		<div class="row">
@@ -170,6 +171,7 @@ use App\Record;
 		<a class="btn btn-danger" href="{{ url('admin/record/list_records') }}" role="button" id="cancel_btn">Cancel</a>
 		{{ Form::close() }}
 		</div>
+	</div>
 	</div>
 </div>
 

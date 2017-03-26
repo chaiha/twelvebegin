@@ -160,6 +160,7 @@ use App\Record;
 						<th>ชื่อภาษาไทย</th>
 						<th>ชื่อภาษาอังกฤษ</th>
 						<th>สาขา</th>
+						<th>จำนวนสาขา</th>
 						<th>ที่อยู่  </th>
 						<th>จังหวัด</th>
 						<th>ละติจูด</th>
@@ -169,6 +170,7 @@ use App\Record;
 						<td>{{$select_record->record->name_th}}</td>
 						<td>{{$select_record->record->name_en}}</td>
 						<td>{{$select_record->record->branch}}</td>
+						<td>{{$select_record->branch_amount}}</td>
 						<td>
 							@if($select_record->edit_address=="none")
 								{{$select_record->record->address}}
@@ -259,6 +261,31 @@ use App\Record;
 				</table>
 			</div>
 			</div>
+		<br />
+		<div class="row">
+			<div class="col-xs-12">
+			<label>หมายเหตุ</label>
+			<table class="table table-bordered table-striped">
+					<tr>
+						<th>หมายเหตุ</th>
+					</tr>
+					<tr>
+						<td>
+							<?php
+								if($select_record->note!=NULL)
+								{
+									echo($select_record->note);
+								}
+								else
+								{
+									echo "-";
+								}
+								?>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</div>
 		</div>
 		<hr>
 		<div class="row">
@@ -312,7 +339,7 @@ use App\Record;
 					?>
 					<br />
 
-				@elseif($select_record->record->result=="closed")
+				@elseif($select_record->result=="closed")
 					<span>ร้านปิดไปแล้ว</span><br />
 				@endif
 				

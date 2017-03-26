@@ -126,6 +126,7 @@ use App\SelectRecord;
 		    </tr>
 		  </thead>
 		  <tbody>
+		  @if($selected_record_list_extend!=NULL)
 		  @foreach ($selected_record_list_extend as $each_record_extend)
 		    <tr>
 		      <td>{{$each_record_extend->id}}</td>
@@ -156,6 +157,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_extend->updated_at}}</td>
 		    </tr>
 		   @endforeach
+		   @endif
 		  </tbody>
 		  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 		
@@ -194,6 +196,7 @@ use App\SelectRecord;
 		    </tr>
 		  </thead>
 		  <tbody>
+		  @if($selected_record_list_waiting!=NULL)
 		  @foreach ($selected_record_list_waiting as $each_record_waiting)
 		    <tr>
 		      <td>{{$each_record_waiting->id}}</td>
@@ -224,6 +227,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_waiting->updated_at}}</td>
 		    </tr>
 		   @endforeach
+		   @endif
 		  </tbody>
 		
 		</table>
@@ -261,6 +265,7 @@ use App\SelectRecord;
 		    </tr>
 		  </thead>
 		  <tbody>
+		  @if($selected_record_list_noreply!=NULL)
 		  @foreach ($selected_record_list_noreply as $each_record_noreply)
 		    <tr>
 		      <td>{{$each_record_noreply->id}}</td>
@@ -291,6 +296,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_noreply->updated_at}}</td>
 		    </tr>
 		   @endforeach
+		   @endif
 		  </tbody>
 		
 		</table>
@@ -328,6 +334,7 @@ use App\SelectRecord;
 		    </tr>
 		  </thead>
 		  <tbody>
+		  @if($selected_record_list_new!=NULL)
 		  @foreach ($selected_record_list_new as $each_record_new)
 		    <tr>
 		      <td>{{$each_record_new->id}}</td>
@@ -358,6 +365,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_new->updated_at}}</td>
 		    </tr>
 		   @endforeach
+		    @endif
 		  </tbody>
 		
 		</table>

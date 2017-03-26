@@ -113,5 +113,18 @@ class SelectRecord extends Model
     {
         return $this->hasOne('App\Record','id','record_id');
     }
-    
+
+    static public function increase_call_amount($record_id)
+    {
+        $record = SelectRecord::where('record_id','=',$record_id)->first();
+        $new_call_amount = $record->call_amount+1;
+        $record->call_amount = $new_call_amount;
+        $record->save();
+    }
+    static public function show_amount_select_record_sale($sale_id)
+    {
+        $result = SelectRecord::where('sale_id','=',$sale_id)->get();
+        $sizeof_result = sizeof($result);
+        return $sizeof_result;
+    }
 }

@@ -293,7 +293,7 @@ use App\Record;
 				<tr>
 					<td class="add_padding_15">
 					<?php
-						$result = Record::check_duplicate_record($preview_new_record_list_each['name_th'],$preview_new_record_list_each['name_en'],$preview_new_record_list_each['address']);
+						$result = Record::check_duplicate_record($preview_new_record_list_each['name_th'],$preview_new_record_list_each['name_en'],$preview_new_record_list_each['province']);
 						if($result=="1")
 						{
 							?>
