@@ -149,5 +149,8 @@ Route::post('/sale/select_record/submit_edit_filled_record','CallController@subm
 Route::get('/sale/select_record/call/success/{id}','CallController@call_success');
 Route::post('/sale/show_selected_record_list','CallController@submit_allresult_selected_record');
 Route::get('/sale/select_record/edit_record/{record_id}','CallController@edit_submit_record');
-
+Route::post('/sale/select_record/edit_record/','CallController@preview_edit_submit_record');
+Route::get('/sale/select_record/show_preview_edit_submit_record','CallController@show_preview_edit_submit_record');
+Route::post('/sale/select_record/show_preview_edit_submit_record','CallController@submit_edit_submit_record');
+Route::get('/sale/select_record/submit_ediit_submit_record/success/{record_id}','CallController@success_edit_submit_record');
 

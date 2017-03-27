@@ -324,7 +324,7 @@ use App\Record;
 		<div class="form-group">
 		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
-		{{Form::open(array('action' => 'CallController@submit_edit_call_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'CallController@preview_edit_submit_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-12">
@@ -585,7 +585,7 @@ use App\Record;
 				<div class="row <?php if($select_record->is_tel_correct=="0"){ echo "show"; }else{ echo "hide"; } ;?>" id="new_tel_form">
 					<div class="col-xs-12  add-margin-20">
 						<label>หมายเลขที่ถูกต้องคือ</label>
-						<input type="text" name="new_tel" id="new_tel" value="<?php if($select_record->is_tel_correct=="0"){ echo $select_record->new_tel; } ?>"/>
+						<input type="text" name="new_tel" id="new_tel" value="<?php if($select_record->is_tel_correct=="0"){ echo $select_record->wrong_number_new_tel_number; } ?>"/>
 					</div>
 				</div>
 			</div>

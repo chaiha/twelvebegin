@@ -483,6 +483,197 @@ class CallController extends Controller
         return view('sale.select.edit_submit_record')->with('select_record',$select_record)->with('user',$user);
     }
 
-}
+    public function preview_edit_submit_record(Request $request)
+    {
+        
+        $sale_filled_edit = array();
+        $sale_filled_edit['call_result'] = $request->input('call_result');
+        $call_result = $request->input('call_result');
+        $sale_filled_edit['is_tel_correct'] = $request->input('is_tel_correct');
+        $is_tel_correct = $request->input('is_tel_correct');
+        $sale_filled_edit['record_id'] = $request->input('record_id');
+        $record_id = $request->input('record_id');
+
+        $sale_filled_edit['branch_amount'] = $request->input('branch_amount');
+        $sale_filled_edit['note'] = $request->input('note');
+        $edit_address = $request->input('edit_address');
+        $edit_contact_person = $request->input('edit_contact_person');
+        if($edit_address!="")
+        {
+            //มีการแก้ไข address
+            $sale_filled_edit['edit_address'] = $edit_address;
+            
+        }
+        else
+        {
+            $sale_filled_edit['edit_address'] ="none";
+        }
+        if($edit_contact_person!="")
+        {
+            //มีการแก้ไข contact_person
+            $sale_filled_edit['edit_contact_person'] = $edit_contact_person;
+            
+        }
+        else
+        {
+            $sale_filled_edit['edit_contact_person']="none";
+        }
+        // print_r($sale_filled_edit['edit_address']);
+        // echo "<br />";
+        // print_r($sale_filled_edit['edit_contact_person']);
+        if($is_tel_correct=="0")
+        {
+            $sale_filled_edit['new_tel'] = $request->input('new_tel');
+        }
+        else
+        {
+            $sale_filled_edit['new_tel'] = "";
+        }
+
+        if($call_result=="yes")
+        {
+            $sale_filled_edit['feedback'] = $request->input('feedback');
+            $sale_filled_edit['condition'] = $request->input('condition');
+            $sale_filled_edit['start_priviledge_day'] = $request->input('start_priviledge_day');
+            $sale_filled_edit['start_priviledge_month'] = $request->input('start_priviledge_month');
+            $sale_filled_edit['start_priviledge_year'] = $request->input('start_priviledge_year');
+            $sale_filled_edit['end_priviledge_day'] = $request->input('end_priviledge_day');
+            $sale_filled_edit['end_priviledge_month'] = $request->input('end_priviledge_month');
+            $sale_filled_edit['end_priviledge_year'] = $request->input('end_priviledge_year');
+
+        }
+        else if($call_result=="no_reply")
+        {
+            $sale_filled_edit['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
+            $sale_filled_edit['cannot_contact_reason'] = $request->input('cannot_contact_reason');
+            $sale_filled_edit['cannot_contact_appointment_day'] = $request->input('cannot_contact_appointment_day');
+            $sale_filled_edit['cannot_contact_appointment_month'] = $request->input('cannot_contact_appointment_month');
+            $sale_filled_edit['cannot_contact_appointment_year'] = $request->input('cannot_contact_appointment_year');
+        }
+        else if($call_result=="rejected")
+        {
+            $sale_filled_edit['no_reason'] = $request->input('no_reason');
+            $sale_filled_edit['no_note'] = $request->input('no_note');
+        }
+        else if($call_result=="waiting")
+        {
+            $sale_filled_edit['consider_reason'] = $request->input('consider_reason');
+            $sale_filled_edit['consider_appointment_feedback_day'] = $request->input('consider_appointment_feedback_day');
+            $sale_filled_edit['consider_appointment_feedback_month'] = $request->input('consider_appointment_feedback_month');
+            $sale_filled_edit['consider_appointment_feedback_year'] = $request->input('consider_appointment_feedback_year');
+        }
+        else if($call_result=="closed")
+        {
+            $sale_filled_edit['closed'] = "1";
+        }
+
+        session(['sale_filled_edit' => $sale_filled_edit]);
+        
+        return redirect('/sale/select_record/show_preview_edit_submit_record');
+    }
+
+    public function show_preview_edit_submit_record()
+    {
+        // $sale_filled = session('sale_filled');
+        // print_r($sale_filled);
+        $user = session('user');
+        $sale_filled_edit = session('sale_filled_edit');
+        $record_id = $sale_filled_edit['record_id'];
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
+        $is_tel_correct = $sale_filled_edit['is_tel_correct'];
+        $edit_address = $sale_filled_edit['edit_address'];
+        $edit_contact_person = $sale_filled_edit['edit_contact_person'];
+        $call_result = $sale_filled_edit['call_result'];
+
+        return view('sale.select.show_preview_edit_submit_record')->with('sale_filled_edit',$sale_filled_edit)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
+    }
+
+    public function submit_edit_submit_record(Request $request)
+    {
+        //Submit all data to select_record
+        $user = session('user');
+        $sale_filled_edit = session('sale_filled_edit');
+        //$record = Record::where('id','=',$sale_filled_edit['record_id'])->first();
+        $select_record = SelectRecord::where('record_id','=',$sale_filled_edit['record_id'])->first();
+
+        $select_record->result = $sale_filled_edit['call_result'];
+        $select_record->result_date = date("Y-m-d");
+
+        $select_record->branch_amount = $sale_filled_edit['branch_amount'];
+        $select_record->note = $sale_filled_edit['note'];
+
+        if($sale_filled_edit['edit_address']!="")//มีการแก้ไข
+        {
+            $select_record->edit_address = $sale_filled_edit['edit_address'];
+        }
+
+        if($sale_filled_edit['edit_contact_person']!="")//มีการแก้ไข
+        {
+            $select_record->edit_contact_person = $sale_filled_edit['edit_contact_person'];
+        }
+
+        if($sale_filled_edit['call_result']=="yes")
+        {
+            $select_record->yes_sale_name = $user->first_name;
+            $select_record->yes_privilege_start = $sale_filled_edit['start_priviledge_year']."-".$sale_filled_edit['start_priviledge_month']."-".$sale_filled_edit['start_priviledge_day'];
+            $select_record->yes_privilege_end = $sale_filled_edit['end_priviledge_year']."-".$sale_filled_edit['end_priviledge_month']."-".$sale_filled_edit['end_priviledge_day'];
+            $select_record->yes_feedback = $sale_filled_edit['feedback'];
+            $select_record->yes_condition = $sale_filled_edit['condition'];
+
+            $select_record->status="Not_Available";
+        }
+        else if($sale_filled_edit['call_result']=="no_reply")
+        {
+            $select_record->cannot_contact_amount_call = $sale_filled_edit['cannot_contact_amount_call'];
+            $select_record->cannot_contact_reason = $sale_filled_edit['cannot_contact_reason'];
+            $select_record->cannot_contact_appointment = $sale_filled_edit['cannot_contact_appointment_year']."-".$sale_filled_edit['cannot_contact_appointment_month']."-".$sale_filled_edit['cannot_contact_appointment_day'];
+        }
+        else if($sale_filled_edit['call_result']=="rejected")
+        {
+            $select_record->no_reason = $sale_filled_edit['no_reason'];
+            $select_record->no_note = $sale_filled_edit['no_note'];
+            $select_record->status="Not_Available";
+        }
+        else if($sale_filled_edit['call_result']=="waiting")
+        {
+            $select_record->consider_reason = $sale_filled_edit['consider_reason'];
+            $select_record->consider_appointment_feedback = $sale_filled_edit['consider_appointment_feedback_year']."-".$sale_filled_edit['consider_appointment_feedback_month']."-".$sale_filled_edit['consider_appointment_feedback_day'];
+        }
+        else if($sale_filled_edit['call_result']=="closed")
+        {
+            $select_record->close = "1";
+            $select_record->status="Not_Available";
+        }
+
+        if($sale_filled_edit['is_tel_correct']=="0")
+        {
+            $select_record->is_tel_correct = "0";
+            $select_record->wrong_number_new_tel_number = $sale_filled_edit['new_tel'];
+        }
+        else
+        {
+            $select_record->is_tel_correct = "0";
+            $select_record->wrong_number_new_tel_number = "";
+        }
+        
+        $select_record->updated_by = $user->id;
+        $select_record->updated_at = date("Y-m-d H:i:s");
+        
+        $select_record->call_status ="called";
+
+        // print_r($select_record);
+        $select_record->save();
+
+        return redirect('/sale/select_record/submit_ediit_submit_record/success/'.$sale_filled_edit['record_id']);
+    }
+
+    public function success_edit_submit_record($record_id)
+    {
+        $user = session('user');
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
+        return view('sale.select.success_edit_submit_record')->with('select_record',$select_record);
+    }
+
+}   
 
 ?>
