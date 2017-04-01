@@ -54,6 +54,7 @@ use App\Record;
 						<th>Dtac Type</th>
 						<th>Categories</th>
 						<th>ประเภทร้าน</th>
+						<th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
 						<td>{{$select_record->record->no}}</td>
@@ -155,6 +156,9 @@ use App\Record;
 								
 								?>
 						</td>
+						<td>
+							{{$select_record->record->special_type}}
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -180,10 +184,13 @@ use App\Record;
 						<td>{{$select_record->record->branch}}</td>
 						<td>{{$sale_filled_edit['branch_amount']}}</td>
 						<td>
+						<?php
+
+						?>
 						@if($edit_address!="none")
 							{{$edit_address}}
 						@else
-							{{$select_record->record->address}}
+							{{$select_record->edit_address}}
 						@endif
 						</td>
 						<td>{{$select_record->record->province}}</td>
@@ -209,7 +216,7 @@ use App\Record;
 						@if($edit_contact_person!="none")
 							{{$edit_contact_person}}
 						@else
-							{{$select_record->record->contact_person}}
+							{{$select_record->edit_contact_person}}
 						@endif
 						</td>
 						<td>{{$select_record->record->contact_tel}}</td>

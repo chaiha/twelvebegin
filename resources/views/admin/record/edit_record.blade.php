@@ -48,7 +48,7 @@ use App\Record;
 		</div>
 		<br />
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>Sources.</label>
 				<select name="sources"  class="selectpicker">
 					<option value="online_search" <?php if($record->sources=="online_search"){echo "selected";}?>>Online Search</option>
@@ -56,7 +56,7 @@ use App\Record;
 					<option value="walking" <?php if($record->sources=="walking"){echo "selected";}?>>Walking</option>
 				</select>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>Categories.</label>
 				<select name="categories"  class="selectpicker">
 					<option value="dinning_and_beverage" <?php if($record->categories=="dinning_and_beverage"){echo "selected";}?>>Dining & Beverage</option>
@@ -66,7 +66,7 @@ use App\Record;
 					<option value="online" <?php if($record->categories=="dinning_and_beverage"){echo "selected";}?>>Online</option>
 				</select>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>Dtac Type.</label>
 				<select name="dtac_type"  class="selectpicker">
 					<option value="ร้านกทม" <?php if($record->dtac_type=="ร้านกทม"){echo "selected";}?>>ร้าน กทม</option>
@@ -77,13 +77,17 @@ use App\Record;
 					<option value="ร้านเฉพาะอาร์ทเวิร์ค" <?php if($record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>ร้านเฉพาะอาร์ทเวิร์ค</option>
 				</select>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>ประเภทร้าน.</label>
 				<select name="shop_type"  class="selectpicker">
 					<option value="ร้านเบ็ดเตล็ด" <?php if($record->shop_type=="ร้านเบ็ดเตล็ด"){echo "selected";}?>>ร้าน เบ็ดเตล็ด</option>
 					<option value="ร้านอาหาร" <?php if($record->shop_type=="ร้านอาหาร"){echo "selected";}?>>ร้าน อาหาร</option>
 					<option value="ร้านอาหารนานาชาติ" <?php if($record->shop_type=="ร้านอาหารนานาชาติ"){echo "selected";}?>>ร้าน อาหารนานาชาติ</option>
 				</select>
+			</div>
+			<div class="col-xs-4">
+				<label>ประเภทร้านค้าพิเศษ</label>
+				<input type="text" name="special_type" id="special_type" value="{{$record->special_type}}" class="form-control"/>
 			</div>
 		</div>
 		<div class="row">

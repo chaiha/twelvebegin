@@ -269,6 +269,7 @@ use App\Record;
 					<th class="add_padding_15">Categories</th>
 					<th class="add_padding_15">Dtac Type</th>
 					<th class="add_padding_15">ประเภทร้าน</th>
+					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย</th>
 					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
@@ -388,7 +389,8 @@ use App\Record;
 						}
 						
 						?>
-											</td>
+					</td>
+					<td class="add_padding_15">{{$preview_new_record_list_each['special_type']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_th']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_en']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['branch']}}</td>

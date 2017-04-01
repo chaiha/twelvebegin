@@ -168,14 +168,15 @@ class CallController extends Controller
     {
         $user = session('user');
         $sale_filled = session('sale_filled');
-        $record_id = $sale_filled['record_id'];
-        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
-        $is_tel_correct = $sale_filled['is_tel_correct'];
-        $edit_address = $sale_filled['edit_address'];
-        $edit_contact_person = $sale_filled['edit_contact_person'];
-        $call_result = $sale_filled['call_result'];
+        print_r($sale_filled);
+        // $record_id = $sale_filled['record_id'];
+        // $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
+        // $is_tel_correct = $sale_filled['is_tel_correct'];
+        // $edit_address = $sale_filled['edit_address'];
+        // $edit_contact_person = $sale_filled['edit_contact_person'];
+        // $call_result = $sale_filled['call_result'];
 
-        return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
+        // return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
     }
 
     public function submit_filled_record()//16032560
@@ -379,99 +380,105 @@ class CallController extends Controller
     {
         /*
             1.get the records by sale_id in select_records
-            2.update result by using record_id in records.
-            2.1 if the result is "yes" copy record to yes_record table.
-            3.remove records in select_record.
+            [this should be in the step after admin approve]
+                2.update result by using record_id in records.
+                2.1 if the result is "yes" copy record to yes_record table.
+                3.remove records in select_record.
             4.redirect back to show_selected_record_list.
         */
         $user = session('user');
         $sale_id = $request->input('sale_id');
-        $sale_selected_record = SelectRecord::where('sale_id','=',$sale_id)->get();
-        foreach ($sale_selected_record as $sale_selected_record_each ) 
-        {
-            $updated_record = Record::where('id','=',$sale_selected_record_each->record_id)->first();
-            if($sale_selected_record_each->result=="")
-            {
-                $updated_record->status = "Available";
-            }
-            else
-            {
-                $updated_record->status = "Not_Available";
-            }
-            $updated_record->sale = $user->id;
-            if($sale_selected_record_each->edit_address!="none")
-            {
-                $updated_record->address = $sale_selected_record_each->edit_address;
-            }
-            if($sale_selected_record_each->edit_contact_person!="none")
-            {
-                $updated_record->contact_person = $sale_selected_record_each->edit_contact_person;
-            }
-            $updated_record->result = $sale_selected_record_each->result;
-            $updated_record->result_date = $sale_selected_record_each->result_date;
-            $updated_record->yes_sale_name = $sale_selected_record_each->yes_sale_name;
-            $updated_record->yes_privilege_start = $sale_selected_record_each->yes_privilege_start;
-            $updated_record->yes_privilege_end = $sale_selected_record_each->yes_privilege_end;
-            $updated_record->yes_feedback = $sale_selected_record_each->yes_feedback;
-            $updated_record->yes_condition = $sale_selected_record_each->yes_condition;
-            $updated_record->no_reason = $sale_selected_record_each->no_reason;
-            $updated_record->no_note = $sale_selected_record_each->no_note;
-            $updated_record->cannot_contact_amount_call = $sale_selected_record_each->cannot_contact_amount_call;
-            $updated_record->cannot_contact_reason = $sale_selected_record_each->cannot_contact_reason;
-            $updated_record->cannot_contact_appointment = $sale_selected_record_each->cannot_contact_appointment;
-            $updated_record->cannot_contact_times = $updated_record->cannot_contact_times+1;
-            $updated_record->consider_reason = $sale_selected_record_each->consider_reason;
-            $updated_record->consider_appointment_feedback = $sale_selected_record_each->consider_appointment_feedback;
-            $updated_record->is_tel_correct = $sale_selected_record_each->is_tel_correct;
-            $updated_record->wrong_number_new_tel_number = $sale_selected_record_each->wrong_number_new_tel_number;
-            $updated_record->close = $sale_selected_record_each->close;
-            $updated_record->result_remark = $sale_selected_record_each->result_remark;
-            $updated_record->updated_by = $sale_selected_record_each->updated_by;
-            $updated_record->updated_at = $sale_selected_record_each->updated_at;
+        //Update all records of this sale_id
+        SelectRecord::where('sale_id','=',$sale_id)->update(['sending_status'=>'sent']);
+        return redirect('/sale/show_selected_record_list');
 
-            // echo "<h1>updated_record</h1>";
-            // print_r($updated_record);
-            // echo "<br /><br /><br /><br />";
-            $updated_record->save();
+        // foreach ($sale_selected_record as $sale_selected_record_each ) 
+        // {
+
+        //2.update result by using record_id in records.
+            // $updated_record = Record::where('id','=',$sale_selected_record_each->record_id)->first();
+            // if($sale_selected_record_each->result=="")
+            // {
+            //     $updated_record->status = "Available";
+            // }
+            // else
+            // {
+            //     $updated_record->status = "Not_Available";
+            // }
+            // $updated_record->sale = $user->id;
+            // if($sale_selected_record_each->edit_address!="none")
+            // {
+            //     $updated_record->address = $sale_selected_record_each->edit_address;
+            // }
+            // if($sale_selected_record_each->edit_contact_person!="none")
+            // {
+            //     $updated_record->contact_person = $sale_selected_record_each->edit_contact_person;
+            // }
+            // $updated_record->result = $sale_selected_record_each->result;
+            // $updated_record->result_date = $sale_selected_record_each->result_date;
+            // $updated_record->yes_sale_name = $sale_selected_record_each->yes_sale_name;
+            // $updated_record->yes_privilege_start = $sale_selected_record_each->yes_privilege_start;
+            // $updated_record->yes_privilege_end = $sale_selected_record_each->yes_privilege_end;
+            // $updated_record->yes_feedback = $sale_selected_record_each->yes_feedback;
+            // $updated_record->yes_condition = $sale_selected_record_each->yes_condition;
+            // $updated_record->no_reason = $sale_selected_record_each->no_reason;
+            // $updated_record->no_note = $sale_selected_record_each->no_note;
+            // $updated_record->cannot_contact_amount_call = $sale_selected_record_each->cannot_contact_amount_call;
+            // $updated_record->cannot_contact_reason = $sale_selected_record_each->cannot_contact_reason;
+            // $updated_record->cannot_contact_appointment = $sale_selected_record_each->cannot_contact_appointment;
+            // $updated_record->cannot_contact_times = $updated_record->cannot_contact_times+1;
+            // $updated_record->consider_reason = $sale_selected_record_each->consider_reason;
+            // $updated_record->consider_appointment_feedback = $sale_selected_record_each->consider_appointment_feedback;
+            // $updated_record->is_tel_correct = $sale_selected_record_each->is_tel_correct;
+            // $updated_record->wrong_number_new_tel_number = $sale_selected_record_each->wrong_number_new_tel_number;
+            // $updated_record->close = $sale_selected_record_each->close;
+            // $updated_record->result_remark = $sale_selected_record_each->result_remark;
+            // $updated_record->updated_by = $sale_selected_record_each->updated_by;
+            // $updated_record->updated_at = $sale_selected_record_each->updated_at;
+
+            // // echo "<h1>updated_record</h1>";
+            // // print_r($updated_record);
+            // // echo "<br /><br /><br /><br />";
+            // $updated_record->save();
 
             //2.1copy result to yes_record table
-            if($sale_selected_record_each->result=="yes")
-            {
+            // if($sale_selected_record_each->result=="yes")
+            // {
 
-                $yes_records = new YesRecords;
-                $yes_records->record_id = $sale_selected_record_each->record_id; 
-                $yes_records->sale_id = $user->id;
-                $yes_records->result = $sale_selected_record_each->result; 
-                $yes_records->result_date = date("Y-m-d");
-                $yes_records->yes_sale_name = $user->first_name;
-                $yes_records->yes_privilege_start = $sale_selected_record_each->yes_privilege_start;
-                $yes_records->yes_privilege_end = $sale_selected_record_each->yes_privilege_end;
-                $yes_records->yes_feedback = $sale_selected_record_each->yes_feedback;
-                $yes_records->yes_condition = $sale_selected_record_each->yes_condition;
-                $yes_records->created_at = date("Y-m-d");
-                $yes_records->created_by = $user->id;
-                $yes_records->updated_at = date("Y-m-d");
-                $yes_records->updated_by = $user->id;
-                $yes_records->save();
+            //     $yes_records = new YesRecords;
+            //     $yes_records->record_id = $sale_selected_record_each->record_id; 
+            //     $yes_records->sale_id = $user->id;
+            //     $yes_records->result = $sale_selected_record_each->result; 
+            //     $yes_records->result_date = date("Y-m-d");
+            //     $yes_records->yes_sale_name = $user->first_name;
+            //     $yes_records->yes_privilege_start = $sale_selected_record_each->yes_privilege_start;
+            //     $yes_records->yes_privilege_end = $sale_selected_record_each->yes_privilege_end;
+            //     $yes_records->yes_feedback = $sale_selected_record_each->yes_feedback;
+            //     $yes_records->yes_condition = $sale_selected_record_each->yes_condition;
+            //     $yes_records->created_at = date("Y-m-d");
+            //     $yes_records->created_by = $user->id;
+            //     $yes_records->updated_at = date("Y-m-d");
+            //     $yes_records->updated_by = $user->id;
+            //     $yes_records->save();
 
                 // echo "<h1>yes_records</h1>";
                 // print_r($yes_records);
                 // echo "<br /><br /><br /><br />";
 
-            }
+            // }
 
             //3.remove select_record from select_record table
             //$delete_select_record = SelectRecord::where('record_id','=',$sale_selected_record_each->record_id)->first();
             //$delete_select_record->delete();
 
             //3.1 update call_status to be "called"
-            $called_select_record = SelectRecord::where('record_id','=',$sale_selected_record_each->record_id)->first();
-            $called_select_record->call_status = "called";
-            $called_select_record->save();
-        }
+       //      $called_select_record = SelectRecord::where('record_id','=',$sale_selected_record_each->record_id)->first();
+       //      $called_select_record->call_status = "called";
+       //      $called_select_record->save();
+       //  }
 
-        //4.redirect to show_selected_record_list.
-       return redirect('/sale/show_selected_record_list');
+       //  //4.redirect to show_selected_record_list.
+       // return redirect('/sale/show_selected_record_list');
 
     }
 
@@ -576,6 +583,7 @@ class CallController extends Controller
     {
         // $sale_filled = session('sale_filled');
         // print_r($sale_filled);
+        
         $user = session('user');
         $sale_filled_edit = session('sale_filled_edit');
         $record_id = $sale_filled_edit['record_id'];

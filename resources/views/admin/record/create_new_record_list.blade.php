@@ -265,6 +265,7 @@ use App\Record;
 					<th class="add_padding_15">Categories</th>
 					<th class="add_padding_15">Dtac Type</th>
 					<th class="add_padding_15">ประเภทร้าน</th>
+					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย</th>
 					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
@@ -319,6 +320,7 @@ use App\Record;
 							<option value="ร้านอาหารนานาชาติ" >ร้าน อาหารนานาชาติ</option>
 						</select>
 					</td>
+					<th class="add_padding_15"><input type="text" name="special_type-{{$i}}" id="special_type" value=""></th>
 					<td class="add_padding_15"><input type="text" name="name_th-{{$i}}" id="name_th-{{$i}}" value="" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en-{{$i}}" id="name_en-{{$i}}" value="" /></td>
 					<td class="add_padding_15">

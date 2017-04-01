@@ -340,6 +340,7 @@ use App\Record;
 						<th>Dtac Type</th>
 						<th>Categories</th>
 						<th>ประเภทร้าน</th>
+                        <th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
 						<td>{{$select_record->record->no}}</td>
@@ -441,6 +442,9 @@ use App\Record;
 								
 								?>
 						</td>
+                        <td>
+                            {{$select_record->record->special_type}}
+                        </td>
 					</tr>
 				</table>
 			</div>

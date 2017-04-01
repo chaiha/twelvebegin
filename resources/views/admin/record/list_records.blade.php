@@ -17,6 +17,7 @@ use App\Record;
 		      <th>source</th>
 		      <th>status</th>
 		      <th>categories</th>
+		      <th>ประเภทร้านค้าพิเศษ</th>
 		      <th>name_th</th>
 		      <th>name_en</th>
 		      <th>province</th>
@@ -39,6 +40,7 @@ use App\Record;
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->status}}</td>
 		      <td>{{$each_record->categories}}</td>
+		      <td>{{$each_record->special_type}}</td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->province}}</td>

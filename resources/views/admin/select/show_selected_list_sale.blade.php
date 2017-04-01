@@ -31,6 +31,7 @@ use App\User;
 		      <th>ผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>name th</th>
 		      <th>name en</th>
 		      <th>branch</th>
@@ -57,6 +58,7 @@ use App\User;
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
 		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->name_th}}</td>
 		      <td>{{$each_record->record->name_en}}</td>
 		      <td>{{$each_record->record->branch}}</td>
@@ -94,6 +96,7 @@ use App\User;
 		      <th>ผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>name th</th>
 		      <th>name en</th>
 		      <th>branch</th>
@@ -120,6 +123,7 @@ use App\User;
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
 		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->name_th}}</td>
 		      <td>{{$each_record->record->name_en}}</td>
 		      <td>{{$each_record->record->branch}}</td>
@@ -157,6 +161,7 @@ use App\User;
 		      <th>ผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>name th</th>
 		      <th>name en</th>
 		      <th>branch</th>
@@ -183,6 +188,7 @@ use App\User;
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
 		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->name_th}}</td>
 		      <td>{{$each_record->record->name_en}}</td>
 		      <td>{{$each_record->record->branch}}</td>
@@ -220,6 +226,7 @@ use App\User;
 		      <th>ผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>name th</th>
 		      <th>name en</th>
 		      <th>branch</th>
@@ -246,6 +253,7 @@ use App\User;
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
 		      <td>{{$each_record->record->code}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->name_th}}</td>
 		      <td>{{$each_record->record->name_en}}</td>
 		      <td>{{$each_record->record->branch}}</td>

@@ -274,6 +274,7 @@ use App\Record;
 					<th class="add_padding_15">Categories</th>
 					<th class="add_padding_15">Dtac Type</th>
 					<th class="add_padding_15">ประเภทร้าน</th>
+					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย</th>
 					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
@@ -333,6 +334,7 @@ use App\Record;
 							<option value="ร้านอาหารนานาชาติ" <?php if($edit_new_record_list_each['shop_type']=="ร้านอาหารนานาชาติ"){echo "selected";}?>>ร้าน อาหารนานาชาติ</option>
 						</select>
 					</td>
+					<td class="add_padding_15"><input type="text" name="special_type-{{$i}}" id="special_type-{{$i}}" value="{{$edit_new_record_list_each['special_type']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="name_th-{{$i}}" id="name_th-{{$i}}" value="{{$edit_new_record_list_each['name_th']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en-{{$i}}" id="name_en-{{$i}}" value="{{$edit_new_record_list_each['name_en']}}" /></td>
 					<td class="add_padding_15">

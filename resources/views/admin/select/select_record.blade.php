@@ -112,6 +112,7 @@ use App\SelectRecord;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>dtact type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
 		      <th>deadline</th>
@@ -144,6 +145,7 @@ use App\SelectRecord;
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->categories}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
+		      <td>{{$each_record->special_type}}</td>
 		      <td>{{$each_record->input_date}}</td>
 		      <td>{{$each_record->distributed_date}}</td>
 		      <td>{{$each_record->deadline}}</td>

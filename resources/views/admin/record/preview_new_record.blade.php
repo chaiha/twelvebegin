@@ -45,25 +45,30 @@ use App\Record;
 		</div>
 		<br />
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>Sources.</label>
 				{{$record['sources']}}
 				<input class="form-control" type="hidden" id="sources" name="sources" value="{{$record['sources']}}"/>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>Categories.</label>
 				{{$record['categories']}}
 				<input class="form-control" type="hidden" id="categories" name="categories" value="{{$record['categories']}}"/>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>Dtac Type.</label>
 				{{$record['dtac_type']}}
 				<input class="form-control" type="hidden" id="dtac_type" name="dtac_type" value="{{$record['dtac_type']}}"/>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<label>ประเภทร้าน.</label>
 				{{$record['shop_type']}}
 				<input class="form-control" type="hidden" id="shop_type" name="shop_type" value="{{$record['shop_type']}}"/>
+			</div>
+			<div class="col-xs-4">
+				<label>ประเภทร้านพิเศษ.</label>
+				{{$record['special_type']}}
+				<input class="form-control" type="hidden" id="special_type" name="special_type" value="{{$record['special_type']}}"/>
 			</div>
 		</div>
 		<div class="row">

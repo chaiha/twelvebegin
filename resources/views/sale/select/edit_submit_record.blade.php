@@ -322,7 +322,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
+		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?></h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@preview_edit_submit_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -340,6 +340,7 @@ use App\Record;
 						<th>Dtac Type</th>
 						<th>Categories</th>
 						<th>ประเภทร้าน</th>
+                        <th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
 						<td>{{$select_record->record->no}}</td>
@@ -441,6 +442,9 @@ use App\Record;
 								
 								?>
 						</td>
+                        <td>
+                            {{$select_record->record->special_type}}
+                        </td>
 					</tr>
 				</table>
 			</div>
@@ -608,13 +612,13 @@ use App\Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>Feedback: </label>
-							<input type="text" name="feedback" id="feedback" value="<?php if($select_record->result=="yes"){ echo $select_record->feedback; } ?>" class="form-control yes_form"/>
+							<input type="text" name="feedback" id="feedback" value="<?php if($select_record->result=="yes"){ echo $select_record->yes_feedback; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เงื่อนไขเพิ่มเติม: </label>
-							<input type="text" name="condition" id="condition" value="<?php if($select_record->result=="yes"){ echo $select_record->condition; } ?>" class="form-control yes_form"/>
+							<input type="text" name="condition" id="condition" value="<?php if($select_record->result=="yes"){ echo $select_record->yes_condition; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
@@ -794,7 +798,7 @@ use App\Record;
 		</div>
 		<br />
 		<a class="btn btn-success" href="#" role="button" id="confirm_btn">ยืนยันแก้ไข</a>
-		<a class="btn btn-danger" href="{{ url('sale/select_record/show_preview_filled_record') }}" role="button" id="cancel_btn">ยกเลิกแก้ไข</a>
+		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">ยกเลิกแก้ไข</a>
 		{{Form::close() }}
 		</div>
 	</div>

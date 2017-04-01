@@ -348,6 +348,7 @@ class AdminController extends Controller
         $record['latitude'] = $request->input('latitude');
         $record['longtitude'] = $request->input('longtitude');
         $record['shop_type'] = $request->input('shop_type');
+        $record['special_type'] = $request->input('special_type');
         $record['contact_person'] = $request->input('contact_person');
         $record['contact_email'] = $request->input('contact_email');
         $record['contact_day'] = $request->input('contact_day');
@@ -396,6 +397,7 @@ class AdminController extends Controller
         $record->latitude = $request->input('latitude');
         $record->longtitude = $request->input('longtitude');
         $record->shop_type = $request->input('shop_type');
+        $record->special_type = $request->input('special_type');
         $record->contact_person = $request->input('contact_person');
         $record->contact_email = $request->input('contact_email');
         $contact_date = $request->input('contact_year')."-".$request->input('contact_day')."-".$request->input('contact_month');
@@ -448,6 +450,7 @@ class AdminController extends Controller
         $record['latitude'] = $request->input('latitude');
         $record['longtitude'] = $request->input('longtitude');
         $record['shop_type'] = $request->input('shop_type');
+        $record['special_type'] = $request->input('special_type');
         $record['contact_person'] = $request->input('contact_person');
         $record['contact_email'] = $request->input('contact_email');
         $record['contact_day'] = $request->input('contact_day');
@@ -491,6 +494,7 @@ class AdminController extends Controller
         $record->latitude = $request->input('latitude');
         $record->longtitude = $request->input('longtitude');
         $record->shop_type = $request->input('shop_type');
+        $record->special_type = $request->input('special_type');
         $record->contact_person = $request->input('contact_person');
         $record->contact_email = $request->input('contact_email');
         $contact_date = $request->input('contact_year')."-".$request->input('contact_day')."-".$request->input('contact_month');
@@ -865,6 +869,7 @@ class AdminController extends Controller
                 $select_record_extend = new SelectRecord;
                 $select_record_extend->record_id = $selected_record_each->id;
                 $select_record_extend->selective_status = $selected_record_each->selective_status;
+                $select_record_extend->distributed_date = date("Y-m-d"); 
                 $select_record_extend->sale_id =  $sale->id;
                 $select_record_extend->available_start = date("Y-m-d");
                 $select_record_extend->available_end = date( "Y-m-d", strtotime( "$dt +7 day" ) );
@@ -874,6 +879,9 @@ class AdminController extends Controller
                 $select_record_extend->updated_by =$user->id;
                 $select_record_extend->save();
                 
+                $record = Record::where('id','=',$selected_record_each->id)->first();
+                $record->distributed_date = date("Y-m-d");
+                $record->save();
                 
             }
         }
@@ -886,6 +894,7 @@ class AdminController extends Controller
                 $select_record_waiting = new SelectRecord;
                 $select_record_waiting->record_id = $selected_record_each->id;
                 $select_record_waiting->selective_status = $selected_record_each->selective_status;
+                $select_record_waiting->distributed_date = date("Y-m-d"); 
                 $select_record_waiting->sale_id =  $sale->id;
                 $select_record_waiting->available_start = date("Y-m-d");
                 $select_record_waiting->available_end = date( "Y-m-d", strtotime( "$dt +7 day" ) );
@@ -895,7 +904,9 @@ class AdminController extends Controller
                 $select_record_waiting->updated_by =$user->id;
                 $select_record_waiting->save();
             
-                
+                $record = Record::where('id','=',$selected_record_each->id)->first();
+                $record->distributed_date = date("Y-m-d");
+                $record->save();
             }
         }
         if($selected_record_list_noreply!=NULL)
@@ -907,6 +918,7 @@ class AdminController extends Controller
                 $select_record_noreply = new SelectRecord;
                 $select_record_noreply->record_id = $selected_record_each->id;
                 $select_record_noreply->selective_status = $selected_record_each->selective_status;
+                $select_record_noreply->distributed_date = date("Y-m-d"); 
                 $select_record_noreply->sale_id =  $sale->id;
                 $select_record_noreply->available_start = date("Y-m-d");
                 $select_record_noreply->available_end = date( "Y-m-d", strtotime( "$dt +7 day" ) );
@@ -916,7 +928,9 @@ class AdminController extends Controller
                 $select_record_noreply->updated_by =$user->id;
                 $select_record_noreply->save();
                 
-                
+                $record = Record::where('id','=',$selected_record_each->id)->first();
+                $record->distributed_date = date("Y-m-d");
+                $record->save();
             }
         }
         if($selected_record_list_new!=NULL)
@@ -928,6 +942,7 @@ class AdminController extends Controller
                 $select_record_new = new SelectRecord;
                 $select_record_new->record_id = $selected_record_each->id;
                 $select_record_new->selective_status = $selected_record_each->selective_status;
+                $select_record_new->distributed_date = date("Y-m-d"); 
                 $select_record_new->sale_id =  $sale->id;
                 $select_record_new->available_start = date("Y-m-d");
                 $select_record_new->available_end = date( "Y-m-d", strtotime( "$dt +7 day" ) );
@@ -937,7 +952,9 @@ class AdminController extends Controller
                 $select_record_new->updated_by =$user->id;
                 $select_record_new->save();
                 
-                
+                $record = Record::where('id','=',$selected_record_each->id)->first();
+                $record->distributed_date = date("Y-m-d");
+                $record->save();
             }
         }
         return Redirect('/admin/selected_record/select_sale/success/'.$sale->id);
@@ -978,6 +995,7 @@ class AdminController extends Controller
                 $record_list_array[$j]['categories'] = $request->input('categories-'.$i);
                 $record_list_array[$j]['dtac_type'] = $request->input('dtac_type-'.$i);
                 $record_list_array[$j]['shop_type'] = $request->input('shop_type-'.$i);
+                $record_list_array[$j]['special_type'] = $request->input('special_type-'.$i);
                 $record_list_array[$j]['name_th'] = $request->input('name_th-'.$i);
                 $record_list_array[$j]['name_en'] = $request->input('name_en-'.$i);
                 $record_list_array[$j]['branch'] = $request->input('branch-'.$i);
@@ -1028,6 +1046,7 @@ class AdminController extends Controller
         $array_new_record[$id_array]['categories'] = $request->input('categories_edit');
         $array_new_record[$id_array]['dtac_type'] = $request->input('dtac_type_edit');
         $array_new_record[$id_array]['shop_type'] = $request->input('shop_type_edit');
+        $array_new_record[$id_array]['special_type'] = $request->input('special_type');
         $array_new_record[$id_array]['name_th'] = $request->input('name_th_edit');
         $array_new_record[$id_array]['name_en'] = $request->input('name_en_edit');
         $array_new_record[$id_array]['branch'] = $request->input('branch_edit');
@@ -1066,6 +1085,7 @@ class AdminController extends Controller
                 $record_list_array[$j]['categories'] = $request->input('categories-'.$i);
                 $record_list_array[$j]['dtac_type'] = $request->input('dtac_type-'.$i);
                 $record_list_array[$j]['shop_type'] = $request->input('shop_type-'.$i);
+                $record_list_array[$j]['special_type'] = $request->input('special_type-'.$i);
                 $record_list_array[$j]['name_th'] = $request->input('name_th-'.$i);
                 $record_list_array[$j]['name_en'] = $request->input('name_en-'.$i);
                 $record_list_array[$j]['branch'] = $request->input('branch-'.$i);
@@ -1121,6 +1141,7 @@ class AdminController extends Controller
             $new_record->categories = $record_list_each['categories'];
             $new_record->dtac_type = $record_list_each['dtac_type'];
             $new_record->shop_type = $record_list_each['shop_type'];
+            $new_record->special_type = $record_list_each['special_type'];
             $new_record->name_th = $record_list_each['name_th'];
             $new_record->name_en = $record_list_each['name_en'];
             $new_record->branch = $record_list_each['branch'];

@@ -105,6 +105,7 @@ use App\SelectRecord;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>dtact type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
 		      <th>deadline</th>
@@ -137,6 +138,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_extend->sources}}</td>
 		      <td>{{$each_record_extend->categories}}</td>
 		      <td>{{$each_record_extend->dtac_type}}</td>
+		      <td>{{$each_record_extend->special_type}}</td>
 		      <td>{{$each_record_extend->input_date}}</td>
 		      <td>{{$each_record_extend->distributed_date}}</td>
 		      <td>{{$each_record_extend->deadline}}</td>
@@ -175,6 +177,7 @@ use App\SelectRecord;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>dtact type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
 		      <th>deadline</th>
@@ -207,6 +210,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_waiting->sources}}</td>
 		      <td>{{$each_record_waiting->categories}}</td>
 		      <td>{{$each_record_waiting->dtac_type}}</td>
+		      <td>{{$each_record_waiting->special_type}}</td>
 		      <td>{{$each_record_waiting->input_date}}</td>
 		      <td>{{$each_record_waiting->distributed_date}}</td>
 		      <td>{{$each_record_waiting->deadline}}</td>
@@ -244,6 +248,7 @@ use App\SelectRecord;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>dtact type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
 		      <th>deadline</th>
@@ -276,6 +281,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_noreply->sources}}</td>
 		      <td>{{$each_record_noreply->categories}}</td>
 		      <td>{{$each_record_noreply->dtac_type}}</td>
+		      <td>{{$each_record_noreply->special_type}}</td>
 		      <td>{{$each_record_noreply->input_date}}</td>
 		      <td>{{$each_record_noreply->distributed_date}}</td>
 		      <td>{{$each_record_noreply->deadline}}</td>
@@ -313,6 +319,7 @@ use App\SelectRecord;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>dtact type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
 		      <th>deadline</th>
@@ -345,6 +352,7 @@ use App\SelectRecord;
 		      <td>{{$each_record_new->sources}}</td>
 		      <td>{{$each_record_new->categories}}</td>
 		      <td>{{$each_record_new->dtac_type}}</td>
+		      <td>{{$each_record_new->special_type}}</td>
 		      <td>{{$each_record_new->input_date}}</td>
 		      <td>{{$each_record_new->distributed_date}}</td>
 		      <td>{{$each_record_new->deadline}}</td>

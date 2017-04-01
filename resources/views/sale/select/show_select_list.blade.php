@@ -4,7 +4,10 @@
 <script type="text/javascript">
 function submit_all_result()
 {
-	document.getElementById("submit_form").submit();
+	if(confirm("กรุณายืนยันเพื่อส่งข้อมูลให้ Admin?"))
+	{
+		document.getElementById("submit_form").submit();	
+	}
 }
 </script>
 @stop
@@ -28,6 +31,7 @@ use App\User;
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+              <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
 		      <th>ผลการโทร</th>
@@ -40,6 +44,7 @@ use App\User;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>shop type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
@@ -56,6 +61,14 @@ use App\User;
 		  <tbody>
 		  @foreach ($record_list_extend as $each_record)
 		    <tr>
+		      <td>
+		      <?php
+		      	if($each_record->sending_status=="sent")
+		      	{
+		      		echo "ข้อมูลได้ถูกส่งแล้ว";
+		      	}
+		      ?>
+		      </td>
               <td>
               <?php
               if($each_record->result=="yes")
@@ -90,7 +103,7 @@ use App\User;
               }
               ?>
               <td>
-              @if($each_record->call_status=="called")
+              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
               -
@@ -106,6 +119,7 @@ use App\User;
 		      <td>{{$each_record->record->sources}}</td>
 		      <td>{{$each_record->record->categories}}</td>
 		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->dtac_type}}</td>
 		      <td>{{$each_record->record->input_date}}</td>
 		      <td>{{$each_record->record->distributed_date}}</td>
@@ -133,6 +147,7 @@ use App\User;
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+		      <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
 		      <th>ผลการโทร</th>
@@ -145,6 +160,7 @@ use App\User;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>shop type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
@@ -161,6 +177,14 @@ use App\User;
 		  <tbody>
 		  @foreach ($record_list_waiting as $each_record)
 		    <tr>
+		      <td>
+		      <?php
+		      	if($each_record->sending_status=="sent")
+		      	{
+		      		echo "ข้อมูลได้ถูกส่งแล้ว";
+		      	}
+		      ?>
+		      </td>
               <td>
               <?php
               if($each_record->result=="yes")
@@ -195,7 +219,7 @@ use App\User;
               }
               ?>
               <td>
-              @if($each_record->call_status=="called")
+              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
               -
@@ -211,6 +235,7 @@ use App\User;
 		      <td>{{$each_record->record->sources}}</td>
 		      <td>{{$each_record->record->categories}}</td>
 		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->dtac_type}}</td>
 		      <td>{{$each_record->record->input_date}}</td>
 		      <td>{{$each_record->record->distributed_date}}</td>
@@ -238,6 +263,7 @@ use App\User;
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+		      <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
 		      <th>ผลการโทร</th>
@@ -250,6 +276,7 @@ use App\User;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>shop type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
@@ -266,6 +293,14 @@ use App\User;
 		  <tbody>
 		  @foreach ($record_list_noreply as $each_record)
 		    <tr>
+		      <td>
+		      <?php
+		      	if($each_record->sending_status=="sent")
+		      	{
+		      		echo "ข้อมูลได้ถูกส่งแล้ว";
+		      	}
+		      ?>
+		      </td>
               <td>
               <?php
               if($each_record->result=="yes")
@@ -300,7 +335,7 @@ use App\User;
               }
               ?>
               <td>
-              @if($each_record->call_status=="called")
+              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
               -
@@ -316,6 +351,7 @@ use App\User;
 		      <td>{{$each_record->record->sources}}</td>
 		      <td>{{$each_record->record->categories}}</td>
 		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->dtac_type}}</td>
 		      <td>{{$each_record->record->input_date}}</td>
 		      <td>{{$each_record->record->distributed_date}}</td>
@@ -343,6 +379,7 @@ use App\User;
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+		      <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
 		      <th>ผลการโทร</th>
@@ -355,6 +392,7 @@ use App\User;
 		      <th>sources</th>
 		      <th>categories</th>
 		      <th>shop type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
 		      <th>input date</th>
 		      <th>distributed date</th>
@@ -371,6 +409,14 @@ use App\User;
 		  <tbody>
 		  @foreach ($record_list_new as $each_record)
 		    <tr>
+		      <td>
+		      <?php
+		      	if($each_record->sending_status=="sent")
+		      	{
+		      		echo "ข้อมูลได้ถูกส่งแล้ว";
+		      	}
+		      ?>
+		      </td>
               <td>
               <?php
               if($each_record->result=="yes")
@@ -405,7 +451,7 @@ use App\User;
               }
               ?>
               <td>
-              @if($each_record->call_status=="called")
+              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
               -
@@ -421,6 +467,7 @@ use App\User;
 		      <td>{{$each_record->record->sources}}</td>
 		      <td>{{$each_record->record->categories}}</td>
 		      <td>{{$each_record->record->shop_type}}</td>
+		      <td>{{$each_record->record->special_type}}</td>
 		      <td>{{$each_record->record->dtac_type}}</td>
 		      <td>{{$each_record->record->input_date}}</td>
 		      <td>{{$each_record->created_at}}</td>
