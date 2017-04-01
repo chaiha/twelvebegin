@@ -127,4 +127,11 @@ class SelectRecord extends Model
         $sizeof_result = sizeof($result);
         return $sizeof_result;
     }
+
+    static public function has_sending_status_null($sale_id)
+    {
+        $result = SelectRecord::where('sale_id','=',$sale_id)->where('sending_status','=',NULL)->first();
+
+        return $result;
+    }
 }

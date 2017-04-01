@@ -134,6 +134,14 @@ Route::get('/admin/selected_record/select_sale/preview','AdminController@show_pr
 Route::post('/admin/selected_record/select_sale/preview','AdminController@submit_select_record');
 Route::get('/admin/selected_record/select_sale/success/{sale_id}','AdminController@success_select_record');
 
+//Approve record from sale
+Route::get('/admin/approve_record_from_sale/show_sale_list','AdminController@show_sale_list');
+Route::get('/admin/approve_record_from_sale/select_sale/{sale_id}','AdminController@show_waiting_approve');
+Route::get('/admin/approve_record_from_sale/show_record_detail/{record_id}','AdminController@show_record_detail');
+Route::post('/admin/approve_record_from_sale/show_record_detail','AdminController@submit_approve_record');
+
+//------End Admin
+
 // Route::get('/admin/create_new_record', 'RecordController@preview_new_record');
 // Route::get('/admin/edit/{id}','AdminController@get_edit_record');
 

@@ -22,6 +22,7 @@ class CallController extends Controller
     public function show_list_record()
     {
         $user = session('user');
+
         $selected_record_extend = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','extend')->get();
         $selected_record_waiting = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','waiting')->get();
         $selected_record_noreply = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','noreply')->get();
@@ -30,6 +31,10 @@ class CallController extends Controller
         $record_list_waiting = array();
         $record_list_noreply = array();
         $record_list_new = array();
+
+        $SelectRecord = new SelectRecord;
+        $has_sending_status_null = $SelectRecord->has_sending_status_null($user->id);
+
         //print_r($selected_record);
         // $n=0;
         // foreach ($selected_record_extend as $selected_record_each)
@@ -60,8 +65,8 @@ class CallController extends Controller
         // $result_waiting = DB::table('records')->whereIn('id', $record_list_waiting)->get();
         // $result_noreply = DB::table('records')->whereIn('id', $record_list_noreply)->get();
         // $result_new = DB::table('records')->whereIn('id', $record_list_new)->get();
-        //print_r($record_list);
-        return view('sale.select.show_select_list')->with('sale',$user)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new);
+        // print_r($record_list);
+        return view('sale.select.show_select_list')->with('sale',$user)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new)->with('has_sending_status_null',$has_sending_status_null);
 
     }
 
@@ -388,8 +393,11 @@ class CallController extends Controller
         */
         $user = session('user');
         $sale_id = $request->input('sale_id');
-        //Update all records of this sale_id
-        SelectRecord::where('sale_id','=',$sale_id)->update(['sending_status'=>'sent']);
+        $tomorrow = date("Y-m-d", strtotime("+1 day"));
+
+        //Update all records of this sale_id = sending_status = 'sent' AND can_approve = $tomorrow
+        SelectRecord::where('sale_id','=',$sale_id)->update(['sending_status'=>'sent','can_approve'=>$tomorrow]);
+
         return redirect('/sale/show_selected_record_list');
 
         // foreach ($sale_selected_record as $sale_selected_record_each ) 

@@ -71,35 +71,42 @@ use App\User;
 		      </td>
               <td>
               <?php
-              if($each_record->result=="yes")
+              if(isset($each_record->sending_status)==NULL)
               {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="no_reply")
-              {
+	              if($each_record->result=="yes")
+	              {
+	              	echo "ได้ผลการโทรแล้ว";
+	              }
+	              else if($each_record->result=="no_reply")
+	              {
               ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
               <?php
-              }
-              else if($each_record->result=="rejected")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="waiting")
-              {
+              		}
+              		else if($each_record->result=="rejected")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="waiting")
+              		{
               ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
               <?php
-              }
-              else if($each_record->result=="closed")
-              {
-              	echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="closed")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else
+              		{
+              ?>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              <?php
+              		}
               }
               else
               {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
-              <?php
+              	echo "กำลังรอตรวจสอบ";
               }
               ?>
               <td>
@@ -187,35 +194,50 @@ use App\User;
 		      </td>
               <td>
               <?php
-              if($each_record->result=="yes")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="no_reply")
-              {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+		      	if($each_record->sending_status=="sent")
+		      	{
+		      		echo "ข้อมูลได้ถูกส่งแล้ว";
+		      	}
+		      ?>
+		      </td>
+              <td>
               <?php
-              }
-              else if($each_record->result=="rejected")
+              if(isset($each_record->sending_status)==NULL)
               {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="waiting")
-              {
+	              if($each_record->result=="yes")
+	              {
+	              	echo "ได้ผลการโทรแล้ว";
+	              }
+	              else if($each_record->result=="no_reply")
+	              {
               ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
               <?php
-              }
-              else if($each_record->result=="closed")
-              {
-              	echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="rejected")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="waiting")
+              		{
+              ?>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              <?php
+              		}
+              		else if($each_record->result=="closed")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else
+              		{
+              ?>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              <?php
+              		}
               }
               else
               {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
-              <?php
+              	echo "กำลังรอตรวจสอบ";
               }
               ?>
               <td>
@@ -303,35 +325,50 @@ use App\User;
 		      </td>
               <td>
               <?php
-              if($each_record->result=="yes")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="no_reply")
-              {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+		      	if($each_record->sending_status=="sent")
+		      	{
+		      		echo "ข้อมูลได้ถูกส่งแล้ว";
+		      	}
+		      ?>
+		      </td>
+              <td>
               <?php
-              }
-              else if($each_record->result=="rejected")
+              if(isset($each_record->sending_status)==NULL)
               {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="waiting")
-              {
+	              if($each_record->result=="yes")
+	              {
+	              	echo "ได้ผลการโทรแล้ว";
+	              }
+	              else if($each_record->result=="no_reply")
+	              {
               ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
               <?php
-              }
-              else if($each_record->result=="closed")
-              {
-              	echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="rejected")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="waiting")
+              		{
+              ?>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              <?php
+              		}
+              		else if($each_record->result=="closed")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else
+              		{
+              ?>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              <?php
+              		}
               }
               else
               {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
-              <?php
+              	echo "กำลังรอตรวจสอบ";
               }
               ?>
               <td>
@@ -419,35 +456,42 @@ use App\User;
 		      </td>
               <td>
               <?php
-              if($each_record->result=="yes")
+              if(isset($each_record->sending_status)==NULL)
               {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="no_reply")
-              {
+	              if($each_record->result=="yes")
+	              {
+	              	echo "ได้ผลการโทรแล้ว";
+	              }
+	              else if($each_record->result=="no_reply")
+	              {
               ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
               <?php
-              }
-              else if($each_record->result=="rejected")
-              {
-              	echo "ได้ผลการโทรแล้ว";
-              }
-              else if($each_record->result=="waiting")
-              {
+              		}
+              		else if($each_record->result=="rejected")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="waiting")
+              		{
               ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
               <?php
-              }
-              else if($each_record->result=="closed")
-              {
-              	echo "ได้ผลการโทรแล้ว";
+              		}
+              		else if($each_record->result=="closed")
+              		{
+              			echo "ได้ผลการโทรแล้ว";
+              		}
+              		else
+              		{
+              ?>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              <?php
+              		}
               }
               else
               {
-              ?>
-              	<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
-              <?php
+              	echo "กำลังรอตรวจสอบ";
               }
               ?>
               <td>
@@ -498,7 +542,11 @@ use App\User;
 				{{csrf_field()}}
 				<input type="hidden" name="sale_id" value="{{$sale->id}}" />
 				<hr>
+				@if(isset($has_sending_status_null)==1)
 				<a href="#" class="btn btn-success" onClick="submit_all_result()">Submit</a>
+				@else
+				-
+				@endif
 			{{Form::close() }}
 		</div>
 	</div>

@@ -1195,4 +1195,67 @@ class AdminController extends Controller
         $sale = Sentinel::check();
         return view('admin.select.show_selected_list_sale')->with('sale',$sale)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new);
     }
+
+    public function show_sale_list()
+    {
+        // $users = DB::table('users')
+        //     ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+        //     ->get();
+            //$today = date('Y-m-d');
+            $today = date('Y-m-d');
+            $result = DB::table('select_record')
+            ->select([DB::raw('count(*) as record_count, sale_id')])
+                     ->where('can_approve','<=',$today)
+                     ->where('sending_status','=','sent')
+                     ->orWhere('sending_status','=','approve')
+                     ->orWhere('sending_status','=','not_approve')
+                     ->groupBy('sale_id')
+            ->leftJoin('users','select_record.sale_id','=','users.id')
+            ->get();
+
+        //print_r($users);
+        return view('admin.approve.select_sale_approve_list')->with('result',$result);
+    }
+
+    public function show_waiting_approve($sale_id)
+    {
+        $today = date('Y-m-d');
+        $sale = Sentinel::findUserById($sale_id);
+        $record_list_extend = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','extend')->where('can_approve','<=',$today)->get();
+        $record_list_waiting = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','waiting')->where('can_approve','<=',$today)->get();
+        $record_list_noreply = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','noreply')->where('can_approve','<=',$today)->get();
+        $record_list_new = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','new')->where('can_approve','<=',$today)->get();
+        return view('admin.approve.show_waiting_approve')->with('record_list_extend',$record_list_extend)->with('record_list_waiting',$record_list_waiting)->with('record_list_noreply',$record_list_noreply)->with('record_list_new',$record_list_new)->with('sale',$sale);
+    }
+
+    public function show_record_detail($record_id)
+    {
+        $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+        return view('admin.approve.show_record_detail')->with('select_record',$select_record);
+    }
+
+    public function submit_approve_record(Request $request)
+    {
+        $user = Sentinel::check();
+        $record_id = $request->input('record_id');
+        $sale_id = $request->input('sale_id');
+        $is_approve = $request->input('is_approve');
+        $admin_message = $request->input('admin_message');
+        if($is_approve=="approve")
+        {
+            $sending_status = "approve";
+        }
+        elseif($is_approve=="not_approve")
+        {
+            $sending_status = "not_approve";
+        }
+
+        $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+        $select_record->sending_status = $sending_status;
+        $select_record->admin_message = $admin_message;
+        $select_record->updated_at = date('Y-m-d');
+        $select_record->updated_by = $user->id;
+        $select_record->save();
+        return redirect('/admin/approve_record_from_sale/select_sale/'.$sale_id);
+    }
 }
