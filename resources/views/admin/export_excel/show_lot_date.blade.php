@@ -129,7 +129,7 @@ use App\User;
 		<div class="col-md-12" style="margin-left: 5px;">
 				<hr>
 				<a href="{{url('/admin/export_excel/export_excel/'.$lot_date)}}" class="btn btn-success">Export</a>
-				<a href="{{url('/admin/export_excel/show_sale_list')}}" class="btn btn-danger">ยกเลิก</a>
+				<a href="{{url('admin/export_excel/list_lot_date')}}" class="btn btn-danger">ยกเลิก</a>
 		</div>
 	</div>
 </div>
