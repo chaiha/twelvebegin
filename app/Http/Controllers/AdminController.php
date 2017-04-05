@@ -1652,7 +1652,7 @@ class AdminController extends Controller
     {
         //-------------------- Excel
         $list_lot_date = Record::where('lot_date','=',$lot_date)->get();
-        $file_name = "lot_date".$lot_date;
+        $file_name = "lot_date_".$lot_date;
 
         Excel::create($file_name,function($excel) use ($list_lot_date){
             $excel->sheet('records',function($sheet) use ($list_lot_date){
