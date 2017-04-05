@@ -210,6 +210,7 @@ use App\Record;
 						<th>Contact Telephone number</th>
 						<th>Contact Email</th>
 						<th>Contact Date [ วัน / เดือน / ปี ]</th>
+						<th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>
 						<td>
@@ -230,7 +231,9 @@ use App\Record;
 							?>
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
-						
+						<td>
+							{{$select_record->sending_address}}
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -310,7 +313,7 @@ use App\Record;
 
 				@elseif($call_result=="no_reply")
 					<span>No Reply</span><br />
-					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->record->call_amount ;?> <br />
+					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->call_amount ;?> <br />
 					<b>เหตุผล : </b> {{$sale_filled_edit['cannot_contact_reason']}} <br />
 					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> {{$sale_filled_edit['cannot_contact_appointment_day']}} / {{$sale_filled_edit['cannot_contact_appointment_month']}} / {{$sale_filled_edit['cannot_contact_appointment_year']}} <br />
 					

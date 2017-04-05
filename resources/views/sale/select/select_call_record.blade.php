@@ -493,6 +493,7 @@ use App\Record;
 						<th>Contact Telephone number</th>
 						<th>Contact Email</th>
 						<th>Contact Date [ วัน / เดือน / ปี ]</th>
+                        <th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>
 						<td>
@@ -510,7 +511,9 @@ use App\Record;
 							?>
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
-						
+						<td>
+                            <textarea name="sending_address" id="sending_address" class="form-control">{{$select_record->record->sending_address}}</textarea>
+                        </td>
 					</tr>
 				</table>
 			</div>

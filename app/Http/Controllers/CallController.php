@@ -89,6 +89,7 @@ class CallController extends Controller
         $sale_filled['is_tel_correct'] = $request->input('is_tel_correct');
         $is_tel_correct = $request->input('is_tel_correct');
         $sale_filled['record_id'] = $request->input('record_id');
+        $sale_filled['sending_address'] = $request->input('sending_address');
         $record_id = $request->input('record_id');
 
         $sale_filled['branch_amount'] = $request->input('branch_amount');
@@ -173,15 +174,16 @@ class CallController extends Controller
     {
         $user = session('user');
         $sale_filled = session('sale_filled');
-        print_r($sale_filled);
-        // $record_id = $sale_filled['record_id'];
-        // $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
-        // $is_tel_correct = $sale_filled['is_tel_correct'];
-        // $edit_address = $sale_filled['edit_address'];
-        // $edit_contact_person = $sale_filled['edit_contact_person'];
-        // $call_result = $sale_filled['call_result'];
+        
+        $record_id = $sale_filled['record_id'];
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
+        $is_tel_correct = $sale_filled['is_tel_correct'];
+        $edit_address = $sale_filled['edit_address'];
+        $sending_address =$sale_filled['sending_address'];
+        $edit_contact_person = $sale_filled['edit_contact_person'];
+        $call_result = $sale_filled['call_result'];
 
-        // return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
+        return view('sale.select.show_preview_filled_record')->with('sale_filled',$sale_filled)->with('select_record',$select_record)->with('is_tel_correct',$is_tel_correct)->with('sending_address',$sending_address)->with('edit_address',$edit_address)->with('edit_contact_person',$edit_contact_person)->with('call_result',$call_result);
     }
 
     public function submit_filled_record()//16032560
@@ -189,6 +191,7 @@ class CallController extends Controller
         //Submit all data to select_record
         $user = session('user');
         $sale_filled = session('sale_filled');
+        $submit_record_id = $sale_filled['record_id'];
         //$record = Record::where('id','=',$sale_filled['record_id'])->first();
         $select_record = SelectRecord::where('record_id','=',$sale_filled['record_id'])->first();
 
@@ -197,6 +200,7 @@ class CallController extends Controller
 
         $select_record->branch_amount = $sale_filled['branch_amount'];
         $select_record->note = $sale_filled['note'];
+        $select_record->sending_address = $sale_filled['sending_address'];
 
         if($sale_filled['edit_address']!="")
         {
@@ -248,7 +252,7 @@ class CallController extends Controller
         }
         else
         {
-            $select_record->is_tel_correct = "0";
+            $select_record->is_tel_correct = "1";
             $select_record->wrong_number_new_tel_number = "";
         }
         
@@ -260,7 +264,9 @@ class CallController extends Controller
         // print_r($select_record);
         $select_record->save();
 
-        return redirect('/sale/select_record/call/success/'.$sale_filled['record_id']);
+        Session::forget('sale_filled');
+
+        return redirect('/sale/select_record/call/success/'.$submit_record_id);
 
     }
 
@@ -296,6 +302,7 @@ class CallController extends Controller
 
         $sale_filled_new['branch_amount'] = $request->input('branch_amount');
         $sale_filled_new['note'] = $request->input('note');
+        $sale_filled_new['sending_address'] = $request->input('sending_address');
 
         $edit_address = $request->input('edit_address');
         $edit_contact_person = $request->input('edit_contact_person');
@@ -511,6 +518,7 @@ class CallController extends Controller
 
         $sale_filled_edit['branch_amount'] = $request->input('branch_amount');
         $sale_filled_edit['note'] = $request->input('note');
+        $sale_filled_edit['sending_address'] = $request->input('sending_address');
         $edit_address = $request->input('edit_address');
         $edit_contact_person = $request->input('edit_contact_person');
         if($edit_address!="")
@@ -597,6 +605,7 @@ class CallController extends Controller
         $record_id = $sale_filled_edit['record_id'];
         $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
         $is_tel_correct = $sale_filled_edit['is_tel_correct'];
+        $sending_address = $sale_filled_edit['sending_address'];
         $edit_address = $sale_filled_edit['edit_address'];
         $edit_contact_person = $sale_filled_edit['edit_contact_person'];
         $call_result = $sale_filled_edit['call_result'];
@@ -609,6 +618,7 @@ class CallController extends Controller
         //Submit all data to select_record
         $user = session('user');
         $sale_filled_edit = session('sale_filled_edit');
+        $edit_record_id = $sale_filled_edit['record_id'];
         //$record = Record::where('id','=',$sale_filled_edit['record_id'])->first();
         $select_record = SelectRecord::where('record_id','=',$sale_filled_edit['record_id'])->first();
 
@@ -617,6 +627,7 @@ class CallController extends Controller
 
         $select_record->branch_amount = $sale_filled_edit['branch_amount'];
         $select_record->note = $sale_filled_edit['note'];
+        $select_record->sending_address = $sale_filled_edit['sending_address'];
 
         if($sale_filled_edit['edit_address']!="")//มีการแก้ไข
         {
@@ -668,7 +679,7 @@ class CallController extends Controller
         }
         else
         {
-            $select_record->is_tel_correct = "0";
+            $select_record->is_tel_correct = "1";
             $select_record->wrong_number_new_tel_number = "";
         }
         
@@ -680,7 +691,9 @@ class CallController extends Controller
         // print_r($select_record);
         $select_record->save();
 
-        return redirect('/sale/select_record/submit_ediit_submit_record/success/'.$sale_filled_edit['record_id']);
+        Session::forget('sale_filled_edit');
+
+        return redirect('/sale/select_record/submit_ediit_submit_record/success/'.$edit_record_id);
     }
 
     public function success_edit_submit_record($record_id)

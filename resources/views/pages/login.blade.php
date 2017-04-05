@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
         <form action="login" method="POST" />
-            {{csrf_field()}}
+            {!!csrf_field()!!}
             <h2 class="form-signin-heading">Please sign in</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>

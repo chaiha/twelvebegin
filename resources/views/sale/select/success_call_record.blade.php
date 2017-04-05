@@ -30,7 +30,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
+		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?></h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}}</h3>
 		<div class="row">
 			<div class="col-xs-12">
@@ -200,6 +200,7 @@ use App\Record;
 						<th>Contact Telephone number</th>
 						<th>Contact Email</th>
 						<th>Contact Date [ วัน / เดือน / ปี ]</th>
+						<th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>
 						<td>
@@ -221,7 +222,7 @@ use App\Record;
 							?>
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
-						
+						<td>{{$select_record->sending_address}}</td>
 					</tr>
 				</table>
 			</div>
@@ -318,27 +319,27 @@ use App\Record;
 					?>
 					<br />
 
-				@elseif($select_record->record->result=="no_reply")
+				@elseif($select_record->result=="no_reply")
 					<span>No Reply</span><br />
-					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->record->call_amount ;?> <br />
-					<b>เหตุผล : </b> {{$select_record->record->cannot_contact_reason}} <br />
+					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->call_amount ;?> <br />
+					<b>เหตุผล : </b> {{$select_record->cannot_contact_reason}} <br />
 					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> 
 					<?php 
-					$date_array =Record::convert_date($select_record->record->cannot_contact_appointment);
+					$date_array =Record::convert_date($select_record->cannot_contact_appointment);
 					echo $date_array['2']."/".$date_array['1']."/".$date_array['0'];
 					?> <br />
 					
-				@elseif($select_record->record->result=="rejected")
+				@elseif($select_record->result=="rejected")
 					<span>Rejected</span><br />
-					<b>No Reason : </b> {{$select_record->record->no_reason}} <br />
-					<b>No Note : </b> {{$select_record->record->no_note}} <br />
+					<b>No Reason : </b> {{$select_record->no_reason}} <br />
+					<b>No Note : </b> {{$select_record->no_note}} <br />
 
-				@elseif($select_record->record->result=="waiting")
+				@elseif($select_record->result=="waiting")
 					<span>Waiting</span><br />
-					<b>เหตุผลที่ขอพิจารณาดูก่อน : </b> {{$select_record->record->consider_reason}} <br />
+					<b>เหตุผลที่ขอพิจารณาดูก่อน : </b> {{$select_record->consider_reason}} <br />
 					<b>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ] </b> 
 					<?php
-					$date_array =Record::convert_date($select_record->record->consider_appointment_feedback);
+					$date_array =Record::convert_date($select_record->consider_appointment_feedback);
 					echo $date_array['2']."/".$date_array['1']."/".$date_array['0'];
 					?>
 					<br />

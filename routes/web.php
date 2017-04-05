@@ -22,6 +22,8 @@ Route::get('/test', function () {
 Route::get('/login', function () {
     return view('pages.login');
 });
+
+Route::get('/test_date','AdminController@test_date');
 Route::get('/create_user_admin','UserController@create_user_admin');
 Route::get('/create_user_sale','UserController@create_user_sale');
 Route::get('/create_user_super','UserController@create_user_super');
@@ -139,6 +141,12 @@ Route::get('/admin/approve_record_from_sale/show_sale_list','AdminController@sho
 Route::get('/admin/approve_record_from_sale/select_sale/{sale_id}','AdminController@show_waiting_approve');
 Route::get('/admin/approve_record_from_sale/show_record_detail/{record_id}','AdminController@show_record_detail');
 Route::post('/admin/approve_record_from_sale/show_record_detail','AdminController@submit_approve_record');
+Route::post('/admin/approve_record_from_sale/select_sale/','AdminController@submit_all_approve_record');
+
+//Export date to excel file
+Route::get('/admin/export_excel/list_lot_date','AdminController@list_lot_date');
+Route::get('/admin/export_excel/show_selected_lot_date/{lot_date}','AdminController@show_lot_date');
+Route::get('/admin/export_excel/export_excel/{lot_date}','AdminController@export_excel_by_lot_date');
 
 //------End Admin
 

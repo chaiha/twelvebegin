@@ -22,8 +22,7 @@
                   <li><a href="{{url('/admin/record/list_records')}}">Show Record List</a></li>
                   <li><a href="{{url('/admin/select_record/select_sale')}}">Select Record for sale</a></li>
                   <li><a href="{{url('/admin/approve_record_from_sale/show_sale_list')}}">Approve Record from sale</a></li>
-                  <li><a href="{{url('/admin/export_excel/select_sale')}}">Export Adminกรอก Lead ลงไปในระบบ</a></li>
-                  <li><a href="{{url('/admin/export_excel/select_sale')}}">Export Adminกรอก Lead ลงไปในระบบ</a></li>
+                  <li><a href="{{url('/admin/export_excel/list_lot_date')}}">Export Adminกรอก Lead ลงไปในระบบ</a></li>
                 </ul>
               </li>
               <li><a href="#">Contact</a></li>
