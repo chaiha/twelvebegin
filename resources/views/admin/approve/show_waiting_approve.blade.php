@@ -72,11 +72,7 @@ use App\User;
               <a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
               </td>
               <td>
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
-              @else
               -
-              @endif
               </td>
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
@@ -162,11 +158,7 @@ use App\User;
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
              </td>
               <td>
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
-              @else
               -
-              @endif
               </td>
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
@@ -252,11 +244,7 @@ use App\User;
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
               </td>
               <td>
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
-              @else
               -
-              @endif
               </td>
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>
@@ -342,11 +330,7 @@ use App\User;
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
               </td>
               <td>
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
-              @else
               -
-              @endif
               </td>
 		      <td>{{$each_record->result}}</td>
 		      <td>{{$each_record->call_amount}}</td>

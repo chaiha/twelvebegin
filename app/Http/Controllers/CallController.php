@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
 use Session;
-use User;	
+use User;   
 use App\Record;
 use App\SelectRecord;
 use App\YesRecords;
@@ -132,21 +132,15 @@ class CallController extends Controller
         {
             $sale_filled['feedback'] = $request->input('feedback');
             $sale_filled['condition'] = $request->input('condition');
-            $sale_filled['start_priviledge_day'] = $request->input('start_priviledge_day');
-            $sale_filled['start_priviledge_month'] = $request->input('start_priviledge_month');
-            $sale_filled['start_priviledge_year'] = $request->input('start_priviledge_year');
-            $sale_filled['end_priviledge_day'] = $request->input('end_priviledge_day');
-            $sale_filled['end_priviledge_month'] = $request->input('end_priviledge_month');
-            $sale_filled['end_priviledge_year'] = $request->input('end_priviledge_year');
+            $sale_filled['start_priviledge_date'] = $request->input('start_priviledge_date');
+            $sale_filled['end_priviledge_date'] = $request->input('end_priviledge_date');
 
         }
         else if($call_result=="no_reply")
         {
             $sale_filled['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
             $sale_filled['cannot_contact_reason'] = $request->input('cannot_contact_reason');
-            $sale_filled['cannot_contact_appointment_day'] = $request->input('cannot_contact_appointment_day');
-            $sale_filled['cannot_contact_appointment_month'] = $request->input('cannot_contact_appointment_month');
-            $sale_filled['cannot_contact_appointment_year'] = $request->input('cannot_contact_appointment_year');
+            $sale_filled['cannot_contact_appointment_date'] = $request->input('cannot_contact_appointment_date');
         }
         else if($call_result=="rejected")
         {
@@ -156,9 +150,7 @@ class CallController extends Controller
         else if($call_result=="waiting")
         {
             $sale_filled['consider_reason'] = $request->input('consider_reason');
-            $sale_filled['consider_appointment_feedback_day'] = $request->input('consider_appointment_feedback_day');
-            $sale_filled['consider_appointment_feedback_month'] = $request->input('consider_appointment_feedback_month');
-            $sale_filled['consider_appointment_feedback_year'] = $request->input('consider_appointment_feedback_year');
+            $sale_filled['consider_appointment_feedback_date'] = $request->input('consider_appointment_feedback_date');
         }
         else if($call_result=="closed")
         {
@@ -215,8 +207,10 @@ class CallController extends Controller
         if($sale_filled['call_result']=="yes")
         {
             $select_record->yes_sale_name = $user->first_name;
-            $select_record->yes_privilege_start = $sale_filled['start_priviledge_year']."-".$sale_filled['start_priviledge_month']."-".$sale_filled['start_priviledge_day'];
-            $select_record->yes_privilege_end = $sale_filled['end_priviledge_year']."-".$sale_filled['end_priviledge_month']."-".$sale_filled['end_priviledge_day'];
+            $new_yes_privilege_start = explode('/', $sale_filled['start_priviledge_date']);
+            $new_yes_privilege_end = explode('/', $sale_filled['end_priviledge_date']);
+            $select_record->yes_privilege_start = $new_yes_privilege_start[2]."-".$new_yes_privilege_start[1]."-".$new_yes_privilege_start[0];
+            $select_record->yes_privilege_end = $new_yes_privilege_end[2]."-".$new_yes_privilege_end[1]."-".$new_yes_privilege_end[0];
             $select_record->yes_feedback = $sale_filled['feedback'];
             $select_record->yes_condition = $sale_filled['condition'];
 
@@ -226,7 +220,8 @@ class CallController extends Controller
         {
             $select_record->cannot_contact_amount_call = $sale_filled['cannot_contact_amount_call'];
             $select_record->cannot_contact_reason = $sale_filled['cannot_contact_reason'];
-            $select_record->cannot_contact_appointment = $sale_filled['cannot_contact_appointment_year']."-".$sale_filled['cannot_contact_appointment_month']."-".$sale_filled['cannot_contact_appointment_day'];
+            $new_cannot_contact_appointment = explode('/', $sale_filled['cannot_contact_appointment_date']);
+            $select_record->cannot_contact_appointment = $new_cannot_contact_appointment[2]."-".$new_cannot_contact_appointment[1]."-".$new_cannot_contact_appointment[0];
         }
         else if($sale_filled['call_result']=="rejected")
         {
@@ -237,7 +232,8 @@ class CallController extends Controller
         else if($sale_filled['call_result']=="waiting")
         {
             $select_record->consider_reason = $sale_filled['consider_reason'];
-            $select_record->consider_appointment_feedback = $sale_filled['consider_appointment_feedback_year']."-".$sale_filled['consider_appointment_feedback_month']."-".$sale_filled['consider_appointment_feedback_day'];
+            $new_consider_appointment_feedback = explode('/', $sale_filled['consider_appointment_feedback_date']);
+            $select_record->consider_appointment_feedback = $new_consider_appointment_feedback[2]."-".$new_consider_appointment_feedback[1]."-".$new_consider_appointment_feedback[0];
         }
         else if($sale_filled['call_result']=="closed")
         {
@@ -341,21 +337,15 @@ class CallController extends Controller
         {
             $sale_filled_new['feedback'] = $request->input('feedback');
             $sale_filled_new['condition'] = $request->input('condition');
-            $sale_filled_new['start_priviledge_day'] = $request->input('start_priviledge_day');
-            $sale_filled_new['start_priviledge_month'] = $request->input('start_priviledge_month');
-            $sale_filled_new['start_priviledge_year'] = $request->input('start_priviledge_year');
-            $sale_filled_new['end_priviledge_day'] = $request->input('end_priviledge_day');
-            $sale_filled_new['end_priviledge_month'] = $request->input('end_priviledge_month');
-            $sale_filled_new['end_priviledge_year'] = $request->input('end_priviledge_year');
+            $sale_filled_new['start_priviledge_date'] = $request->input('start_priviledge_date');
+            $sale_filled_new['end_priviledge_date'] = $request->input('end_priviledge_date');
 
         }
         else if($call_result=="no_reply")
         {
             $sale_filled_new['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
             $sale_filled_new['cannot_contact_reason'] = $request->input('cannot_contact_reason');
-            $sale_filled_new['cannot_contact_appointment_day'] = $request->input('cannot_contact_appointment_day');
-            $sale_filled_new['cannot_contact_appointment_month'] = $request->input('cannot_contact_appointment_month');
-            $sale_filled_new['cannot_contact_appointment_year'] = $request->input('cannot_contact_appointment_year');
+            $sale_filled_new['cannot_contact_appointment_date'] = $request->input('cannot_contact_appointment_date');
         }
         else if($call_result=="rejected")
         {
@@ -365,9 +355,7 @@ class CallController extends Controller
         else if($call_result=="waiting")
         {
             $sale_filled_new['consider_reason'] = $request->input('consider_reason');
-            $sale_filled_new['consider_appointment_feedback_day'] = $request->input('consider_appointment_feedback_day');
-            $sale_filled_new['consider_appointment_feedback_month'] = $request->input('consider_appointment_feedback_month');
-            $sale_filled_new['consider_appointment_feedback_year'] = $request->input('consider_appointment_feedback_year');
+            $sale_filled_new['consider_appointment_feedback_date'] = $request->input('consider_appointment_feedback_date');
         }
         else if($call_result=="closed")
         {
@@ -379,6 +367,7 @@ class CallController extends Controller
         session(['sale_filled' => $sale_filled_new]);
         
         return redirect('/sale/select_record/show_preview_filled_record');
+        //return redirect('/sale/select_record/show_preview_filled_submit_record');
     }
 
     public function call_success($id)
@@ -499,10 +488,11 @@ class CallController extends Controller
 
     public function edit_submit_record($record_id)
     {
+        $sale_filled_edit = session('sale_filled_edit');
         $select_record = SelectRecord::where('record_id','=',$record_id)->first();
         $user = session('user');
 
-        return view('sale.select.edit_submit_record')->with('select_record',$select_record)->with('user',$user);
+        return view('sale.select.edit_submit_record')->with('select_record',$select_record)->with('user',$user)->with('sale_filled_edit',$sale_filled_edit);
     }
 
     public function preview_edit_submit_record(Request $request)
@@ -557,41 +547,82 @@ class CallController extends Controller
         {
             $sale_filled_edit['feedback'] = $request->input('feedback');
             $sale_filled_edit['condition'] = $request->input('condition');
-            $sale_filled_edit['start_priviledge_day'] = $request->input('start_priviledge_day');
-            $sale_filled_edit['start_priviledge_month'] = $request->input('start_priviledge_month');
-            $sale_filled_edit['start_priviledge_year'] = $request->input('start_priviledge_year');
-            $sale_filled_edit['end_priviledge_day'] = $request->input('end_priviledge_day');
-            $sale_filled_edit['end_priviledge_month'] = $request->input('end_priviledge_month');
-            $sale_filled_edit['end_priviledge_year'] = $request->input('end_priviledge_year');
-
+            $sale_filled_edit['start_priviledge_date'] = $request->input('start_priviledge_date');
+            $sale_filled_edit['end_priviledge_date'] = $request->input('end_priviledge_date');
+            $sale_filled_edit['cannot_contact_amount_call'] = "";
+            $sale_filled_edit['cannot_contact_reason'] = "";
+            $sale_filled_edit['cannot_contact_appointment_date'] = "";
+            $sale_filled_edit['no_reason'] = "";
+            $sale_filled_edit['no_note'] = "";
+            $sale_filled_edit['consider_reason'] = "";
+            $sale_filled_edit['consider_appointment_feedback_date'] = "";
+            $sale_filled_edit['closed'] = "0";
         }
         else if($call_result=="no_reply")
         {
+            $sale_filled_edit['feedback'] = "";
+            $sale_filled_edit['condition'] = "";
+            $sale_filled_edit['start_priviledge_date'] = "";
+            $sale_filled_edit['end_priviledge_date'] = "";
             $sale_filled_edit['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
             $sale_filled_edit['cannot_contact_reason'] = $request->input('cannot_contact_reason');
-            $sale_filled_edit['cannot_contact_appointment_day'] = $request->input('cannot_contact_appointment_day');
-            $sale_filled_edit['cannot_contact_appointment_month'] = $request->input('cannot_contact_appointment_month');
-            $sale_filled_edit['cannot_contact_appointment_year'] = $request->input('cannot_contact_appointment_year');
+            $sale_filled_edit['cannot_contact_appointment_date'] = $request->input('cannot_contact_appointment_date');
+            $sale_filled_edit['no_reason'] = "";
+            $sale_filled_edit['no_note'] = "";
+            $sale_filled_edit['consider_reason'] = "";
+            $sale_filled_edit['consider_appointment_feedback_date'] = "";
+            $sale_filled_edit['closed'] = "0";
         }
         else if($call_result=="rejected")
         {
+            $sale_filled_edit['feedback'] = "";
+            $sale_filled_edit['condition'] = "";
+            $sale_filled_edit['start_priviledge_date'] = "";
+            $sale_filled_edit['end_priviledge_date'] = "";
+            $sale_filled_edit['cannot_contact_amount_call'] = "";
+            $sale_filled_edit['cannot_contact_reason'] = "";
+            $sale_filled_edit['cannot_contact_appointment_date'] = "";
             $sale_filled_edit['no_reason'] = $request->input('no_reason');
             $sale_filled_edit['no_note'] = $request->input('no_note');
+            $sale_filled_edit['consider_reason'] = "";
+            $sale_filled_edit['consider_appointment_feedback_date'] = "";
+            $sale_filled_edit['closed'] = "0";
         }
         else if($call_result=="waiting")
         {
+            $sale_filled_edit['feedback'] = "";
+            $sale_filled_edit['condition'] = "";
+            $sale_filled_edit['start_priviledge_date'] = "";
+            $sale_filled_edit['end_priviledge_date'] = "";
+            $sale_filled_edit['cannot_contact_amount_call'] = "";
+            $sale_filled_edit['cannot_contact_reason'] = "";
+            $sale_filled_edit['cannot_contact_appointment_date'] = "";
+            $sale_filled_edit['no_reason'] = "";
+            $sale_filled_edit['no_note'] = "";
             $sale_filled_edit['consider_reason'] = $request->input('consider_reason');
-            $sale_filled_edit['consider_appointment_feedback_day'] = $request->input('consider_appointment_feedback_day');
-            $sale_filled_edit['consider_appointment_feedback_month'] = $request->input('consider_appointment_feedback_month');
-            $sale_filled_edit['consider_appointment_feedback_year'] = $request->input('consider_appointment_feedback_year');
+            $sale_filled_edit['consider_appointment_feedback_date'] = $request->input('consider_appointment_feedback_date');
+            $sale_filled_edit['closed'] = "0";
         }
         else if($call_result=="closed")
         {
+            $sale_filled_edit['feedback'] = "";
+            $sale_filled_edit['condition'] = "";
+            $sale_filled_edit['start_priviledge_date'] = "";
+            $sale_filled_edit['end_priviledge_date'] = "";
+            $sale_filled_edit['cannot_contact_amount_call'] = "";
+            $sale_filled_edit['cannot_contact_reason'] = "";
+            $sale_filled_edit['cannot_contact_appointment_date'] = "";
+            $sale_filled_edit['no_reason'] = "";
+            $sale_filled_edit['no_note'] = "";
+            $sale_filled_edit['consider_reason'] = "";
+            $sale_filled_edit['consider_appointment_feedback_date'] = "";
             $sale_filled_edit['closed'] = "1";
         }
 
         session(['sale_filled_edit' => $sale_filled_edit]);
         
+        //print_r($sale_filled_edit);
+
         return redirect('/sale/select_record/show_preview_edit_submit_record');
     }
 
@@ -642,8 +673,10 @@ class CallController extends Controller
         if($sale_filled_edit['call_result']=="yes")
         {
             $select_record->yes_sale_name = $user->first_name;
-            $select_record->yes_privilege_start = $sale_filled_edit['start_priviledge_year']."-".$sale_filled_edit['start_priviledge_month']."-".$sale_filled_edit['start_priviledge_day'];
-            $select_record->yes_privilege_end = $sale_filled_edit['end_priviledge_year']."-".$sale_filled_edit['end_priviledge_month']."-".$sale_filled_edit['end_priviledge_day'];
+            $new_yes_privilege_start = explode('/', $sale_filled_edit['start_priviledge_date']);
+            $new_yes_privilege_end = explode('/', $sale_filled_edit['end_priviledge_date']);
+            $select_record->yes_privilege_start = $new_yes_privilege_start[2]."-".$new_yes_privilege_start[1]."-".$new_yes_privilege_start[0];
+            $select_record->yes_privilege_end = $new_yes_privilege_end[2]."-".$new_yes_privilege_end[1]."-".$new_yes_privilege_end[0];
             $select_record->yes_feedback = $sale_filled_edit['feedback'];
             $select_record->yes_condition = $sale_filled_edit['condition'];
 
@@ -653,7 +686,8 @@ class CallController extends Controller
         {
             $select_record->cannot_contact_amount_call = $sale_filled_edit['cannot_contact_amount_call'];
             $select_record->cannot_contact_reason = $sale_filled_edit['cannot_contact_reason'];
-            $select_record->cannot_contact_appointment = $sale_filled_edit['cannot_contact_appointment_year']."-".$sale_filled_edit['cannot_contact_appointment_month']."-".$sale_filled_edit['cannot_contact_appointment_day'];
+            $new_cannot_contact_appointment = explode('/', $sale_filled_edit['cannot_contact_appointment_date']);
+            $select_record->cannot_contact_appointment = $new_cannot_contact_appointment[2]."-".$new_cannot_contact_appointment[1]."-".$new_cannot_contact_appointment[0];
         }
         else if($sale_filled_edit['call_result']=="rejected")
         {
@@ -664,7 +698,8 @@ class CallController extends Controller
         else if($sale_filled_edit['call_result']=="waiting")
         {
             $select_record->consider_reason = $sale_filled_edit['consider_reason'];
-            $select_record->consider_appointment_feedback = $sale_filled_edit['consider_appointment_feedback_year']."-".$sale_filled_edit['consider_appointment_feedback_month']."-".$sale_filled_edit['consider_appointment_feedback_day'];
+            $new_consider_appointment_feedback = explode('/', $sale_filled_edit['consider_appointment_feedback_date']);
+            $select_record->consider_appointment_feedback = $new_consider_appointment_feedback[2]."-".$new_consider_appointment_feedback[1]."-".$new_consider_appointment_feedback[0];
         }
         else if($sale_filled_edit['call_result']=="closed")
         {
@@ -703,6 +738,12 @@ class CallController extends Controller
         return view('sale.select.success_edit_submit_record')->with('select_record',$select_record);
     }
 
+    public function cancel_edit_submit_record()
+    {
+        //delete session value;
+        Session::forget('sale_filled_edit');
+        return redirect('/sale/show_selected_record_list');
+    }
 }   
 
 ?>

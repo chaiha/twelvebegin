@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('sale.layouts.master')
 
 @section('content')
 @section('styles')
@@ -306,14 +306,14 @@ use App\Record;
 					<span>Yes</span><br />					
 					<b>Feedback : </b> {{$sale_filled['feedback']}} <br />
 					<b>เงื่อนไข : </b> {{$sale_filled['condition']}} <br />
-					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['start_priviledge_day']}} / {{$sale_filled['start_priviledge_month']}} / {{$sale_filled['start_priviledge_year']}} <br />
-					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['end_priviledge_day']}} / {{$sale_filled['end_priviledge_month']}} / {{$sale_filled['end_priviledge_year']}}
+					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['start_priviledge_date']}} <br />
+					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['end_priviledge_date']}}<br />
 
 				@elseif($call_result=="no_reply")
 					<span>No Reply</span><br />
 					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->record->call_amount ;?> <br />
 					<b>เหตุผล : </b> {{$sale_filled['cannot_contact_reason']}} <br />
-					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> {{$sale_filled['cannot_contact_appointment_day']}} / {{$sale_filled['cannot_contact_appointment_month']}} / {{$sale_filled['cannot_contact_appointment_year']}} <br />
+					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> {{$sale_filled['cannot_contact_appointment_date']}} <br />
 					
 				@elseif($call_result=="rejected")
 					<span>Rejected</span><br />
@@ -323,7 +323,7 @@ use App\Record;
 				@elseif($call_result=="waiting")
 					<span>Waiting</span><br />
 					<b>เหตุผลที่ขอพิจารณาดูก่อน : </b> {{$sale_filled['consider_reason']}} <br />
-					<b>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ] </b> {{$sale_filled['consider_appointment_feedback_day']}} / {{$sale_filled['consider_appointment_feedback_month']}} / {{$sale_filled['consider_appointment_feedback_year']}} <br />
+					<b>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ] </b> {{$sale_filled['consider_appointment_feedback_date']}} <br />
 
 				@elseif($call_result=="closed")
 					<span>ร้านปิดไปแล้ว</span><br />

@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('sale.layouts.master')
 
 @section('content')
 @section('styles')
@@ -23,6 +23,9 @@
 
   $(document).ready(function(){
 
+    $(function(){
+       $( ".datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    });
     $("#confirm_btn").click(function(){
     	var result = $("#call_result").val();
     	// alert(result);
@@ -630,20 +633,7 @@ use App\Record;
 						<div class="row">
 							<div class="col-xs-4">
 								<div class="input-group">
-									<span class="input-group-addon">วัน</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_day" name="start_priviledge_day" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['start_priviledge_day']; } ?>"/>
-								</div>
-							</div>
-							<div class="col-xs-4">
-								<div class="input-group">
-									<span class="input-group-addon">เดือน</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_month" name="start_priviledge_month" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['start_priviledge_month']; } ?>"/>
-								</div>
-							</div>
-							<div class="col-xs-4">
-								<div class="input-group">
-									<span class="input-group-addon">ปี</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_year" name="start_priviledge_year" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['start_priviledge_year']; } ?>"/>
+									<input class="form-control yes_form datepicker" type="text" id="start_priviledge_date" name="start_priviledge_date" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['start_priviledge_date']; } ?>"/>
 								</div>
 							</div>
 						</div>
@@ -655,20 +645,7 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<span class="input-group-addon">วัน</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_day" name="end_priviledge_day" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['end_priviledge_day']; } ?>"/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">เดือน</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_month" name="end_priviledge_month" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['end_priviledge_month']; } ?>"/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">ปี</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_year" name="end_priviledge_year" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['end_priviledge_year']; } ?>"/>
+										<input class="form-control yes_form datepicker" type="text" id="end_priviledge_date" name="end_priviledge_date" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['end_priviledge_date']; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -697,20 +674,7 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<span class="input-group-addon">วัน</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_day" name="cannot_contact_appointment_day" value="<?php if($sale_filled['call_result']=="no_reply"){ echo $sale_filled['cannot_contact_appointment_day']; } ?>"/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">เดือน</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_month" name="cannot_contact_appointment_month" value="<?php if($sale_filled['call_result']=="no_reply"){ echo $sale_filled['cannot_contact_appointment_month']; } ?>"/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">ปี</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_year" name="cannot_contact_appointment_year" value="<?php if($sale_filled['call_result']=="no_reply"){ echo $sale_filled['cannot_contact_appointment_year']; } ?>"/>
+										<input class="form-control no_reply_form datepicker" type="text" id="cannot_contact_appointment_date" name="cannot_contact_appointment_date" value="<?php if($sale_filled['call_result']=="no_reply"){ echo $sale_filled['cannot_contact_appointment_date']; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -748,20 +712,7 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<span class="input-group-addon">วัน</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_day" name="consider_appointment_feedback_day" value="<?php if($sale_filled['call_result']=="waiting"){ echo $sale_filled['consider_appointment_feedback_day']; } ?>"/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">เดือน</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_month" name="consider_appointment_feedback_month" value="<?php if($sale_filled['call_result']=="waiting"){ echo $sale_filled['consider_appointment_feedback_month']; } ?>"/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">ปี</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_year" name="consider_appointment_feedback_year" value="<?php if($sale_filled['call_result']=="waiting"){ echo $sale_filled['consider_appointment_feedback_year']; } ?>"/>
+										<input class="form-control waiting_form datepicker" type="text" id="consider_appointment_feedback_date" name="consider_appointment_feedback_date" value="<?php if($sale_filled['call_result']=="waiting"){ echo $sale_filled['consider_appointment_feedback_date']; } ?>"/>
 									</div>
 								</div>
 							</div>

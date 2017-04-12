@@ -23,6 +23,10 @@
 
   $(document).ready(function(){
 
+    $(function(){
+       $( ".datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    });
+
     $("#confirm_btn").click(function(){
     	var result = $("#call_result").val();
     	// alert(result);
@@ -46,14 +50,11 @@
     				if(result=="yes")
     				{
     					var yes_feedback = $("#feedback").val();
-    					var yes_start_priviledge_day = $("#start_priviledge_day").val();
-    					var yes_start_priviledge_month = $("#start_priviledge_month").val();
-    					var yes_start_priviledge_year = $("#start_priviledge_year").val();
-    					var yes_end_priviledge_day = $("#end_priviledge_day").val();
-    					var yes_end_priviledge_month = $("#end_priviledge_month").val();
-    					var yes_end_priviledge_year = $("#end_priviledge_year").val();
+    					var yes_start_priviledge_date = $("#start_priviledge_date").val();
+    					var yes_end_priviledge_date = $("#end_priviledge_date").val();
 
-    					if(yes_feedback==""||yes_start_priviledge_day==""||yes_start_priviledge_month==""||yes_start_priviledge_year==""||yes_end_priviledge_day==""||yes_end_priviledge_month==""||yes_end_priviledge_year=="")
+                        alert(yes_end_priviledge_date);
+    					if(yes_feedback==""||yes_start_priviledge_date==""||yes_end_priviledge_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -65,11 +66,9 @@
     				{
     					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
-    					var cannot_contact_appointment_day = $("#cannot_contact_appointment_day").val();
-    					var cannot_contact_appointment_month = $("#cannot_contact_appointment_month").val();
-    					var cannot_contact_appointment_year = $("#cannot_contact_appointment_year").val();
+    					var cannot_contact_appointment_date = $("#cannot_contact_appointment_date").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
+    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -91,11 +90,9 @@
     				else if(result=="waiting")
     				{
     					var consider_reason = $("#consider_reason").val();
-    					var consider_appointment_feedback_day = $("#consider_appointment_feedback_day").val();
-    					var consider_appointment_feedback_month = $("#consider_appointment_feedback_month").val();
-    					var consider_appointment_feedback_year = $("#consider_appointment_feedback_year").val();
+    					var consider_appointment_feedback_date = $("#consider_appointment_feedback_date").val();
 
-    					if(consider_reason==""||consider_appointment_feedback_day==""||consider_appointment_feedback_month==""||consider_appointment_feedback_year=="")
+    					if(consider_reason==""||consider_appointment_feedback_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -114,7 +111,7 @@
 
     				}
     				//alert("Submit data");
-    				// $("#submit_form").submit();	
+    				//$("#submit_form").submit();	
     			}
     		}
     		else
@@ -122,14 +119,11 @@
     			if(result=="yes")
     				{
     					var yes_feedback = $("#feedback").val();
-    					var yes_start_priviledge_day = $("#start_priviledge_day").val();
-    					var yes_start_priviledge_month = $("#start_priviledge_month").val();
-    					var yes_start_priviledge_year = $("#start_priviledge_year").val();
-    					var yes_end_priviledge_day = $("#end_priviledge_day").val();
-    					var yes_end_priviledge_month = $("#end_priviledge_month").val();
-    					var yes_end_priviledge_year = $("#end_priviledge_year").val();
-
-    					if(yes_feedback==""||yes_start_priviledge_day==""||yes_start_priviledge_month==""||yes_start_priviledge_year==""||yes_end_priviledge_day==""||yes_end_priviledge_month==""||yes_end_priviledge_year=="")
+                        var yes_start_priviledge_date = $("#start_priviledge_date").val();
+                        var yes_end_priviledge_date = $("#end_priviledge_date").val();
+                        alert(yes_start_priviledge_date);
+                        alert(yes_end_priviledge_date);
+    					if(yes_feedback==""||yes_start_priviledge_date==""||yes_end_priviledge_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -141,11 +135,9 @@
     				{
     					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
-    					var cannot_contact_appointment_day = $("#cannot_contact_appointment_day").val();
-    					var cannot_contact_appointment_month = $("#cannot_contact_appointment_month").val();
-    					var cannot_contact_appointment_year = $("#cannot_contact_appointment_year").val();
+    					var cannot_contact_appointment_date = $("#cannot_contact_appointment_date").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
+    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -167,11 +159,9 @@
     				else if(result=="waiting")
     				{
     					var consider_reason = $("#consider_reason").val();
-    					var consider_appointment_feedback_day = $("#consider_appointment_feedback_day").val();
-    					var consider_appointment_feedback_month = $("#consider_appointment_feedback_month").val();
-    					var consider_appointment_feedback_year = $("#consider_appointment_feedback_year").val();
+    					var consider_appointment_feedback_date = $("#consider_appointment_feedback_date").val();
 
-    					if(consider_reason==""||consider_appointment_feedback_day==""||consider_appointment_feedback_month==""||consider_appointment_feedback_year=="")
+    					if(consider_reason==""||consider_appointment_feedback_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -621,22 +611,10 @@ use App\Record;
 						<div class="row">
 							<div class="col-xs-4">
 								<div class="input-group">
-									<span class="input-group-addon">วัน</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_day" name="start_priviledge_day" value=""/>
+									<input class="form-control yes_form datepicker" type="text" id="start_priviledge_date" name="start_priviledge_date" value=""/>
 								</div>
 							</div>
-							<div class="col-xs-4">
-								<div class="input-group">
-									<span class="input-group-addon">เดือน</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_month" name="start_priviledge_month" value=""/>
-								</div>
-							</div>
-							<div class="col-xs-4">
-								<div class="input-group">
-									<span class="input-group-addon">ปี</span>
-									<input class="form-control yes_form" type="text" id="start_priviledge_year" name="start_priviledge_year" value=""/>
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -646,26 +624,13 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<span class="input-group-addon">วัน</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_day" name="end_priviledge_day" value=""/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">เดือน</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_month" name="end_priviledge_month" value=""/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">ปี</span>
-										<input class="form-control yes_form" type="text" id="end_priviledge_year" name="end_priviledge_year" value=""/>
+										<input class="form-control yes_form datepicker" type="text" id="end_priviledge_date" name="end_priviledge_date" value=""/>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+                    </div>
+			</div>
 		</div>
 		<div class="row hide" id="no_reply_form">
 			<div class="col-xs-12">
@@ -687,20 +652,7 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<span class="input-group-addon">วัน</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_day" name="cannot_contact_appointment_day" value=""/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">เดือน</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_month" name="cannot_contact_appointment_month" value=""/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">ปี</span>
-										<input class="form-control no_reply_form" type="text" id="cannot_contact_appointment_year" name="cannot_contact_appointment_year" value=""/>
+										<input class="form-control no_reply_form datepicker" type="text" id="cannot_contact_appointment_date" name="cannot_contact_appointment_date" value=""/>
 									</div>
 								</div>
 							</div>
@@ -738,20 +690,7 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<span class="input-group-addon">วัน</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_day" name="consider_appointment_feedback_day" value=""/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">เดือน</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_month" name="consider_appointment_feedback_month" value=""/>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="input-group">
-										<span class="input-group-addon">ปี</span>
-										<input class="form-control waiting_form" type="text" id="consider_appointment_feedback_year" name="consider_appointment_feedback_year" value=""/>
+										<input class="form-control waiting_form datepicker" type="text" id="consider_appointment_feedback_date" name="consider_appointment_feedback_date" value=""/>
 									</div>
 								</div>
 							</div>

@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('sale.layouts.master')
 
 @section('content')
 @section('styles')
