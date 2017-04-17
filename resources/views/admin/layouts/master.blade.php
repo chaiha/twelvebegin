@@ -38,7 +38,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     @section('js_files')
     @show
-    {{ Html::script('js/jquery-3.1.1.min.js')}} 
     {{ Html::script('bootstrap/js/bootstrap.min.js') }}
     {{ Html::script('assets/js/ie10-viewport-bug-workaround.js') }}
   </body>

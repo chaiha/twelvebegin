@@ -7,6 +7,10 @@
 
   $(document).ready(function(){
 
+  	$(function(){
+       $( ".datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    });
+
     $("#confirm_btn").click(function(){
         $("#submit_form").submit();
 
@@ -32,11 +36,11 @@ use App\Record;
 			<div class="col-xs-2">
 				<label>No.</label>
 				<input type="hidden" id="id" name="id" value="{{$record->id}}" />
-				<input class="form-control" type="text" id="no" name="no" value="{{$record->no}}"/>
+				{{$record->no}}
 			</div>
 			<div class="col-xs-2">
 				<label>Code.</label>
-				<input class="form-control" type="text" id="code" name="code" value="{{$record->code}}"/>
+				{{$record->code}}
 			</div>
 			<div class="col-xs-3">
 				<label>Status.</label>
@@ -67,7 +71,7 @@ use App\Record;
 				</select>
 			</div>
 			<div class="col-xs-2">
-				<label>Dtac Type.</label>
+				<label>dtac Type.</label>
 				<select name="dtac_type"  class="selectpicker">
 					<option value="ร้านกทม" <?php if($record->dtac_type=="ร้านกทม"){echo "selected";}?>>ร้าน กทม</option>
 					<option value="ร้านตจว" <?php if($record->dtac_type=="ร้านตจว"){echo "selected";}?>>ร้าน ตจว</option>
@@ -80,9 +84,57 @@ use App\Record;
 			<div class="col-xs-2">
 				<label>ประเภทร้าน.</label>
 				<select name="shop_type"  class="selectpicker">
-					<option value="ร้านเบ็ดเตล็ด" <?php if($record->shop_type=="ร้านเบ็ดเตล็ด"){echo "selected";}?>>ร้าน เบ็ดเตล็ด</option>
-					<option value="ร้านอาหาร" <?php if($record->shop_type=="ร้านอาหาร"){echo "selected";}?>>ร้าน อาหาร</option>
-					<option value="ร้านอาหารนานาชาติ" <?php if($record->shop_type=="ร้านอาหารนานาชาติ"){echo "selected";}?>>ร้าน อาหารนานาชาติ</option>
+					<optgroup label="Dining">
+					<option value="ร้านอาหาร" <?php if($record->shop_type=="ร้านอาหาร"){echo "selected";}?>>ร้านอาหาร</option>
+					<option value="ร้านเครื่องดื่ม" <?php if($record->shop_type=="ร้านเครื่องดื่ม"){echo "selected";}?>>ร้านเครื่องดื่ม</option>
+					<option value="ร้านกาแฟ" <?php if($record->shop_type=="ร้านกาแฟ"){echo "selected";}?>>ร้านกาแฟ</option>
+					<option value="ร้านเบเกอรี่" <?php if($record->shop_type=="ร้านเบเกอรี่"){echo "selected";}?>>ร้านเบเกอรี่</option>
+					<option value="ผับ (ร้านอาหารและเครื่องดื่ม)" <?php if($record->shop_type=="ผับ (ร้านอาหารและเครื่องดื่ม)"){echo "selected";}?>>ผับ (ร้านอาหารและเครื่องดื่ม)</option>
+					<option value="ร้านขนมหวาน" <?php if($record->shop_type=="ร้านขนมหวาน"){echo "selected";}?>>ร้านขนมหวาน</option>
+					<option value="ร้านเครื่องดื่มและเบเกอรี่" <?php if($record->shop_type=="ร้านเครื่องดื่มและเบเกอรี่"){echo "selected";}?>>ร้านเครื่องดื่มและเบเกอรี่</option>
+					<option value="ร้านอาหารและเบเกอรี่" <?php if($record->shop_type=="ร้านอาหารและเบเกอรี่"){echo "selected";}?>>ร้านอาหารและเบเกอรี่</option>
+					<option value="ร้านไอศครีม" <?php if($record->shop_type=="ร้านไอศครีม"){echo "selected";}?>>ร้านไอศครีม</option>
+					<option value="ร้านเพื่อสุขภาพ" <?php if($record->shop_type=="ร้านเพื่อสุขภาพ"){echo "selected";}?>>ร้านเพื่อสุขภาพ</option>
+					<option value="ร้านบุฟเฟ่ต์" <?php if($record->shop_type=="ร้านบุฟเฟ่ต์"){echo "selected";}?>>ร้านบุฟเฟ่ต์</option>
+					<option value="โต๊ะจีน" <?php if($record->shop_type=="โต๊ะจีน"){echo "selected";}?>>โต๊ะจีน</option>
+					<optgroup label="Beauty & Healty">
+					<option value="ร้านสปา" <?php if($record->shop_type=="ร้านสปา"){echo "selected";}?>>ร้านสปา</option>
+					<option value="ร้านนวด" <?php if($record->shop_type=="ร้านนวด"){echo "selected";}?>>ร้านนวด</option>
+					<option value="ร้านเสริมสวย" <?php if($record->shop_type=="ร้านเสริมสวย"){echo "selected";}?>>ร้านเสริมสวย</option>
+					<option value="ร้านทำเล็บ" <?php if($record->shop_type=="ร้านทำเล็บ"){echo "selected";}?>>ร้านทำเล็บ	</option>
+					<option value="ร้านความงาม" <?php if($record->shop_type=="ร้านความงาม"){echo "selected";}?>>ร้านความงาม</option>
+					<option value="ฟิสเนส" <?php if($record->shop_type=="ฟิสเนส"){echo "selected";}?>>ฟิสเนส</option>
+					<option value="ร้านนวดและสปา" <?php if($record->shop_type=="ร้านนวดและสปา"){echo "selected";}?>>ร้านนวดและสปา</option>
+					<optgroup label="Hotel & Travel">
+					<option value="โรงแรม" <?php if($record->shop_type=="โรงแรม"){echo "selected";}?>>โรงแรม</option>
+					<option value="รีสอร์ท" <?php if($record->shop_type=="รีสอร์ท"){echo "selected";}?>>รีสอร์ท</option>
+					<option value="โฮมสเตย์" <?php if($record->shop_type=="โฮมสเตย์"){echo "selected";}?>>โฮมสเตย์</option>
+					<option value="เรือนำเที่ยว" <?php if($record->shop_type=="เรือนำเที่ยว"){echo "selected";}?>>เรือนำเที่ยว</option>
+					<option value="สถานที่ท่องเที่ยว" <?php if($record->shop_type=="สถานที่ท่องเที่ยว"){echo "selected";}?>>สถานที่ท่องเที่ยว</option>
+					<option value="อพาร์ทเม้นท์" <?php if($record->shop_type=="อพาร์ทเม้นท์"){echo "selected";}?>>อพาร์ทเม้นท์</option>
+					<option value="ทัวร์" <?php if($record->shop_type=="ทัวร์"){echo "selected";}?>>ทัวร์</option>
+					<option value="ฟาร์ม" <?php if($record->shop_type=="ฟาร์ม"){echo "selected";}?>>ฟาร์ม</option>
+					<optgroup label="Shopping & Lifestyle">
+					<option value="ร้านเบ็ดเตล็ด" <?php if($record->shop_type=="ร้านเบ็ดเตล็ด"){echo "selected";}?>>ร้านเบ็ดเตล็ด</option>
+					<option value="ร้านของฝาก" <?php if($record->shop_type=="ร้านของฝาก"){echo "selected";}?>>ร้านของฝาก</option>
+					<option value="โรงเรียน" <?php if($record->shop_type=="โรงเรียน"){echo "selected";}?>>โรงเรียน</option>
+					<option value="ร้านเสื้อผ้า" <?php if($record->shop_type=="ร้านเสื้อผ้า"){echo "selected";}?>>ร้านเสื้อผ้า</option>
+					<option value="ร้านเวดดิ้ง" <?php if($record->shop_type=="ร้านเวดดิ้ง"){echo "selected";}?>>ร้านเวดดิ้ง</option>
+					<option value="ร้านสัตว์เลี้ยง" <?php if($record->shop_type=="ร้านสัตว์เลี้ยง"){echo "selected";}?>>ร้านสัตว์เลี้ยง</option>
+					<option value="คาร์แคร์" <?php if($record->shop_type=="คาร์แคร์"){echo "selected";}?>>คาร์แคร์</option>
+					<option value="ร้านรองเท้า" <?php if($record->shop_type=="ร้านรองเท้า"){echo "selected";}?>>ร้านรองเท้า</option>
+					<option value="ร้านกระเป๋า" <?php if($record->shop_type=="ร้านกระเป๋า"){echo "selected";}?>>ร้านกระเป๋า</option>
+					<option value="ร้านเครื่องเขียน" <?php if($record->shop_type=="ร้านเครื่องเขียน"){echo "selected";}?>>ร้านเครื่องเขียน</option>
+					<option value="ร้านหนังสือ" <?php if($record->shop_type=="ร้านหนังสือ"){echo "selected";}?>>ร้านหนังสือ</option>
+					<option value="ร้านอิเล็กทรอนิคส์" <?php if($record->shop_type=="ร้านอิเล็กทรอนิคส์"){echo "selected";}?>>ร้านอิเล็กทรอนิคส์</option>
+					<option value="ร้านอุปกรณ์ไอที" <?php if($record->shop_type=="ร้านอุปกรณ์ไอที"){echo "selected";}?>>ร้านอุปกรณ์ไอที</option>
+					<option value="ร้านอุปกรณ์เบเกอรี่" <?php if($record->shop_type=="ร้านอุปกรณ์เบเกอรี่"){echo "selected";}?>>ร้านอุปกรณ์เบเกอรี่</option>
+					<option value="ร้านเครื่องดนตรี" <?php if($record->shop_type=="ร้านเครื่องดนตรี"){echo "selected";}?>>ร้านเครื่องดนตรี</option>
+					<option value="โรงภาพยนต์" <?php if($record->shop_type=="โรงภาพยนต์"){echo "selected";}?>>โรงภาพยนต์</option>
+					<option value="ร้านเครื่องประดับ" <?php if($record->shop_type=="ร้านเครื่องประดับ"){echo "selected";}?>>ร้านเครื่องประดับ</option>
+					<option value="ร้านเฟอร์นิเจอร์" <?php if($record->shop_type=="ร้านเฟอร์นิเจอร์"){echo "selected";}?>>ร้านเฟอร์นิเจอร์</option>
+					<option value="ร้านสินค้าเด็ก" <?php if($record->shop_type=="ร้านสินค้าเด็ก"){echo "selected";}?>>ร้านสินค้าเด็ก</option>
+					<option value="ร้านผลิตภัณฑ์ความงาม" <?php if($record->shop_type=="ร้านผลิตภัณฑ์ความงาม"){echo "selected";}?>>ร้านผลิตภัณฑ์ความงาม</option>
 				</select>
 			</div>
 			<div class="col-xs-4">
@@ -141,28 +193,13 @@ use App\Record;
 				<label>Contact Date [ วัน / เดือน / ปี ]</label>
 				<?php
 					$contact_date = explode("-",$record->contact_date);
-					$contact_day = $contact_date[1];
-					$contact_month = $contact_date[2];
+					$contact_day = $contact_date[2];
+					$contact_month = $contact_date[1];
 					$contact_year = $contact_date[0];
 				?>
 				<div class="row">
-					<div class="col-xs-4">
-						<div class="input-group">
-							<b>วัน</b>
-							<input class="form-control" type="text" id="contact_day" name="contact_day" value="{{$contact_day}}"/>
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<div class="input-group">
-							<b>เดือน</b>
-							<input class="form-control" type="text" id="contact_month" name="contact_month" value="{{$contact_month}}"/>
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<div class="input-group">
-							<b>ปี</b>
-							<input class="form-control" type="text" id="contact_year" name="contact_year" value="{{$contact_year}}" />
-						</div>
+					<div class="col-xs-12">
+						<input class="form-control waiting_form datepicker" type="text" id="contact_date" name="contact_date" value="<?php echo $contact_day.'/'.$contact_month.'/'.$contact_year ;?>"/>
 					</div>
 				</div>
 

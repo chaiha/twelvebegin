@@ -14,7 +14,7 @@ use App\Record;
 		      <th>#</th>
 		      <th>no</th>
 		      <th>code</th>
-		      <th>source</th>
+		      <th>แหล่งที่มา</th>
 		      <th>status</th>
 		      <th>categories</th>
 		      <th>ประเภทร้านค้าพิเศษ</th>
@@ -22,7 +22,7 @@ use App\Record;
 		      <th>name_en</th>
 		      <th>province</th>
 		      <th>contact_person</th>
-		      <th>contact_tel</th>
+		      <th>เบอร์โทรติดต่อ</th>
 		      <th>contact_date</th>
 		      <th>created_by</th>
 		      <th>created_at</th>

@@ -11,7 +11,7 @@
     
 		    		if($("#sources_edit").val()=="empty")
 		    		{
-		    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน sources');
+		    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน แหล่งที่มา');
 		    			error = error+1;
 						
 		    		}
@@ -45,39 +45,9 @@
 		    			error = error+1;
 						
 		    		}
-		    		if($("#branch_edit").val()=="")
-		    		{
-		    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน branch');
-		    			error = error+1;
-						
-		    		}
-		    		if($("#address_edit").val()=="")
-		    		{
-		    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน address');
-		    			error = error+1;
-						
-		    		}
 		    		if($("#province_edit").val()=="empty")
 					{
 						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน province');
-						error = error+1;
-						
-					}
-					if($("#latitude_edit").val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน latitude');
-						error = error+1;
-						
-					}
-					if($("#longtitude_edit").val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน longtitude');
-						error = error+1;
-						
-					}
-					if($("#contact_person_edit").val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact person');
 						error = error+1;
 						
 					}
@@ -87,24 +57,12 @@
 						error = error+1;
 						
 					}
-					if($("#contact_email_edit").val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact email');
-						error = error+1;
-						
-					}
 					if($("#links_edit").val()=="")
 					{
 						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน links');
 						error = error+1;
 						
 					}
-					if($("#remarks_edit").val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน remarks');
-						error = error+1;
-						
-					}	
 				
 		//check error before submit
 		if(error==0)
@@ -153,22 +111,17 @@ use App\Record;
 				<thead>
 				<tr>
 					<th class="add_padding_15">No.</th>
-					<th class="add_padding_15">Sources</th>
-					<th class="add_padding_15">Categories</th>
-					<th class="add_padding_15">Dtac Type</th>
-					<th class="add_padding_15">ประเภทร้าน</th>
+					<th class="add_padding_15">แหล่งที่มา<span class="red">*</span></th>
+					<th class="add_padding_15">Categories<span class="red">*</span></th>
+					<th class="add_padding_15">dtac Type<span class="red">*</span></th>
+					<th class="add_padding_15">ประเภทร้าน<span class="red">*</span></th>
 					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
-					<th class="add_padding_15">ชื่อไทย</th>
-					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
+					<th class="add_padding_15">ชื่อไทย<span class="red">**</span></th>
+					<th class="add_padding_15">ชื่อภาษาอังกฤษ<span class="red">**</span></th>
 					<th class="add_padding_15">สาขา</th>
-					<th class="add_padding_15">ที่อยู่</th>
-					<th class="add_padding_15">จังหวัด</th>
-					<th class="add_padding_15">ละติจูด</th>
-					<th class="add_padding_15">ลองติจูด</th>
-					<th class="add_padding_15">contact person</th>
-					<th class="add_padding_15">contact telephone</th>
-					<th class="add_padding_15">contact e-mail</th>
-					<th class="add_padding_15">Link</th>
+					<th class="add_padding_15">จังหวัด<span class="red">*</span></th>
+					<th class="add_padding_15">เบอร์โทรติดต่อ<span class="red">*</span></th>
+					<th class="add_padding_15">Link<span class="red">*</span></th>
 					<th class="add_padding_15">Remark</th>
 				</tr>
 				</thead>
@@ -271,15 +224,10 @@ use App\Record;
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_th']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_en']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['branch']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['address']}}</td>
 					<td class="add_padding_15">
 						{{$preview_new_record_list_each['province']}}
 					</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['latitude']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['longtitude']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['contact_person']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['contact_tel']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['contact_email']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['links']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['remarks']}}</td>
 				</tr>
@@ -291,20 +239,15 @@ use App\Record;
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 				<tr>
-					<th class="add_padding_15">Sources</th>
+					<th class="add_padding_15">แหล่งที่มา</th>
 					<th class="add_padding_15">Categories</th>
-					<th class="add_padding_15">Dtac Type</th>
+					<th class="add_padding_15">dtac Type</th>
 					<th class="add_padding_15">ประเภทร้าน</th>
 					<th class="add_padding_15">ชื่อไทย</th>
 					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
-					<th class="add_padding_15">ที่อยู่</th>
 					<th class="add_padding_15">จังหวัด</th>
-					<th class="add_padding_15">ละติจูด</th>
-					<th class="add_padding_15">ลองติจูด</th>
-					<th class="add_padding_15">contact person</th>
-					<th class="add_padding_15">contact telephone</th>
-					<th class="add_padding_15">contact e-mail</th>
+					<th class="add_padding_15">เบอร์โทรติดต่อ</th>
 					<th class="add_padding_15">Link</th>
 					<th class="add_padding_15">Remark</th>
 				</tr>
@@ -332,10 +275,11 @@ use App\Record;
 					<td class="add_padding_15">
 						<select name="dtac_type_edit"  class="selectpicker dtac_type" id="dtac_type_edit">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="ร้านกทม" <?php if($edit_duplicate_record['dtac_type']=="ร้านกทม"){echo "selected";}?>>ร้าน กทม</option>
-							<option value="ร้านตจว" <?php if($edit_duplicate_record['dtac_type']=="ร้านตจว"){echo "selected";}?>>ร้าน ตจว</option>
-							<option value="ร้านonline" <?php if($edit_duplicate_record['dtac_type']=="ร้านonline"){echo "selected";}?>>ร้าน online</option>
+							<option value="ร้านต่างจังหวัด" <?php if($edit_duplicate_record['dtac_type']=="ร้านต่างจังหวัด"){echo "selected";}?>>ร้าน ต่างจังหวัด</option>
+							<option value="ร้านกทม./นนทบุรี/สมุทรปราการ" <?php if($edit_duplicate_record['dtac_type']=="ร้านกทม./นนทบุรี/สมุทรปราการ"){echo "selected";}?>>ร้าน กทม./นนทบุรี/สมุทรปราการ</option>
+							<option value="ร้านdtacแนะนำ" <?php if($edit_duplicate_record['dtac_type']=="ร้านdtacแนะนำ"){echo "selected";}?>>ร้าน dtac แนะนำ</option>
 							<option value="ร้านต่ออายุ" <?php if($edit_duplicate_record['dtac_type']=="ร้านต่ออายุ"){echo "selected";}?>>ร้านต่ออายุ</option>
+							<option value="ร้านonline" <?php if($edit_duplicate_record['dtac_type']=="ร้านonline"){echo "selected";}?>>ร้าน online</option>
 							<option value="ร้านดีลอย่างเดียว" <?php if($edit_duplicate_record['dtac_type']=="ร้านดีลอย่างเดียว"){echo "selected";}?>>ร้านดีลอย่างเดียว</option>
 							<option value="ร้านเฉพาะอาร์ทเวิร์ค" <?php if($edit_duplicate_record['dtac_type']=="ร้านเฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>ร้านเฉพาะอาร์ทเวิร์ค</option>
 						</select>
@@ -343,18 +287,63 @@ use App\Record;
 					<td class="add_padding_15">
 						<select name="shop_type_edit"  class="selectpicker shop_type" id="shop_type_edit">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="ร้านเบ็ดเตล็ด" <?php if($edit_duplicate_record['shop_type']=="ร้านเบ็ดเตล็ด"){echo "selected";}?>>ร้าน เบ็ดเตล็ด</option>
-							<option value="ร้านอาหาร" <?php if($edit_duplicate_record['shop_type']=="ร้านอาหาร"){echo "selected";}?>>ร้าน อาหาร</option>
-							<option value="ร้านอาหารนานาชาติ" <?php if($edit_duplicate_record['shop_type']=="ร้านอาหารนานาชาติ"){echo "selected";}?>>ร้าน อาหารนานาชาติ</option>
+							<optgroup label="Dining">
+							<option value="ร้านอาหาร" <?php if($edit_duplicate_record['shop_type']=="ร้านอาหาร"){echo "selected";}?>>ร้านอาหาร</option>
+							<option value="ร้านเครื่องดื่ม" <?php if($edit_duplicate_record['shop_type']=="ร้านเครื่องดื่ม"){echo "selected";}?>>ร้านเครื่องดื่ม</option>
+							<option value="ร้านกาแฟ" <?php if($edit_duplicate_record['shop_type']=="ร้านกาแฟ"){echo "selected";}?>>ร้านกาแฟ</option>
+							<option value="ร้านเบเกอรี่" <?php if($edit_duplicate_record['shop_type']=="ร้านเบเกอรี่"){echo "selected";}?>>ร้านเบเกอรี่</option>
+							<option value="ผับ (ร้านอาหารและเครื่องดื่ม)" <?php if($edit_duplicate_record['shop_type']=="ผับ (ร้านอาหารและเครื่องดื่ม)"){echo "selected";}?>>ผับ (ร้านอาหารและเครื่องดื่ม)</option>
+							<option value="ร้านขนมหวาน" <?php if($edit_duplicate_record['shop_type']=="ร้านขนมหวาน"){echo "selected";}?>>ร้านขนมหวาน</option>
+							<option value="ร้านเครื่องดื่มและเบเกอรี่" <?php if($edit_duplicate_record['shop_type']=="ร้านเครื่องดื่มและเบเกอรี่"){echo "selected";}?>>ร้านเครื่องดื่มและเบเกอรี่</option>
+							<option value="ร้านอาหารและเบเกอรี่" <?php if($edit_duplicate_record['shop_type']=="ร้านอาหารและเบเกอรี่"){echo "selected";}?>>ร้านอาหารและเบเกอรี่</option>
+							<option value="ร้านไอศครีม" <?php if($edit_duplicate_record['shop_type']=="ร้านไอศครีม"){echo "selected";}?>>ร้านไอศครีม</option>
+							<option value="ร้านเพื่อสุขภาพ" <?php if($edit_duplicate_record['shop_type']=="ร้านเพื่อสุขภาพ"){echo "selected";}?>>ร้านเพื่อสุขภาพ</option>
+							<option value="ร้านบุฟเฟ่ต์" <?php if($edit_duplicate_record['shop_type']=="ร้านบุฟเฟ่ต์"){echo "selected";}?>>ร้านบุฟเฟ่ต์</option>
+							<option value="โต๊ะจีน" <?php if($edit_duplicate_record['shop_type']=="โต๊ะจีน"){echo "selected";}?>>โต๊ะจีน</option>
+							<optgroup label="Beauty & Healty">
+							<option value="ร้านสปา" <?php if($edit_duplicate_record['shop_type']=="ร้านสปา"){echo "selected";}?>>ร้านสปา</option>
+							<option value="ร้านนวด" <?php if($edit_duplicate_record['shop_type']=="ร้านนวด"){echo "selected";}?>>ร้านนวด</option>
+							<option value="ร้านเสริมสวย" <?php if($edit_duplicate_record['shop_type']=="ร้านเสริมสวย"){echo "selected";}?>>ร้านเสริมสวย</option>
+							<option value="ร้านทำเล็บ" <?php if($edit_duplicate_record['shop_type']=="ร้านทำเล็บ"){echo "selected";}?>>ร้านทำเล็บ	</option>
+							<option value="ร้านความงาม" <?php if($edit_duplicate_record['shop_type']=="ร้านความงาม"){echo "selected";}?>>ร้านความงาม</option>
+							<option value="ฟิสเนส" <?php if($edit_duplicate_record['shop_type']=="ฟิสเนส"){echo "selected";}?>>ฟิสเนส</option>
+							<option value="ร้านนวดและสปา" <?php if($edit_duplicate_record['shop_type']=="ร้านนวดและสปา"){echo "selected";}?>>ร้านนวดและสปา</option>
+							<optgroup label="Hotel & Travel">
+							<option value="โรงแรม" <?php if($edit_duplicate_record['shop_type']=="โรงแรม"){echo "selected";}?>>โรงแรม</option>
+							<option value="รีสอร์ท" <?php if($edit_duplicate_record['shop_type']=="รีสอร์ท"){echo "selected";}?>>รีสอร์ท</option>
+							<option value="โฮมสเตย์" <?php if($edit_duplicate_record['shop_type']=="โฮมสเตย์"){echo "selected";}?>>โฮมสเตย์</option>
+							<option value="เรือนำเที่ยว" <?php if($edit_duplicate_record['shop_type']=="เรือนำเที่ยว"){echo "selected";}?>>เรือนำเที่ยว</option>
+							<option value="สถานที่ท่องเที่ยว" <?php if($edit_duplicate_record['shop_type']=="สถานที่ท่องเที่ยว"){echo "selected";}?>>สถานที่ท่องเที่ยว</option>
+							<option value="อพาร์ทเม้นท์" <?php if($edit_duplicate_record['shop_type']=="อพาร์ทเม้นท์"){echo "selected";}?>>อพาร์ทเม้นท์</option>
+							<option value="ทัวร์" <?php if($edit_duplicate_record['shop_type']=="ทัวร์"){echo "selected";}?>>ทัวร์</option>
+							<option value="ฟาร์ม" <?php if($edit_duplicate_record['shop_type']=="ฟาร์ม"){echo "selected";}?>>ฟาร์ม</option>
+							<optgroup label="Shopping & Lifestyle">
+							<option value="ร้านเบ็ดเตล็ด" <?php if($edit_duplicate_record['shop_type']=="ร้านเบ็ดเตล็ด"){echo "selected";}?>>ร้านเบ็ดเตล็ด</option>
+							<option value="ร้านของฝาก" <?php if($edit_duplicate_record['shop_type']=="ร้านของฝาก"){echo "selected";}?>>ร้านของฝาก</option>
+							<option value="โรงเรียน" <?php if($edit_duplicate_record['shop_type']=="โรงเรียน"){echo "selected";}?>>โรงเรียน</option>
+							<option value="ร้านเสื้อผ้า" <?php if($edit_duplicate_record['shop_type']=="ร้านเสื้อผ้า"){echo "selected";}?>>ร้านเสื้อผ้า</option>
+							<option value="ร้านเวดดิ้ง" <?php if($edit_duplicate_record['shop_type']=="ร้านเวดดิ้ง"){echo "selected";}?>>ร้านเวดดิ้ง</option>
+							<option value="ร้านสัตว์เลี้ยง" <?php if($edit_duplicate_record['shop_type']=="ร้านสัตว์เลี้ยง"){echo "selected";}?>>ร้านสัตว์เลี้ยง</option>
+							<option value="คาร์แคร์" <?php if($edit_duplicate_record['shop_type']=="คาร์แคร์"){echo "selected";}?>>คาร์แคร์</option>
+							<option value="ร้านรองเท้า" <?php if($edit_duplicate_record['shop_type']=="ร้านรองเท้า"){echo "selected";}?>>ร้านรองเท้า</option>
+							<option value="ร้านกระเป๋า" <?php if($edit_duplicate_record['shop_type']=="ร้านกระเป๋า"){echo "selected";}?>>ร้านกระเป๋า</option>
+							<option value="ร้านเครื่องเขียน" <?php if($edit_duplicate_record['shop_type']=="ร้านเครื่องเขียน"){echo "selected";}?>>ร้านเครื่องเขียน</option>
+							<option value="ร้านหนังสือ" <?php if($edit_duplicate_record['shop_type']=="ร้านหนังสือ"){echo "selected";}?>>ร้านหนังสือ</option>
+							<option value="ร้านอิเล็กทรอนิคส์" <?php if($edit_duplicate_record['shop_type']=="ร้านอิเล็กทรอนิคส์"){echo "selected";}?>>ร้านอิเล็กทรอนิคส์</option>
+							<option value="ร้านอุปกรณ์ไอที" <?php if($edit_duplicate_record['shop_type']=="ร้านอุปกรณ์ไอที"){echo "selected";}?>>ร้านอุปกรณ์ไอที</option>
+							<option value="ร้านอุปกรณ์เบเกอรี่" <?php if($edit_duplicate_record['shop_type']=="ร้านอุปกรณ์เบเกอรี่"){echo "selected";}?>>ร้านอุปกรณ์เบเกอรี่</option>
+							<option value="ร้านเครื่องดนตรี" <?php if($edit_duplicate_record['shop_type']=="ร้านเครื่องดนตรี"){echo "selected";}?>>ร้านเครื่องดนตรี</option>
+							<option value="โรงภาพยนต์" <?php if($edit_duplicate_record['shop_type']=="โรงภาพยนต์"){echo "selected";}?>>โรงภาพยนต์</option>
+							<option value="ร้านเครื่องประดับ" <?php if($edit_duplicate_record['shop_type']=="ร้านเครื่องประดับ"){echo "selected";}?>>ร้านเครื่องประดับ</option>
+							<option value="ร้านเฟอร์นิเจอร์" <?php if($edit_duplicate_record['shop_type']=="ร้านเฟอร์นิเจอร์"){echo "selected";}?>>ร้านเฟอร์นิเจอร์</option>
+							<option value="ร้านสินค้าเด็ก" <?php if($edit_duplicate_record['shop_type']=="ร้านสินค้าเด็ก"){echo "selected";}?>>ร้านสินค้าเด็ก</option>
+							<option value="ร้านผลิตภัณฑ์ความงาม" <?php if($edit_duplicate_record['shop_type']=="ร้านผลิตภัณฑ์ความงาม"){echo "selected";}?>>ร้านผลิตภัณฑ์ความงาม</option>
 						</select>
 					</td>
 					<td class="add_padding_15"><input type="text" name="name_th_edit" id="name_th_edit" value="{{$edit_duplicate_record['name_th']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en_edit" id="name_en_edit" value="{{$edit_duplicate_record['name_en']}}" /></td>
 					<td class="add_padding_15">
 						<textarea name="branch_edit" id="branch_edit">{{$edit_duplicate_record['branch']}}</textarea>
-					</td>
-					<td class="add_padding_15">
-						<textarea name="address_edit" id="address_edit" >{{$edit_duplicate_record['address']}}</textarea>
 					</td>
 					<td class="add_padding_15">
 						<select name="province_edit" id="province_edit" class="selectpicker">
@@ -376,17 +365,9 @@ use App\Record;
 						</select>
 					</td>
 					<td class="add_padding_15">
-					<textarea name="latitude_edit" id="latitude_edit">{{$edit_duplicate_record['latitude']}}</textarea>
-					</td>
-					<td class="add_padding_15">
-					<textarea name="longtitude_edit" id="longtitude_edit">{{$edit_duplicate_record['longtitude']}}</textarea>
-					</td>
-					<td class="add_padding_15"><input type="text" name="contact_person_edit" id="contact_person_edit" value="{{$edit_duplicate_record['contact_person']}}" /></td>
-					<td class="add_padding_15">
 					<textarea name="contact_tel_edit" id="contact_tel_edit">{{$edit_duplicate_record['contact_tel']}}
 					</textarea>
 					</td>
-					<td class="add_padding_15"><input type="text" name="contact_email_edit" id="contact_email_edit" value="{{$edit_duplicate_record['contact_email']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="links_edit" id="links_edit" value="{{$edit_duplicate_record['links']}}" /></td>
 					<td class="add_padding_15"><input type="text" name="remarks_edit" id="remarks_edit" value="{{$edit_duplicate_record['remarks']}}" /></td>
 				</tr>

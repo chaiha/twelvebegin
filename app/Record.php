@@ -123,10 +123,15 @@ class Record extends Model
 
     static public function province_list()
     {
-        $province = array("กระบี่","กรุงเทพมหานคร","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยโสธร","ยะลา","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อำนาจเจริญ","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี");
+        $province = array("กระบี่","กรุงเทพมหานครฯ","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยโสธร","ยะลา","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อำนาจเจริญ","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี");
 
         return $province;
     }
+
+    // static public function shop_type_list()
+    // {
+    //     $shop_type_list = array("",);
+    // }
 
     static public function check_duplicate_record($name_th,$name_en,$province)
     {
@@ -165,28 +170,76 @@ class Record extends Model
 
     static public function amount_extend_priviledge()
     {
-        $result = Record::where('selective_status','=','extend')->where('status','=','Available')->get();
+        $select_record = SelectRecord::groupBy('record_id')->get();
+        $i = 0;
+        foreach($select_record as $select_record_each)
+        {
+            $select_record_array[$i]= $select_record_each->record_id;
+            $i++;
+        }
+        $result = Record::where('selective_status','=','extend')
+        ->where('status','=','Available')
+        ->whereNotIn('id',$select_record_array)
+        ->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }
 
     static public function amount_waiting_record($sale_id)
     {
-        $result = Record::where('selective_status','=','waiting')->where('sale','=',$sale_id)->where('status','=','Available')->get();
+        $select_record = SelectRecord::groupBy('record_id')->get();
+        $i = 0;
+        foreach($select_record as $select_record_each)
+        {
+            $select_record_array[$i]= $select_record_each->record_id;
+            $i++;
+        }
+        $result = Record::where('selective_status','=','waiting')
+        ->where(function ($query) use ($sale_id)
+            {
+                $query->where('sale','=',$sale_id)->orWhere('sale','=',NULL);
+            })
+        ->where('status','=','Available')
+        ->whereNotIn('id',$select_record_array)
+        ->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }
 
     static public function amount_noreply_record($sale_id)
     {
-        $result = Record::where('selective_status','=','noreply')->where('sale','=',$sale_id)->where('status','=','Available')->get();
+        $select_record = SelectRecord::groupBy('record_id')->get();
+        $i = 0;
+        foreach($select_record as $select_record_each)
+        {
+            $select_record_array[$i]= $select_record_each->record_id;
+            $i++;
+        }
+        $result = Record::where('selective_status','=','noreply')
+         ->where(function ($query) use ($sale_id)
+            {
+                $query->where('sale','=',$sale_id)->orWhere('sale','=',NULL);
+            })
+        ->where('status','=','Available')
+        ->whereNotIn('id',$select_record_array)
+        ->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }
 
     static public function amount_new_record()
     {
-        $result = Record::where('selective_status','=','new')->where('status','=','Available')->get();
+        $select_record = SelectRecord::groupBy('record_id')->get();
+        $i = 0;
+        foreach($select_record as $select_record_each)
+        {
+            $select_record_array[$i]= $select_record_each->record_id;
+            $i++;
+        }
+        $result = Record::where('selective_status','=','new')
+        ->where('status','=','Available')
+        ->whereNotIn('id',$select_record_array)
+        ->get();
         $size_of_result = sizeof($result);
         return $size_of_result;
     }

@@ -3,41 +3,41 @@
 
 <script>
 
-function select_record_checkbox(record_id)
-{
-	var record_id = record_id;
-	var is_checked = document.getElementById(record_id).checked;
-	if(is_checked==true)
-	  	{
-	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-            $.ajax({
-		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/add_selected_record_noreply')}}",
-		    	data: {"data" : record_id,"_token": $('#token').val()}, 
-		    	cache: false,
+// function select_record_checkbox(record_id)
+// {
+// 	var record_id = record_id;
+// 	var is_checked = document.getElementById(record_id).checked;
+// 	if(is_checked==true)
+// 	  	{
+// 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+//             $.ajax({
+// 		    	type: "POST",
+// 		    	url: "{{url('/admin/selected_record/add_selected_record_noreply')}}",
+// 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
+// 		    	cache: false,
 
-		        success: function(){
-		        	alert('เพิ่มเข้าสู่ระบบ');
-		             location.reload();
-	         	}
-  			});
-	  	}
-	else
-	  	{
-	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-            $.ajax({
-		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/remove_selected_record_noreply')}}",
-		    	data: {"data" : record_id,"_token": $('#token').val()}, 
-		    	cache: false,
+// 		        success: function(){
+// 		        	alert('เพิ่มเข้าสู่ระบบ');
+// 		             location.reload();
+// 	         	}
+//   			});
+// 	  	}
+// 	else
+// 	  	{
+// 	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+//             $.ajax({
+// 		    	type: "POST",
+// 		    	url: "{{url('/admin/selected_record/remove_selected_record_noreply')}}",
+// 		    	data: {"data" : record_id,"_token": $('#token').val()}, 
+// 		    	cache: false,
 
-		        success: function(){
-		        	alert('เอาออกจากระบบ');
-		             location.reload();
-	         	}
-  			});
-	  	}
-}
+// 		        success: function(){
+// 		        	alert('เอาออกจากระบบ');
+// 		             location.reload();
+// 	         	}
+//   			});
+// 	  	}
+// }
 
 function submit_form()
 {
@@ -47,7 +47,14 @@ function submit_form()
 	}
 	
 }  		
-
+function submit_list()
+{
+	if(confirm('กรุณายืนยันเพื่อทำการ Submit List'))
+	{
+		document.getElementById("submit_list_form").submit();	
+	}
+	
+}
   		
 
 //-------------------------
@@ -97,14 +104,18 @@ use App\SelectRecord;
 		<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale/filter_waiting/'.$sale->id)}}" role="button" id="confirm_btn">รอการพิจารณา  ({{$check_amount->amount_waiting_record($sale->id)}})</a>
 		<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale/filter_noreply/'.$sale->id)}}" role="button" id="confirm_btn">ยังไม่สามารถติดต่อได้  ({{$check_amount->amount_noreply_record($sale->id)}})</a>
 		<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale/filter_new_record/'.$sale->id)}}" role="button" id="confirm_btn">Lead ใหม่  ({{$check_amount->amount_new_record()}})</a>
+		<a class="btn btn-success" href="#" role="button" id="confirm_btn" onClick="submit_list()">Submit</a>
+		{{Form::open(array('action'=>'AdminController@preview_select_record','id'=>'submit_list_form'))}}
+		<input type="hidden" name="sale_id" id="sale_id_submit" value="{{$sale->id}}" />
+		{{Form::close()}}
 		<h3>Lead ยังไม่สามารถติดต่อได้</h3>
 		จำนวน Record ที่เลือก : ต่อายุ: <span style="color:red;"><?php $mem_selected_record_extend = session('mem_selected_record_extend'); echo sizeof($mem_selected_record_extend	);?></span> + รอการพิจารณา: <span style="color:red;"><?php $mem_selected_record_waiting = session('mem_selected_record_waiting'); echo sizeof($mem_selected_record_waiting	);?></span> + ยังไม่สามารถติดต่อได้: <span style="color:red;"><?php $mem_selected_record_noreply = session('mem_selected_record_noreply'); echo sizeof($mem_selected_record_noreply	);?></span> + ใหม่: <span style="color:red;"><?php $mem_selected_record_new = session('mem_selected_record_new'); echo sizeof($mem_selected_record_new	);?></span> = รวมทั้งหมด <span style="color:red;"><?php $total_selected = sizeof($mem_selected_record_extend)+sizeof($mem_selected_record_waiting)+sizeof($mem_selected_record_noreply)+sizeof($mem_selected_record_new); echo $total_selected; ?></span>
-		{{Form::open(array('action' => 'AdminController@preview_select_record','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'AdminController@add_selected_record_noreply','id'=>'submit_form'))}}
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
 		      <th>Select<input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" /></th>
-		      <th>#</th>
+		      <th>#<input type="hidden" name="currentPage" id="currentPage" value="{{$record_list->currentPage()}}" /></th>
 		      <th>no</th>
 		      <th>code</th>
 		      <th>status</th>
@@ -136,7 +147,7 @@ use App\SelectRecord;
 		  <tbody>
 		  @foreach ($record_list as $each_record)
 		    <tr>
-		      <td><input type="checkbox" class="select_checkbox" name="selected_record[]" id="{{$each_record->id}}" value="{{$each_record->id}}" onClick="select_record_checkbox({{$each_record->id}})" <?php $has_record = SelectRecord::check_selected_record_noreply($each_record->id); if($has_record=="1"){echo "checked";}?>/></td>
+		      <td><input type="checkbox" class="select_checkbox" name="selected_record[]" id="{{$each_record->id}}" value="{{$each_record->id}}" onClick="select_record_checkbox({{$each_record->id}})" /></td>
 		      <td>{{$each_record->id}}</td>
 		      <td>{{$each_record->no}}</td>
 		      <td>{{$each_record->code}}</td>
@@ -173,7 +184,7 @@ use App\SelectRecord;
 		{{ Form::close() }}
 		{{$record_list->links()}}
 	</div>
-	<a class="btn btn-primary" href="#" role="button" id="confirm_btn" onClick="submit_form()">Submit</a>
+	<a class="btn btn-primary" href="#" role="button" id="confirm_btn" onClick="submit_form()">Update</a>
 </div>
 
 @endsection

@@ -133,25 +133,10 @@ use App\Record;
 			<div class="col-xs-4">
 				<label>Contact Date [ วัน / เดือน / ปี ]</label>
 				<div class="row">
-					<div class="col-xs-4">
+					<div class="col-xs-12">
 						<div class="input-group">
-							<b>วัน</b>
-							{{$record['contact_day']}}
-							<input class="form-control" type="hidden" id="contact_day" name="contact_day" value="{{$record['contact_day']}}"/>
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<div class="input-group">
-							<b>เดือน</b>
-							{{$record['contact_month']}}
-							<input class="form-control" type="hidden" id="contact_month" name="contact_month" value="{{$record['contact_month']}}"/>
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<div class="input-group">
-							<b>ปี</b>
-							{{$record['contact_year']}}
-							<input class="form-control" type="hidden" id="contact_year" name="contact_year" value="{{$record['contact_year']}}" />
+							{{$record['contact_date']}}
+							<input class="form-control" type="hidden" id="contact_date" name="contact_date" value="{{$record['contact_date']}}" />
 						</div>
 					</div>
 				</div>

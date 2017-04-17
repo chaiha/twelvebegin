@@ -3,42 +3,6 @@
 
 <script>
 
-function select_record_checkbox(record_id)
-{
-	var record_id = record_id;
-	var is_checked = document.getElementById(record_id).checked;
-	if(is_checked==true)
-	  	{
-	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-            $.ajax({
-		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/add_selected_record')}}",
-		    	data: {"data" : record_id,"_token": $('#token').val()}, 
-		    	cache: false,
-
-		        success: function(){
-		        	alert('เพิ่มเข้าสู่ระบบ');
-		             location.reload();
-	         	}
-  			});
-	  	}
-	else
-	  	{
-	  		$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-            $.ajax({
-		    	type: "POST",
-		    	url: "{{url('/admin/selected_record/remove_selected_record')}}",
-		    	data: {"data" : record_id,"_token": $('#token').val()}, 
-		    	cache: false,
-
-		        success: function(){
-		        	alert('เอาออกจากระบบ');
-		             location.reload();
-	         	}
-  			});
-	  	}
-}
-
   $(document).ready(function(){
 
     $("#confirm_btn").click(function(){
@@ -48,36 +12,15 @@ function select_record_checkbox(record_id)
 
   });
 
-  		
-
-//-------------------------
- //  if(document.getElementById('isAgeSelected').checked) {
-	//     // $("#txtAge").show();
-	//     alert("xxx");
-	// } else {
-	//     $("#txtAge").hide();
-	// }
-	//--------------------
-  //   $("#update_selected_record").click(function(){
-
-  // //   	alert("x");
-  // //   	 dataString = ['xx','yy','zz']; // array?
-  // //   	//dataString = "1"; // array?
-		// //  var jsonString = JSON.stringify(dataString);
-		// // $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-  // //       $.ajax({
-		// //         type: "POST",
-		// //         url: "{{url('/admin/selected_record/add_selected_record')}}",
-		// //         data: {"data" : jsonString,"_token": $('#token').val()}, 
-		// //         cache: false,
-
-		// //         success: function(){
-		// //             alert("OK");
-	 // //        	}
-  // //       	});
-  //    	});
-
-  // });
+  function remove_record(id)
+  {
+  	if(confirm("กรุณายืนยันเพื่อทำการลบ lead นี้ออกจาก list"))
+  	{
+  		//document.remove_record_form.selected_record_remove_id.value = id;
+  		$("#selected_record_remove_id").val(id);
+  		$("#remove_record_form").submit();
+  	}
+  }
 
 </script>
 @stop
@@ -91,12 +34,16 @@ use App\SelectRecord;
 	<div class="row">
 		<h1>Reocord ที่เลือกให้สำหรับ เซล {{$sale->first_name}}</h1>
 		จำนวน Record ที่เลือก : ต่อายุ: <span style="color:red;"><?php $mem_selected_record_extend = session('mem_selected_record_extend'); echo sizeof($mem_selected_record_extend	);?></span> + รอการพิจารณา: <span style="color:red;"><?php $mem_selected_record_waiting = session('mem_selected_record_waiting'); echo sizeof($mem_selected_record_waiting	);?></span> + ยังไม่สามารถติดต่อได้: <span style="color:red;"><?php $mem_selected_record_noreply = session('mem_selected_record_noreply'); echo sizeof($mem_selected_record_noreply	);?></span> + ใหม่: <span style="color:red;"><?php $mem_selected_record_new = session('mem_selected_record_new'); echo sizeof($mem_selected_record_new	);?></span> = รวมทั้งหมด <span style="color:red;"><?php $total_selected = sizeof($mem_selected_record_extend)+sizeof($mem_selected_record_waiting)+sizeof($mem_selected_record_noreply)+sizeof($mem_selected_record_new); echo $total_selected; ?></span>
+		{{Form::open(array('action' => 'AdminController@remove_record_form_selected_list','id'=>'remove_record_form'))}}
+			<input type="hidden" name="selected_record_remove_id" id="selected_record_remove_id" value="" />
+		{{Form::close()}}
 		{{Form::open(array('action' => 'AdminController@submit_select_record','id'=>'submit_form'))}}
-		<h3>Lead ต่ออายุ : <span class="red"><?php echo sizeof($mem_selected_record_extend); ?></span></h3>
+		<h3>Lead ต่ออายุ : <span class="red"><?php echo sizeof($mem_selected_record_extend); ?></span> <a href="{{url('/admin/select_record/select_sale/filter_extend/'.$sale->id)}}" class="btn btn-primary">เลือกเพิ่ม</a></h3>
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
 		      <input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" />
+		      <th>ลบ</th>
 		      <th>#</th>
 		      <th>no</th>
 		      <th>code</th>
@@ -130,6 +77,7 @@ use App\SelectRecord;
 		  @if($selected_record_list_extend!=NULL)
 		  @foreach ($selected_record_list_extend as $each_record_extend)
 		    <tr>
+		      <td><a href="#" onClick="remove_record({{$each_record_extend->id}})">ลบ</a></td>
 		      <td>{{$each_record_extend->id}}</td>
 		      <td>{{$each_record_extend->no}}</td>
 		      <td>{{$each_record_extend->code}}</td>
@@ -165,10 +113,11 @@ use App\SelectRecord;
 		
 		</table>
 
-		<h3>Lead รอการพิจารณา : <span class="red"><?php echo sizeof($mem_selected_record_waiting); ?></span></h3>
+		<h3>Lead รอการพิจารณา : <span class="red"><?php echo sizeof($mem_selected_record_waiting); ?></span> <a href="{{url('/admin/select_record/select_sale/filter_waiting/'.$sale->id)}}" class="btn btn-primary">เลือกเพิ่ม</a></h3>
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+		      <th>ลบ</th>
 		      <th>#</th>
 		      <th>no</th>
 		      <th>code</th>
@@ -202,6 +151,7 @@ use App\SelectRecord;
 		  @if($selected_record_list_waiting!=NULL)
 		  @foreach ($selected_record_list_waiting as $each_record_waiting)
 		    <tr>
+		      <td><a href="#" onClick="remove_record({{$each_record_waiting->id}})">ลบ</a></td>
 		      <td>{{$each_record_waiting->id}}</td>
 		      <td>{{$each_record_waiting->no}}</td>
 		      <td>{{$each_record_waiting->code}}</td>
@@ -236,10 +186,11 @@ use App\SelectRecord;
 		
 		</table>
 
-		<h3>Lead ยังไม่สามารถติดต่อได้ : <span class="red"><?php echo sizeof($mem_selected_record_noreply); ?></span></h3>
+		<h3>Lead ยังไม่สามารถติดต่อได้ : <span class="red"><?php echo sizeof($mem_selected_record_noreply); ?></span> <a href="{{url('/admin/select_record/select_sale/filter_noreply/'.$sale->id)}}" class="btn btn-primary">เลือกเพิ่ม</a></h3>
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+		      <th>ลบ</th>
 		      <th>#</th>
 		      <th>no</th>
 		      <th>code</th>
@@ -273,6 +224,7 @@ use App\SelectRecord;
 		  @if($selected_record_list_noreply!=NULL)
 		  @foreach ($selected_record_list_noreply as $each_record_noreply)
 		    <tr>
+		      <td><a href="#" onClick="remove_record({{$each_record_noreply->id}})">ลบ</a></td>
 		      <td>{{$each_record_noreply->id}}</td>
 		      <td>{{$each_record_noreply->no}}</td>
 		      <td>{{$each_record_noreply->code}}</td>
@@ -307,10 +259,11 @@ use App\SelectRecord;
 		
 		</table>
 
-		<h3>Lead ใหม่ : <span class="red"><?php echo sizeof($mem_selected_record_new); ?></span></h3>
+		<h3>Lead ใหม่ : <span class="red"><?php echo sizeof($mem_selected_record_new); ?></span>  <a href="{{url('/admin/select_record/select_sale/filter_new_record/'.$sale->id)}}" class="btn btn-primary">เลือกเพิ่ม</a></h3>
 		<table class="table">
 		  <thead class="thead-inverse">
 		    <tr>
+		      <th>ลบ</th>
 		      <th>#</th>
 		      <th>no</th>
 		      <th>code</th>
@@ -344,6 +297,7 @@ use App\SelectRecord;
 		  @if($selected_record_list_new!=NULL)
 		  @foreach ($selected_record_list_new as $each_record_new)
 		    <tr>
+		      <td><a href="#" onClick="remove_record({{$each_record_new->id}})">ลบ</a></td>
 		      <td>{{$each_record_new->id}}</td>
 		      <td>{{$each_record_new->no}}</td>
 		      <td>{{$each_record_new->code}}</td>

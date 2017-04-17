@@ -72,11 +72,11 @@ class CallController extends Controller
 
     public function select_record_call($id)
     {
+        $user = session('user');
         $record = SelectRecord::increase_call_amount($id);
         $record = SelectRecord::where('record_id','=',$id)->first();
-        $user = session('user');
         $select_record = SelectRecord::where('record_id','=',$id)->where('sale_id','=',$user->id)->first();
-        //print_r($select_record);
+        // print_r($user);
         $call_amount = $select_record->call_amount;
         return view('sale.select.select_call_record')->with('record',$record)->with('call_amount',$call_amount)->with('select_record',$select_record);
     }
@@ -489,9 +489,9 @@ class CallController extends Controller
     public function edit_submit_record($record_id)
     {
         $sale_filled_edit = session('sale_filled_edit');
+        //print_r($sale_filled_edit);
         $select_record = SelectRecord::where('record_id','=',$record_id)->first();
         $user = session('user');
-
         return view('sale.select.edit_submit_record')->with('select_record',$select_record)->with('user',$user)->with('sale_filled_edit',$sale_filled_edit);
     }
 
@@ -519,7 +519,7 @@ class CallController extends Controller
         }
         else
         {
-            $sale_filled_edit['edit_address'] ="none";
+            $sale_filled_edit['edit_address'] ="";
         }
         if($edit_contact_person!="")
         {
@@ -529,7 +529,7 @@ class CallController extends Controller
         }
         else
         {
-            $sale_filled_edit['edit_contact_person']="none";
+            $sale_filled_edit['edit_contact_person']="";
         }
         // print_r($sale_filled_edit['edit_address']);
         // echo "<br />";
@@ -742,6 +742,101 @@ class CallController extends Controller
     {
         //delete session value;
         Session::forget('sale_filled_edit');
+        return redirect('/sale/show_selected_record_list');
+    }
+
+    public function edit_record_info($record_id)
+    {
+        $user = session('user');
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
+
+        return view('sale.select.edit_record_info')->with('select_record',$select_record);
+    }
+
+    public function preview_edit_record_info(Request $request)
+    {
+        $select_record = array();
+        $latest_no = SelectRecord::latest('id')->first();
+        // $effective_date = $request->input('effective_date');
+        $select_record['categories'] = $request->input('categories');
+        $select_record['shop_type'] = $request->input('shop_type');
+        
+        $select_record['name_th'] = $request->input('name_th');
+        $select_record['name_en'] = $request->input('name_en');
+        $select_record['branch'] = $request->input('branch');
+        $select_record['branch_amount'] = $request->input('branch_amount');
+        $select_record['address'] = $request->input('address');
+        $select_record['sending_address'] = $request->input('sending_address');
+        
+        $select_record['latitude'] = $request->input('latitude');
+        $select_record['longtitude'] = $request->input('longtitude');
+
+        $select_record['contact_person'] = $request->input('contact_person');
+        $select_record['contact_tel'] = $request->input('contact_tel');
+        $select_record['contact_email'] = $request->input('contact_email');
+        $select_record['province'] = $request->input('province');
+        $select_record['links'] = $request->input('links');
+        $select_record['remarks'] = $request->input('remarks');
+        $select_record['note'] = $request->input('note');
+
+        $select_record['record_id'] = $request->input('record_id');
+
+        session(['select_record_info' => $select_record]);
+
+        return redirect('/sale/edit_record/record/show_preview_edit_info');
+    }
+
+    public function show_preview_edit_info()
+    {
+        $preview_record = session('select_record_info');
+        $select_record = SelectRecord::where('record_id',$preview_record['record_id'])->first();
+        //print_r($preview_record);
+        return view('sale.select.show_preview_edit_info')->with('select_record',$preview_record)->with('select_record_info',$select_record);   
+    }
+
+    public function submit_edit_record_info(Request $request)
+    {
+        $user = session('user');
+        $record_id = $request->input('record_id');
+        $edit_record_info = session('select_record_info');
+        $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+        $select_record->categories = $edit_record_info['categories'];
+        $select_record->shop_type = $edit_record_info['shop_type'];
+        $select_record->name_th = $edit_record_info['name_th'];
+        $select_record->name_en = $edit_record_info['name_en'];
+        $select_record->branch = $edit_record_info['branch'];
+        $select_record->branch_amount = $edit_record_info['branch_amount'];
+        $select_record->address = $edit_record_info['address'];
+        $select_record->sending_address = $edit_record_info['sending_address'];
+        $select_record->latitude = $edit_record_info['latitude'];
+        $select_record->longtitude = $edit_record_info['longtitude'];
+        $select_record->contact_person = $edit_record_info['contact_person'];
+        $select_record->contact_tel = $edit_record_info['contact_tel'];
+        $select_record->contact_email = $edit_record_info['contact_email'];
+        $select_record->province = $edit_record_info['province'];
+        $select_record->links = $edit_record_info['links'];
+        $select_record->remarks = $edit_record_info['remarks'];
+        $select_record->note = $edit_record_info['note'];
+        $select_record->updated_at = date('Y-m-d H:i:s');
+        $select_record->updated_by = $user->id;
+        $select_record->save();
+
+        Session::forget('edit_record_info');
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
+        return view('sale.select.success_edit_info')->with('select_record',$select_record);
+
+    }
+
+    public function edit_preview_info($record_id)
+    {
+        $edit_record = session('select_record_info');
+        $select_record = SelectRecord::where('record_id',$record_id)->first();
+        return view('sale.select.edit_preview_info')->with('select_record',$select_record)->with('edit_record',$edit_record); 
+    }
+
+    public function cancel_edit_info()
+    {
+        Session::forget('edit_record_info');
         return redirect('/sale/show_selected_record_list');
     }
 }   

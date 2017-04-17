@@ -486,9 +486,10 @@ class AdminController extends Controller
         $record['special_type'] = $request->input('special_type');
         $record['contact_person'] = $request->input('contact_person');
         $record['contact_email'] = $request->input('contact_email');
-        $record['contact_day'] = $request->input('contact_day');
-        $record['contact_month'] = $request->input('contact_month');
-        $record['contact_year'] = $request->input('contact_year');
+        // $record['contact_day'] = $request->input('contact_day');
+        // $record['contact_month'] = $request->input('contact_month');
+        // $record['contact_year'] = $request->input('contact_year');
+        $record['contact_date'] = $request->input('contact_date');
         $record['province'] = $request->input('province');
         $record['links'] = $request->input('links');
         $record['remarks'] = $request->input('remarks');
@@ -587,6 +588,7 @@ class AdminController extends Controller
         Session::forget('mem_selected_record_new');
         $select_record_array =array();
         $sale = Sentinel::findUserById($id);
+        session(['mem_sale' => $sale]);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
         foreach($select_record as $select_record_each)
@@ -607,12 +609,24 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
+        $selected_array = session('mem_selected_record_extend');
         foreach($select_record as $select_record_each)
         {
             $select_record_array[$i]= $select_record_each->record_id;
             $i++;
         }
-        $record_list = Record::where('status','=','Available')->where('selective_status','=','extend')->where('is_selected','=','0')->whereNotIn('id',$select_record_array)->paginate(20);
+        if($selected_array!=NULL)
+        {
+            $record_list = Record::where('status','=','Available')->where('selective_status','=','extend')->where('is_selected','=','0')->whereNotIn('id',$select_record_array)->whereNotIn('id',$selected_array)->paginate(20);
+        }
+        else
+        {
+            $record_list = Record::where('status','=','Available')
+            ->where('selective_status','=','extend')
+            ->where('is_selected','=','0')
+            ->whereNotIn('id',$select_record_array)
+            ->paginate(20);
+        }
         
         return view('admin.select.filter_extend_select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
@@ -623,12 +637,37 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
+        $selected_array = session('mem_selected_record_waiting');
         foreach($select_record as $select_record_each)
         {
             $select_record_array[$i]= $select_record_each->record_id;
             $i++;
         }
-        $record_list = Record::where('status','=','Available')->where('selective_status','=','waiting')->where('is_selected','=','0')->where('sale','=',$id)->whereNotIn('id',$select_record_array)->paginate(20);
+        if($selected_array!=NULL)
+        {
+            $record_list = Record::where('status','=','Available')
+            ->where('selective_status','=','waiting')
+            ->where('is_selected','=','0')
+             ->where(function ($query) use ($id)
+            {
+                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+            })
+            ->whereNotIn('id',$select_record_array)
+            ->whereNotIn('id',$selected_array)
+            ->paginate(20);
+        }
+        else
+        {
+            $record_list = Record::where('status','=','Available')
+            ->where('selective_status','=','waiting')
+            ->where('is_selected','=','0')
+            ->where(function ($query) use ($id)
+            {
+                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+            })
+            ->whereNotIn('id',$select_record_array)
+            ->paginate(20);
+        }
         
         return view('admin.select.filter_waiting_select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
@@ -639,12 +678,36 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
+        $selected_array = session('mem_selected_record_noreply');
         foreach($select_record as $select_record_each)
         {
             $select_record_array[$i]= $select_record_each->record_id;
             $i++;
         }
-        $record_list = Record::where('status','=','Available')->where('selective_status','=','noreply')->where('is_selected','=','0')->where('sale','=',$id)->whereNotIn('id',$select_record_array)->paginate(20);
+        if($selected_array!=NULL)
+        {
+            $record_list = Record::where('status','=','Available')
+            ->where('selective_status','=','noreply')
+            ->where('is_selected','=','0')
+            ->where(function ($query) use ($id)
+            {
+                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+            })
+            ->whereNotIn('id',$select_record_array)
+            ->whereNotIn('id',$selected_array)->paginate(20);
+        }
+        else
+        {
+            $record_list = Record::where('status','=','Available')
+            ->where('selective_status','=','noreply')
+            ->where('is_selected','=','0')
+            ->where(function ($query) use ($id)
+            {
+                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+            })
+            ->whereNotIn('id',$select_record_array)
+            ->paginate(20);
+        }
         
         return view('admin.select.filter_noreply_select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
@@ -655,22 +718,29 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
+        $selected_array = session('mem_selected_record_new');
         foreach($select_record as $select_record_each)
         {
             $select_record_array[$i]= $select_record_each->record_id;
             $i++;
         }
-        $record_list = Record::where('status','=','Available')->where('selective_status','=','new')->where('is_selected','=','0')->whereNotIn('id',$select_record_array)->paginate(20);
-        
-        return view('admin.select.filter_new_select_record')->with('sale',$sale)->with('record_list',$record_list);
+        if($selected_array!=NULL)
+        {
+            $record_list = Record::where('status','=','Available')->where('selective_status','=','new')->where('is_selected','=','0')->whereNotIn('id',$select_record_array)->whereNotIn('id',$selected_array)->paginate(20);
+        }
+        else
+        {
+            $record_list = Record::where('status','=','Available')->where('selective_status','=','new')->where('is_selected','=','0')->whereNotIn('id',$select_record_array)->paginate(20);
+        }
+        return view('admin.select.filter_new_select_record')->with('sale',$sale)->with('record_list',$record_list)->with('selected_array',$selected_array);
     }
 
-    public function add_selected_record_extend()
+    public function add_selected_record_extend(Request $request)
     {
         //Get data then input it to session array
-        $data = Input::get('data');
-        $new_data_array = array();
-        $new_data_array = [$data];
+        $data = $request->input('selected_record');
+        $sale_id = $request->input('sale_id');
+        $currentPage = $request->input('currentPage');
         $selected_array = array();
         //print_r($data);
         //Check session?
@@ -678,8 +748,9 @@ class AdminController extends Controller
         {
             $selected_array = session('mem_selected_record_extend');
         }
-        $new_data = array_merge($selected_array,$new_data_array);
+        $new_data = array_merge($selected_array,$data);
         session(['mem_selected_record_extend' => $new_data]);
+        return redirect('/admin/select_record/select_sale/filter_extend/'.$sale_id.'?page='.$currentPage);
         
 
     }
@@ -698,12 +769,12 @@ class AdminController extends Controller
         session(['mem_selected_record_extend' => $new_data]);
     }
 
-    public function add_selected_record_waiting()
+    public function add_selected_record_waiting(Request $request)
     {
         //Get data then input it to session array
-        $data = Input::get('data');
-        $new_data_array = array();
-        $new_data_array = [$data];
+        $data = $request->input('selected_record');
+        $sale_id = $request->input('sale_id');
+        $currentPage = $request->input('currentPage');
         $selected_array = array();
         //print_r($data);
         //Check session?
@@ -711,9 +782,9 @@ class AdminController extends Controller
         {
             $selected_array = session('mem_selected_record_waiting');
         }
-        $new_data = array_merge($selected_array,$new_data_array);
+        $new_data = array_merge($selected_array,$data);
         session(['mem_selected_record_waiting' => $new_data]);
-        
+        return redirect('/admin/select_record/select_sale/filter_waiting/'.$sale_id.'?page='.$currentPage);
 
     }
 
@@ -731,12 +802,12 @@ class AdminController extends Controller
         session(['mem_selected_record_waiting' => $new_data]);
     }
 
-    public function add_selected_record_noreply()
+    public function add_selected_record_noreply(Request $request)
     {
         //Get data then input it to session array
-        $data = Input::get('data');
-        $new_data_array = array();
-        $new_data_array = [$data];
+        $data = $request->input('selected_record');
+        $sale_id = $request->input('sale_id');
+        $currentPage = $request->input('currentPage');
         $selected_array = array();
         //print_r($data);
         //Check session?
@@ -744,10 +815,10 @@ class AdminController extends Controller
         {
             $selected_array = session('mem_selected_record_noreply');
         }
-        $new_data = array_merge($selected_array,$new_data_array);
+        $new_data = array_merge($selected_array,$data);
         session(['mem_selected_record_noreply' => $new_data]);
         
-
+        return redirect('/admin/select_record/select_sale/filter_noreply/'.$sale_id.'?page='.$currentPage);
     }
 
     public function remove_selected_record_noreply()
@@ -764,12 +835,12 @@ class AdminController extends Controller
         session(['mem_selected_record_noreply' => $new_data]);
     }
 
-    public function add_selected_record_new()
+    public function add_selected_record_new(Request $request)
     {
         //Get data then input it to session array
-        $data = Input::get('data');
-        $new_data_array = array();
-        $new_data_array = [$data];
+        $data = $request->input('selected_record');
+        $sale_id = $request->input('sale_id');
+        $currentPage = $request->input('currentPage');
         $selected_array = array();
         //print_r($data);
         //Check session?
@@ -777,9 +848,10 @@ class AdminController extends Controller
         {
             $selected_array = session('mem_selected_record_new');
         }
-        $new_data = array_merge($selected_array,$new_data_array);
+        $new_data = array_merge($selected_array,$data);
         session(['mem_selected_record_new' => $new_data]);
-        
+
+        return redirect('/admin/select_record/select_sale/filter_new_record/'.$sale_id.'?page='.$currentPage);
 
     }
 
@@ -866,6 +938,97 @@ class AdminController extends Controller
         
     }
 
+     public function remove_record_form_selected_list(Request $request)
+    {
+        $remove_record_id = $request->input('selected_record_remove_id');
+        $selected_array_extend = session('mem_selected_record_extend');
+        $selected_array_waiting = session('mem_selected_record_waiting');
+        $selected_array_noreply = session('mem_selected_record_noreply');
+        $selected_array_new = session('mem_selected_record_new');
+        if($selected_array_extend!=NULL)
+        {
+            $key_extend = array_search($remove_record_id, $selected_array_extend);
+            $string_key_extend = (string)$key_extend;
+        }
+        else
+        {
+            $string_key_extend="";
+        }
+        if($selected_array_waiting!=NULL)
+        {
+            $key_waiting = array_search($remove_record_id, $selected_array_waiting);
+            $string_key_waiting = (string)$key_waiting;
+        }
+        else
+        {
+            $string_key_waiting ="";
+        }
+        if($selected_array_noreply!=NULL)
+        {
+            $key_noreply = array_search($remove_record_id, $selected_array_noreply);
+            $string_key_noreply = (string)$key_noreply;
+        }
+        else
+        {
+            $string_key_noreply ="";
+        }
+        if($selected_array_new!=NULL)
+        {
+            $key_new = array_search($remove_record_id, $selected_array_new);
+            $string_key_new = (string)$key_new;
+        }
+        else
+        {
+            $string_key_new="";
+        }
+        if($string_key_extend=="")
+        {
+            if($string_key_waiting=="")
+            {
+                if($string_key_noreply=="")
+                {
+                    if($string_key_new=="")
+                    {
+                        echo $key_new;
+                    }
+                    else
+                    {
+                        unset($selected_array_new[$key_new]);
+                        session(['mem_selected_record_new' => $selected_array_new]);
+                        $selected_record_list_new = Record::whereIn('id',$selected_array_new)->get();
+                        session(['mem_selected_record_list_new'=>$selected_record_list_new]);//put select record
+                    }
+                }
+                else
+                {
+                    unset($selected_array_noreply[$key_noreply]);
+                    session(['mem_selected_record_noreply' => $selected_array_noreply]);
+                    $selected_record_list_noreply = Record::whereIn('id',$selected_array_noreply)->get();
+                    session(['mem_selected_record_list_noreply'=>$selected_record_list_noreply]);//put select record
+                    
+                }
+            }
+            else
+            {
+                unset($selected_array_waiting[$key_waiting]);
+                session(['mem_selected_record_waiting' => $selected_array_waiting]);
+                $selected_record_list_waiting = Record::whereIn('id',$selected_array_waiting)->get();
+                session(['mem_selected_record_list_waiting'=>$selected_record_list_waiting]);//put select record
+                
+            }
+        }
+        else
+        {
+            unset($selected_array_extend[$key_extend]);
+            session(['mem_selected_record_extend' => $selected_array_extend]);
+            $selected_record_list_extend = Record::whereIn('id',$selected_array_extend)->get();
+            session(['mem_selected_record_list_extend'=>$selected_record_list_extend]);//put select record  
+            
+            
+        }
+        return redirect('/admin/selected_record/select_sale/preview');
+    }
+
     public function show_preview_select_record()
     {
         $sale = session('mem_sale');
@@ -873,14 +1036,7 @@ class AdminController extends Controller
         $selected_record_list_waiting = session('mem_selected_record_list_waiting');
         $selected_record_list_noreply = session('mem_selected_record_list_noreply');
         $selected_record_list_new = session('mem_selected_record_list_new');
-        // print_r($selected_record_list_extend);
-        // echo "<br />";
-        // print_r($selected_record_list_waiting);
-        // echo "<br />";
-        // print_r($selected_record_list_noreply);
-        // echo "<br />";
-        // print_r($selected_record_list_new);
-        // echo "<br />";
+
         return view('admin.select.preview_select_record')->with('sale',$sale)->with('selected_record_list_extend',$selected_record_list_extend)->with('selected_record_list_waiting',$selected_record_list_waiting)->with('selected_record_list_noreply',$selected_record_list_noreply)->with('selected_record_list_new',$selected_record_list_new);
     }
 
@@ -900,6 +1056,20 @@ class AdminController extends Controller
                 $dt = date("Y-m-d");
                 $user = Sentinel::check();
                 $select_record_extend = new SelectRecord;
+
+                $select_record_extend->sources = $selected_record_each->sources;
+                $select_record_extend->categories = $selected_record_each->categories;
+                $select_record_extend->dtac_type = $selected_record_each->dtac_type;
+                $select_record_extend->shop_type = $selected_record_each->shop_type;
+                $select_record_extend->special_type = $selected_record_each->special_type;
+                $select_record_extend->name_th = $selected_record_each->name_th;
+                $select_record_extend->name_en = $selected_record_each->name_en;
+                $select_record_extend->branch = $selected_record_each->branch;
+                $select_record_extend->province = $selected_record_each->province;
+                $select_record_extend->contact_tel = $selected_record_each->contact_tel;
+                $select_record_extend->links = $selected_record_each->links;
+                $select_record_extend->remarks = $selected_record_each->remarks;
+
                 $select_record_extend->record_id = $selected_record_each->id;
                 $select_record_extend->selective_status = $selected_record_each->selective_status;
                 $select_record_extend->distributed_date = date("Y-m-d"); 
@@ -925,6 +1095,20 @@ class AdminController extends Controller
                 $dt = date("Y-m-d");
                 $user = Sentinel::check();
                 $select_record_waiting = new SelectRecord;
+
+                $select_record_waiting->sources = $selected_record_each->sources;
+                $select_record_waiting->categories = $selected_record_each->categories;
+                $select_record_waiting->dtac_type = $selected_record_each->dtac_type;
+                $select_record_waiting->shop_type = $selected_record_each->shop_type;
+                $select_record_waiting->special_type = $selected_record_each->special_type;
+                $select_record_waiting->name_th = $selected_record_each->name_th;
+                $select_record_waiting->name_en = $selected_record_each->name_en;
+                $select_record_waiting->branch = $selected_record_each->branch;
+                $select_record_waiting->province = $selected_record_each->province;
+                $select_record_waiting->contact_tel = $selected_record_each->contact_tel;
+                $select_record_waiting->links = $selected_record_each->links;
+                $select_record_waiting->remarks = $selected_record_each->remarks;
+
                 $select_record_waiting->record_id = $selected_record_each->id;
                 $select_record_waiting->selective_status = $selected_record_each->selective_status;
                 $select_record_waiting->distributed_date = date("Y-m-d"); 
@@ -949,6 +1133,20 @@ class AdminController extends Controller
                 $dt = date("Y-m-d");
                 $user = Sentinel::check();
                 $select_record_noreply = new SelectRecord;
+
+                $select_record_noreply->sources = $selected_record_each->sources;
+                $select_record_noreply->categories = $selected_record_each->categories;
+                $select_record_noreply->dtac_type = $selected_record_each->dtac_type;
+                $select_record_noreply->shop_type = $selected_record_each->shop_type;
+                $select_record_noreply->special_type = $selected_record_each->special_type;
+                $select_record_noreply->name_th = $selected_record_each->name_th;
+                $select_record_noreply->name_en = $selected_record_each->name_en;
+                $select_record_noreply->branch = $selected_record_each->branch;
+                $select_record_noreply->province = $selected_record_each->province;
+                $select_record_noreply->contact_tel = $selected_record_each->contact_tel;
+                $select_record_noreply->links = $selected_record_each->links;
+                $select_record_noreply->remarks = $selected_record_each->remarks;
+
                 $select_record_noreply->record_id = $selected_record_each->id;
                 $select_record_noreply->selective_status = $selected_record_each->selective_status;
                 $select_record_noreply->distributed_date = date("Y-m-d"); 
@@ -973,6 +1171,20 @@ class AdminController extends Controller
                 $dt = date("Y-m-d");
                 $user = Sentinel::check();
                 $select_record_new = new SelectRecord;
+
+                $select_record_new->sources = $selected_record_each->sources;
+                $select_record_new->categories = $selected_record_each->categories;
+                $select_record_new->dtac_type = $selected_record_each->dtac_type;
+                $select_record_new->shop_type = $selected_record_each->shop_type;
+                $select_record_new->special_type = $selected_record_each->special_type;
+                $select_record_new->name_th = $selected_record_each->name_th;
+                $select_record_new->name_en = $selected_record_each->name_en;
+                $select_record_new->branch = $selected_record_each->branch;
+                $select_record_new->province = $selected_record_each->province;
+                $select_record_new->contact_tel = $selected_record_each->contact_tel;
+                $select_record_new->links = $selected_record_each->links;
+                $select_record_new->remarks = $selected_record_each->remarks;
+                
                 $select_record_new->record_id = $selected_record_each->id;
                 $select_record_new->selective_status = $selected_record_each->selective_status;
                 $select_record_new->distributed_date = date("Y-m-d"); 
@@ -1032,18 +1244,14 @@ class AdminController extends Controller
                 $record_list_array[$j]['name_th'] = $request->input('name_th-'.$i);
                 $record_list_array[$j]['name_en'] = $request->input('name_en-'.$i);
                 $record_list_array[$j]['branch'] = $request->input('branch-'.$i);
-                $record_list_array[$j]['address'] = $request->input('address-'.$i);
                 $record_list_array[$j]['province'] = $request->input('province-'.$i);
-                $record_list_array[$j]['latitude'] = $request->input('latitude-'.$i);
-                $record_list_array[$j]['longtitude'] = $request->input('longtitude-'.$i);
-                $record_list_array[$j]['contact_person'] = $request->input('contact_person-'.$i);
                 $record_list_array[$j]['contact_tel'] = $request->input('contact_tel-'.$i);
-                $record_list_array[$j]['contact_email'] = $request->input('contact_email-'.$i);
                 $record_list_array[$j]['links'] = $request->input('links-'.$i);
                 $record_list_array[$j]['remarks'] = $request->input('remarks-'.$i);
                 $j++;
             }
         }
+
         //actualy it must be the process to check duplicated data! and then throw the error to user.
         //checking by using name_th name_en and branch and then store the data to session to show in preview page!
 
@@ -1065,7 +1273,7 @@ class AdminController extends Controller
     {
         $array_new_record = session('preview_record_list_array');
         $edit_array_new_record = $array_new_record[$id_array];
-        $search_result = Record::where('name_th','=',$edit_array_new_record['name_th'])->orwhere('name_en','=',$edit_array_new_record['name_en'])->orwhere('address','=',$edit_array_new_record['address'])->get();
+        $search_result = Record::where('name_th','=',$edit_array_new_record['name_th'])->orwhere('name_en','=',$edit_array_new_record['name_en'])->get();
         
         return view('admin.record.edit_duplicate_new_record_list')->with('search_result',$search_result)->with('edit_duplicate_record',$edit_array_new_record)->with('id_array',$id_array);
 
@@ -1083,13 +1291,8 @@ class AdminController extends Controller
         $array_new_record[$id_array]['name_th'] = $request->input('name_th_edit');
         $array_new_record[$id_array]['name_en'] = $request->input('name_en_edit');
         $array_new_record[$id_array]['branch'] = $request->input('branch_edit');
-        $array_new_record[$id_array]['address'] = $request->input('address_edit');
         $array_new_record[$id_array]['province'] = $request->input('province_edit');
-        $array_new_record[$id_array]['latitude'] = $request->input('latitude_edit');
-        $array_new_record[$id_array]['longtitude'] = $request->input('longtitude_edit');
-        $array_new_record[$id_array]['contact_person'] = $request->input('contact_person_edit');
         $array_new_record[$id_array]['contact_tel'] = $request->input('contact_tel_edit');
-        $array_new_record[$id_array]['contact_email'] = $request->input('contact_email_edit');
         $array_new_record[$id_array]['links'] = $request->input('links_edit');
         $array_new_record[$id_array]['remarks'] = $request->input('remarks_edit');
 
@@ -1122,13 +1325,8 @@ class AdminController extends Controller
                 $record_list_array[$j]['name_th'] = $request->input('name_th-'.$i);
                 $record_list_array[$j]['name_en'] = $request->input('name_en-'.$i);
                 $record_list_array[$j]['branch'] = $request->input('branch-'.$i);
-                $record_list_array[$j]['address'] = $request->input('address-'.$i);
                 $record_list_array[$j]['province'] = $request->input('province-'.$i);
-                $record_list_array[$j]['latitude'] = $request->input('latitude-'.$i);
-                $record_list_array[$j]['longtitude'] = $request->input('longtitude-'.$i);
-                $record_list_array[$j]['contact_person'] = $request->input('contact_person-'.$i);
                 $record_list_array[$j]['contact_tel'] = $request->input('contact_tel-'.$i);
-                $record_list_array[$j]['contact_email'] = $request->input('contact_email-'.$i);
                 $record_list_array[$j]['links'] = $request->input('links-'.$i);
                 $record_list_array[$j]['remarks'] = $request->input('remarks-'.$i);
                 $j++;
@@ -1151,9 +1349,10 @@ class AdminController extends Controller
             $new_array[$i] = $edit_new_record_list_each;
             $i++;
         }
-        session(['preview_record_list_array' => $new_array]);
 
-        return redirect('/admin/record/edit_new_record_list');
+       session(['preview_record_list_array' => $new_array]);
+
+       return redirect('/admin/record/edit_new_record_list');
 
     }
 
@@ -1178,13 +1377,8 @@ class AdminController extends Controller
             $new_record->name_th = $record_list_each['name_th'];
             $new_record->name_en = $record_list_each['name_en'];
             $new_record->branch = $record_list_each['branch'];
-            $new_record->address = $record_list_each['address'];
             $new_record->province = $record_list_each['province'];
-            $new_record->latitude = $record_list_each['latitude'];
-            $new_record->longtitude = $record_list_each['longtitude'];
-            $new_record->contact_person = $record_list_each['contact_person'];
             $new_record->contact_tel = $record_list_each['contact_tel'];
-            $new_record->contact_email = $record_list_each['contact_email'];
             $new_record->links = $record_list_each['links'];
             $new_record->remarks = $record_list_each['remarks'];
             $new_record->input_date = date('Y-m-d');

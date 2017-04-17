@@ -325,14 +325,14 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
-		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
+		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
+		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@submit_edit_call_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
-				<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record->id}}" />
+				<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record_id}}" />
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
@@ -406,44 +406,30 @@ use App\Record;
 						</td>
 						<td>
 							<?php
-								if($select_record->record->categories=="dinning_and_beverage")
+								if($select_record->categories=="dinning_and_beverage")
 								{
 									echo "Dining & Beverage";
 								}
-								elseif ($select_record->record->categories=="shopping_and_lifestyle") 
+								elseif ($select_record->categories=="shopping_and_lifestyle") 
 								{
 									echo "Shopping & Lifestyle";
 								}
-								elseif ($select_record->record->categories=="beauty_and_healthy") 
+								elseif ($select_record->categories=="beauty_and_healthy") 
 								{
 									echo "Beauty & Healthy";
 								}
-								elseif ($select_record->record->categories=="hotel_and_travel") 
+								elseif ($select_record->categories=="hotel_and_travel") 
 								{
 									echo "Hotel & Travel";
 								}
-								elseif ($select_record->record->categories=="online") 
+								elseif ($select_record->categories=="online") 
 								{
 									echo "Online";
 								}
 								?>
 						</td>
 						<td>
-							<?php
-								if($select_record->record->shop_type=="ร้านเบ็ดเตล็ด")
-								{
-									echo "ร้าน เบ็ดเตล็ด";
-								}
-								elseif ($select_record->record->shop_type=="ร้านอาหาร") 
-								{
-									echo "ร้าน อาหาร";
-								}
-								elseif ($select_record->record->shop_type=="ร้านอาหารนานาชาติ") 
-								{
-									echo "ร้าน อาหารนานาชาติ";
-								}
-								
-								?>
+							{{$select_record->shop_type}}
 						</td>
                         <td>
                             {{$select_record->record->special_type}}
@@ -462,32 +448,38 @@ use App\Record;
 						<th>ชื่อภาษาอังกฤษ</th>
 						<th>สาขา</th>
                         <th>จำนวนสาขา</th>
-						<th>ที่อยู่  <a href="#" class="btn btn-danger pull-right" id="btn_edit_address">แก้ไข</a></th>
-						<th>จังหวัด</th>
-						<th>ละติจูด</th>
-						<th>ลองติจูด</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->name_th}}</td>
-						<td>{{$select_record->record->name_en}}</td>
-						<td>{{$select_record->record->branch}}</td>
+						<td>{{$select_record->name_th}}</td>
+						<td>{{$select_record->name_en}}</td>
+						<td>{{$select_record->branch}}</td>
                         <td>
-                        <input type="text" name="branch_amount" id="branch_amount" class="form-control" value="{{$select_record->record->branch_amount}}" />
+                        <input type="text" name="branch_amount" id="branch_amount" class="form-control" value="{{$select_record->branch_amount}}" />
                         </td>
-						<td>
-						@if($sale_filled['edit_address']!="none")
-							{{$sale_filled['edit_address']}}
-							<textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
-						@else
-							{{$select_record->record->address}}<br />
-							<textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
-						@endif
-						</td>
-						<td>{{$select_record->record->province}}</td>
-						<td>{{$select_record->record->latitude}}</td>
-						<td>{{$select_record->record->longtitude}}</td>
 					</tr>
 				</table>
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>ที่อยู่  <a href="#" class="btn btn-danger pull-right" id="btn_edit_address">แก้ไข</a></th>
+                        <th>จังหวัด</th>
+                        <th>ละติจูด</th>
+                        <th>ลองติจูด</th>
+                    </tr>
+                    <tr>
+                        <td>
+                        @if($sale_filled['edit_address']!="none")
+                            {{$sale_filled['edit_address']}}
+                            <textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
+                        @else
+                            {{$select_record->address}}<br />
+                            <textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
+                        @endif
+                        </td>
+                        <td>{{$select_record->province}}</td>
+                        <td>{{$select_record->latitude}}</td>
+                        <td>{{$select_record->longtitude}}</td>
+                    </tr>
+                </table>
 			</div>
 		</div>
 		<br />
@@ -508,17 +500,17 @@ use App\Record;
 							{{$sale_filled['edit_contact_person']}}
 							<input type="text" name="edit_contact_person" id="edit_contact_person" value="" size="30" class="form-control"  style="display: none" />
 						@else
-							{{$select_record->record->contact_person}}<br />
+							{{$select_record->contact_person}}<br />
 							<input type="text" name="edit_contact_person" id="edit_contact_person" value="" size="30" class="form-control"  style="display: none" />
 						@endif
 						</td>
-						<td>{{$select_record->record->contact_tel}}</td>
-						<td>{{$select_record->record->contact_email}}</td>
+						<td>{{$select_record->contact_tel}}</td>
+						<td>{{$select_record->contact_email}}</td>
 						<td>
 							<?php
 								$contact_date = explode("-",$select_record->record->contact_date);
-								$contact_day = $contact_date[1];
-								$contact_month = $contact_date[2];
+								$contact_day = $contact_date[2];
+								$contact_month = $contact_date[1];
 								$contact_year = $contact_date[0];
 							?>
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
@@ -542,9 +534,9 @@ use App\Record;
 					<tr>
 						<td>
 							<?php
-								if($select_record->record->links!=NULL)
+								if($select_record->links!=NULL)
 								{
-									echo($select_record->record->links);
+									echo($select_record->links);
 								}
 								else
 								{
@@ -554,9 +546,9 @@ use App\Record;
 						</td>
 						<td>
 							<?php
-								if($select_record->record->remarks!=NULL)
+								if($select_record->remarks!=NULL)
 								{
-									echo $select_record->record->remarks;
+									echo $select_record->remarks;
 								}
 								else
 								{

@@ -122,7 +122,7 @@ Route::post('/admin/selected_record/add_selected_record_extend','AdminController
 Route::post('/admin/selected_record/remove_selected_record_extend','AdminController@remove_selected_record_extend');
 //Waiting
 Route::post('/admin/selected_record/add_selected_record_waiting','AdminController@add_selected_record_waiting');
-Route::post('/admin/selected_record/remove_selected_record_waiting','AdminController@remove_selected_record_waiting');
+Route::post('/admin/selected_record/remove_selected_recshord_waiting','AdminController@remove_selected_record_waiting');
 //No reply
 Route::post('/admin/selected_record/add_selected_record_noreply','AdminController@add_selected_record_noreply');
 Route::post('/admin/selected_record/remove_selected_record_noreply','AdminController@remove_selected_record_noreply');
@@ -135,6 +135,7 @@ Route::post('/admin/selected_record/select_sale/','AdminController@preview_selec
 Route::get('/admin/selected_record/select_sale/preview','AdminController@show_preview_select_record');
 Route::post('/admin/selected_record/select_sale/preview','AdminController@submit_select_record');
 Route::get('/admin/selected_record/select_sale/success/{sale_id}','AdminController@success_select_record');
+Route::post('/admin/selected_record/select_sale/remove_record_from_selected_list','AdminController@remove_record_form_selected_list');
 
 //Approve record from sale
 Route::get('/admin/approve_record_from_sale/show_sale_list','AdminController@show_sale_list');
@@ -170,5 +171,11 @@ Route::get('/sale/select_record/show_preview_edit_submit_record','CallController
 Route::post('/sale/select_record/show_preview_edit_submit_record','CallController@submit_edit_submit_record');
 Route::get('/sale/select_record/cancel_edit_submit_record','CallController@cancel_edit_submit_record');
 Route::get('/sale/select_record/submit_ediit_submit_record/success/{record_id}','CallController@success_edit_submit_record');
-Route::get('/sale/cancel_edit_submit_record','CallController@cancel_edit_submit_record');
 
+Route::get('/sale/edit_record/record/show/{record_id}','CallController@edit_record_info');
+Route::post('/sale/edit_record/record/preview','CallController@preview_edit_record_info');
+Route::get('/sale/edit_record/record/show_preview_edit_info','CallController@show_preview_edit_info');
+Route::get('/sale/edit_record/record/edit_record_info/{record_id}','CallController@edit_preview_info');
+Route::post('/sale/edit_record/record/submit_edit_record_info','CallController@submit_edit_record_info');
+Route::get('/sale/edit_record/record/success_edit_info','CallController@success_edit_info');
+Route::get('/sale/edit_record/record/cancel_edit_record','CallController@cancel_edit_info');

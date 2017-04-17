@@ -47,39 +47,9 @@
 		    			error = error+1;
 						break;
 		    		}
-		    		if($("#branch-"+i).val()=="")
-		    		{
-		    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน branch');
-		    			error = error+1;
-						break;
-		    		}
-		    		if($("#address-"+i).val()=="")
-		    		{
-		    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน address');
-		    			error = error+1;
-						break;
-		    		}
 		    		if($("#province-"+i).val()=="empty")
 					{
 						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน province');
-						error = error+1;
-						break;
-					}
-					if($("#latitude-"+i).val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน latitude');
-						error = error+1;
-						break;
-					}
-					if($("#longtitude-"+i).val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน longtitude');
-						error = error+1;
-						break;
-					}
-					if($("#contact_person-"+i).val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact person');
 						error = error+1;
 						break;
 					}
@@ -89,24 +59,12 @@
 						error = error+1;
 						break;
 					}
-					if($("#contact_email-"+i).val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact email');
-						error = error+1;
-						break;
-					}
 					if($("#links-"+i).val()=="")
 					{
 						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน links');
 						error = error+1;
 						break;
 					}
-					if($("#remarks-"+i).val()=="")
-					{
-						alert('กรุษรกรอกขข้อมูลให้ครบถ้วน remarks');
-						error = error+1;
-						break;
-					}	
 				}
 				else
 				{
@@ -153,39 +111,9 @@
 			    			error = error+1;
 							break;
 		    			}
-			    		if($("#branch-"+i).val()=="")
-			    		{
-			    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน branch');
-		    				error = error+1;
-							break;
-		    			}
-			    		if($("#address-"+i).val()=="")
-			    		{
-			    			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน address');
-		    				error = error+1;
-							break;
-		    			}
 			    		if($("#province-"+i).val()=="empty")
 						{
 							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน province');
-							error = error+1;
-							break;
-						}
-						if($("#latitude-"+i).val()=="")
-						{
-							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน latitude');
-							error = error+1;
-							break;
-						}
-						if($("#longtitude-"+i).val()=="")
-						{
-							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน longtitude');
-							error = error+1;
-							break;
-						}
-						if($("#contact_person-"+i).val()=="")
-						{
-							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact person');
 							error = error+1;
 							break;
 						}
@@ -195,21 +123,9 @@
 							error = error+1;
 							break;
 						}
-						if($("#contact_email-"+i).val()=="")
-						{
-							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact email');
-							error = error+1;
-							break;
-						}
 						if($("#links-"+i).val()=="")
 						{
 							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน links');
-							error = error+1;
-							break;
-						}
-						if($("#remarks-"+i).val()=="")
-						{
-							alert('กรุษรกรอกขข้อมูลให้ครบถ้วน remarks');
 							error = error+1;
 							break;
 						}
@@ -265,7 +181,7 @@ use App\Record;
 				<tr>
 					<th class="add_padding_15">ซ้ำ</th>
 					<th class="add_padding_15">No.</th>
-					<th class="add_padding_15">Sources</th>
+					<th class="add_padding_15">แหล่งที่มา</th>
 					<th class="add_padding_15">Categories</th>
 					<th class="add_padding_15">Dtac Type</th>
 					<th class="add_padding_15">ประเภทร้าน</th>
@@ -273,13 +189,8 @@ use App\Record;
 					<th class="add_padding_15">ชื่อไทย</th>
 					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
-					<th class="add_padding_15">ที่อยู่</th>
 					<th class="add_padding_15">จังหวัด</th>
-					<th class="add_padding_15">ละติจูด</th>
-					<th class="add_padding_15">ลองติจูด</th>
-					<th class="add_padding_15">contact person</th>
 					<th class="add_padding_15">contact telephone</th>
-					<th class="add_padding_15">contact e-mail</th>
 					<th class="add_padding_15">Link</th>
 					<th class="add_padding_15">Remark</th>
 				</tr>
@@ -312,7 +223,7 @@ use App\Record;
 						}
 						elseif($preview_new_record_list_each['sources']=="dtac_recommend")
 						{
-							echo "Dtac Recommend";
+							echo "dtac Recommend";
 						}
 						elseif($preview_new_record_list_each['sources']=="walking")
 						{
@@ -346,13 +257,17 @@ use App\Record;
 					</td>
 					<td class="add_padding_15">
 					<?php 
-						if($preview_new_record_list_each['dtac_type']=="ร้านกทม")
+						if($preview_new_record_list_each['dtac_type']=="ร้านกทม./นนทบุรี/สมุทรปราการ")
 						{
-							echo "ร้าน กทม";
+							echo "ร้าน กทม./นนทบุรี/สมุทรปราการ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านตจว")
+						elseif($preview_new_record_list_each['dtac_type']=="ร้านต่างจังหวัด")
 						{
-							echo "ร้าน ตจว";
+							echo "ร้าน ต่างจังหวัด";
+						}
+						elseif($preview_new_record_list_each['dtac_type']=="ร้านdtacแนะนำ")
+						{
+							echo "ร้าน dtac แนะนำ";
 						}
 						elseif($preview_new_record_list_each['dtac_type']=="ร้านonline")
 						{
@@ -375,17 +290,193 @@ use App\Record;
 					</td>
 					<td class="add_padding_15">
 					<?php 
-						if($preview_new_record_list_each['shop_type']=="ร้านเบ็ดเตล็ด")
+						if($preview_new_record_list_each['shop_type']=="ร้านอาหาร")
 						{
-							echo "ร้าน เบ็ดเตล็ด";
+							echo "ร้านอาหาร";
 						}
-						elseif($preview_new_record_list_each['shop_type']=="ร้านอาหาร")
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเครื่องดื่ม")
 						{
-							echo "ร้าน อาหาร";
+							echo "ร้านเครื่องดื่ม";
 						}
-						elseif($preview_new_record_list_each['shop_type']=="ร้านอาหารนานาชาติ")
+						elseif($preview_new_record_list_each['shop_type']=="ร้านกาแฟ")
 						{
-							echo "ร้าน อาหารนานาชาติ";
+							echo "ร้านกาแฟ";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเบเกอรี่")
+						{
+							echo "ร้านเบเกอรี่";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ผับ (ร้านอาหารและเครื่องดื่ม)")
+						{
+							echo "ผับ (ร้านอาหารและเครื่องดื่ม)";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านขนมหวาน")
+						{
+							echo "ร้านขนมหวาน";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเครื่องดื่มและเบเกอรี่")
+						{
+							echo "ร้านเครื่องดื่มและเบเกอรี่";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านอาหารและเบเกอรี่")
+						{
+							echo "ร้านอาหารและเบเกอรี่";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านไอศครีม")
+						{
+							echo "ร้านไอศครีม";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเพื่อสุขภาพ")
+						{
+							echo "ร้านเพื่อสุขภาพ";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านบุฟเฟ่ต์")
+						{
+							echo "ร้านบุฟเฟ่ต์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="โต๊ะจีน")
+						{
+							echo "โต๊ะจีน";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านสปา")
+						{
+							echo "ร้านสปา";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านนวด")
+						{
+							echo "ร้านนวด";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเสริมสวย")
+						{
+							echo "ร้านเสริมสวย";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านทำเล็บ")
+						{
+							echo "ร้านทำเล็บ";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านความงาม")
+						{
+							echo "ร้านความงาม";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ฟิสเนส")
+						{
+							echo "ฟิสเนส";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านนวดและสปา")
+						{
+							echo "ร้านนวดและสปา";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="โรงแรม")
+						{
+							echo "โรงแรม";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="รีสอร์ท")
+						{
+							echo "รีสอร์ท";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="โฮมสเตย์")
+						{
+							echo "โฮมสเตย์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="เรือนำเที่ยว")
+						{
+							echo "เรือนำเที่ยว";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="สถานที่ท่องเที่ยว")
+						{
+							echo "สถานที่ท่องเที่ยว";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="อพาร์ทเม้นท์")
+						{
+							echo "อพาร์ทเม้นท์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ทัวร์")
+						{
+							echo "ทัวร์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ฟาร์ม")
+						{
+							echo "ฟาร์ม";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเบ็ดเตล็ด")
+						{
+							echo "ร้านเบ็ดเตล็ด";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านของฝาก")
+						{
+							echo "ร้านของฝาก";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="โรงเรียน")
+						{
+							echo "โรงเรียน";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเสื้อผ้า")
+						{
+							echo "ร้านเสื้อผ้า";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเวดดิ้ง")
+						{
+							echo "ร้านเวดดิ้ง";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านสัตว์เลี้ยง")
+						{
+							echo "ร้านสัตว์เลี้ยง";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="คาร์แคร์")
+						{
+							echo "คาร์แคร์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านรองเท้า")
+						{
+							echo "ร้านรองเท้า";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านกระเป๋า")
+						{
+							echo "ร้านกระเป๋า";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเครื่องเขียน")
+						{
+							echo "ร้านเครื่องเขียน";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านหนังสือ")
+						{
+							echo "ร้านหนังสือ";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านอิเล็กทรอนิคส์")
+						{
+							echo "ร้านอิเล็กทรอนิคส์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านอุปกรณ์ไอที")
+						{
+							echo "ร้านอุปกรณ์ไอที";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านอุปกรณ์เบเกอรี่")
+						{
+							echo "ร้านอุปกรณ์เบเกอรี่";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเครื่องดนตรี")
+						{
+							echo "ร้านเครื่องดนตรี";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="โรงภาพยนต์")
+						{
+							echo "โรงภาพยนต์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเครื่องประดับ")
+						{
+							echo "ร้านเครื่องประดับ";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านเฟอร์นิเจอร์")
+						{
+							echo "ร้านเฟอร์นิเจอร์";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านสินค้าเด็ก")
+						{
+							echo "ร้านสินค้าเด็ก";
+						}
+						elseif($preview_new_record_list_each['shop_type']=="ร้านผลิตภัณฑ์ความงาม")
+						{
+							echo "ร้านผลิตภัณฑ์ความงาม";
 						}
 						
 						?>
@@ -394,15 +485,10 @@ use App\Record;
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_th']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_en']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['branch']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['address']}}</td>
 					<td class="add_padding_15">
 						{{$preview_new_record_list_each['province']}}
 					</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['latitude']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['longtitude']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['contact_person']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['contact_tel']}}</td>
-					<td class="add_padding_15">{{$preview_new_record_list_each['contact_email']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['links']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['remarks']}}</td>
 				</tr>

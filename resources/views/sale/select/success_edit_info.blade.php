@@ -31,12 +31,12 @@ use App\Record;
 	<div class="row">
 		<div class="form-group">
 		<h1>ได้ทำการแก้ไขข้อมูล {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> เสร็จสิ้น</h1>
-		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} </h3>
+		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} </h3>
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
 				<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record_id}}" />
-				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
+				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
 						<th>No.</th>
@@ -113,19 +113,19 @@ use App\Record;
 								{
 									echo "Dining & Beverage";
 								}
-								elseif ($select_record->categories=="shopping_and_lifestyle") 
+								elseif($select_record->categories=="shopping_and_lifestyle")
 								{
 									echo "Shopping & Lifestyle";
 								}
-								elseif ($select_record->categories=="beauty_and_healthy") 
+								elseif($select_record->categories=="beauty_and_healthy")
 								{
 									echo "Beauty & Healthy";
 								}
-								elseif ($select_record->categories=="hotel_and_travel") 
+								elseif($select_record->categories=="hotel_and_travel")
 								{
 									echo "Hotel & Travel";
 								}
-								elseif ($select_record->categories=="online") 
+								elseif($select_record->categories=="online")
 								{
 									echo "Online";
 								}
@@ -168,12 +168,7 @@ use App\Record;
 					</tr>
 					<tr>
 						<td>
-							@if($select_record->edit_address==""||$select_record->edit_address=="none")
-								{{$select_record->address}}
-							@else
-								{{$select_record->edit_address}}
-							@endif
-	
+						{{$select_record->address}}
 						</td>
 						<td>{{$select_record->province}}</td>
 						<td>{{$select_record->latitude}}</td>
@@ -189,19 +184,14 @@ use App\Record;
 			<table class="table table-bordered table-striped">
 					<tr>
 						<th>Contact Person</th>
-						<th>Contact Telephone number</th>
+						<th>เบอร์โทรติดต่อ</th>
 						<th>Contact Email</th>
 						<th>Contact Date [ วัน / เดือน / ปี ]</th>
 						<th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>
 						<td>
-							@if($select_record->edit_contact_person==""||$select_record->edit_contact_person=="none")
 								{{$select_record->contact_person}}
-							@else
-								{{$select_record->edit_contact_person}}
-							@endif
-					
 						</td>
 						<td>{{$select_record->contact_tel}}</td>
 						<td>{{$select_record->contact_email}}</td>
@@ -287,63 +277,6 @@ use App\Record;
 			</div>
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-xs-12">
-				<label>เบอร์โทรศัพท์: </label> <?php if($select_record->is_tel_correct=="1"){ echo "ถูกต้อง";} else { echo "เบอร์โทรศัพท์ไม่ถูกต้อง เบอร์ที่ถูกต้องคือ ".$select_record->wrong_number_new_tel_number; } ?>
-				
-			</div>
-			<div class="row">
-		</div>
-		<div class="row">
-			<div class="col-xs-12"><b>ผลการโทร : </b>
-				@if($select_record->result=="yes") 
-					<span>Yes</span><br />
-					<b>Feedback : </b> {{$select_record->yes_feedback}} <br />
-					<b>เงื่อนไข : </b> {{$select_record->yes_condition}} <br />
-					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> 
-					<?php
-					$start_date_array =Record::convert_date($select_record->yes_privilege_start);
-					echo $start_date_array['2']."/".$start_date_array['1']."/".$start_date_array['0'];
-					?>
-					<br />
-					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b>
-					<?php
-					$end_date_array =Record::convert_date($select_record->yes_privilege_end);
-					echo $end_date_array['2']."/".$end_date_array['1']."/".$end_date_array['0'];
-					?>
-					<br />
-
-				@elseif($select_record->result=="no_reply")
-					<span>No Reply</span><br />
-					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->call_amount ;?> <br />
-					<b>เหตุผล : </b> {{$select_record->cannot_contact_reason}} <br />
-					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> 
-					<?php 
-					$date_array =Record::convert_date($select_record->cannot_contact_appointment);
-					echo $date_array['2']."/".$date_array['1']."/".$date_array['0'];
-					?> <br />
-					
-				@elseif($select_record->result=="rejected")
-					<span>Rejected</span><br />
-					<b>No Reason : </b> {{$select_record->no_reason}} <br />
-					<b>No Note : </b> {{$select_record->no_note}} <br />
-
-				@elseif($select_record->result=="waiting")
-					<span>Waiting</span><br />
-					<b>เหตุผลที่ขอพิจารณาดูก่อน : </b> {{$select_record->consider_reason}} <br />
-					<b>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ] </b> 
-					<?php
-					$date_array =Record::convert_date($select_record->consider_appointment_feedback);
-					echo $date_array['2']."/".$date_array['1']."/".$date_array['0'];
-					?>
-					<br />
-
-				@elseif($select_record->result=="closed")
-					<span>ร้านปิดไปแล้ว</span><br />
-				@endif
-				
-			</div>
-		</div>
 		<br />
 		<a class="btn btn-success" href="{{url('sale/show_selected_record_list')}}" role="button" id="confirm_btn">กลับไปหน้าเลือก Lead</a>
 		</div>

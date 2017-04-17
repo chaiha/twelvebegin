@@ -53,7 +53,6 @@
     					var yes_start_priviledge_date = $("#start_priviledge_date").val();
     					var yes_end_priviledge_date = $("#end_priviledge_date").val();
 
-                        alert(yes_end_priviledge_date);
     					if(yes_feedback==""||yes_start_priviledge_date==""||yes_end_priviledge_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
@@ -121,8 +120,7 @@
     					var yes_feedback = $("#feedback").val();
                         var yes_start_priviledge_date = $("#start_priviledge_date").val();
                         var yes_end_priviledge_date = $("#end_priviledge_date").val();
-                        alert(yes_start_priviledge_date);
-                        alert(yes_end_priviledge_date);
+                        
     					if(yes_feedback==""||yes_start_priviledge_date==""||yes_end_priviledge_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
@@ -313,22 +311,22 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
-		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
+		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
+		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}} <a href="{{url('/sale/edit_record/record/show/'.$select_record->record_id)}}" class="btn btn-danger">แก้ไขข้อมูล</a></h3>
 		{{Form::open(array('action' => 'CallController@preview_filled_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
-				<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record->id}}" />
+				<input type="hidden" id="record_id" name="record_id" value="{{$select_record->record_id}}" />
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
 						<th>No.</th>
 						<th>Code.</th>
 						<th>Status</th>
-						<th>Sources</th>
-						<th>Dtac Type</th>
+						<th>แหล่งที่มา</th>
+						<th>dtac type</th>
 						<th>Categories</th>
 						<th>ประเภทร้าน</th>
                         <th>ประเภทร้านพิเศษ</th>
@@ -350,15 +348,15 @@ use App\Record;
 						</td>
 						<td>
 							<?php
-								if($select_record->record->sources=="online_search")
+								if($select_record->sources=="online_search")
 								{
 									echo "Online Search";
 								}
-								elseif ($select_record->record->sources=="dtac_recommend") 
+								elseif ($select_record->sources=="dtac_recommend") 
 								{
-									echo "DTAC Recommend";
+									echo "dtac Recommend";
 								}
-								elseif ($select_record->record->sources=="walking") 
+								elseif ($select_record->sources=="walking") 
 								{
 									echo "Walking";
 								}
@@ -366,70 +364,251 @@ use App\Record;
 						</td>
 						<td>
 							<?php
-								if($select_record->record->dtac_type=="ร้านกทม")
+								if($select_record->dtac_type=="ร้านกทม./นนทบุรี/สมุทรปราการ")
 								{
-									echo "ร้าน กทม";
+									echo "ร้าน กทม./นนทบุรี/สมุทรปราการ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านตจว") 
+								elseif($select_record->dtac_type=="ร้านต่างจังหวัด")
 								{
-									echo "ร้าน ตจว";
+									echo "ร้าน ต่างจังหวัด";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านonline") 
+								elseif($select_record->dtac_type=="ร้านdtacแนะนำ")
+								{
+									echo "ร้าน dtac แนะนำ";
+								}
+								elseif($select_record->dtac_type=="ร้านonline")
 								{
 									echo "ร้าน online";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านต่ออายุ") 
+								elseif($select_record->dtac_type=="ร้านต่ออายุ")
 								{
 									echo "ร้านต่ออายุ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านดีลอย่างเดียว") 
+								elseif($select_record->dtac_type=="ร้านดีลอย่างเดียว")
 								{
 									echo "ร้านดีลอย่างเดียว";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค") 
+								elseif($select_record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค")
 								{
 									echo "ร้านเฉพาะอาร์ทเวิร์ค";
 								}
+
 								?>
 						</td>
 						<td>
 							<?php
-								if($select_record->record->categories=="dinning_and_beverage")
+								if($select_record->categories=="dinning_and_beverage")
 								{
 									echo "Dining & Beverage";
 								}
-								elseif ($select_record->record->categories=="shopping_and_lifestyle") 
+								elseif ($select_record->categories=="shopping_and_lifestyle") 
 								{
 									echo "Shopping & Lifestyle";
 								}
-								elseif ($select_record->record->categories=="beauty_and_healthy") 
+								elseif ($select_record->categories=="beauty_and_healthy") 
 								{
 									echo "Beauty & Healthy";
 								}
-								elseif ($select_record->record->categories=="hotel_and_travel") 
+								elseif ($select_record->categories=="hotel_and_travel") 
 								{
 									echo "Hotel & Travel";
 								}
-								elseif ($select_record->record->categories=="online") 
+								elseif ($select_record->categories=="online") 
 								{
 									echo "Online";
 								}
 								?>
 						</td>
 						<td>
-							<?php
-								if($select_record->record->shop_type=="ร้านเบ็ดเตล็ด")
-								{
-									echo "ร้าน เบ็ดเตล็ด";
-								}
-								elseif ($select_record->record->shop_type=="ร้านอาหาร") 
-								{
-									echo "ร้าน อาหาร";
-								}
-								elseif ($select_record->record->shop_type=="ร้านอาหารนานาชาติ") 
-								{
-									echo "ร้าน อาหารนานาชาติ";
-								}
+						<?php
+						if($select_record->shop_type=="ร้านอาหาร")
+						{
+							echo "ร้านอาหาร";
+						}
+						elseif($select_record->shop_type=="ร้านเครื่องดื่ม")
+						{
+							echo "ร้านเครื่องดื่ม";
+						}
+						elseif($select_record->shop_type=="ร้านกาแฟ")
+						{
+							echo "ร้านกาแฟ";
+						}
+						elseif($select_record->shop_type=="ร้านเบเกอรี่")
+						{
+							echo "ร้านเบเกอรี่";
+						}
+						elseif($select_record->shop_type=="ผับ (ร้านอาหารและเครื่องดื่ม)")
+						{
+							echo "ผับ (ร้านอาหารและเครื่องดื่ม)";
+						}
+						elseif($select_record->shop_type=="ร้านขนมหวาน")
+						{
+							echo "ร้านขนมหวาน";
+						}
+						elseif($select_record->shop_type=="ร้านเครื่องดื่มและเบเกอรี่")
+						{
+							echo "ร้านเครื่องดื่มและเบเกอรี่";
+						}
+						elseif($select_record->shop_type=="ร้านอาหารและเบเกอรี่")
+						{
+							echo "ร้านอาหารและเบเกอรี่";
+						}
+						elseif($select_record->shop_type=="ร้านไอศครีม")
+						{
+							echo "ร้านไอศครีม";
+						}
+						elseif($select_record->shop_type=="ร้านเพื่อสุขภาพ")
+						{
+							echo "ร้านเพื่อสุขภาพ";
+						}
+						elseif($select_record->shop_type=="ร้านบุฟเฟ่ต์")
+						{
+							echo "ร้านบุฟเฟ่ต์";
+						}
+						elseif($select_record->shop_type=="โต๊ะจีน")
+						{
+							echo "โต๊ะจีน";
+						}
+						elseif($select_record->shop_type=="ร้านสปา")
+						{
+							echo "ร้านสปา";
+						}
+						elseif($select_record->shop_type=="ร้านนวด")
+						{
+							echo "ร้านนวด";
+						}
+						elseif($select_record->shop_type=="ร้านเสริมสวย")
+						{
+							echo "ร้านเสริมสวย";
+						}
+						elseif($select_record->shop_type=="ร้านทำเล็บ")
+						{
+							echo "ร้านทำเล็บ";
+						}
+						elseif($select_record->shop_type=="ร้านความงาม")
+						{
+							echo "ร้านความงาม";
+						}
+						elseif($select_record->shop_type=="ฟิสเนส")
+						{
+							echo "ฟิสเนส";
+						}
+						elseif($select_record->shop_type=="ร้านนวดและสปา")
+						{
+							echo "ร้านนวดและสปา";
+						}
+						elseif($select_record->shop_type=="โรงแรม")
+						{
+							echo "โรงแรม";
+						}
+						elseif($select_record->shop_type=="รีสอร์ท")
+						{
+							echo "รีสอร์ท";
+						}
+						elseif($select_record->shop_type=="โฮมสเตย์")
+						{
+							echo "โฮมสเตย์";
+						}
+						elseif($select_record->shop_type=="เรือนำเที่ยว")
+						{
+							echo "เรือนำเที่ยว";
+						}
+						elseif($select_record->shop_type=="สถานที่ท่องเที่ยว")
+						{
+							echo "สถานที่ท่องเที่ยว";
+						}
+						elseif($select_record->shop_type=="อพาร์ทเม้นท์")
+						{
+							echo "อพาร์ทเม้นท์";
+						}
+						elseif($select_record->shop_type=="ทัวร์")
+						{
+							echo "ทัวร์";
+						}
+						elseif($select_record->shop_type=="ฟาร์ม")
+						{
+							echo "ฟาร์ม";
+						}
+						elseif($select_record->shop_type=="ร้านเบ็ดเตล็ด")
+						{
+							echo "ร้านเบ็ดเตล็ด";
+						}
+						elseif($select_record->shop_type=="ร้านของฝาก")
+						{
+							echo "ร้านของฝาก";
+						}
+						elseif($select_record->shop_type=="โรงเรียน")
+						{
+							echo "โรงเรียน";
+						}
+						elseif($select_record->shop_type=="ร้านเสื้อผ้า")
+						{
+							echo "ร้านเสื้อผ้า";
+						}
+						elseif($select_record->shop_type=="ร้านเวดดิ้ง")
+						{
+							echo "ร้านเวดดิ้ง";
+						}
+						elseif($select_record->shop_type=="ร้านสัตว์เลี้ยง")
+						{
+							echo "ร้านสัตว์เลี้ยง";
+						}
+						elseif($select_record->shop_type=="คาร์แคร์")
+						{
+							echo "คาร์แคร์";
+						}
+						elseif($select_record->shop_type=="ร้านรองเท้า")
+						{
+							echo "ร้านรองเท้า";
+						}
+						elseif($select_record->shop_type=="ร้านกระเป๋า")
+						{
+							echo "ร้านกระเป๋า";
+						}
+						elseif($select_record->shop_type=="ร้านเครื่องเขียน")
+						{
+							echo "ร้านเครื่องเขียน";
+						}
+						elseif($select_record->shop_type=="ร้านหนังสือ")
+						{
+							echo "ร้านหนังสือ";
+						}
+						elseif($select_record->shop_type=="ร้านอิเล็กทรอนิคส์")
+						{
+							echo "ร้านอิเล็กทรอนิคส์";
+						}
+						elseif($select_record->shop_type=="ร้านอุปกรณ์ไอที")
+						{
+							echo "ร้านอุปกรณ์ไอที";
+						}
+						elseif($select_record->shop_type=="ร้านอุปกรณ์เบเกอรี่")
+						{
+							echo "ร้านอุปกรณ์เบเกอรี่";
+						}
+						elseif($select_record->shop_type=="ร้านเครื่องดนตรี")
+						{
+							echo "ร้านเครื่องดนตรี";
+						}
+						elseif($select_record->shop_type=="โรงภาพยนต์")
+						{
+							echo "โรงภาพยนต์";
+						}
+						elseif($select_record->shop_type=="ร้านเครื่องประดับ")
+						{
+							echo "ร้านเครื่องประดับ";
+						}
+						elseif($select_record->shop_type=="ร้านเฟอร์นิเจอร์")
+						{
+							echo "ร้านเฟอร์นิเจอร์";
+						}
+						elseif($select_record->shop_type=="ร้านสินค้าเด็ก")
+						{
+							echo "ร้านสินค้าเด็ก";
+						}
+						elseif($select_record->shop_type=="ร้านผลิตภัณฑ์ความงาม")
+						{
+							echo "ร้านผลิตภัณฑ์ความงาม";
+						}
 								
 								?>
 						</td>
@@ -456,19 +635,19 @@ use App\Record;
 						<th>ลองติจูด</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->name_th}}</td>
-						<td>{{$select_record->record->name_en}}</td>
-						<td>{{$select_record->record->branch}}</td>
+						<td>{{$select_record->name_th}}</td>
+						<td>{{$select_record->name_en}}</td>
+						<td>{{$select_record->branch}}</td>
                         <td>
-                        <input type="text" name="branch_amount" id="branch_amount" value="{{$select_record->record->branch_amount}}" class="form-control"/>
+                        <input type="text" name="branch_amount" id="branch_amount" value="{{$select_record->branch_amount}}" class="form-control"/>
                         </td>
 						<td>
-							{{$select_record->record->address}}<br />
+							{{$select_record->address}}<br />
 							<textarea name="edit_address" id="edit_address" cols="50" rows="5" class="form-control"  style="display: none"></textarea>
 						</td>
-						<td>{{$select_record->record->province}}</td>
-						<td>{{$select_record->record->latitude}}</td>
-						<td>{{$select_record->record->longtitude}}</td>
+						<td>{{$select_record->province}}</td>
+						<td>{{$select_record->latitude}}</td>
+						<td>{{$select_record->longtitude}}</td>
 					</tr>
 				</table>
 			</div>
@@ -487,11 +666,11 @@ use App\Record;
 					</tr>
 					<tr>
 						<td>
-							{{$select_record->record->contact_person}}<br />
+							{{$select_record->contact_person}}<br />
 							<input type="text" name="edit_contact_person" id="edit_contact_person" value="" size="30" class="form-control"  style="display: none" />
 						</td>
-						<td>{{$select_record->record->contact_tel}}</td>
-						<td>{{$select_record->record->contact_email}}</td>
+						<td>{{$select_record->contact_tel}}</td>
+						<td>{{$select_record->contact_email}}</td>
 						<td>
 							<?php
 								$contact_date = explode("-",$select_record->record->contact_date);
@@ -502,7 +681,7 @@ use App\Record;
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
 						<td>
-                            <textarea name="sending_address" id="sending_address" class="form-control">{{$select_record->record->sending_address}}</textarea>
+                            <textarea name="sending_address" id="sending_address" class="form-control">{{$select_record->sending_address}}</textarea>
                         </td>
 					</tr>
 				</table>
@@ -520,9 +699,9 @@ use App\Record;
 					<tr>
 						<td>
 							<?php
-								if($select_record->record->links!=NULL)
+								if($select_record->links!=NULL)
 								{
-									echo($select_record->record->links);
+									echo($select_record->links);
 								}
 								else
 								{
@@ -532,9 +711,9 @@ use App\Record;
 						</td>
 						<td>
 							<?php
-								if($select_record->record->remarks!=NULL)
+								if($select_record->remarks!=NULL)
 								{
-									echo $select_record->record->remarks;
+									echo $select_record->remarks;
 								}
 								else
 								{
@@ -557,7 +736,7 @@ use App\Record;
                         </tr>
                         <tr>
                             <td>
-                                <textarea id="note" name="note" class="form-control"></textarea>
+                                <textarea id="note" name="note" class="form-control">{{$select_record->note}}</textarea>
                             </td>
                         </tr>
                     </table>
@@ -568,8 +747,8 @@ use App\Record;
 		<div class="row add-margin-20">
 			<div class="col-xs-12">
 				<label>เบอร์โทรศัพท์ </label>
-				<label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" />
-				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" />
+				<input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" /> <label>ถูกต้อง</label>
+				<input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" /> <label>ไม่ถูกต้อง</label>
 				<div class="row hide" id="new_tel_form">
 					<div class="col-xs-12  add-margin-20">
 						<label>หมายเลขที่ถูกต้องคือ</label>
@@ -595,7 +774,7 @@ use App\Record;
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
-						<label>Feedback: </label>
+						<label>Privilege: </label>
 							<input type="text" name="feedback" id="feedback" value="" class="form-control yes_form"/>
 					</div>
 				</div>
