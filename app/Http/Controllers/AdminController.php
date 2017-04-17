@@ -12,6 +12,7 @@ use App\Record;
 use App\SelectRecord;
 use App\LogAdminInsertRecord;
 use App\YesRecords;
+use App\SaleRecordYesCollection;
 use Excel;
 use Cookie;
 //use Symfony\Component\HttpFoundation\Cookie;
@@ -1489,6 +1490,9 @@ class AdminController extends Controller
     public function submit_all_approve_record(Request $request)
     {
         $today = date('Y-m-d');
+        $lot_no_number = $request->input('lot_no_number');
+        $lot_no_month = $request->input('lot_no_month');
+        $lot_no = $lot_no_number."-".$lot_no_month;
         $user = Sentinel::check();
         $sale_id = $request->input('sale_id');
         $result = SelectRecord::where('sale_id','=',$sale_id)->get();
@@ -1514,6 +1518,7 @@ class AdminController extends Controller
                     //Insert record to yes_record table
                     $yes_record = new YesRecords;
                     $yes_record->lot_date = date('Y-m-d');
+                    $yes_record->lot_no = $lot_no;
                     $yes_record->record_id = $result_each->record_id;
                     $yes_record->sale_id = $result_each->sale_id;
                     $yes_record->available_start = $available_start;
@@ -1534,6 +1539,26 @@ class AdminController extends Controller
                     $yes_record->updated_at = date('Y-m-d H:i:s');
                     $yes_record->updated_by = $user->id;
                     $yes_record->save();
+
+                    $sale_record_yes_collection = new SaleRecordYesCollection;
+                    $sale_record_yes_collection->lot_no = $lot_no;
+                    $sale_record_yes_collection->record_id = $result_each->record_id;
+                    $sale_record_yes_collection->sale_id = $result_each->sale_id;
+                    $sale_record_yes_collection->name_th = $result_each->name_th;
+                    $sale_record_yes_collection->name_en = $result_each->name_en;
+                    $sale_record_yes_collection->dtac_type = $result_each->dtac_type;
+                    $sale_record_yes_collection->categories = $result_each->categories;
+                    $sale_record_yes_collection->yes_privilege_start = $result_each->yes_privilege_start;
+                    $sale_record_yes_collection->yes_privilege_end = $result_each->yes_privilege_end;
+                    $sale_record_yes_collection->yes_feedback = $result_each->yes_feedback;
+                    $sale_record_yes_collection->yes_condition = $result_each->yes_condition;
+                    $sale_record_yes_collection->created_at = date('Y-m-d H:i:s');
+                    $sale_record_yes_collection->created_by = $user->id;
+                    $sale_record_yes_collection->updated_at = date('Y-m-d H:i:s');
+                    $sale_record_yes_collection->updated_by = $user->id;
+                    $sale_record_yes_collection->save();
+
+                    //print_r($select_record);
 
                     //update table "record"
                     $record = Record::where('id','=',$result_each->record_id)->first();
@@ -1575,6 +1600,7 @@ class AdminController extends Controller
                         $record->close = $result_each->close;
                         $record->result_remark = $result_each->result_remark;
                         $record->lot_date = date('Y-m-d');
+                        $record->lot_no = $lot_no;
                         $record->updated_by = $user->id;
                         $record->updated_at = date('Y-m-d');
                         $record->save();
@@ -1637,6 +1663,7 @@ class AdminController extends Controller
                     $record->close = $result_each->close;
                     $record->result_remark = $result_each->result_remark;
                     $record->lot_date = NULL;
+                    $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
                     $record->save();
@@ -1686,6 +1713,7 @@ class AdminController extends Controller
                     $record->close = $result_each->close;
                     $record->result_remark = $result_each->result_remark;
                     $record->lot_date = NULL;
+                    $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
                     $record->save();
@@ -1748,6 +1776,7 @@ class AdminController extends Controller
                     $record->close = $result_each->close;
                     $record->result_remark = $result_each->result_remark;
                     $record->lot_date = NULL;
+                    $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
                     $record->save();
@@ -1797,6 +1826,7 @@ class AdminController extends Controller
                     $record->close = $result_each->close;
                     $record->result_remark = $result_each->result_remark;
                     $record->lot_date = NULL;
+                    $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
                     $record->save();
@@ -1828,29 +1858,29 @@ class AdminController extends Controller
         return redirect('/admin/approve_record_from_sale/show_sale_list');
     }
 
-    public function list_lot_date()
+    public function list_lot_no()
     {
-        $list_lot_date = DB::table('records')->select('lot_date', DB::raw('count(*) as total'))->where('result','=','yes')->where('lot_date','<>',NULL)->groupBy('lot_date')->orderBy('lot_date','desc')->paginate(20);
+        $list_lot_date = DB::table('records')->select('lot_no', DB::raw('count(*) as total'))->where('result','=','yes')->where('lot_no','<>',NULL)->groupBy('lot_no')->orderBy('lot_date','desc')->paginate(20);
         
         return view('admin.export_excel.list')->with('list_lot_date',$list_lot_date);
     }
 
-    public function show_lot_date($lot_date)
+    public function show_lot_no($lot_no)
     {
-        $list_lot_date = Record::where('lot_date','=',$lot_date)->get();
-        $lot_date = $lot_date;
-        return view('admin.export_excel.show_lot_date')->with('list_lot_date',$list_lot_date)->with('lot_date',$lot_date);
+        $list_lot_no = Record::where('lot_no','=',$lot_no)->get();
+        $lot_no = $lot_no;
+        return view('admin.export_excel.show_lot_date')->with('list_lot_no',$list_lot_no)->with('lot_no',$lot_no);
     }
 
-    public function export_excel_by_lot_date($lot_date)
+    public function export_excel_by_lot_no($lot_no)
     {
         //-------------------- Excel
-        $list_lot_date = Record::where('lot_date','=',$lot_date)->get();
-        $file_name = "lot_date_".$lot_date;
+        $list_lot_no = Record::where('lot_no','=',$lot_no)->get();
+        $file_name = "lot_".$lot_no;
 
-        Excel::create($file_name,function($excel) use ($list_lot_date){
-            $excel->sheet('records',function($sheet) use ($list_lot_date){
-                $sheet->loadView('admin.export_excel.ExportRecords')->with('list_lot_date',$list_lot_date);
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords')->with('list_lot_no',$list_lot_no);
             });
         })->export('xlsx');
 

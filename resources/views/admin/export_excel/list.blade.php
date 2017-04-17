@@ -12,7 +12,7 @@ use App\SelectRecord;
 		<table class="table">
 		  <thead class="thead-inverse">
 		  	<tr>
-		  		<th>Lot date</th>
+		  		<th>Lot no</th>
 		  		<th>Total</th>
 		  		<th>เลือก</th>
 		  	</tr>
@@ -20,10 +20,10 @@ use App\SelectRecord;
 		@foreach($list_lot_date as $list_lot_date_each)
 		  <tbody>
 		  	<tr>
-		  		<td>{{$list_lot_date_each->lot_date}}</td>
+		  		<td>{{$list_lot_date_each->lot_no}}</td>
 		  		<td>{{$list_lot_date_each->total}}</td>
 		  		<td>
-		  		<a href="{{url('/admin/export_excel/show_selected_lot_date/'.$list_lot_date_each->lot_date)}}">เลือก</a>
+		  		<a href="{{url('/admin/export_excel/show_selected_lot_no/'.$list_lot_date_each->lot_no)}}">เลือก</a>
 		  		</td>
 		  	</tr>
 		  </tbody>

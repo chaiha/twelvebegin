@@ -4,10 +4,20 @@
 <script type="text/javascript">
 function submit_all_result()
 {
-	if(confirm("กรุณายืนยัน?"))
+	value = document.getElementById('lot_no_number').value;
+
+	if(value=="")
 	{
-		document.getElementById("submit_form").submit();	
+		alert('กรุณากรอกหมายเลข Lot Number');
 	}
+	else
+	{
+		if(confirm("กรุณายืนยัน?"))
+		{
+			document.getElementById("submit_form").submit();	
+		}	
+	}
+	
 }
 </script>
 @stop
@@ -369,8 +379,26 @@ use App\User;
 	</div>
 	<div class="row">
 		<div class="col-md-12" style="margin-left: 5px;">
+		<hr>
 			{{Form::open(array('action' => 'AdminController@submit_all_approve_record','id'=>'submit_form'))}}
 				{{csrf_field()}}
+				<b>Lot Number: </b>
+				<input type="text" name="lot_no_number" id="lot_no_number" value=""/> -
+				<?php $current_year = date('Y');?>
+				<select name="lot_no_month">
+					<option value="January-{{$current_year}}">January-{{$current_year}}</option>
+					<option value="February-{{$current_year}}">February-{{$current_year}}</option>
+					<option value="March-{{$current_year}}">March-{{$current_year}}</option>
+					<option value="April-{{$current_year}}">April-{{$current_year}}</option>
+					<option value="May-{{$current_year}}">May-{{$current_year}}</option>
+					<option value="June-{{$current_year}}">June-{{$current_year}}</option>
+					<option value="July-{{$current_year}}">July-{{$current_year}}</option>
+					<option value="August-{{$current_year}}">August-{{$current_year}}</option>
+					<option value="September-{{$current_year}}">September-{{$current_year}}</option>
+					<option value="October-{{$current_year}}">October-{{$current_year}}</option>
+					<option value="November-{{$current_year}}">November-{{$current_year}}</option>
+					<option value="December-{{$current_year}}">December-{{$current_year}}</option>
+				</select>
 				<input type="hidden" name="sale_id" value="{{$sale->id}}" />
 				<hr>
 				<a href="#" class="btn btn-success" onClick="submit_all_result()">Submit</a>

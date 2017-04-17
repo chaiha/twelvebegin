@@ -72,12 +72,12 @@ use App\User;
 		    </tr>
 		  </thead>
 		  <tbody>
-		  @foreach ($list_lot_date as $each_record)
+		  @foreach ($list_lot_no as $each_record)
 		    <tr>
 		      <td>{{$each_record->id}}</td>
               <td>{{$each_record->lot_date}}</td>
-		      <td>{{$each_record->lot_date}}</td>
-		      <td>{{$each_record->lot_date}}</td>
+		      <td>{{$each_record->lot_no}}</td>
+		      <td>{{$each_record->lot_no}}</td>
 		      <td>{{$each_record->sale_id}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
 		      <td>{{$each_record->id}}</td>
@@ -128,8 +128,8 @@ use App\User;
 	<div class="row">
 		<div class="col-md-12" style="margin-left: 5px;">
 				<hr>
-				<a href="{{url('/admin/export_excel/export_excel/'.$lot_date)}}" class="btn btn-success">Export</a>
-				<a href="{{url('admin/export_excel/list_lot_date')}}" class="btn btn-danger">ยกเลิก</a>
+				<a href="{{url('/admin/export_excel/export_excel/'.$lot_no)}}" class="btn btn-success">Export</a>
+				<a href="{{url('admin/export_excel/list_lot_no')}}" class="btn btn-danger">ยกเลิก</a>
 		</div>
 	</div>
 </div>

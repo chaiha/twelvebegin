@@ -145,9 +145,9 @@ Route::post('/admin/approve_record_from_sale/show_record_detail','AdminControlle
 Route::post('/admin/approve_record_from_sale/select_sale/','AdminController@submit_all_approve_record');
 
 //Export date to excel file
-Route::get('/admin/export_excel/list_lot_date','AdminController@list_lot_date');
-Route::get('/admin/export_excel/show_selected_lot_date/{lot_date}','AdminController@show_lot_date');
-Route::get('/admin/export_excel/export_excel/{lot_date}','AdminController@export_excel_by_lot_date');
+Route::get('/admin/export_excel/list_lot_no','AdminController@list_lot_no');
+Route::get('/admin/export_excel/show_selected_lot_no/{lot_no}','AdminController@show_lot_no');
+Route::get('/admin/export_excel/export_excel/{lot_no}','AdminController@export_excel_by_lot_no');
 
 //------End Admin
 

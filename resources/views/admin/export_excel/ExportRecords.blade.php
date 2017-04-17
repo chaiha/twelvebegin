@@ -56,11 +56,11 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		  @foreach ($list_lot_date as $each_record)
+		  @foreach ($list_lot_no as $each_record)
 		    <tr>
 		      <td>{{$each_record->id}}</td>
               <td>{{$each_record->lot_date}}</td>
-		      <td>{{$each_record->lot_date}}</td>
+		      <td>{{$each_record->lot_no}}</td>
 		      <td>{{$each_record->lot_date}}</td>
 		      <td>{{$each_record->sale_id}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
