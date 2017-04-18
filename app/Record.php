@@ -123,7 +123,7 @@ class Record extends Model
 
     static public function province_list()
     {
-        $province = array("กระบี่","กรุงเทพมหานครฯ","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยโสธร","ยะลา","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อำนาจเจริญ","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี");
+        $province = array("กระบี่","กรุงเทพฯ","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยโสธร","ยะลา","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อำนาจเจริญ","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี");
 
         return $province;
     }
@@ -244,4 +244,103 @@ class Record extends Model
         return $size_of_result;
     }
 
+    static public function check_month($date)
+    {
+        $date_array = explode('-', $date);
+        $month = $date_array[1];
+
+        switch ($month) {
+            case '01':
+                $month_text = "January";
+                break;
+            case '02':
+                $month_text = "February";
+                break;
+            case '03':
+                $month_text = "March";
+                break;
+            case '04':
+                $month_text = "April";
+                break;
+            case '05':
+                $month_text = "May";
+                break;
+            case '06':
+                $month_text = "June";
+                break;
+            case '07':
+                $month_text = "July";
+                break;
+            case '08':
+                $month_text = "August";
+                break;
+            case '09':
+                $month_text = "September";
+                break;
+            case '10':
+                $month_text = "October";
+                break;
+            case '11':
+                $month_text = "November";
+                break;
+            case '12':
+                $month_text = "December";
+                break;
+        }
+        return $month_text;
+    }
+
+    static public function excel_month($date)
+    {
+        $date_array = explode('-', $date);
+        $month = $date_array[1];
+        $year_2 = substr($date_array[0],2);
+
+        switch ($month) {
+            case '01':
+                $month_text = "January-".$year_2;
+                break;
+            case '02':
+                $month_text = "February-".$year_2;
+                break;
+            case '03':
+                $month_text = "March-".$year_2;
+                break;
+            case '04':
+                $month_text = "April-".$year_2;
+                break;
+            case '05':
+                $month_text = "May-".$year_2;
+                break;
+            case '06':
+                $month_text = "June-".$year_2;
+                break;
+            case '07':
+                $month_text = "July-".$year_2;
+                break;
+            case '08':
+                $month_text = "August-".$year_2;
+                break;
+            case '09':
+                $month_text = "September-".$year_2;
+                break;
+            case '10':
+                $month_text = "October-".$year_2;
+                break;
+            case '11':
+                $month_text = "November-".$year_2;
+                break;
+            case '12':
+                $month_text = "December-".$year_2;
+                break;
+        }
+        return $month_text;
+    }
+
+   static public function convert_date_formate($date)
+    {
+        $date_array = explode('-', $date);
+        $new_date = $date_array[2].'/'.$date_array[1].'/'.$date_array[0];
+        return $new_date;
+    }
 }

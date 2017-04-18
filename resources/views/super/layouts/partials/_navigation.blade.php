@@ -14,6 +14,7 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+              <li><a href="{{url('/super/show_sale_performance/list_sale')}}">See Sale Performance</a></li>
               <li><a href="{{url('/super/record/list_records')}}">List Records</a></li>
               <li><a href="{{url('/super/select_record/list_selected_sale')}}">List Selected Sale</a></li>
               <li><a href="{{url('/super/setting/index')}}">Setting</a></li>

@@ -21,16 +21,17 @@ use App\User;
 <div class="container" style="margin-left: 5px;">
 	<div class="row" style="width:2000px;">
 		<h1>รายการที่รอการ Approve </h1>
-		<table class="table">
+		<table class="table table-bordered">
 		  <thead class="thead-inverse">
 		    <tr>
               <th>ID</th>
+              <th>No.</th>
               <th>Date</th>
 		      <th>Lot#</th>
 		      <th>Month</th>
 		      <th>Sales</th>
 		      <th>Type</th>
-		      <th>No.</th>
+		      <th>All</th>
 		      <th>ประเภทธุรกิจ</th>
 		      <th>USSD No.</th>
 		      <th>Xtra</th>
@@ -58,16 +59,11 @@ use App\User;
 		      <th>TentCard-A4</th>
 		      <th>TentCard-A5</th>
 		      <th>ที่อยู่จัดส่ง</th>
-		      <th>ขอApproveสื่อ</th>
 		      <th>C/FDoc</th>
-		      <th>A.Logo</th>
 		      <th>Logo</th>
 		      <th>A.product</th>
 		      <th>Product</th>
-		      <th>A.shop</th>
 		      <th>Shop</th>
-		      <th>Done</th>
-		      <th>Submit</th>
 		      <th>Remark</th>
 		    </tr>
 		  </thead>
@@ -75,12 +71,23 @@ use App\User;
 		  @foreach ($list_lot_no as $each_record)
 		    <tr>
 		      <td>{{$each_record->id}}</td>
-              <td>{{$each_record->lot_date}}</td>
+              <td></td>
+		      <td>{{$each_record->lot_date}}</td>
 		      <td>{{$each_record->lot_no}}</td>
-		      <td>{{$each_record->lot_no}}</td>
-		      <td>{{$each_record->sale_id}}</td>
+		      <td>
+		      <?php
+		      $record = new Record;
+		      echo $record->excel_month($each_record->lot_date);
+		      ?>
+		      </td>
+		      <td>
+		      <?php
+		      $user = new User;
+		      echo $user->get_first_name_by_id($each_record->sale);
+		      ?>
+		      </td>
 		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->id}}</td>
+		      <td></td>
 		      <td>{{$each_record->shop_type}}</td>
 		      <td></td>
 		      <td></td>
@@ -92,9 +99,18 @@ use App\User;
 		      <td>{{$each_record->yes_feedback}}</td>
 		      <td></td>
 		      <td></td>
-		      <td>{{$each_record->yes_privilege_start}}</td>
-		      <td>{{$each_record->yes_privilege_end}}</td>
-		      <td>{{$each_record->yes_condition}}</td>
+		      <?php
+		      	$yes_privilege_start = $each_record->yes_privilege_start;
+		      	$yes_privilege_start_array = explode('-', $yes_privilege_start);
+		      	$yes_privilege_start_new = $yes_privilege_start_array[2].'/'.$yes_privilege_start_array[1].'/'.$yes_privilege_start_array[0];
+
+		      	$yes_privilege_end = $each_record->yes_privilege_end;
+		      	$yes_privilege_end_array = explode('-', $yes_privilege_end);
+		      	$yes_privilege_end_new = $yes_privilege_end_array[2].'/'.$yes_privilege_end_array[1].'/'.$yes_privilege_end_array[0];
+		      ?>
+		      <td>{{$yes_privilege_end_new}}</td>
+		      <td>{{$yes_privilege_end_new}}</td>
+		      <td></td>
 		      <td></td>
 		      <td>{{$each_record->branch}}</td>
 		      <td>{{$each_record->address}}</td>
@@ -108,11 +124,6 @@ use App\User;
 		      <td></td>
 		      <td></td>
 		      <td>{{$each_record->sending_address}}</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
 		      <td></td>
 		      <td></td>
 		      <td></td>

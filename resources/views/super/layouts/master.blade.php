@@ -14,6 +14,7 @@
     {{ Html::style('assets/js/ie-emulation-modes-warning.js')}}
     {{ Html::style('css/navbar.css') }}
       {{ Html::style('css/chai.css') }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     @yield('styles')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,10 +34,10 @@
     
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     @section('js_files')
     @show
-    {{ Html::script('js/jquery-3.1.1.min.js')}} 
     {{ Html::script('bootstrap/js/bootstrap.min.js') }}
     {{ Html::script('assets/js/ie10-viewport-bug-workaround.js') }}
   </body>

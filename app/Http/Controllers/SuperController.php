@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
 use Session;
-// use User;   
+use User;
 use App\Record;
-use App\Setting;
 use App\SelectRecord;
-use App\User;
+use App\LogAdminInsertRecord;
+use App\YesRecords;
+use App\SaleRecordYesCollection;
+use Excel;
+use Cookie;
 
 class SuperController extends Controller
 {
@@ -433,4 +436,58 @@ class SuperController extends Controller
         $sale = User::where('id','=',$sale_id)->first();
         return view('super.select.show_select_record_list')->with('record_list',$record_list)->with('sale',$sale);
     }
+
+    public function list_sale_perform()
+    {
+        $role = Sentinel::findRoleById(3);
+        $sale_list = $role->users()->with('roles')->get();
+        
+         return view('super.show_sale_perform.list_sale')->with('sale_list',$sale_list);
+    }
+
+    public function show_sale_perform($sale_id)
+    {
+        $sale = Sentinel::findUserById($sale_id);
+        return view('super.show_sale_perform.show_sale_perform')->with('sale',$sale);
+    }
+
+    public function show_sale_perform_by_range(Request $request)
+    {
+        $sale_id = $request->input('sale_id');
+        $sale = Sentinel::findUserById($sale_id);
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $start_date_array = explode('/', $start_date);
+        $new_start_date = $start_date_array[2]."-".$start_date_array[1]."-".$start_date_array[0];
+        $end_date_array = explode('/', $end_date);
+        $new_end_date = $end_date_array[2]."-".$end_date_array[1]."-".$end_date_array[0];
+
+        //Query
+        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('yes_privilege_start', [$new_start_date, $new_end_date])->get();
+
+        return view('super.show_sale_perform.show_sale_perform_by_range')->with('result',$result)->with('sale',$sale)->with('start_date',$start_date)->with('end_date',$end_date);
+    }
+
+    public function export_excel_sale_perform(Request $request)
+    {
+        //-------------------- Excel
+        $sale_id = $request->input('sale_id_submit');
+        $sale = Sentinel::findUserById($sale_id);
+        $start_date = $request->input('start_date_submit');
+        $end_date = $request->input('end_date_submit');
+        $start_date_array = explode('/', $start_date);
+        $new_start_date = $start_date_array[2]."-".$start_date_array[1]."-".$start_date_array[0];
+        $end_date_array = explode('/', $end_date);
+        $new_end_date = $end_date_array[2]."-".$end_date_array[1]."-".$end_date_array[0];
+
+        //Query
+        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('yes_privilege_start', [$new_start_date, $new_end_date])->get();
+        $file_name = "export_sale_perform_sale_id_".$sale_id;
+        Excel::create($file_name,function($excel) use ($result){
+            $excel->sheet('records',function($sheet) use ($result){
+                $sheet->loadView('super.show_sale_perform.export_excel_sale_perform')->with('result',$result);
+            });
+        })->export('xlsx');
+    }
+
 }

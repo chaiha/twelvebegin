@@ -1603,6 +1603,9 @@ class AdminController extends Controller
                         $record->lot_no = $lot_no;
                         $record->updated_by = $user->id;
                         $record->updated_at = date('Y-m-d');
+                        $record->sale = $result_each->sale_id;
+                        $user = new User;
+                        $record->sale_name = $user->get_first_name_by_id($result_each->sale_id);
                         $record->save();
 
                         $select_record->delete();

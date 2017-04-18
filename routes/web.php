@@ -72,6 +72,12 @@ Route::get('/super/setting/edit_setting/{id}','SuperController@get_edit_setting'
 Route::post('/super/setting/edit_setting/','SuperController@submit_edit_setting');
 Route::get('/super/edit_redcord/success_edit_setting','SuperController@show_succes_edit_setting');
 
+//--------- Show sale performace 
+Route::get('/super/show_sale_performance/list_sale','SuperController@list_sale_perform');
+Route::get('/super/show_sale_perform/select_sale/{sale_id}','SuperController@show_sale_perform');
+Route::post('/super/show_sale_perform/show_sale_perform_by_range','SuperController@show_sale_perform_by_range');
+Route::post('/super/show_sale_perform/export_excel_sale_perform','SuperController@export_excel_sale_perform');
+
 //--admin
 Route::get('/earnings','AdminController@earnings')->middleware('admin');
 Route::get('/admin/checkupdate','AdminController@check_is_update')->middleware('admin');
