@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('resetpassword', array('as' => 'reset.password', 'uses' => 'PasswordController@edit'));
+Route::post('resetpasswordcomplete', array('as' => 'reset.password.complete', 'uses' => 'PasswordController@update'));
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -25,8 +28,11 @@ Route::get('/login', function () {
 
 Route::get('/test_date','AdminController@test_date');
 Route::get('/create_user_admin','UserController@create_user_admin');
+Route::get('/create_user_admin_4','UserController@create_user_admin_4');
 Route::get('/create_user_sale','UserController@create_user_sale');
 Route::get('/create_user_super','UserController@create_user_super');
+Route::get('/activate_user/{id}','UserController@activate_user');
+
 Route::post('/login', 'UserController@login');
 Route::get('logout', 'UserController@logout');
 Route::get('/check', 'UserController@checkdi');

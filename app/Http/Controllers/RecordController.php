@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Sentinel;
-use User;	
+use App\User;	
 use App\Record;
 
 class RecordController extends Controller

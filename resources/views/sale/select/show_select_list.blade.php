@@ -162,6 +162,7 @@ use App\User;
 		      <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
+              <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
 		      <th>name th</th>
@@ -238,10 +239,13 @@ use App\User;
               }
               ?>
               <td>
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              </td>
+              <td>              
               @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
-              <a href="{{url('/sale/edit_record/record/'.$each_record->record_id)}}" >แก้ไข</a>
+              -
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>
@@ -285,6 +289,7 @@ use App\User;
 		      <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
+              <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
 		      <th>name th</th>
@@ -361,10 +366,13 @@ use App\User;
               }
               ?>
               <td>
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              </td>
+              <td>              
               @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
-              <a href="{{url('/sale/edit_record/record/'.$each_record->record_id)}}" >แก้ไข</a>
+              -
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>
@@ -408,6 +416,7 @@ use App\User;
 		      <th>ส่งข้อมูล</th>
               <th>Call</th>
               <th>แก้ไขข้อมูล</th>
+              <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
 		      <th>code</th>
 		      <th>name th</th>
@@ -484,10 +493,13 @@ use App\User;
               }
               ?>
               <td>
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              </td>
+              <td>              
               @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
               <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
               @else
-              <a href="{{url('/sale/edit_record/record/'.$each_record->record_id)}}" >แก้ไข</a>
+              -
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
 use Session;
-use User;	
+use App\User;	
 use App\Record;
 use App\SelectRecord;
 

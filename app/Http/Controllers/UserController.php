@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Sentinel;
-use User;	
+use App\User;	
 
 class UserController extends Controller
 {
@@ -12,9 +12,9 @@ class UserController extends Controller
 	public function create_user_admin()
 	{
 		$new_user =[
-			'email' => 'chai@gmail.com',
+			'email' => 'ann@gmail.com',
 			'password' => '1234',
-			'first_name' => 'suphamongkhon',
+			'first_name' => 'Ann',
 			'last_name' => 'arwatchanakarn',
 		];
 		$register = Sentinel::registerAndActivate($new_user);
@@ -24,9 +24,27 @@ class UserController extends Controller
 		echo "Finish";
 	}
 
+  public function create_user_admin_9()
+  {
+    for($i=1;$i<10;$i++)
+     { 
+    $new_user =[
+      'email' => 'admin'.$i.'@gmail.com',
+      'password' => '1234',
+      'first_name' => 'first_sale'.$i,
+      'last_name' => 'last_sale'.$i,
+    ];
+    $register = Sentinel::registerAndActivate($new_user);
+    $role = Sentinel::findRoleBySlug('admin');
+    $role->users()->attach($register);
+
+    echo "Finish";
+    }
+  }
+
   public function create_user_sale()
   {
-    for($i=2;$i<10;$i++)
+    for($i=1;$i<10;$i++)
      { 
     $new_user =[
       'email' => 'sale'.$i.'@gmail.com',
@@ -44,16 +62,24 @@ class UserController extends Controller
   public function create_user_super()
   {
     $new_user =[
-      'email' => 'superadmin@gmail.com',
+      'email' => 'naunpun.m@gmail.com',
       'password' => '1234',
-      'first_name' => 'jay',
-      'last_name' => 'lim',
+      'first_name' => 'ann',
+      'last_name' => 'naunpun',
     ];
     $register = Sentinel::registerAndActivate($new_user);
     $role = Sentinel::findRoleBySlug('super');
     $role->users()->attach($register);
 
     echo "Finish";
+  }
+
+  public function activate_user($id)
+  {
+    $user = Sentinel::findById($id);
+
+    $activation = Activation::create($user);
+    echo "ok";
   }
 
     public function login(Request $request)
