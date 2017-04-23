@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Sentinel;
 use App\User;	
+use Session;
 
 class UserController extends Controller
 {
@@ -90,23 +91,29 @@ class UserController extends Controller
     	 	'email' => $email,
     	 	'password' => $password,
     	 ];
-    	 Sentinel::authenticate($credentials);
-    	 //$user = Sentinel::check();
-       $user = Sentinel::getUser();
-       session(['user'=>$user]);
-       if ($user->inRole('admin'))
-        {
-          return Redirect('/admin/checkupdate');
-        }
-      elseif($user->inRole('sale'))
-      {
-        return Redirect('/sale/home');
-      }
-      elseif($user->inRole('super'))
-      {
-        return Redirect('/super/home');
-      }
-
+    	 $user_available = Sentinel::authenticate($credentials);
+       if($user_available!="")
+       {
+             $user = Sentinel::getUser();
+             session(['user'=>$user]);
+             if ($user->inRole('admin'))
+              {
+                return Redirect('/admin/checkupdate');
+              }
+            elseif($user->inRole('sale'))
+            {
+              return Redirect('/sale/home');
+            }
+            elseif($user->inRole('super'))
+            {
+              return Redirect('/super/home');
+            }
+       }
+       else
+       {
+          Session::flash('message', 'E-mail หรือ Password ไม่ถูกต้อง กรุณากรอกใหม่'); 
+          return redirect('/login');
+       }
        
     }
 

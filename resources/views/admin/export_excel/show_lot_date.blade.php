@@ -20,7 +20,7 @@ use App\User;
 <!-- Services Section -->
 <div class="container" style="margin-left: 5px;">
 	<div class="row" style="width:2000px;">
-		<h1>รายการที่รอการ Approve </h1>
+		<h1>รายการที่ต้องการ Export</h1>
 		<table class="table table-bordered">
 		  <thead class="thead-inverse">
 		    <tr>
@@ -108,7 +108,7 @@ use App\User;
 		      	$yes_privilege_end_array = explode('-', $yes_privilege_end);
 		      	$yes_privilege_end_new = $yes_privilege_end_array[2].'/'.$yes_privilege_end_array[1].'/'.$yes_privilege_end_array[0];
 		      ?>
-		      <td>{{$yes_privilege_end_new}}</td>
+		      <td>{{$yes_privilege_start_new}}</td>
 		      <td>{{$yes_privilege_end_new}}</td>
 		      <td></td>
 		      <td></td>

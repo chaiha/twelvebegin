@@ -38,8 +38,8 @@ use App\Record;
 {{Form::open(array('action' => 'AdminController@submit_approve_record','id'=>'submit_form'))}}
     <div class="row">
         <div class="form-group">
-        <h1>{{$select_record->record->name_th}} <?php if($select_record->record->name_en!=""){ echo "/ ".$select_record->record->name_en;}  ?> </h1>
-        <h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} / {{$select_record->record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}}</h3>
+        <h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}  ?> </h1>
+        <h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
             {{csrf_field()}}
         <div class="row">
             <div class="col-xs-12">
@@ -122,44 +122,31 @@ use App\Record;
                         </td>
                         <td>
                             <?php
-                                if($select_record->record->categories=="dinning_and_beverage")
+                                if($select_record->categories=="dinning_and_beverage")
                                 {
                                     echo "Dining & Beverage";
                                 }
-                                elseif ($select_record->record->categories=="shopping_and_lifestyle") 
+                                elseif ($select_record->categories=="shopping_and_lifestyle") 
                                 {
                                     echo "Shopping & Lifestyle";
                                 }
-                                elseif ($select_record->record->categories=="beauty_and_healthy") 
+                                elseif ($select_record->categories=="beauty_and_healthy") 
                                 {
                                     echo "Beauty & Healthy";
                                 }
-                                elseif ($select_record->record->categories=="hotel_and_travel") 
+                                elseif ($select_record->categories=="hotel_and_travel") 
                                 {
                                     echo "Hotel & Travel";
                                 }
-                                elseif ($select_record->record->categories=="online") 
+                                elseif ($select_record->categories=="online") 
                                 {
                                     echo "Online";
                                 }
                                 ?>
                         </td>
                         <td>
-                            <?php
-                                if($select_record->record->shop_type=="ร้านเบ็ดเตล็ด")
-                                {
-                                    echo "ร้าน เบ็ดเตล็ด";
-                                }
-                                elseif ($select_record->record->shop_type=="ร้านอาหาร") 
-                                {
-                                    echo "ร้าน อาหาร";
-                                }
-                                elseif ($select_record->record->shop_type=="ร้านอาหารนานาชาติ") 
-                                {
-                                    echo "ร้าน อาหารนานาชาติ";
-                                }
+                            {{$select_record->shop_type}}
                                 
-                                ?>
                         </td>
                         <td>
                             {{$select_record->record->special_type}}
@@ -184,9 +171,9 @@ use App\Record;
                         <th>ลองติจูด</th>
                     </tr>
                     <tr>
-                        <td>{{$select_record->record->name_th}}</td>
-                        <td>{{$select_record->record->name_en}}</td>
-                        <td>{{$select_record->record->branch}}</td>
+                        <td>{{$select_record->name_th}}</td>
+                        <td>{{$select_record->name_en}}</td>
+                        <td>{{$select_record->branch}}</td>
                         <td>
                         {{$select_record->branch_amount}}
                         </td>
@@ -194,12 +181,12 @@ use App\Record;
                         @if($select_record->edit_address!="none")
                             {{$select_record->edit_address}}
                         @else
-                            {{$select_record->record->address}}
+                            {{$select_record->address}}
                         @endif
                         </td>
-                        <td>{{$select_record->record->province}}</td>
-                        <td>{{$select_record->record->latitude}}</td>
-                        <td>{{$select_record->record->longtitude}}</td>
+                        <td>{{$select_record->province}}</td>
+                        <td>{{$select_record->latitude}}</td>
+                        <td>{{$select_record->longtitude}}</td>
                     </tr>
                 </table>
             </div>
@@ -221,11 +208,11 @@ use App\Record;
                         @if($select_record->edit_contact_person!="none")
                             {{$select_record->edit_contact_person}}
                         @else
-                            {{$select_record->record->contact_person}}
+                            {{$select_record->contact_person}}
                         @endif
                         </td>
-                        <td>{{$select_record->record->contact_tel}}</td>
-                        <td>{{$select_record->record->contact_email}}</td>
+                        <td>{{$select_record->contact_tel}}</td>
+                        <td>{{$select_record->contact_email}}</td>
                         <td>
                             <?php
                                 $contact_date = explode("-",$select_record->record->contact_date);
@@ -252,9 +239,9 @@ use App\Record;
                     <tr>
                         <td>
                             <?php
-                                if($select_record->record->links!=NULL)
+                                if($select_record->links!=NULL)
                                 {
-                                    echo($select_record->record->links);
+                                    echo($select_record->links);
                                 }
                                 else
                                 {
@@ -264,9 +251,9 @@ use App\Record;
                         </td>
                         <td>
                             <?php
-                                if($select_record->record->remarks!=NULL)
+                                if($select_record->remarks!=NULL)
                                 {
-                                    echo $select_record->record->remarks;
+                                    echo $select_record->remarks;
                                 }
                                 else
                                 {

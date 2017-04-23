@@ -26,6 +26,8 @@ Route::get('/login', function () {
     return view('pages.login');
 });
 
+Route::get('/test_sentitnel','AdminController@test_sentitnel');
+
 Route::get('/test_date','AdminController@test_date');
 Route::get('/create_user_admin','UserController@create_user_admin');
 Route::get('/create_user_admin_4','UserController@create_user_admin_4');
@@ -152,7 +154,7 @@ Route::post('/admin/selected_record/select_sale/remove_record_from_selected_list
 //Approve record from sale
 Route::get('/admin/approve_record_from_sale/show_sale_list','AdminController@show_sale_list');
 Route::get('/admin/approve_record_from_sale/select_sale/{sale_id}','AdminController@show_waiting_approve');
-Route::get('/admin/approve_record_from_sale/show_record_detail/{record_id}','AdminController@show_record_detail');
+Route::get('/admin/approve_record_from_sale/show_record_detail/{record_id}/{sale_id}','AdminController@show_record_detail');
 Route::post('/admin/approve_record_from_sale/show_record_detail','AdminController@submit_approve_record');
 Route::post('/admin/approve_record_from_sale/select_sale/','AdminController@submit_all_approve_record');
 

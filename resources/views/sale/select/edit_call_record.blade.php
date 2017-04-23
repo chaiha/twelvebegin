@@ -488,10 +488,10 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>Contact Person <a href="#" class="btn btn-danger pull-right" id="btn_edit_contact_person">แก้ไข</a></th>
-						<th>Contact Telephone number</th>
-						<th>Contact Email</th>
-						<th>Contact Date [ วัน / เดือน / ปี ]</th>
+						<th>ชื่อผู้ติดต่อ <a href="#" class="btn btn-danger pull-right" id="btn_edit_contact_person">แก้ไข</a></th>
+						<th>เบอร์โทรติดต่อ</th>
+						<th>อีเมลติดต่อ</th>
+						<th>วันที่ให้ติดต่อ [ วัน / เดือน / ปี ]</th>
                         <th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>

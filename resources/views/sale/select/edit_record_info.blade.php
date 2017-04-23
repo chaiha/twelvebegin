@@ -43,13 +43,13 @@
 		   }
 		if($("#name_th").val()=="")
 		   {
-		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน name th');
+		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน ชื่อภาษาไทย');
 		    error = error+1;
 	
 		   }
 		if($("#name_en").val()=="")
 		   {
-		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน name_en');
+		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน ชื่อภาษาอังกฤษ');
 		    error = error+1;
 	
 		   }
@@ -73,7 +73,7 @@
 		   }
 		 if($("#province").val()=="empty")
 		   {
-			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน province');
+			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน จังหวัด');
 			error = error+1;
 	
 		   }
@@ -91,7 +91,7 @@
 		   }
 		   if($("#contact_person").val()=="")
 		   {
-			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact person');
+			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน ชื่อผู้ติดต่อ');
 			error = error+1;
 	
 		   }
@@ -314,7 +314,7 @@ use App\Record;
 					</tr>
 					<tr>
 						<td>
-							<textarea name="address" id="address" cols="50" rows="5" class="form-control" ></textarea>
+							<textarea name="address" id="address" cols="50" rows="5" class="form-control" >{{$select_record->address}}</textarea>
 						</td>
 						<td>
 							<select name="province" id="province" class="selectpicker">
@@ -335,8 +335,8 @@ use App\Record;
 							?>
 						</select>
 						</td>
-						<td><textarea name="latitude" id="latitude" value="" class="form-control" rows="5"></textarea></td>
-						<td><textarea name="longtitude" id="longtitude" value="" class="form-control" rows="5"></textarea></td>
+						<td><textarea name="latitude" id="latitude"  class="form-control" rows="5">{{$select_record->latitude}}</textarea></td>
+						<td><textarea name="longtitude" id="longtitude"  class="form-control" rows="5">{{$select_record->longtitude}}</textarea></td>
 					</tr>
 				</table>
 			</div>
@@ -347,14 +347,14 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>Contact Person<span class="red">*</span></th>
+						<th>ชื่อผู้ติดต่อ<span class="red">*</span></th>
 						<th>เบอร์โทรติดต่อ<span class="red">*</span></th>
-						<th>Contact Email</th>
+						<th>อีเมลที่ติดต่อ</th>
                         <th>ที่อยู่ให้จัดส่ง<span class="red">*</span></th>
 					</tr>
 					<tr>
 						<td>
-							<input type="text" name="contact_person" id="contact_person" value="" size="10" class="form-control" />
+							<input type="text" name="contact_person" id="contact_person" value="{{$select_record->contact_person}}" size="10" class="form-control" />
 						</td>
 						<td><input type="text" name="contact_tel" id="contact_tel" value="{{$select_record->contact_tel}}" class="form-control" /></td>
 						<td><input type="text" name="contact_email" id="contact_email" value="{{$select_record->contact_email}}" class="form-control" /></td>
@@ -372,7 +372,7 @@ use App\Record;
 			<table class="table table-bordered table-striped">
 					<tr>
 						<th>Links</th>
-						<th>Remark</th>
+						<th>หมายเหตุ</th>
 					</tr>
 					<tr>
 						<td>
@@ -396,7 +396,7 @@ use App\Record;
                         </tr>
                         <tr>
                             <td>
-                                <textarea id="note" name="note" class="form-control"></textarea>
+                                <textarea id="note" name="note" class="form-control">{{$select_record->note}}</textarea>
                             </td>
                         </tr>
                     </table>
@@ -406,7 +406,7 @@ use App\Record;
 		<hr>
 	<div class="row">
 		<div class="col-xs-12">
-			<a href="#" class="btn btn-primary" id="confirm_btn" onClick="">Submit</a> <a href="{{url('/sale/show_selected_record_list')}}" class="btn btn-danger">ยกเลิก</a>
+			<a href="#" class="btn btn-primary" id="confirm_btn" onClick="">แก้ไข</a> <a href="{{url('/sale/show_selected_record_list')}}" class="btn btn-danger">ยกเลิก</a>
 		</div>
 	</div>
 {{Form::close()}}

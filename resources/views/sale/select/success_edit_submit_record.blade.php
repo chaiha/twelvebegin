@@ -71,7 +71,7 @@ use App\Record;
 								}
 								elseif ($select_record->record->sources=="dtac_recommend") 
 								{
-									echo "DTAC Recommend";
+									echo "dtac Recommend";
 								}
 								elseif ($select_record->record->sources=="walking") 
 								{
@@ -188,10 +188,10 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>Contact Person</th>
-						<th>Contact Telephone number</th>
-						<th>Contact Email</th>
-						<th>Contact Date [ วัน / เดือน / ปี ]</th>
+						<th>ชื่อผู้ติดต่อ</th>
+						<th>เบอร์โทรที่ติดต่อ</th>
+						<th>อีเมลที่ติดต่อ</th>
+						<th>วันที่ให้ติดต่อ [ วัน / เดือน / ปี ]</th>
 						<th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>
@@ -228,20 +228,15 @@ use App\Record;
 			<table class="table table-bordered table-striped">
 					<tr>
 						<th>Links</th>
-						<th>Remark</th>
+						<th>หมายเหตุ</th>
 					</tr>
 					<tr>
 						<td>
-							<?php
-								if($select_record->links!=NULL)
-								{
-									echo($select_record->links);
-								}
-								else
-								{
-									echo "-";
-								}
-								?>
+							@if($select_record->links!=NULL)
+								{{ Html::link($select_record->links) }}
+							@else
+								-
+							@endif
 						</td>
 						<td>
 							<?php

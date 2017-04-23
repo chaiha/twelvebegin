@@ -43,13 +43,13 @@
 		   }
 		if($("#name_th").val()=="")
 		   {
-		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน name th');
+		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน ชื่อภาษาไทย');
 		    error = error+1;
 	
 		   }
 		if($("#name_en").val()=="")
 		   {
-		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน name_en');
+		    alert('กรุษรกรอกขข้อมูลให้ครบถ้วน ชื่อภาษาอังกฤษ');
 		    error = error+1;
 	
 		   }
@@ -73,7 +73,7 @@
 		   }
 		 if($("#province").val()=="empty")
 		   {
-			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน province');
+			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน จังหวัด');
 			error = error+1;
 	
 		   }
@@ -91,7 +91,7 @@
 		   }
 		   if($("#contact_person").val()=="")
 		   {
-			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน contact person');
+			alert('กรุษรกรอกขข้อมูลให้ครบถ้วน ชื่อผู้ติดต่อ');
 			error = error+1;
 	
 		   }
@@ -347,9 +347,9 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>Contact Person<span class="red">*</span></th>
+						<th>ชื่อผู้ติดต่อ<span class="red">*</span></th>
 						<th>เบอร์โทรติดต่อ<span class="red">*</span></th>
-						<th>Contact Email</th>
+						<th>อีเมลที่ติดต่อ</th>
                         <th>ที่อยู่ให้จัดส่ง<span class="red">*</span></th>
 					</tr>
 					<tr>
@@ -372,7 +372,7 @@ use App\Record;
 			<table class="table table-bordered table-striped">
 					<tr>
 						<th>Links</th>
-						<th>Remark</th>
+						<th>หมายเหตุ</th>
 					</tr>
 					<tr>
 						<td>

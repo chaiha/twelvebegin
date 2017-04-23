@@ -19,6 +19,13 @@ use Cookie;
 
 class AdminController extends Controller
 {
+    public function test_sentitnel()
+    {
+        $user = Sentinel::check();
+        print_r($user);
+        echo "<br /><br /><br />";
+        echo $user->id;
+    }
     public function test_date()
     {
         $today = date('Y-m-d');
@@ -1456,9 +1463,9 @@ class AdminController extends Controller
         return view('admin.approve.show_waiting_approve')->with('record_list_extend',$record_list_extend)->with('record_list_waiting',$record_list_waiting)->with('record_list_noreply',$record_list_noreply)->with('record_list_new',$record_list_new)->with('sale',$sale);
     }
 
-    public function show_record_detail($record_id)
+    public function show_record_detail($record_id,$sale_id)
     {
-        $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id',$sale_id)->first();
         return view('admin.approve.show_record_detail')->with('select_record',$select_record);
     }
 
@@ -1478,7 +1485,7 @@ class AdminController extends Controller
             $sending_status = "not_approve";
         }
 
-        $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$sale_id)->first();
         $select_record->sending_status = $sending_status;
         $select_record->admin_message = $admin_message;
         $select_record->updated_at = date('Y-m-d H:i:s');
@@ -1496,6 +1503,7 @@ class AdminController extends Controller
         $user = Sentinel::check();
         $sale_id = $request->input('sale_id');
         $result = SelectRecord::where('sale_id','=',$sale_id)->get();
+
         foreach ($result as $result_each) 
         {
             if($result_each->sending_status=="approve")
@@ -1534,8 +1542,8 @@ class AdminController extends Controller
                     $yes_record->yes_condition = $result_each->yes_condition;
                     $yes_record->sending_address = $result_each->sending_address;
                     $yes_record->result_remark = $result_each->result_remark;
-                    $yes_record->created_at = date('Y-m-d H:i:s');
-                    $yes_record->created_by = $user->id;
+                    $yes_record->created_at = $select_record->created_at;
+                    $yes_record->created_by = $select_record->created_by;
                     $yes_record->updated_at = date('Y-m-d H:i:s');
                     $yes_record->updated_by = $user->id;
                     $yes_record->save();
@@ -1552,8 +1560,8 @@ class AdminController extends Controller
                     $sale_record_yes_collection->yes_privilege_end = $result_each->yes_privilege_end;
                     $sale_record_yes_collection->yes_feedback = $result_each->yes_feedback;
                     $sale_record_yes_collection->yes_condition = $result_each->yes_condition;
-                    $sale_record_yes_collection->created_at = date('Y-m-d H:i:s');
-                    $sale_record_yes_collection->created_by = $user->id;
+                    $sale_record_yes_collection->created_at = $select_record->created_at;
+                    $sale_record_yes_collection->created_by = $select_record->created_by;
                     $sale_record_yes_collection->updated_at = date('Y-m-d H:i:s');
                     $sale_record_yes_collection->updated_by = $user->id;
                     $sale_record_yes_collection->save();
@@ -1604,8 +1612,8 @@ class AdminController extends Controller
                         $record->updated_by = $user->id;
                         $record->updated_at = date('Y-m-d');
                         $record->sale = $result_each->sale_id;
-                        $user = new User;
-                        $record->sale_name = $user->get_first_name_by_id($result_each->sale_id);
+                        $user_info = new User;
+                        $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
                         $record->save();
 
                         $select_record->delete();
@@ -1805,6 +1813,59 @@ class AdminController extends Controller
                         $record->contact_tel = $result_each->wrong_number_new_tel_number;
                     }
                     $record->effective_date = NULL;
+                    $record->branch_amount = $result_each->branch_amount;
+                    $record->result = $result_each->result;
+                    $record->call_status = $result_each->call_status;
+                    $record->result_date = $result_each->result_date;
+                    $record->yes_lot_no = NULL;
+                    $record->yes_sale_name = $result_each->yes_sale_name;
+                    $record->yes_privilege_start = $result_each->yes_privilege_start;
+                    $record->yes_privilege_end = $result_each->yes_privilege_end;
+                    $record->yes_feedback = $result_each->yes_feedback;
+                    $record->yes_condition = $result_each->yes_condition;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->no_reason = $result_each->no_reason;
+                    $record->no_note = $result_each->no_note;
+                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
+                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
+                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
+                    $record->cannot_contact_times = $result_each->cannot_contact_times;
+                    $record->consider_reason = $result_each->consider_reason;
+                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
+                    $record->is_tel_correct = $result_each->is_tel_correct;
+                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
+                    $record->close = $result_each->close;
+                    $record->result_remark = $result_each->result_remark;
+                    $record->lot_date = NULL;
+                    $record->lot_no = NULL;
+                    $record->updated_by = $user->id;
+                    $record->updated_at = date('Y-m-d');
+                    $record->save();
+
+                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
+                    $select_record->delete();
+                }
+                elseif($result_each->result=="")
+                {
+                    $record = Record::where('id','=',$result_each->record_id)->first();
+                    $record->is_selected = "0";
+
+                    $record->status = "Available";
+                    $record->selective_status = $record->selective_status;
+                    $record->waiting_count = $record->waiting_count;
+
+                    if($result_each->edit_address!="none")
+                    {
+                        $record->address = $result_each->edit_address;
+                    }
+                    if($result_each->edit_contact_person!="none")
+                    {
+                        $record->contact_person = $result_each->edit_contact_person;
+                    }
+                    if($result_each->is_tel_correct==0)
+                    {
+                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
+                    }
                     $record->branch_amount = $result_each->branch_amount;
                     $record->result = $result_each->result;
                     $record->call_status = $result_each->call_status;

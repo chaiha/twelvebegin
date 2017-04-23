@@ -79,7 +79,7 @@ use App\User;
 		      ?>
 		      </td>
               <td>
-              <a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
+              <a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
               </td>
               <td>
               -
@@ -108,9 +108,9 @@ use App\User;
 		      </td>
 		      <td>{{$each_record->record->contact_email}}</td>
 		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
 		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
 		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
@@ -165,7 +165,7 @@ use App\User;
 		      ?>
 		      </td>
               <td>
-              	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
+              	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
              </td>
               <td>
               -
@@ -194,9 +194,9 @@ use App\User;
 		      </td>
 		      <td>{{$each_record->record->contact_email}}</td>
 		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
 		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
 		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
@@ -251,7 +251,7 @@ use App\User;
 		      ?>
 		      </td>
               <td>
-              	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
+              	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
               </td>
               <td>
               -
@@ -280,9 +280,9 @@ use App\User;
 		      </td>
 		      <td>{{$each_record->record->contact_email}}</td>
 		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
 		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
 		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
@@ -337,7 +337,7 @@ use App\User;
 		      ?>
 		      </td>
               <td>
-              	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id)}}">ดูรายละเอียด</a>
+              	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
               </td>
               <td>
               -
@@ -366,9 +366,9 @@ use App\User;
 		      </td>
 		      <td>{{$each_record->record->contact_email}}</td>
 		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
 		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
+		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
 		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach

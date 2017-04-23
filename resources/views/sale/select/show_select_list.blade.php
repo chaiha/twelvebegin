@@ -4,7 +4,7 @@
 <script type="text/javascript">
 function submit_all_result()
 {
-	if(confirm("กรุณายืนยันเพื่อส่งข้อมูลให้ Admin?"))
+	if(confirm("ถ้าท่านกดยืนยันแล้วจะไม่สามารถแก้ไขข้อมูลได้ ท่านจะตกลงหรือไม่?"))
 	{
 		document.getElementById("submit_form").submit();	
 	}
@@ -33,30 +33,18 @@ use App\User;
 		    <tr>
 		      <th>ผลการโทร</th>
               <th>ส่งข้อมูล</th>
-              <th>Call</th>
+              <th>โทร</th>
               <th>แก้ไขข้อมูล</th>
               <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
+		      <th>ชื่อภาษาไทย</th>
+		      <th>ชื่ออังกฤษ</th>
+		      <th>สาขา</th>
+		      <th>แหล่งที่มา</th>
 		      <th>categories</th>
 		      <th>shop type</th>
 		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -82,7 +70,7 @@ use App\User;
 	              else if($each_record->result=="no_reply")
 	              {
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="rejected")
@@ -92,7 +80,7 @@ use App\User;
               		else if($each_record->result=="waiting")
               		{
               ?>
-              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="closed")
@@ -102,7 +90,7 @@ use App\User;
               		else
               		{
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               }
@@ -112,42 +100,30 @@ use App\User;
               }
               ?>
               <td>
-              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
-              </td>
-              <td>              
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+              @if($each_record->sending_status=="sent")
+              	<?php echo "กำลังรอตรวจสอบ"; ?>
               @else
-              -
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              @endif
+              </td>
+              <td>         
+              @if($each_record->sending_status=="sent")
+              <?php echo "กำลังรอตรวจสอบ"; ?>
+              @else
+              	 @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
+             	 <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+             	 @endif
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->categories}}</td>
 		      <td>{{$each_record->shop_type}}</td>
 		      <td>{{$each_record->special_type}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->record->distributed_date}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
-		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
-		      </td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -160,30 +136,18 @@ use App\User;
 		    <tr>
 		      <th>ผลการโทร</th>
 		      <th>ส่งข้อมูล</th>
-              <th>Call</th>
+              <th>โทร</th>
               <th>แก้ไขข้อมูล</th>
               <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
+		      <th>ชื่อภาษาไทย</th>
+		      <th>ชื่ออังกฤษ</th>
+		      <th>สาขา</th>
+		      <th>แหล่งที่มา</th>
 		      <th>categories</th>
 		      <th>shop type</th>
 		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -209,7 +173,7 @@ use App\User;
 	              else if($each_record->result=="no_reply")
 	              {
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="rejected")
@@ -219,7 +183,7 @@ use App\User;
               		else if($each_record->result=="waiting")
               		{
               ?>
-              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="closed")
@@ -229,7 +193,7 @@ use App\User;
               		else
               		{
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               }
@@ -239,42 +203,30 @@ use App\User;
               }
               ?>
               <td>
-              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
-              </td>
-              <td>              
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+              @if($each_record->sending_status=="sent")
+              	<?php echo "กำลังรอตรวจสอบ"; ?>
               @else
-              -
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              @endif
+              </td>
+              <td>         
+              @if($each_record->sending_status=="sent")
+              <?php echo "กำลังรอตรวจสอบ"; ?>
+              @else
+              	 @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
+             	 <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+             	 @endif
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->categories}}</td>
 		      <td>{{$each_record->shop_type}}</td>
 		      <td>{{$each_record->special_type}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->record->distributed_date}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
-		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
-		      </td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -287,30 +239,18 @@ use App\User;
 		    <tr>
 		      <th>ผลการโทร</th>
 		      <th>ส่งข้อมูล</th>
-              <th>Call</th>
+              <th>โทร</th>
               <th>แก้ไขข้อมูล</th>
               <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
+		      <th>ชื่อภาษาไทย</th>
+		      <th>ชื่ออังกฤษ</th>
+		      <th>สาขา</th>
+		      <th>แหล่งที่มา</th>
 		      <th>categories</th>
 		      <th>shop type</th>
 		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -336,7 +276,7 @@ use App\User;
 	              else if($each_record->result=="no_reply")
 	              {
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="rejected")
@@ -346,7 +286,7 @@ use App\User;
               		else if($each_record->result=="waiting")
               		{
               ?>
-              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="closed")
@@ -356,7 +296,7 @@ use App\User;
               		else
               		{
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               }
@@ -366,42 +306,30 @@ use App\User;
               }
               ?>
               <td>
-              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
-              </td>
-              <td>              
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+              @if($each_record->sending_status=="sent")
+              	<?php echo "กำลังรอตรวจสอบ"; ?>
               @else
-              -
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              @endif
+              </td>
+              <td>         
+              @if($each_record->sending_status=="sent")
+              <?php echo "กำลังรอตรวจสอบ"; ?>
+              @else
+              	 @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
+             	 <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+             	 @endif
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->categories}}</td>
 		      <td>{{$each_record->shop_type}}</td>
 		      <td>{{$each_record->special_type}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->record->distributed_date}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
-		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
-		      </td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -414,30 +342,18 @@ use App\User;
 		    <tr>
 		      <th>ผลการโทร</th>
 		      <th>ส่งข้อมูล</th>
-              <th>Call</th>
+              <th>โทร</th>
               <th>แก้ไขข้อมูล</th>
               <th>แก้ไขผลการโทร</th>
 		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
+		      <th>ชื่อภาษาไทย</th>
+		      <th>ชื่ออังกฤษ</th>
+		      <th>สาขา</th>
+		      <th>แหล่งที่มา</th>
 		      <th>categories</th>
 		      <th>shop type</th>
 		      <th>ประเภทร้านพิเศษ</th>
 		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -463,7 +379,7 @@ use App\User;
 	              else if($each_record->result=="no_reply")
 	              {
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="rejected")
@@ -473,7 +389,7 @@ use App\User;
               		else if($each_record->result=="waiting")
               		{
               ?>
-              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              			<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               		else if($each_record->result=="closed")
@@ -483,7 +399,7 @@ use App\User;
               		else
               		{
               ?>
-              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">Call</a></td>
+              		<a href="{{url('sale/select_record/call/'.$each_record->record_id)}}" class="btn btn-primary">โทร</a></td>
               <?php
               		}
               }
@@ -493,42 +409,30 @@ use App\User;
               }
               ?>
               <td>
-              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
-              </td>
-              <td>              
-              @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
-              <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+              @if($each_record->sending_status=="sent")
+              	<?php echo "กำลังรอตรวจสอบ"; ?>
               @else
-              -
+              <a href="{{url('/sale/edit_record/record/show/'.$each_record->record_id)}}" >แก้ไข</a>
+              @endif
+              </td>
+              <td>         
+              @if($each_record->sending_status=="sent")
+              <?php echo "กำลังรอตรวจสอบ"; ?>
+              @else
+              	 @if($each_record->call_status=="called"&&$each_record->sending_status==NULL)
+             	 <a href="{{url('sale/select_record/edit_record/'.$each_record->record_id)}}" >แก้ไข</a>
+             	 @endif
               @endif
               </td>
 		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->branch}}</td>
-		      <td>{{$each_record->province}}</td>
 		      <td>{{$each_record->sources}}</td>
 		      <td>{{$each_record->categories}}</td>
 		      <td>{{$each_record->shop_type}}</td>
 		      <td>{{$each_record->special_type}}</td>
 		      <td>{{$each_record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->created_at}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
-		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
-		      </td>
-		      <td>{{$each_record->contact_email}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -543,7 +447,7 @@ use App\User;
 				<input type="hidden" name="sale_id" value="{{$sale->id}}" />
 				<hr>
 				@if(isset($has_sending_status_null)==1)
-				<a href="#" class="btn btn-success" onClick="submit_all_result()">Submit</a>
+				<a href="#" class="btn btn-success" onClick="submit_all_result()">ส่งข้อมูลทั้งหมดให้ แอดมิน</a>
 				@else
 				-
 				@endif

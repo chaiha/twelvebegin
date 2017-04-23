@@ -65,7 +65,7 @@ class CallController extends Controller
         // $result_waiting = DB::table('records')->whereIn('id', $record_list_waiting)->get();
         // $result_noreply = DB::table('records')->whereIn('id', $record_list_noreply)->get();
         // $result_new = DB::table('records')->whereIn('id', $record_list_new)->get();
-        // print_r($record_list);
+        // print_r($has_sending_status_null);
         return view('sale.select.show_select_list')->with('sale',$user)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new)->with('has_sending_status_null',$has_sending_status_null);
 
     }

@@ -658,10 +658,10 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>Contact Person <a href="#" class="btn btn-danger pull-right" id="btn_edit_contact_person">แก้ไข</a></th>
-						<th>Contact Telephone number</th>
-						<th>Contact Email</th>
-						<th>Contact Date [ วัน / เดือน / ปี ]</th>
+						<th>ชื่อผู้ติดต่อ <a href="#" class="btn btn-danger pull-right" id="btn_edit_contact_person">แก้ไข</a></th>
+						<th>เบอร์โทรที่ติดต่อ</th>
+						<th>อีเมลที่ติดต่อ</th>
+						<th>วันที่ให้ติดต่อ [ วัน / เดือน / ปี ]</th>
                         <th>ที่อยู่ให้จัดส่ง</th>
 					</tr>
 					<tr>
@@ -694,20 +694,15 @@ use App\Record;
 			<table class="table table-bordered table-striped">
 					<tr>
 						<th>Links</th>
-						<th>Remark</th>
+						<th>หมายเหตุ</th>
 					</tr>
 					<tr>
 						<td>
-							<?php
-								if($select_record->links!=NULL)
-								{
-									echo($select_record->links);
-								}
-								else
-								{
-									echo "-";
-								}
-								?>
+							@if($select_record->links!=NULL)
+								{{ Html::link($select_record->links) }}
+							@else
+								-
+							@endif
 						</td>
 						<td>
 							<?php
@@ -884,8 +879,8 @@ use App\Record;
 			</div>
 		</div>
 		<br />
-		<a class="btn btn-success" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">Cancel</a>
+		<a class="btn btn-success" href="#" role="button" id="confirm_btn">ต่อไป</a>
+		<a class="btn btn-danger" href="{{ url('sale/show_selected_record_list') }}" role="button" id="cancel_btn">ยกเลิก</a>
 		{{Form::close() }}
 		</div>
 	</div>
