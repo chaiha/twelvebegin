@@ -2,6 +2,7 @@
 use App\Record;
 use App\SelectRecord;
 use App\User;
+$record = new Record;
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,7 @@ use App\User;
 		      <th>Month</th>
 		      <th>Sales</th>
 		      <th>Type</th>
+		      <th>ประเภทร้านพิเศษ</th>
 		      <th>All</th>
 		      <th>ประเภทธุรกิจ</th>
 		      <th>USSD No.</th>
@@ -61,11 +63,13 @@ use App\User;
 		    <tr>
 		      <td>{{$each_record->id}}</td>
               <td></td>
-		      <td>{{$each_record->lot_date}}</td>
+		      <td>
+		      <?php
+		      echo $record->convert_date_format_dash($each_record->lot_date);
+		      ?></td>
 		      <td>{{$each_record->lot_no}}</td>
 		      <td>
 		      <?php
-		      $record = new Record;
 		      echo $record->excel_month($each_record->lot_date);
 		      ?>
 		      </td>
@@ -75,9 +79,67 @@ use App\User;
 		      echo $user->get_first_name_by_id($each_record->sale);
 		      ?>
 		      </td>
-		      <td>{{$each_record->dtac_type}}</td>
+		      <td>
+		      <?php
+				if($each_record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
+				{
+					echo "กทม./นนทบุรี/สมุทรปราการ";
+				}
+				elseif($each_record->dtac_type=="ต่างจังหวัด")
+				{
+					echo "ต่างจังหวัด";
+				}
+				elseif($each_record->dtac_type=="dtacแนะนำ")
+				{
+					echo "dtac แนะนำ";
+				}
+				elseif($each_record->dtac_type=="online")
+				{
+					echo "online";
+				}
+				elseif($each_record->dtac_type=="ต่ออายุ")
+				{
+					echo "ต่ออายุ";
+				}
+				elseif($each_record->dtac_type=="ดีลอย่างเดียว")
+				{
+					echo "ดีลอย่างเดียว";
+				}
+				elseif($each_record->dtac_type=="เฉพาะอาร์ทเวิร์ค")
+				{
+					echo "เฉพาะอาร์ทเวิร์ค";
+				}
+
+				?>
+		      </td>
+		      <td>
+		      {{$each_record->special_type}}
+		      </td>
 		      <td></td>
-		      <td>{{$each_record->shop_type}}</td>
+		      <td>
+		      <?php
+				if($each_record->categories=="dinning_and_beverage")
+				{
+					echo "Dining and Beverage";
+				}
+				elseif ($each_record->categories=="shopping_and_lifestyle") 
+				{
+					echo "Shopping and Lifestyle";
+				}
+				elseif ($each_record->categories=="beauty_and_healthy") 
+				{
+					echo "Beauty and Healthy";
+				}
+				elseif ($each_record->categories=="hotel_and_travel") 
+				{
+					echo "Hotel and Travel";
+				}
+				elseif ($each_record->categories=="online") 
+				{
+					echo "Online";
+				}
+				?>
+		      </td>
 		      <td></td>
 		      <td></td>
 		      <td></td>
@@ -88,19 +150,18 @@ use App\User;
 		      <td>{{$each_record->yes_feedback}}</td>
 		      <td></td>
 		      <td></td>
+		      <td>
 		      <?php
-		      	$yes_privilege_start = $each_record->yes_privilege_start;
-		      	$yes_privilege_start_array = explode('-', $yes_privilege_start);
-		      	$yes_privilege_start_new = $yes_privilege_start_array[2].'/'.$yes_privilege_start_array[1].'/'.$yes_privilege_start_array[0];
-
-		      	$yes_privilege_end = $each_record->yes_privilege_end;
-		      	$yes_privilege_end_array = explode('-', $yes_privilege_end);
-		      	$yes_privilege_end_new = $yes_privilege_end_array[2].'/'.$yes_privilege_end_array[1].'/'.$yes_privilege_end_array[0];
+		      	echo $record->convert_date_format_dash($each_record->yes_privilege_start);
 		      ?>
-		      <td>{{$yes_privilege_end_new}}</td>
-		      <td>{{$yes_privilege_end_new}}</td>
+		      </td>
+		      <td>
+		      <?php
+		      	echo $record->convert_date_format_dash($each_record->yes_privilege_end);
+		      ?>
+		      </td>
 		      <td></td>
-		      <td></td>
+		      <td>{{$each_record->yes_condition}}</td>
 		      <td>{{$each_record->branch}}</td>
 		      <td>{{$each_record->address}}</td>
 		      <td>{{$each_record->contact_tel}}</td>
@@ -113,11 +174,54 @@ use App\User;
 		      <td></td>
 		      <td></td>
 		      <td>{{$each_record->sending_address}}</td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
+		      <td class="text-center">
+		      	<?php
+		      	if($each_record->has_reply_doc=="1")
+		      	{
+		      		echo "X";
+		      	}
+		      	?>
+		      </td>
+		      <td class="text-center">
+		      	<?php
+		      	if($each_record->has_confirm_logo_img=="1")
+		      	{
+		      		echo "X";
+		      	}
+		      	?>
+		      </td>
+		      <td class="text-center">
+		      	<?php
+		      	if($each_record->has_logo_img=="1")
+		      	{
+		      		echo "X";
+		      	}
+		      	?>
+		      </td>
+		      <td class="text-center">
+		      	<?php
+		      	if($each_record->has_confirm_product_img=="1")
+		      	{
+		      		echo "X";
+		      	}
+		      	?>
+		      </td>
+		      <td class="text-center">
+		      	<?php
+		      	if($each_record->has_product_img=="1")
+		      	{
+		      		echo "X";
+		      	}
+		      	?>
+		      </td>
+		      <td class="text-center">
+		      	<?php
+		      	if($each_record->has_shop_img=="1")
+		      	{
+		      		echo "X";
+		      	}
+		      	?>
+		      </td>
 		      <td>{{$each_record->remarks}}</td>
 		    </tr>
 		   @endforeach

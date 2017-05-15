@@ -30,7 +30,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>ได้ทำการแก้ไขข้อมูล {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> เสร็จสิ้น</h1>
+		<h1>ได้ทำการแก้ไขข้อมูล {{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> เสร็จสิ้น</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->record->name_th}} </h3>
 		<div class="row">
 			<div class="col-xs-12">
@@ -39,8 +39,6 @@ use App\Record;
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>No.</th>
-						<th>Code.</th>
 						<th>Status</th>
 						<th>Sources</th>
 						<th>dtac Type</th>
@@ -49,8 +47,6 @@ use App\Record;
 						<th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->no}}</td>
-						<td>{{$select_record->record->code}}</td>
 						<td>
 							<?php
 								if($select_record->record->status=="Available")
@@ -67,43 +63,47 @@ use App\Record;
 							<?php
 								if($select_record->record->sources=="online_search")
 								{
-									echo "Online Search";
+									echo "ค้นหาจากเว็บไซต์";
 								}
 								elseif ($select_record->record->sources=="dtac_recommend") 
 								{
-									echo "dtac Recommend";
+									echo "ร้านแนะนำจาก dtac";
 								}
 								elseif ($select_record->record->sources=="walking") 
 								{
-									echo "Walking";
+									echo "Walk in";
 								}
 								?>
 						</td>
 						<td>
 							<?php
-								if($select_record->record->dtac_type=="ร้านกทม")
+								if($select_record->record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
 								{
-									echo "ร้าน กทม";
+									echo "กทม./นนทบุรี/สมุทรปราการ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านตจว") 
+								elseif ($select_record->record->dtac_type=="ต่างจังหวัด") 
 								{
-									echo "ร้าน ตจว";
+									echo "ต่างจังหวัด";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านonline") 
+								elseif ($select_record->record->dtac_type=="dtacแนะนำ") 
 								{
-									echo "ร้าน online";
+									echo "dtac แนะนำ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านต่ออายุ") 
+								elseif ($select_record->record->dtac_type=="online") 
 								{
-									echo "ร้านต่ออายุ";
+									echo "online";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านดีลอย่างเดียว") 
+								elseif ($select_record->record->dtac_type=="ต่ออายุ") 
 								{
-									echo "ร้านดีลอย่างเดียว";
+									echo "ต่ออายุ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค") 
+								elseif ($select_record->record->dtac_type=="ดีลอย่างเดียว") 
 								{
-									echo "ร้านเฉพาะอาร์ทเวิร์ค";
+									echo "ดีลอย่างเดียว";
+								}
+								elseif ($select_record->record->dtac_type=="เฉพาะอาร์ทเวิร์ค") 
+								{
+									echo "เฉพาะอาร์ทเวิร์ค";
 								}
 								?>
 						</td>
@@ -111,19 +111,19 @@ use App\Record;
 							<?php
 								if($select_record->categories=="dinning_and_beverage")
 								{
-									echo "Dining & Beverage";
+									echo "Dining and Beverage";
 								}
 								elseif($select_record->categories=="shopping_and_lifestyle")
 								{
-									echo "Shopping & Lifestyle";
+									echo "Shopping and Lifestyle";
 								}
 								elseif($select_record->categories=="beauty_and_healthy")
 								{
-									echo "Beauty & Healthy";
+									echo "Beauty and Healthy";
 								}
 								elseif($select_record->categories=="hotel_and_travel")
 								{
-									echo "Hotel & Travel";
+									echo "Hotel and Travel";
 								}
 								elseif($select_record->categories=="online")
 								{
@@ -147,8 +147,8 @@ use App\Record;
 				<label>ข้อมูลของร้าน</label>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อภาษาไทย</th>
-						<th>ชื่อภาษาอังกฤษ</th>
+						<th>ชื่อไทย</th>
+						<th>ชื่ออังกฤษ</th>
 						<th>สาขา</th>
 						<th>จำนวนสาขา</th>
 					</tr>
@@ -223,7 +223,7 @@ use App\Record;
 					<tr>
 						<td>
 							@if($select_record->links!=NULL)
-								{{ Html::link($select_record->links) }}
+								{{ Html::link($select_record->links,null,array('target'=>'_blank')) }}
 							@else
 								-
 							@endif

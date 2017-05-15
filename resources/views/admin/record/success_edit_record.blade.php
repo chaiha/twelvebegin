@@ -22,7 +22,7 @@ use App\Record;
 <div class="container">
 	<div class="row">
 		<div class="form-group">
-		<h1>Edit record</h1>
+		<h1>แก้ไข Lead</h1>
 		<h3>แก้ไขข้อมูลได้ถูกจัดเก็บเป็นที่เรียบร้อยแล้ว</h3>
 		
 		<br />

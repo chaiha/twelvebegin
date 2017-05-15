@@ -1,4 +1,4 @@
-@extends('sale.layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
 @section('styles')
@@ -43,15 +43,15 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record_info->record->code}} / {{$select_record['name_th']}} <?php if($select_record['name_en']!=""){ echo "/ ".$select_record['name_en'];}	?> / โทรครั้งที่ {{$select_record_info->call_amount}}</h1>
+		<h1>{{$select_record_info->record->code}} / {{$select_record['name_th']}} <?php if($select_record['name_en']!=""){ echo "/ ".$select_record['name_en'];}	?></h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record['name_th']}} / {{$select_record['name_en']}} / ติดต่อ {{$select_record['contact_person']}} / โทร {{$select_record['contact_tel']}} </h3>
-		{{Form::open(array('action' => 'CallController@submit_edit_record_info','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'AdminController@submit_edit_record_info','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
 				<input type="hidden" id="record_id" name="record_id" value="{{$select_record_info->record_id}}" />
-				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record_info->record->call_amount}}" />
+				<input type="hidden" id="sale_id" name="sale_id" value="{{$select_record_info->sale_id}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
 						<th>Status</th>
@@ -257,9 +257,49 @@ use App\Record;
             </div>
 		</div>
 		<hr>
+	<div class="row" id="yes_form">
+			<div class="col-xs-12">
+				<div class="row add-margin-20">
+					<div class="col-xs-12">
+						<label>Feedback: </label><br />
+							{{$select_record['feedback']}}
+					</div>
+				</div>
+				<div class="row add-margin-20">
+					<div class="col-xs-12">
+						<label>เงื่อนไขเพิ่มเติม: </label><br />
+							{{$select_record['condition']}}
+					</div>
+				</div>
+				<div class="row add-margin-20">
+					<div class="col-xs-12">
+						<label>Start Privilege Date [ วัน / เดือน / ปี ]</label>
+						<div class="row">
+							<div class="col-xs-4">
+								<div class="input-group">
+								{{$select_record['start_priviledge_date']}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row add-margin-20">
+					<div class="col-xs-12">
+						<label>End Privilege Date [ วัน / เดือน / ปี ]</label>
+							<div class="row">
+								<div class="col-xs-4">
+									<div class="input-group">
+										{{$select_record['end_priviledge_date']}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
 	<div class="row">
 		<div class="col-xs-12">
-			<a href="#" class="btn btn-primary" id="confirm_btn" onClick="">ยืนยัน</a> <a href="{{url('/sale/edit_record/record/edit_record_info/'.$select_record_info->record_id)}}" class="btn btn-warning">แก้ไข</a> <a href="{{url('/sale/edit_record/record/cancel_edit_record')}}" class="btn btn-danger">ยกเลิก</a>
+			<a href="#" class="btn btn-primary" id="confirm_btn" onClick="">ยืนยัน</a> <a href="{{url('/admin/approve_record_from_sale/edit_preview_edit_info/'.$select_record_info->record_id.'/'.$select_record_info->sale_id)}}" class="btn btn-warning">แก้ไข</a> <a href="{{url('/admin/approve_record_from_sale/edit_submit_select_record_cancel/'.$select_record_info->sale_id)}}" class="btn btn-danger">ยกเลิก</a>
 		</div>
 	</div>
 {{Form::close()}}

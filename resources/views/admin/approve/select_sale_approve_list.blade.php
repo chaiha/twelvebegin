@@ -9,18 +9,18 @@ use App\SelectRecord;
 <!-- Services Section -->
 <div class="container">
 	<div class="row">
-		<h1>Select Sale | <?php echo date('Y-m-d H:i:s');?></h1>
-		<table class="table">
-		  <thead class="thead-inverse">
+		<h1>เลือกเซลเพื่อ Approve Leads | <?php echo date('Y-m-d H:i:s');?></h1>
+		<table class="table text-center">
+		  <thead class="thead-inverse text-center">
 		  	<tr>
-		  		<th>Sale id</th>
-		  		<th>Sale first name</th>
-		  		<th>จำนวน Lead ที่ส่งมา Approve</th>
-		  		<th>เลือก</th>
+		  		<th class="text-center">Sale ID</th>
+		  		<th class="text-center">ชื่อพนักงานขาย</th>
+		  		<th class="text-center">จำนวน Lead ที่ส่งมา Approve</th>
+		  		<th class="text-center">เลือก</th>
 		  	</tr>
 		  </thead>
 		@foreach($result as $result_each)
-		  <tbody>
+		  <tbody class="text-center">
 		  	<tr>
 		  	<?php
 		  		$sale_each = Sentinel::findUserById($result_each->sale_id);

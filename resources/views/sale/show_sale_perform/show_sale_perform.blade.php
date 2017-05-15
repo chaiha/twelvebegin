@@ -1,4 +1,4 @@
-@extends('super.layouts.master')
+@extends('sale.layouts.master')
 
 @section('content')
 @section('js_files')
@@ -24,7 +24,7 @@ use App\SelectRecord;
 <div class="container">
 	<div class="row">
 		<h1>Select Sale : {{$sale->first_name}}</h1>
-		{{Form::open(array('action' => 'SuperController@show_sale_perform_by_range','id'=>'submit_form'))}}
+		{{Form::open(array('action' => 'CallController@show_sale_perform_by_range','id'=>'submit_form'))}}
 			{{csrf_field()}}
 		<input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" />
 		Start date: <input class="yes_form datepicker" type="text" id="start_priviledge_date" name="start_date" value=""/> End date : <input class="yes_form datepicker" type="text" id="end_priviledge_date" name="end_date" value=""/>
@@ -33,7 +33,7 @@ use App\SelectRecord;
 		<table class="table">
 		  <thead class="thead-inverse">
 		  	<tr>
-		  		<th>Sale id</th>
+		  		<th>No.</th>
 		  		<th>Sale first name</th>
 		  		<th>Sale last name</th>
 		  		<th>Sale e-mail</th>

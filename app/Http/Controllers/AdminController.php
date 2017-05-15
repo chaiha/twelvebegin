@@ -65,7 +65,7 @@ class AdminController extends Controller
         {
 
             $today = date('Y-m-d');
-            $next = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+            $next = date('Y-m-d', strtotime('+2 month', strtotime($today)));
             $today_array = explode("-", $today);
             $next_array = explode("-", $next);
             $compare_year = $next_array[0]-$today_array[0];
@@ -75,8 +75,9 @@ class AdminController extends Controller
                    // echo "yyyycompare_month:".$compare_month;
                     if($compare_month>=0)
                     {
-                        if($compare_month==1||$compare_month==0)
+                        if($compare_month==2||$compare_month==1||$compare_month==0)
                         {
+                            
                             //Update record Yes status
                             $result_yes = DB::table('records')
                             ->where('status','=','Not_Available')
@@ -108,6 +109,7 @@ class AdminController extends Controller
                         }
                         else
                         {
+                            
                             //Do nothing
                             echo "too far";
                             //return view('admin.index');
@@ -159,8 +161,8 @@ class AdminController extends Controller
        return redirect('/admin/home');
     }
 
-	public function index()
-  	{   
+    public function index()
+    {   
         
         // // $new_array = array();
         // // $x_array = ['a','b','c','d','e'];
@@ -347,11 +349,11 @@ class AdminController extends Controller
 
         //--- original
         return view('admin.index');
-  	}
-  	
+    }
+    
     public function earnings()
     {
-    	return "result 9999";
+        return "result 9999";
     }
 
     //-----from RecordController
@@ -599,16 +601,28 @@ class AdminController extends Controller
         session(['mem_sale' => $sale]);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
-        foreach($select_record as $select_record_each)
+        //print_r($select_record);
+        
+        if(sizeof($select_record)==0)
         {
-            $select_record_array[$i]= $select_record_each->record_id;
-            $i++;
+            $select_record_array =['0'];
         }
+        
+        else
+        {
+            foreach($select_record as $select_record_each)
+            {
+                $select_record_array[$i]= $select_record_each->record_id;
+                $i++;
+            }
+        }
+        
 
         $record_list = Record::where('status','=','Available')->where('selective_status','=','extend')->whereNotIn('id',$select_record_array)->paginate(20);
 
 
         return view('admin.select.select_record')->with('sale',$sale)->with('record_list',$record_list);
+        
     }
 
     public function filter_extend_select_record($id)
@@ -658,7 +672,8 @@ class AdminController extends Controller
             ->where('is_selected','=','0')
              ->where(function ($query) use ($id)
             {
-                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                //$query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                $query->where('sale','=',$id);
             })
             ->whereNotIn('id',$select_record_array)
             ->whereNotIn('id',$selected_array)
@@ -671,7 +686,8 @@ class AdminController extends Controller
             ->where('is_selected','=','0')
             ->where(function ($query) use ($id)
             {
-                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                //$query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                $query->where('sale','=',$id);
             })
             ->whereNotIn('id',$select_record_array)
             ->paginate(20);
@@ -699,7 +715,8 @@ class AdminController extends Controller
             ->where('is_selected','=','0')
             ->where(function ($query) use ($id)
             {
-                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                //$query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                $query->where('sale','=',$id);
             })
             ->whereNotIn('id',$select_record_array)
             ->whereNotIn('id',$selected_array)->paginate(20);
@@ -711,7 +728,8 @@ class AdminController extends Controller
             ->where('is_selected','=','0')
             ->where(function ($query) use ($id)
             {
-                $query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                //$query->where('sale','=',$id)->orWhere('sale','=',NULL);
+                $query->where('sale','=',$id);
             })
             ->whereNotIn('id',$select_record_array)
             ->paginate(20);
@@ -1427,7 +1445,7 @@ class AdminController extends Controller
         $record_list_waiting = array();
         $record_list_noreply = array();
         $record_list_new = array();
-        $sale = Sentinel::check();
+        $sale = Sentinel::findUserById($sale_id);
         return view('admin.select.show_selected_list_sale')->with('sale',$sale)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new);
     }
 
@@ -1442,8 +1460,8 @@ class AdminController extends Controller
             ->select([DB::raw('count(*) as record_count, sale_id')])
                      ->where('can_approve','<=',$today)
                      ->where('sending_status','=','sent')
-                     ->orWhere('sending_status','=','approve')
-                     ->orWhere('sending_status','=','not_approve')
+                     //->orWhere('sending_status','=','approve')
+                     //->orWhere('sending_status','=','not_approve')
                      ->groupBy('sale_id')
             ->leftJoin('users','select_record.sale_id','=','users.id')
             ->get();
@@ -1456,11 +1474,14 @@ class AdminController extends Controller
     {
         $today = date('Y-m-d');
         $sale = Sentinel::findUserById($sale_id);
-        $record_list_extend = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','extend')->where('can_approve','<=',$today)->get();
-        $record_list_waiting = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','waiting')->where('can_approve','<=',$today)->get();
-        $record_list_noreply = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','noreply')->where('can_approve','<=',$today)->get();
-        $record_list_new = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','new')->where('can_approve','<=',$today)->get();
-        return view('admin.approve.show_waiting_approve')->with('record_list_extend',$record_list_extend)->with('record_list_waiting',$record_list_waiting)->with('record_list_noreply',$record_list_noreply)->with('record_list_new',$record_list_new)->with('sale',$sale);
+        $record_list_extend = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','extend')->where('can_approve','<=',$today)->whereIn('sending_status',['sent','approve','not_approve'])->get();
+        $record_list_waiting = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','waiting')->where('can_approve','<=',$today)->whereIn('sending_status',['sent','approve','not_approve'])->get();
+        $record_list_noreply = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','noreply')->where('can_approve','<=',$today)->whereIn('sending_status',['sent','approve','not_approve'])->get();
+        $record_list_new = SelectRecord::where('sale_id','=',$sale_id)->where('selective_status','=','new')->where('can_approve','<=',$today)->whereIn('sending_status',['sent','approve','not_approve'])->get();
+
+        //print_r($record_list_extend);
+
+       return view('admin.approve.show_waiting_approve')->with('record_list_extend',$record_list_extend)->with('record_list_waiting',$record_list_waiting)->with('record_list_noreply',$record_list_noreply)->with('record_list_new',$record_list_new)->with('sale',$sale);
     }
 
     public function show_record_detail($record_id,$sale_id)
@@ -1474,6 +1495,7 @@ class AdminController extends Controller
         $user = Sentinel::check();
         $record_id = $request->input('record_id');
         $sale_id = $request->input('sale_id');
+        $result = $request->input('result');
         $is_approve = $request->input('is_approve');
         $admin_message = $request->input('admin_message');
         if($is_approve=="approve")
@@ -1488,6 +1510,25 @@ class AdminController extends Controller
         $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$sale_id)->first();
         $select_record->sending_status = $sending_status;
         $select_record->admin_message = $admin_message;
+        if($result=="yes")
+        {
+            $select_record->admin_has_reply_doc=$request->input('admin_has_reply_doc');
+            $select_record->admin_has_confirm_product_img=$request->input('admin_has_confirm_product_img');
+            $select_record->admin_has_confirm_logo_img=$request->input('admin_has_confirm_logo_img');
+            $select_record->admin_has_shop_img=$request->input('admin_has_shop_img');
+            $select_record->admin_has_product_img=$request->input('admin_has_product_img');
+            $select_record->admin_has_logo_img=$request->input('admin_has_logo_img');
+
+        }
+        else
+        {
+            $select_record->admin_has_reply_doc=NULL;
+            $select_record->admin_has_confirm_product_img=NULL;
+            $select_record->admin_has_confirm_logo_img=NULL;
+            $select_record->admin_has_shop_img=NULL;
+            $select_record->admin_has_product_img=NULL;
+            $select_record->admin_has_logo_img=NULL;
+        }
         $select_record->updated_at = date('Y-m-d H:i:s');
         $select_record->updated_by = $user->id;
         $select_record->save();
@@ -1497,9 +1538,11 @@ class AdminController extends Controller
     public function submit_all_approve_record(Request $request)
     {
         $today = date('Y-m-d');
-        $lot_no_number = $request->input('lot_no_number');
+        $lot_no_number_1 = $request->input('lot_no_number_1');
+        $lot_no_number_2 = $request->input('lot_no_number_2');
         $lot_no_month = $request->input('lot_no_month');
-        $lot_no = $lot_no_number."-".$lot_no_month;
+        $lot_no = $lot_no_number_1."-".$lot_no_number_2."-".$lot_no_month;
+        $new_lot_no_month = explode('-', $lot_no_month);
         $user = Sentinel::check();
         $sale_id = $request->input('sale_id');
         $result = SelectRecord::where('sale_id','=',$sale_id)->get();
@@ -1527,6 +1570,8 @@ class AdminController extends Controller
                     $yes_record = new YesRecords;
                     $yes_record->lot_date = date('Y-m-d');
                     $yes_record->lot_no = $lot_no;
+                    $yes_record->month = $new_lot_no_month[0];
+                    $yes_record->approve_date = date('Y-m-d');
                     $yes_record->record_id = $result_each->record_id;
                     $yes_record->sale_id = $result_each->sale_id;
                     $yes_record->available_start = $available_start;
@@ -1542,6 +1587,12 @@ class AdminController extends Controller
                     $yes_record->yes_condition = $result_each->yes_condition;
                     $yes_record->sending_address = $result_each->sending_address;
                     $yes_record->result_remark = $result_each->result_remark;
+                    $yes_record->has_reply_doc = $result_each->has_reply_doc;
+                    $yes_record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $yes_record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $yes_record->has_shop_img = $result_each->has_shop_img;
+                    $yes_record->has_product_img = $result_each->has_product_img;
+                    $yes_record->has_logo_img = $result_each->has_logo_img;
                     $yes_record->created_at = $select_record->created_at;
                     $yes_record->created_by = $select_record->created_by;
                     $yes_record->updated_at = date('Y-m-d H:i:s');
@@ -1550,6 +1601,8 @@ class AdminController extends Controller
 
                     $sale_record_yes_collection = new SaleRecordYesCollection;
                     $sale_record_yes_collection->lot_no = $lot_no;
+                    $sale_record_yes_collection->month = $new_lot_no_month[0];
+                    $sale_record_yes_collection->approve_date = date('Y-m-d');
                     $sale_record_yes_collection->record_id = $result_each->record_id;
                     $sale_record_yes_collection->sale_id = $result_each->sale_id;
                     $sale_record_yes_collection->name_th = $result_each->name_th;
@@ -1560,6 +1613,12 @@ class AdminController extends Controller
                     $sale_record_yes_collection->yes_privilege_end = $result_each->yes_privilege_end;
                     $sale_record_yes_collection->yes_feedback = $result_each->yes_feedback;
                     $sale_record_yes_collection->yes_condition = $result_each->yes_condition;
+                    $sale_record_yes_collection->has_reply_doc = $result_each->has_reply_doc;
+                    $sale_record_yes_collection->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $sale_record_yes_collection->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $sale_record_yes_collection->has_shop_img = $result_each->has_shop_img;
+                    $sale_record_yes_collection->has_product_img = $result_each->has_product_img;
+                    $sale_record_yes_collection->has_logo_img = $result_each->has_logo_img;
                     $sale_record_yes_collection->created_at = $select_record->created_at;
                     $sale_record_yes_collection->created_by = $select_record->created_by;
                     $sale_record_yes_collection->updated_at = date('Y-m-d H:i:s');
@@ -1594,6 +1653,12 @@ class AdminController extends Controller
                         $record->yes_privilege_end = $result_each->yes_privilege_end;
                         $record->yes_feedback = $result_each->yes_feedback;
                         $record->yes_condition = $result_each->yes_condition;
+                        $record->has_reply_doc = $result_each->has_reply_doc;
+                        $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                        $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                        $record->has_shop_img = $result_each->has_shop_img;
+                        $record->has_product_img = $result_each->has_product_img;
+                        $record->has_logo_img = $result_each->has_logo_img;
                         $record->sending_address = $result_each->sending_address;
                         $record->no_reason = $result_each->no_reason;
                         $record->no_note = $result_each->no_note;
@@ -1630,6 +1695,7 @@ class AdminController extends Controller
                         $record->status = "Available";
                         $record->selective_status = "noreply";
                         $record->waiting_count = $new_waiting_count;
+                        $record->effective_date = $result_each->cannot_contact_appointment;
                     }
                     elseif($new_waiting_count >= 3 )
                     {
@@ -1660,6 +1726,12 @@ class AdminController extends Controller
                     $record->yes_privilege_end = $result_each->yes_privilege_end;
                     $record->yes_feedback = $result_each->yes_feedback;
                     $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
                     $record->sending_address = $result_each->sending_address;
                     $record->no_reason = $result_each->no_reason;
                     $record->no_note = $result_each->no_note;
@@ -1710,6 +1782,12 @@ class AdminController extends Controller
                     $record->yes_privilege_end = $result_each->yes_privilege_end;
                     $record->yes_feedback = $result_each->yes_feedback;
                     $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
                     $record->sending_address = $result_each->sending_address;
                     $record->no_reason = $result_each->no_reason;
                     $record->no_note = $result_each->no_note;
@@ -1743,6 +1821,7 @@ class AdminController extends Controller
                         $record->status = "Available";
                         $record->selective_status = "waiting";
                         $record->waiting_count = $new_waiting_count;
+                        $record->effective_date = $result_each->consider_appointment_feedback;
                     }
                     elseif($new_waiting_count >= 3 )
                     {
@@ -1773,6 +1852,12 @@ class AdminController extends Controller
                     $record->yes_privilege_end = $result_each->yes_privilege_end;
                     $record->yes_feedback = $result_each->yes_feedback;
                     $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
                     $record->sending_address = $result_each->sending_address;
                     $record->no_reason = $result_each->no_reason;
                     $record->no_note = $result_each->no_note;
@@ -1823,6 +1908,12 @@ class AdminController extends Controller
                     $record->yes_privilege_end = $result_each->yes_privilege_end;
                     $record->yes_feedback = $result_each->yes_feedback;
                     $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
                     $record->sending_address = $result_each->sending_address;
                     $record->no_reason = $result_each->no_reason;
                     $record->no_note = $result_each->no_note;
@@ -1876,6 +1967,12 @@ class AdminController extends Controller
                     $record->yes_privilege_end = $result_each->yes_privilege_end;
                     $record->yes_feedback = $result_each->yes_feedback;
                     $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
                     $record->sending_address = $result_each->sending_address;
                     $record->no_reason = $result_each->no_reason;
                     $record->no_note = $result_each->no_note;
@@ -1904,7 +2001,9 @@ class AdminController extends Controller
             elseif($result_each->sending_status=="not_approve")
             {
                 $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
-                $select_record->sending_status = NULL;
+                $select_record->sending_status = "not_approve";
+                $select_record->is_corrected = NULL;
+                $select_record->cannot_send = NULL;
                 $select_record->updated_at = date('Y-m-d H:i:s');
                 $select_record->updated_by = $user->id;
                 $select_record->save();
@@ -1913,6 +2012,8 @@ class AdminController extends Controller
             {
                 $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
                 $select_record->sending_status = NULL;
+                $select_record->is_corrected = NULL;
+                $select_record->cannot_send = NULL;
                 $select_record->updated_at = date('Y-m-d H:i:s');
                 $select_record->updated_by = $user->id;
                 $select_record->save();
@@ -1948,6 +2049,141 @@ class AdminController extends Controller
             });
         })->export('xlsx');
 
+    }
+
+    public function edit_submit_select_record($record_id,$sale_id)
+    {
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$sale_id)->first();
+        
+        return view('admin.approve.edit_record')->with('select_record',$select_record);
+    }
+
+    public function preview_edit_submit_select_record(Request $request)
+    {
+        $select_record = array();
+        $latest_no = SelectRecord::latest('id')->first();
+        // $effective_date = $request->input('effective_date');
+        $select_record['categories'] = $request->input('categories');
+        $select_record['shop_type'] = $request->input('shop_type');
+        
+        $select_record['name_th'] = $request->input('name_th');
+        $select_record['name_en'] = $request->input('name_en');
+        $select_record['branch'] = $request->input('branch');
+        $select_record['branch_amount'] = $request->input('branch_amount');
+        $select_record['address'] = $request->input('address');
+        $select_record['sending_address'] = $request->input('sending_address');
+        
+        $select_record['latitude'] = $request->input('latitude');
+        $select_record['longtitude'] = $request->input('longtitude');
+
+        $select_record['contact_person'] = $request->input('contact_person');
+        $select_record['contact_tel'] = $request->input('contact_tel');
+        $select_record['contact_email'] = $request->input('contact_email');
+        $select_record['province'] = $request->input('province');
+        $select_record['links'] = $request->input('links');
+        $select_record['remarks'] = $request->input('remarks');
+        $select_record['note'] = $request->input('note');
+
+        $select_record['record_id'] = $request->input('record_id');
+
+        // Edit for yes record
+        $select_record['feedback']=$request->input('feedback');
+        $select_record['condition']=$request->input('condition');
+        $select_record['start_priviledge_date']=$request->input('start_priviledge_date');
+        $select_record['end_priviledge_date']=$request->input('end_priviledge_date');
+        /*
+        $select_record['admin_has_reply_doc']=$request->input('admin_has_reply_doc');
+        $select_record['admin_has_confirm_product_img']=$request->input('admin_has_confirm_product_img');
+        $select_record['admin_has_confirm_logo_img']=$request->input('admin_has_confirm_logo_img');
+        $select_record['admin_has_shop_img']=$request->input('admin_has_shop_img');
+        $select_record['admin_has_product_img']=$request->input('admin_has_product_img');
+        $select_record['admin_has_logo_img']=$request->input('admin_has_logo_img');
+        */
+
+
+        session(['select_record_info' => $select_record]);
+
+        return redirect('/admin/approve_record_from_sale/show_preview_edit_info');
+    }
+
+    public function show_preview_edit_info()
+    {
+        $preview_record = session('select_record_info');
+        $select_record = SelectRecord::where('record_id',$preview_record['record_id'])->first();
+        //print_r($select_record);
+        return view('admin.approve.show_preview_edit_info')->with('select_record',$preview_record)->with('select_record_info',$select_record);   
+    }
+
+    public function edit_preview_edit_info($record_id,$sale_id)
+    {
+        $preview_record = session('select_record_info');
+        $select_record = SelectRecord::where('record_id',$preview_record['record_id'])->first();
+        //print_r($select_record);
+        return view('admin.approve.edit_preview_edit_info')->with('select_record',$preview_record)->with('select_record_info',$select_record);   
+    }
+
+    public function submit_edit_record_info(Request $request)
+    {
+        $user = session('user');
+        $record_id = $request->input('record_id');
+        $sale_id = $request->input('sale_id');
+        $edit_record_info = session('select_record_info');
+        $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+        $select_record->categories = $edit_record_info['categories'];
+        $select_record->shop_type = $edit_record_info['shop_type'];
+        $select_record->name_th = $edit_record_info['name_th'];
+        $select_record->name_en = $edit_record_info['name_en'];
+        $select_record->branch = $edit_record_info['branch'];
+        $select_record->branch_amount = $edit_record_info['branch_amount'];
+        $select_record->address = $edit_record_info['address'];
+        $select_record->sending_address = $edit_record_info['sending_address'];
+        $select_record->latitude = $edit_record_info['latitude'];
+        $select_record->longtitude = $edit_record_info['longtitude'];
+        $select_record->contact_person = $edit_record_info['contact_person'];
+        $select_record->contact_tel = $edit_record_info['contact_tel'];
+        $select_record->contact_email = $edit_record_info['contact_email'];
+        $select_record->province = $edit_record_info['province'];
+        $select_record->links = $edit_record_info['links'];
+        $select_record->remarks = $edit_record_info['remarks'];
+        $select_record->note = $edit_record_info['note'];
+
+        $select_record->yes_feedback=$edit_record_info['feedback'];
+        $select_record->yes_condition=$edit_record_info['condition'];
+
+        $new_yes_privilege_start = explode('/', $edit_record_info['start_priviledge_date']);
+        $new_yes_privilege_end = explode('/', $edit_record_info['end_priviledge_date']);
+        $select_record->yes_privilege_start = $new_yes_privilege_start[2]."-".$new_yes_privilege_start[1]."-".$new_yes_privilege_start[0];
+        $select_record->yes_privilege_end = $new_yes_privilege_end[2]."-".$new_yes_privilege_end[1]."-".$new_yes_privilege_end[0];
+
+        /*
+        $select_record->admin_has_reply_doc=$edit_record_info['admin_has_reply_doc'];
+        $select_record->admin_has_confirm_product_img=$edit_record_info['admin_has_confirm_product_img'];
+        $select_record->admin_has_confirm_logo_img=$edit_record_info['admin_has_confirm_logo_img'];
+        $select_record->admin_has_shop_img=$edit_record_info['admin_has_shop_img'];
+        $select_record->admin_has_product_img=$edit_record_info['admin_has_product_img'];
+        $select_record->admin_has_logo_img=$edit_record_info['admin_has_logo_img'];
+        */
+
+        $select_record->updated_at = date('Y-m-d H:i:s');
+        $select_record->updated_by = $user->id;
+        $select_record->save();
+
+        Session::forget('select_record_info');
+        
+        return redirect('/admin/approve_record_from_sale/success_edit_submit_record/'.$record_id.'/'.$sale_id);
+
+    }
+
+    public function success_edit_submit_record($record_id,$sale_id)
+    {
+        $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$sale_id)->first();
+        return view('admin.approve.success_edit_submit_info')->with('select_record',$select_record);
+    }
+
+    public function edit_submit_select_record_cancel($sale_id)
+    {
+        Session::forget('select_record_info');
+        return redirect('admin/approve_record_from_sale/select_sale/'.$sale_id);
     }
 
 }

@@ -174,7 +174,7 @@ use App\Record;
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-		<h1>Edit new record</h1>
+		<h1>แก้ไข Lead ใหม่</h1>
 		{{Form::open(array('action' => 'AdminController@submit_edit_new_record_list','id'=>'submit_form'))}}
 			{{csrf_field()}}
 			<table class="table table-bordered table-striped table-hover">
@@ -188,10 +188,10 @@ use App\Record;
 					<th class="add_padding_15">ประเภทร้าน</th>
 					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย</th>
-					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
+					<th class="add_padding_15">ชื่ออังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
 					<th class="add_padding_15">จังหวัด</th>
-					<th class="add_padding_15">contact telephone</th>
+					<th class="add_padding_15">เบอร์โทรติดต่อ</th>
 					<th class="add_padding_15">Link</th>
 					<th class="add_padding_15">Remark</th>
 				</tr>
@@ -207,31 +207,30 @@ use App\Record;
 					<td class="add_padding_15">
 						<select name="sources-{{$i}}"  class="selectpicker sources" id="sources-{{$i}}">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="online_search" <?php if($edit_new_record_list_each['sources']=="online_search"){echo "selected";}?>>Online Search</option>
-							<option value="dtac_recommend" <?php if($edit_new_record_list_each['sources']=="dtac_recommend"){echo "selected";}?>>DTAC Recommend</option>
-							<option value="walking" <?php if($edit_new_record_list_each['sources']=="walking"){echo "selected";}?>>Walking</option>
+							<option value="online_search" <?php if($edit_new_record_list_each['sources']=="online_search"){echo "selected";}?>>ค้นหาจากเว็บไซต์</option>
+							<option value="dtac_recommend" <?php if($edit_new_record_list_each['sources']=="dtac_recommend"){echo "selected";}?>>ร้านแนะนำจาก dtac</option>
+							<option value="walking" <?php if($edit_new_record_list_each['sources']=="walking"){echo "selected";}?>>Walk in</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
 						<select name="categories-{{$i}}"  class="selectpicker categories" id="categories-{{$i}}">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="dinning_and_beverage" <?php if($edit_new_record_list_each['categories']=="dinning_and_beverage"){echo "selected";}?>>Dining & Beverage</option>
-							<option value="shopping_and_lifestyle" <?php if($edit_new_record_list_each['categories']=="shopping_and_lifestyle"){echo "selected";}?>>Shopping & Lifestyle</option>
-							<option value="beauty_and_healthy" <?php if($edit_new_record_list_each['categories']=="beauty_and_healthy"){echo "selected";}?>>Beauty & Healthy</option>
-							<option value="hotel_and_travel" <?php if($edit_new_record_list_each['categories']=="hotel_and_travel"){echo "selected";}?>>Hotel & Travel</option>
+							<option value="dinning_and_beverage" <?php if($edit_new_record_list_each['categories']=="dinning_and_beverage"){echo "selected";}?>>Dining and Beverage</option>
+							<option value="shopping_and_lifestyle" <?php if($edit_new_record_list_each['categories']=="shopping_and_lifestyle"){echo "selected";}?>>Shopping and Lifestyle</option>
+							<option value="beauty_and_healthy" <?php if($edit_new_record_list_each['categories']=="beauty_and_healthy"){echo "selected";}?>>Beauty and Healthy</option>
+							<option value="hotel_and_travel" <?php if($edit_new_record_list_each['categories']=="hotel_and_travel"){echo "selected";}?>>Hotel and Travel</option>
 							<option value="online" <?php if($edit_new_record_list_each['categories']=="online"){echo "selected";}?>>Online</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
 						<select name="dtac_type-{{$i}}"  class="selectpicker dtac_type" id="dtac_type-{{$i}}">
-							<option value="empty">กรุณาเลือก</option>
-							<option value="ร้านต่างจังหวัด" <?php if($edit_new_record_list_each['dtac_type']=="ร้านต่างจังหวัด"){echo "selected";}?>>ร้าน ตจว</option>
-							<option value="ร้านกทม./นนทบุรี/สมุทรปราการ" <?php if($edit_new_record_list_each['dtac_type']=="ร้านกทม./นนทบุรี/สมุทรปราการ"){echo "selected";}?>>ร้าน กทม./นนทบุรี/สมุทรปราการ</option>
-							<option value="ร้านdtacแนะนำ" <?php if($edit_new_record_list_each['dtac_type']=="ร้านdtacแนะนำ"){echo "selected";}?>>ร้าน dtac แนะนำ</option>
-							<option value="ร้านต่ออายุ" <?php if($edit_new_record_list_each['dtac_type']=="ร้านต่ออายุ"){echo "selected";}?>>ร้านต่ออายุ</option>
-							<option value="ร้านonline" <?php if($edit_new_record_list_each['dtac_type']=="ร้านonline"){echo "selected";}?>>ร้าน online</option>
-							<option value="ร้านดีลอย่างเดียว" <?php if($edit_new_record_list_each['dtac_type']=="ร้านดีลอย่างเดียว"){echo "selected";}?>>ร้านดีลอย่างเดียว</option>
-							<option value="ร้านเฉพาะอาร์ทเวิร์ค" <?php if($edit_new_record_list_each['dtac_type']=="ร้านเฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>ร้านเฉพาะอาร์ทเวิร์ค</option>
+							<option value="ต่างจังหวัด" <?php if($edit_new_record_list_each['dtac_type']=="ต่างจังหวัด"){echo "selected";}?>>ต่างจังหวัด</option>
+							<option value="กทม./นนทบุรี/สมุทรปราการ" <?php if($edit_new_record_list_each['dtac_type']=="กทม./นนทบุรี/สมุทรปราการ"){echo "selected";}?>>กทม./นนทบุรี/สมุทรปราการ</option>
+							<option value="dtacแนะนำ" <?php if($edit_new_record_list_each['dtac_type']=="dtacแนะนำ"){echo "selected";}?>>dtac แนะนำ</option>
+							<option value="ต่ออายุ" <?php if($edit_new_record_list_each['dtac_type']=="ต่ออายุ"){echo "selected";}?>>ต่ออายุ</option>
+							<option value="online" <?php if($edit_new_record_list_each['dtac_type']=="online"){echo "selected";}?>>online</option>
+							<option value="ดีลอย่างเดียว" <?php if($edit_new_record_list_each['dtac_type']=="ดีลอย่างเดียว"){echo "selected";}?>>ดีลอย่างเดียว</option>
+							<option value="เฉพาะอาร์ทเวิร์ค" <?php if($edit_new_record_list_each['dtac_type']=="เฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>เฉพาะอาร์ทเวิร์ค</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
@@ -328,8 +327,8 @@ use App\Record;
 			<br />
 			*หากไม่มีข้อมูลกรุณาใส่ "-" ในช่อง
 			<br /><br />
-		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">Cancel</a>
+		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">ยืนยันการแก้ไข</a>
+		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">ยกเลิก</a>
 		</div>
 	</div>
 </div>

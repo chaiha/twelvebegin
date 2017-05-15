@@ -104,7 +104,7 @@ use App\Record;
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-		<h1>Edit duplicate new record</h1>
+		<h1>แก้ไข Lead ใหม่ที่ซ้ำกับในระบบ</h1>
 		{{Form::open(array('action' => 'AdminController@submit_edit_duplicate_new_record_list','id'=>'submit_form'))}}
 			{{csrf_field()}}
 			<table class="table table-bordered table-striped table-hover">
@@ -117,7 +117,7 @@ use App\Record;
 					<th class="add_padding_15">ประเภทร้าน<span class="red">*</span></th>
 					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย<span class="red">**</span></th>
-					<th class="add_padding_15">ชื่อภาษาอังกฤษ<span class="red">**</span></th>
+					<th class="add_padding_15">ชื่ออังกฤษ<span class="red">**</span></th>
 					<th class="add_padding_15">สาขา</th>
 					<th class="add_padding_15">จังหวัด<span class="red">*</span></th>
 					<th class="add_padding_15">เบอร์โทรติดต่อ<span class="red">*</span></th>
@@ -138,15 +138,15 @@ use App\Record;
 						<?php 
 						if($preview_new_record_list_each['sources']=="online_search")
 						{
-							echo "Online Search";
+							echo "ค้นหาจากเว็บไซต์";
 						}
 						elseif($preview_new_record_list_each['sources']=="dtac_recommend")
 						{
-							echo "Dtac Recommend";
+							echo "ร้านแนะนำจาก dtac";
 						}
 						elseif($preview_new_record_list_each['sources']=="walking")
 						{
-							echo "Walking";
+							echo "Walk in";
 						}
 						?>
 					</td>
@@ -154,19 +154,19 @@ use App\Record;
 					<?php 
 						if($preview_new_record_list_each['categories']=="dinning_and_beverage")
 						{
-							echo "Dining & Beverage";
+							echo "Dining and Beverage";
 						}
 						elseif($preview_new_record_list_each['categories']=="shopping_and_lifestyle")
 						{
-							echo "Shopping & Lifestyle";
+							echo "Shopping and Lifestyle";
 						}
 						elseif($preview_new_record_list_each['categories']=="beauty_and_healthy")
 						{
-							echo "Beauty & Healthy";
+							echo "Beauty and Healthy";
 						}
 						elseif($preview_new_record_list_each['categories']=="hotel_and_travel")
 						{
-							echo "Hotel & Travel";
+							echo "Hotel and Travel";
 						}
 						elseif($preview_new_record_list_each['categories']=="online")
 						{
@@ -176,49 +176,39 @@ use App\Record;
 					</td>
 					<td class="add_padding_15">
 					<?php 
-						if($preview_new_record_list_each['dtac_type']=="ร้านกทม")
+						if($preview_new_record_list_each['dtac_type']=="กทม./นนทบุรี/สมุทรปราการ")
 						{
-							echo "ร้าน กทม";
+							echo "กทม./นนทบุรี/สมุทรปราการ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านตจว")
+						elseif($preview_new_record_list_each['dtac_type']=="ต่างจังหวัด")
 						{
-							echo "ร้าน ตจว";
+							echo "ต่างจังหวัด";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านonline")
+						elseif($preview_new_record_list_each['dtac_type']=="dtacแนะนำ")
 						{
-							echo "ร้าน online";
+							echo "dtac แนะนำ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านต่ออายุ")
+						elseif($preview_new_record_list_each['dtac_type']=="online")
 						{
-							echo "ร้านต่ออายุ";
+							echo "online";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านดีลอย่างเดียว")
+						elseif($preview_new_record_list_each['dtac_type']=="ต่ออายุ")
 						{
-							echo "ร้านดีลอย่างเดียว";
+							echo "ต่ออายุ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านเฉพาะอาร์ทเวิร์ค")
+						elseif($preview_new_record_list_each['dtac_type']=="ดีลอย่างเดียว")
 						{
-							echo "ร้านเฉพาะอาร์ทเวิร์ค";
+							echo "ดีลอย่างเดียว";
+						}
+						elseif($preview_new_record_list_each['dtac_type']=="เฉพาะอาร์ทเวิร์ค")
+						{
+							echo "เฉพาะอาร์ทเวิร์ค";
 						}
 						?>
 						
 					</td>
 					<td class="add_padding_15">
-					<?php 
-						if($preview_new_record_list_each['shop_type']=="ร้านเบ็ดเตล็ด")
-						{
-							echo "ร้าน เบ็ดเตล็ด";
-						}
-						elseif($preview_new_record_list_each['shop_type']=="ร้านอาหาร")
-						{
-							echo "ร้าน อาหาร";
-						}
-						elseif($preview_new_record_list_each['shop_type']=="ร้านอาหารนานาชาติ")
-						{
-							echo "ร้าน อาหารนานาชาติ";
-						}
-						
-						?>
+						{{$preview_new_record_list_each['shop_type']}}
 					</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['special_type']}}</td>
 					<td class="add_padding_15">{{$preview_new_record_list_each['name_th']}}</td>
@@ -257,9 +247,9 @@ use App\Record;
 						<input type="hidden" name="id_array" id="id_array" value="{{$id_array}}"/>
 						<select name="sources_edit"  class="selectpicker sources" id="sources_edit">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="online_search" <?php if($edit_duplicate_record['sources']=="online_search"){echo "selected";}?>>Online Search</option>
-							<option value="dtac_recommend" <?php if($edit_duplicate_record['sources']=="dtac_recommend"){echo "selected";}?>>DTAC Recommend</option>
-							<option value="walking" <?php if($edit_duplicate_record['sources']=="walking"){echo "selected";}?>>Walking</option>
+							<option value="online_search" <?php if($edit_duplicate_record['sources']=="online_search"){echo "selected";}?>>ค้นหาจากเว็บไซต์</option>
+							<option value="dtac_recommend" <?php if($edit_duplicate_record['sources']=="dtac_recommend"){echo "selected";}?>>ร้านแนะนำจาก dtac</option>
+							<option value="walking" <?php if($edit_duplicate_record['sources']=="walking"){echo "selected";}?>>Walk in</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
@@ -275,13 +265,13 @@ use App\Record;
 					<td class="add_padding_15">
 						<select name="dtac_type_edit"  class="selectpicker dtac_type" id="dtac_type_edit">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="ร้านต่างจังหวัด" <?php if($edit_duplicate_record['dtac_type']=="ร้านต่างจังหวัด"){echo "selected";}?>>ร้าน ต่างจังหวัด</option>
-							<option value="ร้านกทม./นนทบุรี/สมุทรปราการ" <?php if($edit_duplicate_record['dtac_type']=="ร้านกทม./นนทบุรี/สมุทรปราการ"){echo "selected";}?>>ร้าน กทม./นนทบุรี/สมุทรปราการ</option>
-							<option value="ร้านdtacแนะนำ" <?php if($edit_duplicate_record['dtac_type']=="ร้านdtacแนะนำ"){echo "selected";}?>>ร้าน dtac แนะนำ</option>
-							<option value="ร้านต่ออายุ" <?php if($edit_duplicate_record['dtac_type']=="ร้านต่ออายุ"){echo "selected";}?>>ร้านต่ออายุ</option>
-							<option value="ร้านonline" <?php if($edit_duplicate_record['dtac_type']=="ร้านonline"){echo "selected";}?>>ร้าน online</option>
-							<option value="ร้านดีลอย่างเดียว" <?php if($edit_duplicate_record['dtac_type']=="ร้านดีลอย่างเดียว"){echo "selected";}?>>ร้านดีลอย่างเดียว</option>
-							<option value="ร้านเฉพาะอาร์ทเวิร์ค" <?php if($edit_duplicate_record['dtac_type']=="ร้านเฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>ร้านเฉพาะอาร์ทเวิร์ค</option>
+							<option value="ต่างจังหวัด" <?php if($edit_duplicate_record['dtac_type']=="ต่างจังหวัด"){echo "selected";}?>>ต่างจังหวัด</option>
+							<option value="กทม./นนทบุรี/สมุทรปราการ" <?php if($edit_duplicate_record['dtac_type']=="กทม./นนทบุรี/สมุทรปราการ"){echo "selected";}?>>กทม./นนทบุรี/สมุทรปราการ</option>
+							<option value="dtacแนะนำ" <?php if($edit_duplicate_record['dtac_type']=="dtacแนะนำ"){echo "selected";}?>>dtac แนะนำ</option>
+							<option value="ต่ออายุ" <?php if($edit_duplicate_record['dtac_type']=="ต่ออายุ"){echo "selected";}?>>ต่ออายุ</option>
+							<option value="online" <?php if($edit_duplicate_record['dtac_type']=="online"){echo "selected";}?>> online</option>
+							<option value="ดีลอย่างเดียว" <?php if($edit_duplicate_record['dtac_type']=="ดีลอย่างเดียว"){echo "selected";}?>>ดีลอย่างเดียว</option>
+							<option value="เฉพาะอาร์ทเวิร์ค" <?php if($edit_duplicate_record['dtac_type']=="เฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>เฉพาะอาร์ทเวิร์ค</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
@@ -375,8 +365,8 @@ use App\Record;
 			{{ Form::close() }}
 			<br />
 			<br /><br />
-		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{url('/admin/record/show_preview_new_record_list')}}" role="button" id="cancel">Cancel</a>
+		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">ยืนยันการแก้ไข</a>
+		<a class="btn btn-danger" href="{{url('/admin/record/show_preview_new_record_list')}}" role="button" id="cancel">ยกเลิก</a>
 		</div>
 	</div>
 </div>

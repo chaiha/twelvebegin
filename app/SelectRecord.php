@@ -134,4 +134,19 @@ class SelectRecord extends Model
 
         return $result;
     }
+    static public function has_is_corrected_result($sale_id)
+    {
+        $result = SelectRecord::where('sale_id','=',$sale_id)->where('is_corrected','=','1')->first();
+        return $result;
+    }
+    static public function has_status_sent($sale_id)
+    {
+        $result = SelectRecord::where('sale_id','=',$sale_id)->where('sending_status','=','sent')->first();
+        return $result;
+    }
+    static public function check_cannot_send($sale_id)
+    {
+        $result = SelectRecord::where('sale_id','=',$sale_id)->where('cannot_send','=','1')->first();
+        return $result;
+    }
 }

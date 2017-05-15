@@ -28,7 +28,7 @@ use App\Record;
 	<div class="row">
 	<div class="col-md-12">
 		<div class="form-group">
-		<h1>Edit record</h1>
+		<h1>แก้ไข Lead</h1>
 		<h3>กรุณาตรวจทานข้อมูลก่อนยืนยัน</h3>
 		{{Form::open(array('action' => 'AdminController@preview_edit_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -55,30 +55,31 @@ use App\Record;
 			<div class="col-xs-2">
 				<label>Sources.</label>
 				<select name="sources"  class="selectpicker">
-					<option value="online_search" <?php if($record->sources=="online_search"){echo "selected";}?>>Online Search</option>
-					<option value="dtac_recommend" <?php if($record->sources=="dtac_recommend"){echo "selected";}?>>DTAC Recommend</option>
-					<option value="walking" <?php if($record->sources=="walking"){echo "selected";}?>>Walking</option>
+					<option value="online_search" <?php if($record->sources=="online_search"){echo "selected";}?>>ค้นหาจากเว็บไซต์</option>
+					<option value="dtac_recommend" <?php if($record->sources=="dtac_recommend"){echo "selected";}?>>ร้านแนะนำจาก dtac</option>
+					<option value="walking" <?php if($record->sources=="walking"){echo "selected";}?>>Walk in</option>
 				</select>
 			</div>
 			<div class="col-xs-2">
 				<label>Categories.</label>
 				<select name="categories"  class="selectpicker">
-					<option value="dinning_and_beverage" <?php if($record->categories=="dinning_and_beverage"){echo "selected";}?>>Dining & Beverage</option>
-					<option value="shopping_and_lifestyle" <?php if($record->categories=="shopping_and_lifestyle"){echo "selected";}?>>Shopping & Lifestyle</option>
-					<option value="beauty_and_healthy" <?php if($record->categories=="beauty_and_healthy"){echo "selected";}?>>Beauty & Healthy</option>
-					<option value="hotel_and_travel" <?php if($record->categories=="hotel_and_travel"){echo "selected";}?>>Hotel & Travel</option>
+					<option value="dinning_and_beverage" <?php if($record->categories=="dinning_and_beverage"){echo "selected";}?>>Dining and Beverage</option>
+					<option value="shopping_and_lifestyle" <?php if($record->categories=="shopping_and_lifestyle"){echo "selected";}?>>Shopping and Lifestyle</option>
+					<option value="beauty_and_healthy" <?php if($record->categories=="beauty_and_healthy"){echo "selected";}?>>Beauty and Healthy</option>
+					<option value="hotel_and_travel" <?php if($record->categories=="hotel_and_travel"){echo "selected";}?>>Hotel and Travel</option>
 					<option value="online" <?php if($record->categories=="dinning_and_beverage"){echo "selected";}?>>Online</option>
 				</select>
 			</div>
 			<div class="col-xs-2">
 				<label>dtac Type.</label>
 				<select name="dtac_type"  class="selectpicker">
-					<option value="ร้านกทม" <?php if($record->dtac_type=="ร้านกทม"){echo "selected";}?>>ร้าน กทม</option>
-					<option value="ร้านตจว" <?php if($record->dtac_type=="ร้านตจว"){echo "selected";}?>>ร้าน ตจว</option>
-					<option value="ร้านonline" <?php if($record->dtac_type=="ร้านonline"){echo "selected";}?>>ร้าน online</option>
-					<option value="ร้านต่ออายุ" <?php if($record->dtac_type=="ร้านต่ออายุ"){echo "selected";}?>>ร้านต่ออายุ</option>
-					<option value="ร้านดีลอย่างเดียว" <?php if($record->dtac_type=="ร้านดีลอย่างเดียว"){echo "selected";}?>>ร้านดีลอย่างเดียว</option>
-					<option value="ร้านเฉพาะอาร์ทเวิร์ค" <?php if($record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>ร้านเฉพาะอาร์ทเวิร์ค</option>
+					<option value="ต่างจังหวัด" <?php if($record->dtac_type=="ต่างจังหวัด"){echo "selected";}?>>ต่างจังหวัด</option>
+					<option value="กทม./นนทบุรี/สมุทรปราการ" <?php if($record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ"){echo "selected";}?>>กทม./นนทบุรี/สมุทรปราการ</option>
+					<option value="dtacแนะนำ" <?php if($record->dtac_type=="dtacแนะนำ"){echo "selected";}?>>dtac แนะนำ</option>
+					<option value="ต่ออายุ" <?php if($record->dtac_type=="ต่ออายุ"){echo "selected";}?>>ต่ออายุ</option>
+					<option value="online" <?php if($record->dtac_type=="online"){echo "selected";}?>>online</option>
+					<option value="ดีลอย่างเดียว" <?php if($record->dtac_type=="ดีลอย่างเดียว"){echo "selected";}?>>ดีลอย่างเดียว</option>
+					<option value="เฉพาะอาร์ทเวิร์ค" <?php if($record->dtac_type=="เฉพาะอาร์ทเวิร์ค"){echo "selected";}?>>เฉพาะอาร์ทเวิร์ค</option>
 				</select>
 			</div>
 			<div class="col-xs-2">

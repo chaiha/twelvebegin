@@ -8,20 +8,20 @@ use App\SelectRecord;
 <!-- Services Section -->
 <div class="container">
 	<div class="row">
-		<h1>Select Sale</h1>
-		<table class="table">
+		<h1>เลือกร้านค้าให้เซล</h1>
+		<table class="table text-center">
 		  <thead class="thead-inverse">
 		  	<tr>
-		  		<th>Sale id</th>
-		  		<th>Sale first name</th>
-		  		<th>Sale last name</th>
-		  		<th>Sale e-mail</th>
-		  		<th>จำนวน Leadที่มีอยู่</th>
-		  		<th>เลือก</th>
+		  		<th class="text-center">Sale ID</th>
+		  		<th class="text-center">ชื่อพนักงานขาย</th>
+		  		<th class="text-center">ตำแหน่ง</th>
+		  		<th class="text-center">Username</th>
+		  		<th class="text-center"> จำนวน lead ที่มีอยู่ จำนวนร้านค้าคงค้าง</th>
+		  		<th class="text-center">เลือก</th>
 		  	</tr>
 		  </thead>
 		@foreach($sale_list as $sale_each)
-		  <tbody>
+		  <tbody class="text-center" >
 		  	<tr>
 		  		<td>{{$sale_each->id}}</td>
 		  		<td>{{$sale_each->first_name}}</td>

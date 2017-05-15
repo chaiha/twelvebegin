@@ -48,9 +48,9 @@ use App\Record;
 			<div class="col-xs-3">
 				<label>Sources.</label>
 				<select name="sources"  class="selectpicker">
-					<option value="online_search" >Online Search</option>
-					<option value="dtac_recommend" >DTAC Recommend</option>
-					<option value="walking" >Walking</option>
+					<option value="online_search" >ค้นหากจากเว็บไซต์</option>
+					<option value="dtac_recommend" >ร้านแนะนำจาก dtac</option>
+					<option value="walking" >Walk in</option>
 				</select>
 			</div>
 			<div class="col-xs-3">
@@ -66,12 +66,13 @@ use App\Record;
 			<div class="col-xs-3">
 				<label>Dtac Type.</label>
 				<select name="dtac_type"  class="selectpicker">
-					<option value="ร้านกทม" >ร้าน กทม</option>
-					<option value="ร้านตจว" >ร้าน ตจว</option>
-					<option value="ร้านonline" >ร้าน online</option>
-					<option value="ร้านต่ออายุ" >ร้านต่ออายุ</option>
-					<option value="ร้านดีลอย่างเดียว" >ร้านดีลอย่างเดียว</option>
-					<option value="ร้านเฉพาะอาร์ทเวิร์ค" >ร้านเฉพาะอาร์ทเวิร์ค</option>
+					<option value="กทม./นนทบุรี/สมุทรปราการ" >กทม./นนทบุรี/สมุทรปราการ</option>
+					<option value="ต่างจังหวัด" >ต่างจังหวัด</option>
+					<option value="dtacแนะนำ" >dtac แนะนำ</option>
+					<option value="online" >online</option>
+					<option value="ต่ออายุ" >ต่ออายุ</option>
+					<option value="ดีลอย่างเดียว" >ดีลอย่างเดียว</option>
+					<option value="เฉพาะอาร์ทเวิร์ค" >เฉพาะอาร์ทเวิร์ค</option>
 				</select>
 			</div>
 			<div class="col-xs-3">

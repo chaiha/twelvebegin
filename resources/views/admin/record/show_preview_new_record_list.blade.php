@@ -173,7 +173,7 @@ use App\Record;
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-		<h1>Create new record</h1>
+		<h1>สร้าง Lead ร้านค้าใหม่</h1>
 		{{Form::open(array('action' => 'AdminController@submit_new_record_list','id'=>'submit_form'))}}
 			{{csrf_field()}}
 			<table class="table table-bordered table-striped table-hover">
@@ -187,10 +187,10 @@ use App\Record;
 					<th class="add_padding_15">ประเภทร้าน</th>
 					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย</th>
-					<th class="add_padding_15">ชื่อภาษาอังกฤษ</th>
+					<th class="add_padding_15">ชื่ออังกฤษ</th>
 					<th class="add_padding_15">สาขา</th>
 					<th class="add_padding_15">จังหวัด</th>
-					<th class="add_padding_15">contact telephone</th>
+					<th class="add_padding_15">เบอร์โทรติดต่อ</th>
 					<th class="add_padding_15">Link</th>
 					<th class="add_padding_15">Remark</th>
 				</tr>
@@ -219,15 +219,15 @@ use App\Record;
 						<?php 
 						if($preview_new_record_list_each['sources']=="online_search")
 						{
-							echo "Online Search";
+							echo "ค้นหาจากเว็บไซต์";
 						}
 						elseif($preview_new_record_list_each['sources']=="dtac_recommend")
 						{
-							echo "dtac Recommend";
+							echo "ร้านแนะนำจาก dtac";
 						}
 						elseif($preview_new_record_list_each['sources']=="walking")
 						{
-							echo "Walking";
+							echo "Walk in";
 						}
 						?>
 					</td>
@@ -235,19 +235,19 @@ use App\Record;
 					<?php 
 						if($preview_new_record_list_each['categories']=="dinning_and_beverage")
 						{
-							echo "Dining & Beverage";
+							echo "Dining and Beverage";
 						}
 						elseif($preview_new_record_list_each['categories']=="shopping_and_lifestyle")
 						{
-							echo "Shopping & Lifestyle";
+							echo "Shopping and Lifestyle";
 						}
 						elseif($preview_new_record_list_each['categories']=="beauty_and_healthy")
 						{
-							echo "Beauty & Healthy";
+							echo "Beauty and Healthy";
 						}
 						elseif($preview_new_record_list_each['categories']=="hotel_and_travel")
 						{
-							echo "Hotel & Travel";
+							echo "Hotel and Travel";
 						}
 						elseif($preview_new_record_list_each['categories']=="online")
 						{
@@ -257,33 +257,33 @@ use App\Record;
 					</td>
 					<td class="add_padding_15">
 					<?php 
-						if($preview_new_record_list_each['dtac_type']=="ร้านกทม./นนทบุรี/สมุทรปราการ")
+						if($preview_new_record_list_each['dtac_type']=="กทม./นนทบุรี/สมุทรปราการ")
 						{
-							echo "ร้าน กทม./นนทบุรี/สมุทรปราการ";
+							echo "กทม./นนทบุรี/สมุทรปราการ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านต่างจังหวัด")
+						elseif($preview_new_record_list_each['dtac_type']=="ต่างจังหวัด")
 						{
-							echo "ร้าน ต่างจังหวัด";
+							echo "ต่างจังหวัด";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านdtacแนะนำ")
+						elseif($preview_new_record_list_each['dtac_type']=="dtacแนะนำ")
 						{
-							echo "ร้าน dtac แนะนำ";
+							echo "dtac แนะนำ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านonline")
+						elseif($preview_new_record_list_each['dtac_type']=="online")
 						{
-							echo "ร้าน online";
+							echo "online";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านต่ออายุ")
+						elseif($preview_new_record_list_each['dtac_type']=="ต่ออายุ")
 						{
-							echo "ร้านต่ออายุ";
+							echo "ต่ออายุ";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านดีลอย่างเดียว")
+						elseif($preview_new_record_list_each['dtac_type']=="ดีลอย่างเดียว")
 						{
-							echo "ร้านดีลอย่างเดียว";
+							echo "ดีลอย่างเดียว";
 						}
-						elseif($preview_new_record_list_each['dtac_type']=="ร้านเฉพาะอาร์ทเวิร์ค")
+						elseif($preview_new_record_list_each['dtac_type']=="เฉพาะอาร์ทเวิร์ค")
 						{
-							echo "ร้านเฉพาะอาร์ทเวิร์ค";
+							echo "เฉพาะอาร์ทเวิร์ค";
 						}
 						?>
 						
@@ -500,9 +500,9 @@ use App\Record;
 			{{ Form::close() }}
 			<br />
 			<br /><br />
-		<a class="btn btn-success" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-primary" href="{{url('/admin/record/edit_new_record_list')}}" role="button" id="edit_btn">Edit</a>
-		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">Cancel</a>
+		<a class="btn btn-success" href="#" role="button" id="confirm_btn">ยืนยัน</a>
+		<a class="btn btn-primary" href="{{url('/admin/record/edit_new_record_list')}}" role="button" id="edit_btn">แก้ไข</a>
+		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">ยกเลิก</a>
 		</div>
 	</div>
 </div>

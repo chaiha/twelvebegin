@@ -4,7 +4,7 @@
 <script type="text/javascript">
 function submit_all_result()
 {
-	value = document.getElementById('lot_no_number').value;
+	value = document.getElementById('lot_no_number_1').value;
 
 	if(value=="")
 	{
@@ -26,44 +26,33 @@ function submit_all_result()
 use App\Record;
 use App\SelectRecord;
 use App\User;
+
+$record = new Record;
+
 ?>
 <!-- Services Section -->
 <div class="container" style="margin-left: 5px;">
 	<div class="row" style="width:2000px;">
 		<h1>รายการที่รอการ Approve ของ {{$sale->first_name}}</h1>
-
 		<h3>Lead ต่ออายุ : <span class="red"><?php echo sizeof($record_list_extend); ?></span></h3>
-		<table class="table">
+		<table class=" table-condensed table-bordered table-striped">
 		  <thead class="thead-inverse">
 		    <tr>
-              <th>สถานะ</th>
-              <th>ดู</th>
-              <th>แก้ไขข้อมูล</th>
-		      <th>ผลการโทร</th>
-		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
-		      <th>categories</th>
-		      <th>shop type</th>
-		      <th>ประเภทร้านพิเศษ</th>
-		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
+              <th class="text-center">สถานะ</th>
+              <th class="text-center">ดู</th>
+              <th class="text-center">แก้ไขข้อมูล</th>
+		      <th class="text-center">ผลการโทร</th>
+		      <th class="text-center">ชื่อไทย</th>
+		      <th class="text-center">ชื่ออังกฤษ</th>
+		      <th class="text-center">สาขา</th>
+		      <th class="text-center">แหล่งที่มา</th>
+		      <th class="text-center">categories</th>
+		      <th class="text-center">dtact type</th>
+		      <th class="text-center">Privilege Start</th>
+		      <th class="text-center">Privilege End</th>
 		    </tr>
 		  </thead>
-		  <tbody>
+		  <tbody class="text-center">
 		  @foreach ($record_list_extend as $each_record)
 		    <tr>
 		      <td>
@@ -76,42 +65,59 @@ use App\User;
 		      	{
 		      		echo "<span style='color:red'>Not Approve</span>";
 		      	}
+		      	elseif((($each_record->sending_status!="not_approve")&&($each_record->sending_status!="approve"))&&($each_record->is_corrected=="1"))
+		      	{
+		      		echo "<span style='color:black'>Lead แก้ไข</span>";
+		      	}
 		      ?>
 		      </td>
               <td>
               <a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
               </td>
               <td>
+              @if($each_record->result=="yes")
+              <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$each_record->record_id.'/'.$each_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
+              @else
               -
+              @endif
               </td>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
-		      <td>{{$each_record->record->name_th}}</td>
-		      <td>{{$each_record->record->name_en}}</td>
-		      <td>{{$each_record->record->branch}}</td>
-		      <td>{{$each_record->record->province}}</td>
-		      <td>{{$each_record->record->sources}}</td>
-		      <td>{{$each_record->record->categories}}</td>
-		      <td>{{$each_record->record->shop_type}}</td>
-		      <td>{{$each_record->record->special_type}}</td>
-		      <td>{{$each_record->record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->record->distributed_date}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
 		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
+		      <span <?php if($each_record->result=="yes"){echo "style='color:green'";}elseif($each_record->result=="no_reply"||$each_record->result=="waiting"){echo "style='color:#FF8000'";}elseif($each_record->result=="rejected"||$each_record->result=="closed"){echo "style='color:red'";} ?>>
+		      {{$record->check_result_and_show($each_record->result)}}
+		      </span>
 		      </td>
-		      <td>{{$each_record->record->contact_email}}</td>
-		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
+		      <td>{{$each_record->name_th}}</td>
+		      <td>{{$each_record->name_en}}</td>
+		      <td>{{$each_record->branch}}</td>
+		      <td>{{$each_record->sources}}</td>
+		      <td><?php echo $record->check_category_name($each_record->categories); ?></td>
+		      <td>{{$each_record->dtac_type}}</td>
+		      <td>
+		      <?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_start);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
+		      <td>
+		      	<?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_end);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -119,37 +125,24 @@ use App\User;
 		</table>
 		
 		<h3>Lead รอการพิจารณา : <span class="red"><?php echo sizeof($record_list_waiting); ?></span></h3>
-		<table class="table">
+		<table class=" table-condensed table-bordered table-striped">
 		  <thead class="thead-inverse">
 		    <tr>
-		      <th>สถานะ</th>
-              <th>ดู</th>
-              <th>แก้ไขข้อมูล</th>
-		      <th>ผลการโทร</th>
-		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
-		      <th>categories</th>
-		      <th>shop type</th>
-		      <th>ประเภทร้านพิเศษ</th>
-		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
+		      <th class="text-center">สถานะ</th>
+              <th class="text-center">ดู</th>
+              <th class="text-center">แก้ไขข้อมูล</th>
+		      <th class="text-center">ผลการโทร</th>
+		      <th class="text-center">ชื่อไทย</th>
+		      <th class="text-center">ชื่ออังกฤษ</th>
+		      <th class="text-center">สาขา</th>
+		      <th class="text-center">แหล่งที่มา</th>
+		      <th class="text-center">categories</th>
+		      <th class="text-center">dtact type</th>
+		      <th class="text-center">Privilege Start</th>
+		      <th class="text-center">Privilege End</th>
 		    </tr>
 		  </thead>
-		  <tbody>
+		  <tbody  class="text-center">
 		  @foreach ($record_list_waiting as $each_record)
 		    <tr>
 		      <td>
@@ -162,42 +155,59 @@ use App\User;
 		      	{
 		      		echo "<span style='color:red'>Not Approve</span>";
 		      	}
+		      	elseif((($each_record->sending_status!="not_approve")&&($each_record->sending_status!="approve"))&&($each_record->is_corrected=="1"))
+		      	{
+		      		echo "<span style='color:red'>Lead แก้ไข</span>";
+		      	}
 		      ?>
 		      </td>
               <td>
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
              </td>
-              <td>
+             <td>
+              @if($each_record->result=="yes")
+              <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$each_record->record_id.'/'.$each_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
+              @else
               -
+              @endif
               </td>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
-		      <td>{{$each_record->record->name_th}}</td>
-		      <td>{{$each_record->record->name_en}}</td>
-		      <td>{{$each_record->record->branch}}</td>
-		      <td>{{$each_record->record->province}}</td>
-		      <td>{{$each_record->record->sources}}</td>
-		      <td>{{$each_record->record->categories}}</td>
-		      <td>{{$each_record->record->shop_type}}</td>
-		      <td>{{$each_record->record->special_type}}</td>
-		      <td>{{$each_record->record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->record->distributed_date}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
 		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
+		      <span <?php if($each_record->result=="yes"){echo "style='color:green'";}elseif($each_record->result=="no_reply"||$each_record->result=="waiting"){echo "style='color:#FF8000'";}elseif($each_record->result=="rejected"||$each_record->result=="closed"){echo "style='color:red'";} ?>>
+		      {{$record->check_result_and_show($each_record->result)}}
+		      </span>
 		      </td>
-		      <td>{{$each_record->record->contact_email}}</td>
-		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
+		      <td>{{$each_record->name_th}}</td>
+		      <td>{{$each_record->name_en}}</td>
+		      <td>{{$each_record->branch}}</td>
+		      <td>{{$each_record->sources}}</td>
+			  <td><?php echo $record->check_category_name($each_record->categories); ?></td>
+		      <td>{{$each_record->dtac_type}}</td>
+		      <td>
+		      <?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_start);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
+		      <td>
+		      	<?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_end);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -205,37 +215,24 @@ use App\User;
 		</table>
 
 		<h3>Lead ยังไม่สามารถติดต่อได้ : <span class="red"><?php echo sizeof($record_list_noreply); ?></span></h3>
-		<table class="table">
+		<table class=" table-condensed table-bordered table-striped">
 		  <thead class="thead-inverse">
 		    <tr>
-		      <th>สถานะ</th>
-              <th>ดู</th>
-              <th>แก้ไขข้อมูล</th>
-		      <th>ผลการโทร</th>
-		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
-		      <th>categories</th>
-		      <th>shop type</th>
-		      <th>ประเภทร้านพิเศษ</th>
-		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
+		     <th class="text-center">สถานะ</th>
+              <th class="text-center">ดู</th>
+              <th class="text-center">แก้ไขข้อมูล</th>
+		      <th class="text-center">ผลการโทร</th>
+		      <th class="text-center">ชื่อไทย</th>
+		      <th class="text-center">ชื่ออังกฤษ</th>
+		      <th class="text-center">สาขา</th>
+		      <th class="text-center">แหล่งที่มา</th>
+		      <th class="text-center">categories</th>
+		      <th class="text-center">dtact type</th>
+		      <th class="text-center">Privilege Start</th>
+		      <th class="text-center">Privilege End</th>
 		    </tr>
 		  </thead>
-		  <tbody>
+		  <tbody  class="text-center">
 		  @foreach ($record_list_noreply as $each_record)
 		    <tr>
 		      <td>
@@ -248,42 +245,59 @@ use App\User;
 		      	{
 		      		echo "<span style='color:red'>Not Approve</span>";
 		      	}
+		      	elseif((($each_record->sending_status!="not_approve")&&($each_record->sending_status!="approve"))&&($each_record->is_corrected=="1"))
+		      	{
+		      		echo "<span style='color:black'>Lead แก้ไข</span>";
+		      	}
 		      ?>
 		      </td>
               <td>
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
               </td>
               <td>
+              @if($each_record->result=="yes")
+              <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$each_record->record_id.'/'.$each_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
+              @else
               -
+              @endif
               </td>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
-		      <td>{{$each_record->record->name_th}}</td>
-		      <td>{{$each_record->record->name_en}}</td>
-		      <td>{{$each_record->record->branch}}</td>
-		      <td>{{$each_record->record->province}}</td>
-		      <td>{{$each_record->record->sources}}</td>
-		      <td>{{$each_record->record->categories}}</td>
-		      <td>{{$each_record->record->shop_type}}</td>
-		      <td>{{$each_record->record->special_type}}</td>
-		      <td>{{$each_record->record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->record->distributed_date}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
 		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
+		      <span <?php if($each_record->result=="yes"){echo "style='color:green'";}elseif($each_record->result=="no_reply"||$each_record->result=="waiting"){echo "style='color:#FF8000'";}elseif($each_record->result=="rejected"||$each_record->result=="closed"){echo "style='color:red'";} ?>>
+		      {{$record->check_result_and_show($each_record->result)}}
+		      </span>
 		      </td>
-		      <td>{{$each_record->record->contact_email}}</td>
-		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
+		      <td>{{$each_record->name_th}}</td>
+		      <td>{{$each_record->name_en}}</td>
+		      <td>{{$each_record->branch}}</td>
+		      <td>{{$each_record->sources}}</td>
+		      <td><?php echo $record->check_category_name($each_record->categories); ?></td>
+		      <td>{{$each_record->dtac_type}}</td>
+		      <td>
+		      <?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_start);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
+		      <td>
+		      	<?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_end);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -291,37 +305,24 @@ use App\User;
 		</table>
 
 		<h3>Lead ใหม่ : <span class="red"><?php echo sizeof($record_list_new); ?></span></h3>
-		<table class="table">
+		<table class="table-condensed table-bordered table-striped ">
 		  <thead class="thead-inverse">
 		    <tr>
-		      <th>สถานะ</th>
-              <th>ดู</th>
-              <th>แก้ไขข้อมูล</th>
-		      <th>ผลการโทร</th>
-		      <th>จำนวนครั้งที่โทรไปแล้ว</th>
-		      <th>code</th>
-		      <th>name th</th>
-		      <th>name en</th>
-		      <th>branch</th>
-		      <th>province</th>
-		      <th>sources</th>
-		      <th>categories</th>
-		      <th>shop type</th>
-		      <th>ประเภทร้านพิเศษ</th>
-		      <th>dtact type</th>
-		      <th>input date</th>
-		      <th>distributed date</th>
-		      <th>deadline</th>
-		      <th>contact person</th>
-		      <th>contact email</th>
-		      <th>contact date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
+		      <th class="text-center">สถานะ</th>
+              <th class="text-center">ดู</th>
+              <th class="text-center">แก้ไขข้อมูล</th>
+		      <th class="text-center">ผลการโทร</th>
+		      <th class="text-center">ชื่อไทย</th>
+		      <th class="text-center">ชื่ออังกฤษ</th>
+		      <th class="text-center">สาขา</th>
+		      <th class="text-center">แหล่งที่มา</th>
+		      <th class="text-center">categories</th>
+		      <th class="text-center">dtact type</th>
+		      <th class="text-center">Privilege Start</th>
+		      <th class="text-center">Privilege End</th>
 		    </tr>
 		  </thead>
-		  <tbody>
+		  <tbody class="text-center">
 		  @foreach ($record_list_new as $each_record)
 		    <tr>
 		      <td>
@@ -334,42 +335,59 @@ use App\User;
 		      	{
 		      		echo "<span style='color:red'>Not Approve</span>";
 		      	}
+		      	elseif((($each_record->sending_status!="not_approve")&&($each_record->sending_status!="approve"))&&($each_record->is_corrected=="1"))
+		      	{
+		      		echo "<span style='color:black'>Lead แก้ไข</span>";
+		      	}
 		      ?>
 		      </td>
               <td>
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
               </td>
               <td>
+              @if($each_record->result=="yes")
+              <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$each_record->record_id.'/'.$each_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
+              @else
               -
+              @endif
               </td>
-		      <td>{{$each_record->result}}</td>
-		      <td>{{$each_record->call_amount}}</td>
-		      <td>{{$each_record->record->code}}</td>
-		      <td>{{$each_record->record->name_th}}</td>
-		      <td>{{$each_record->record->name_en}}</td>
-		      <td>{{$each_record->record->branch}}</td>
-		      <td>{{$each_record->record->province}}</td>
-		      <td>{{$each_record->record->sources}}</td>
-		      <td>{{$each_record->record->categories}}</td>
-		      <td>{{$each_record->record->shop_type}}</td>
-		      <td>{{$each_record->record->special_type}}</td>
-		      <td>{{$each_record->record->dtac_type}}</td>
-		      <td>{{$each_record->record->input_date}}</td>
-		      <td>{{$each_record->created_at}}</td>
-		      <td>{{$each_record->record->deadline}}</td>
 		      <td>
-		      	@if($each_record->edit_contact_person=="none"||$each_record->edit_contact_person==NULL)
-		      		{{$each_record->record->contact_person}}
-		      	@else
-		      		{{$each_record->edit_contact_person}}
-		      	@endif
+		      <span <?php if($each_record->result=="yes"){echo "style='color:green'";}elseif($each_record->result=="no_reply"||$each_record->result=="waiting"){echo "style='color:#FF8000'";}elseif($each_record->result=="rejected"||$each_record->result=="closed"){echo "style='color:red'";} ?>>
+		      {{$record->check_result_and_show($each_record->result)}}
+		      </span>
 		      </td>
-		      <td>{{$each_record->record->contact_email}}</td>
-		      <td>{{$each_record->record->contact_date}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->created_by); ?></td>
-		      <td>{{$each_record->record->created_at}}</td>
-		      <td><?php echo $user = User::get_first_name_by_id($each_record->updated_by) ; ?></td>
-		      <td>{{$each_record->record->updated_at}}</td>
+		      <td>{{$each_record->name_th}}</td>
+		      <td>{{$each_record->name_en}}</td>
+		      <td>{{$each_record->branch}}</td>
+		      <td>{{$each_record->sources}}</td>
+		      <td><?php echo $record->check_category_name($each_record->categories); ?></td>
+		      <td>{{$each_record->dtac_type}}</td>
+		      <td>
+		      <?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_start);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
+		      <td>
+		      	<?php
+		      	if($each_record->result=="yes")
+		      	{
+		      		echo $record->convert_date_format_dash($each_record->yes_privilege_end);
+
+		      	}
+		      	else
+		      	{
+		      		echo "-";
+		      	}
+		      ?>
+		      </td>
 		    </tr>
 		   @endforeach
 		  </tbody>
@@ -383,8 +401,8 @@ use App\User;
 			{{Form::open(array('action' => 'AdminController@submit_all_approve_record','id'=>'submit_form'))}}
 				{{csrf_field()}}
 				<b>Lot Number: </b>
-				<input type="text" name="lot_no_number" id="lot_no_number" value=""/> -
-				<?php $current_year = date('Y');?>
+				<input type="text" name="lot_no_number_1" id="lot_no_number_1" value="" size="3"/> - <input type="text" name="lot_no_number_2" id="lot_no_number_2" value="" size="3"/> -
+				<?php $current_year = date('y');?>
 				<select name="lot_no_month">
 					<option value="January-{{$current_year}}">January-{{$current_year}}</option>
 					<option value="February-{{$current_year}}">February-{{$current_year}}</option>

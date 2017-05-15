@@ -170,7 +170,7 @@ use App\Record;
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-		<h1>Create new record</h1>
+		<h1>สร้าง Lead ร้านค้าใหม่</h1>
 		{{Form::open(array('action' => 'AdminController@preview_new_record_list','id'=>'submit_form'))}}
 			{{csrf_field()}}
 			<table class="table table-bordered table-striped table-hover">
@@ -183,7 +183,7 @@ use App\Record;
 					<th class="add_padding_15">ประเภทร้าน<span class="red">*</span></th>
 					<th class="add_padding_15">ประเภทร้านค้าพิเศษ</th>
 					<th class="add_padding_15">ชื่อไทย<span class="red">**</span></th>
-					<th class="add_padding_15">ชื่อภาษาอังกฤษ<span class="red">**</span></th>
+					<th class="add_padding_15">ชื่ออังกฤษ<span class="red">**</span></th>
 					<th class="add_padding_15">สาขา</th>
 					<th class="add_padding_15">จังหวัด<span class="red">*</span></th>
 					<th class="add_padding_15">เบอร์โทรติดต่อ<span class="red">*</span></th>
@@ -197,31 +197,31 @@ use App\Record;
 					<td class="add_padding_15">
 						<select name="sources-{{$i}}"  class="selectpicker sources" id="sources-{{$i}}">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="online_search" >Online Search</option>
-							<option value="dtac_recommend" >dtac Recommend</option>
-							<option value="walking" >Walking</option>
+							<option value="online_search" >ค้นหาจากเว็บไซต์</option>
+							<option value="dtac_recommend" >ร้านแนะนำจาก dtac</option>
+							<option value="walking" >Walk in</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
 						<select name="categories-{{$i}}"  class="selectpicker categories" id="categories-{{$i}}">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="dinning_and_beverage" >Dining & Beverage</option>
-							<option value="shopping_and_lifestyle" >Shopping & Lifestyle</option>
-							<option value="beauty_and_healthy" >Beauty & Healthy</option>
-							<option value="hotel_and_travel" >Hotel & Travel</option>
+							<option value="dinning_and_beverage" >Dining and Beverage</option>
+							<option value="shopping_and_lifestyle" >Shopping and Lifestyle</option>
+							<option value="beauty_and_healthy" >Beauty and Healthy</option>
+							<option value="hotel_and_travel" >Hotel and Travel</option>
 							<option value="online" >Online</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
 						<select name="dtac_type-{{$i}}"  class="selectpicker dtac_type" id="dtac_type-{{$i}}">
 							<option value="empty">กรุณาเลือก</option>
-							<option value="ร้านต่างจังหวัด" >ร้าน ต่างจังหวัด</option>
-							<option value="ร้านกทม./นนทบุรี/สมุทรปราการ" >ร้าน กทม./นนทบุรี/สมุทรปราการ</option>
-							<option value="ร้านdtacแนะนำ" >ร้าน dtac แนะนำ</option>
-							<option value="ร้านต่ออายุ" >ร้านต่ออายุ</option>
-							<option value="ร้านonline" >ร้าน online</option>
-							<option value="ร้านดีลอย่างเดียว" >ร้านดีลอย่างเดียว</option>
-							<option value="ร้านเฉพาะอาร์ทเวิร์ค" >ร้านเฉพาะอาร์ทเวิร์ค</option>
+							<option value="ต่างจังหวัด" >ต่างจังหวัด</option>
+							<option value="กทม./นนทบุรี/สมุทรปราการ" >กทม./นนทบุรี/สมุทรปราการ</option>
+							<option value="dtacแนะนำ" >dtac แนะนำ</option>
+							<option value="ต่ออายุ" >ต่ออายุ</option>
+							<option value="online" >online</option>
+							<option value="ดีลอย่างเดียว" >ดีลอย่างเดียว</option>
+							<option value="เฉพาะอาร์ทเวิร์ค" >เฉพาะอาร์ทเวิร์ค</option>
 						</select>
 					</td>
 					<td class="add_padding_15">
@@ -248,7 +248,7 @@ use App\Record;
 							<option value="ร้านความงาม">ร้านความงาม</option>
 							<option value="ฟิสเนส">ฟิสเนส</option>
 							<option value="ร้านนวดและสปา">ร้านนวดและสปา</option>
-							<optgroup label="Beauty & Healty">
+							<optgroup label="Hotel & Travel">
 							<option value="โรงแรม">โรงแรม</option>
 							<option value="รีสอร์ท">รีสอร์ท</option>
 							<option value="โฮมสเตย์">โฮมสเตย์</option>
@@ -257,7 +257,7 @@ use App\Record;
 							<option value="อพาร์ทเม้นท์">อพาร์ทเม้นท์</option>
 							<option value="ทัวร์">ทัวร์</option>
 							<option value="ฟาร์ม">ฟาร์ม</option>
-							<optgroup label="Beauty & Healty">
+							<optgroup label="Shopping & Lifestyle">
 							<option value="ร้านเบ็ดเตล็ด">ร้านเบ็ดเตล็ด</option>
 							<option value="ร้านของฝาก">ร้านของฝาก</option>
 							<option value="โรงเรียน">โรงเรียน</option>
@@ -310,8 +310,8 @@ use App\Record;
 			<br />
 			*หากไม่มีข้อมูลกรุณาใส่ "-" ในช่อง
 			<br /><br />
-		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">Cancel</a>
+		<a class="btn btn-primary" href="#" role="button" id="confirm_btn">ต่อไป</a>
+		<a class="btn btn-danger" href="{{url('/admin/record/list_records')}}" role="button" id="cancel">ยกเลิก</a>
 		</div>
 	</div>
 </div>

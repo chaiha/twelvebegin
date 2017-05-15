@@ -48,9 +48,9 @@ use App\Record;
 			<div class="col-xs-3">
 				<label>Sources.</label>
 				<select name="sources"  class="selectpicker">
-					<option value="online_search" <?php if($record['sources']=="online_search"){echo "selected";}?>>Online Search</option>
-					<option value="dtac_recommend" <?php if($record['sources']=="dtac_recommend"){echo "selected";}?>>DTAC Recommend</option>
-					<option value="walking" <?php if($record['sources']=="walking"){echo "selected";}?>>Walking</option>
+					<option value="online_search" <?php if($record['sources']=="online_search"){echo "selected";}?>>ค้นหาจากเว็บไซต์</option>
+					<option value="dtac_recommend" <?php if($record['sources']=="dtac_recommend"){echo "selected";}?>>ร้านแนะนำจาก dtac</option>
+					<option value="walking" <?php if($record['sources']=="walking"){echo "selected";}?>>Walk in</option>
 				</select>
 			</div>
 			<div class="col-xs-3">

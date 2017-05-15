@@ -131,7 +131,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
+		<h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->record->contact_person}} / โทร {{$select_record->record->contact_tel}} </h3>
 		{{Form::open(array('action' => 'CallController@preview_edit_record_info','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -142,8 +142,6 @@ use App\Record;
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>No.</th>
-						<th>Code.</th>
 						<th>Status</th>
 						<th>แหล่งที่มา</th>
 						<th>dtac type</th>
@@ -152,8 +150,6 @@ use App\Record;
                         <th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->no}}</td>
-						<td>{{$select_record->record->code}}</td>
 						<td>
 							<?php
 								if($select_record->record->status=="Available")
@@ -170,56 +166,56 @@ use App\Record;
 						<?php 
 						if($select_record->sources=="online_search")
 						{
-							echo "Online Search";
+							echo "ค้นหาจากเว็บไซต์";
 						}
 						elseif($select_record->sources=="dtac_recommend")
 						{
-							echo "dtac Recommend";
+							echo "ร้านแนะนำจาก dtac";
 						}
 						elseif($select_record->sources=="walking")
 						{
-							echo "Walking";
+							echo "Walk in";
 						}
 						?>
 						</td>
 						<td>
 						<?php
-							if($select_record->dtac_type=="ร้านกทม./นนทบุรี/สมุทรปราการ")
+							if($select_record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
 							{
-								echo "ร้าน กทม./นนทบุรี/สมุทรปราการ";
+								echo "กทม./นนทบุรี/สมุทรปราการ";
 							}
-							elseif($select_record->dtac_type=="ร้านต่างจังหวัด")
+							elseif($select_record->dtac_type=="ต่างจังหวัด")
 							{
-								echo "ร้าน ต่างจังหวัด";
+								echo "ต่างจังหวัด";
 							}
-							elseif($select_record->dtac_type=="ร้านdtacแนะนำ")
+							elseif($select_record->dtac_type=="dtacแนะนำ")
 							{
-								echo "ร้าน dtac แนะนำ";
+								echo "dtac แนะนำ";
 							}
-							elseif($select_record->dtac_type=="ร้านonline")
+							elseif($select_record->dtac_type=="online")
 							{
-								echo "ร้าน online";
+								echo "online";
 							}
-							elseif($select_record->dtac_type=="ร้านต่ออายุ")
+							elseif($select_record->dtac_type=="ต่ออายุ")
 							{
-								echo "ร้านต่ออายุ";
+								echo "ต่ออายุ";
 							}
-							elseif($select_record->dtac_type=="ร้านดีลอย่างเดียว")
+							elseif($select_record->dtac_type=="ดีลอย่างเดียว")
 							{
-								echo "ร้านดีลอย่างเดียว";
+								echo "ดีลอย่างเดียว";
 							}
-							elseif($select_record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค")
+							elseif($select_record->dtac_type=="เฉพาะอาร์ทเวิร์ค")
 							{
-								echo "ร้านเฉพาะอาร์ทเวิร์ค";
+								echo "เฉพาะอาร์ทเวิร์ค";
 							}
 						?>
 						</td>
 						<td>
 							<select name="categories"  class="selectpicker categories" id="categories">
-							<option value="dinning_and_beverage" <?php if($edit_record['categories']=="dinning_and_beverage"){echo "selected";}?>>Dining & Beverage</option>
-							<option value="shopping_and_lifestyle" <?php if($edit_record['categories']=="shopping_and_lifestyle"){echo "selected";}?>>Shopping & Lifestyle</option>
-							<option value="beauty_and_healthy" <?php if($edit_record['categories']=="beauty_and_healthy"){echo "selected";}?>>Beauty & Healthy</option>
-							<option value="hotel_and_travel" <?php if($edit_record['categories']=="hotel_and_travel"){echo "selected";}?>>Hotel & Travel</option>
+							<option value="dinning_and_beverage" <?php if($edit_record['categories']=="dinning_and_beverage"){echo "selected";}?>>Dining and Beverage</option>
+							<option value="shopping_and_lifestyle" <?php if($edit_record['categories']=="shopping_and_lifestyle"){echo "selected";}?>>Shopping and Lifestyle</option>
+							<option value="beauty_and_healthy" <?php if($edit_record['categories']=="beauty_and_healthy"){echo "selected";}?>>Beauty and Healthy</option>
+							<option value="hotel_and_travel" <?php if($edit_record['categories']=="hotel_and_travel"){echo "selected";}?>>Hotel and Travel</option>
 							<option value="online" <?php if($edit_record['categories']=="online"){echo "selected";}?>>Online</option>
 						</select>
 						</td>
@@ -291,8 +287,8 @@ use App\Record;
 				<label>ข้อมูลของร้าน</label>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อภาษาไทย<span class="red">*</span></th>
-						<th>ชื่อภาษาอังกฤษ<span class="red">*</span></th>
+						<th>ชื่อไทย<span class="red">*</span></th>
+						<th>ชื่ออังกฤษ<span class="red">*</span></th>
 						<th>สาขา<span class="red">*</span></th>
                         <th>จำนวนสาขา<span class="red">*</span></th>
 					</tr>

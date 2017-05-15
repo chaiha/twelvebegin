@@ -10,28 +10,48 @@ class Record extends Model
 
     static public function check_category($category_id)
     {
-    	switch ($category_id) {
-    	case "1":
-        	return "Dining";
-        	break;
-    	case "2":
-        	return "Dining & Beverage";
-        	break;
-    	case "3":
-        	return "Shopping & Lifestyle";
-        	break;
+        switch ($category_id) {
+        case "1":
+            return "Dining";
+            break;
+        case "2":
+            return "Dining & Beverage";
+            break;
+        case "3":
+            return "Shopping & Lifestyle";
+            break;
         case "4":
-        	return "Beauty & Healthy";
-        	break;
+            return "Beauty & Healthy";
+            break;
         case "5":
-        	return "Hotel & Travel";
-        	break;
+            return "Hotel & Travel";
+            break;
         case "6":
-        	return "Online";
-        	break;
-    	default:
-        	return "Your favorite color is neither red, blue, nor green!";
-		}
+            return "Online";
+            break;
+        default:
+            return "Your favorite color is neither red, blue, nor green!";
+        }
+    }
+    static public function check_category_name($category)
+    {
+        switch ($category) {
+        case "dinning_and_beverage":
+            return "Dining and Beverage";
+            break;
+        case "shopping_and_lifestyle":
+            return "Shopping and Lifestyle";
+            break;
+        case "beauty_and_healthy":
+            return "Beauty and Healthy";
+            break;
+        case "hotel_and_travel":
+            return "Hotel and Travel";
+            break;
+        case "online":
+            return "Online";
+            break;
+        }
     }
 
     static public function check_sub_category($sub_category_id)
@@ -41,65 +61,88 @@ class Record extends Model
 
     static public function check_date($date)
     {
-    	$array_date = array();
-    	$array_date = explode("-", $date);
-    	return $array_date;
+        $array_date = array();
+        $array_date = explode("-", $date);
+        return $array_date;
     }
 
     static public function check_source($source_id)
     {
-    	switch ($source_id) {
-    	case "1":
-        	return "Own";
-        	break;
-    	case "2":
-        	return "DTAC Recommend";
-        	break;
+        switch ($source_id) {
+        case "1":
+            return "Own";
+            break;
+        case "2":
+            return "DTAC Recommend";
+            break;
         }
     }
 
     static public function check_type($type_id)
     {
-    	switch ($type_id) {
-    	case "1":
-        	return "New";
-        	break;
-    	case "2":
-        	return "ต่ออายุ";
-        	break;
+        switch ($type_id) {
+        case "1":
+            return "New";
+            break;
+        case "2":
+            return "ต่ออายุ";
+            break;
         case "3":
-        	return "หมดอายุ";
-        	break;
-    	case "4":
-        	return "Rejected";
-        	break;
+            return "หมดอายุ";
+            break;
+        case "4":
+            return "Rejected";
+            break;
         case "5":
-        	return "No Replied";
-        	break;
+            return "No Replied";
+            break;
         }
     }
 
     static public function check_result($result_id)
     {
-    	switch ($result_id) {
-    	case "1":
-        	return "Yes";//ร้านตอบตกลงเข้าร่วม
-        	break;
-    	case "2":
-        	return "No";//ร้านตอบปฏิเสธ
-        	break;
+        switch ($result_id) {
+        case "1":
+            return "Yes";//ร้านตอบตกลงเข้าร่วม
+            break;
+        case "2":
+            return "No";//ร้านตอบปฏิเสธ
+            break;
         case "3":
-        	return "Waiting";//ร้านขอพิจารณา //*
-        	break;
+            return "Waiting";//ร้านขอพิจารณา //*
+            break;
         case "5":
-        	return "No Reply";//ติดต่อไม่ได้ ไม่มีคนรับสาย //*
-        	break;
+            return "No Reply";//ติดต่อไม่ได้ ไม่มีคนรับสาย //*
+            break;
         case "7":
-        	return "Closed";//ร้านปิดกิจการไปแล้ว
-        	break;
+            return "Closed";//ร้านปิดกิจการไปแล้ว
+            break;
         default:
-        	return "No result";//State เริ่มต้นยังไม่มีการกรอกข้อมูล
-		}
+            return "No result";//State เริ่มต้นยังไม่มีการกรอกข้อมูล
+        }
+    }
+
+    static public function check_result_and_show($result)
+    {
+        switch ($result) {
+        case "yes":
+            return "Yes";//ร้านตอบตกลงเข้าร่วม
+            break;
+        case "rejected":
+            return "Rejected";//ร้านตอบปฏิเสธ
+            break;
+        case "waiting":
+            return "Waiting";//ร้านขอพิจารณา //*
+            break;
+        case "no_reply":
+            return "No Reply";//ติดต่อไม่ได้ ไม่มีคนรับสาย //*
+            break;
+        case "closed":
+            return "Closed";//ร้านปิดกิจการไปแล้ว
+            break;
+        default:
+            return "No result";//State เริ่มต้นยังไม่มีการกรอกข้อมูล
+        }
     }
 
     static public function increase_call_amount($record_id)
@@ -172,11 +215,19 @@ class Record extends Model
     {
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
-        foreach($select_record as $select_record_each)
+        if(sizeof($select_record)==0)
         {
-            $select_record_array[$i]= $select_record_each->record_id;
-            $i++;
+            $select_record_array=[];
         }
+        else
+        {
+            foreach($select_record as $select_record_each)
+            {
+                $select_record_array[$i]= $select_record_each->record_id;
+                $i++;
+            }
+        }
+        
         $result = Record::where('selective_status','=','extend')
         ->where('status','=','Available')
         ->whereNotIn('id',$select_record_array)
@@ -189,15 +240,23 @@ class Record extends Model
     {
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
-        foreach($select_record as $select_record_each)
+        if(sizeof($select_record)==0)
         {
-            $select_record_array[$i]= $select_record_each->record_id;
-            $i++;
+            $select_record_array=[];
+        }
+        else
+        {
+            foreach($select_record as $select_record_each)
+            {
+                $select_record_array[$i]= $select_record_each->record_id;
+                $i++;
+            }
         }
         $result = Record::where('selective_status','=','waiting')
         ->where(function ($query) use ($sale_id)
             {
-                $query->where('sale','=',$sale_id)->orWhere('sale','=',NULL);
+                //$query->where('sale','=',$sale_id)->orWhere('sale','=',NULL);
+                $query->where('sale','=',$sale_id);
             })
         ->where('status','=','Available')
         ->whereNotIn('id',$select_record_array)
@@ -210,15 +269,24 @@ class Record extends Model
     {
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
-        foreach($select_record as $select_record_each)
+        if(sizeof($select_record)==0)
         {
-            $select_record_array[$i]= $select_record_each->record_id;
-            $i++;
+            $select_record_array=[];
         }
+        else
+        {
+            foreach($select_record as $select_record_each)
+            {
+                $select_record_array[$i]= $select_record_each->record_id;
+                $i++;
+            }
+        }
+        
         $result = Record::where('selective_status','=','noreply')
          ->where(function ($query) use ($sale_id)
             {
-                $query->where('sale','=',$sale_id)->orWhere('sale','=',NULL);
+                //$query->where('sale','=',$sale_id)->orWhere('sale','=',NULL);
+                $query->where('sale','=',$sale_id);
             })
         ->where('status','=','Available')
         ->whereNotIn('id',$select_record_array)
@@ -231,11 +299,19 @@ class Record extends Model
     {
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
-        foreach($select_record as $select_record_each)
+        if(sizeof($select_record)==0)
         {
-            $select_record_array[$i]= $select_record_each->record_id;
-            $i++;
+            $select_record_array=[];
         }
+        else
+        {
+            foreach($select_record as $select_record_each)
+            {
+                $select_record_array[$i]= $select_record_each->record_id;
+                $i++;
+            }
+        }
+        
         $result = Record::where('selective_status','=','new')
         ->where('status','=','Available')
         ->whereNotIn('id',$select_record_array)
@@ -343,4 +419,28 @@ class Record extends Model
         $new_date = $date_array[2].'/'.$date_array[1].'/'.$date_array[0];
         return $new_date;
     }
+
+    static public function convert_date_format_dash($date)
+    {
+        $originalDate = $date;
+        $newDate = date("d-m-y", strtotime($originalDate));
+        return $newDate;
+    }
+
+    static public function check_sources($source)
+    {
+        if($source=="online_search")
+        {
+            return "ค้นหาจากเว็บไซต์";
+        }
+        elseif($source=="dtac_recommend")
+        {
+            return "ร้านแนะนำจาก dtac";
+        }
+        elseif($source=="walking")
+        {
+            return "Walk in";
+        }
+    }
+
 }

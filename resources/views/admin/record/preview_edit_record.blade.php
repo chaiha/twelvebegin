@@ -17,13 +17,14 @@
 @section('content')
 <?php
 use App\Record;
+$record = new Record;
 ?>
 <!-- Services Section -->
 <div class="container-fluid">
 	<div class="row">
 	<div class="col-md-12">
 		<div class="form-group">
-		<h1>Edit record</h1>
+		<h1>แก้ไข Lead</h1>
 		<h3>กรุณาตรวจทานข้อมูลก่อนยืนยัน</h3>
 		{{Form::open(array('action' => 'AdminController@submit_edit_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -54,7 +55,7 @@ use App\Record;
 			</div>
 			<div class="col-xs-2">
 				<label>Categories.</label>
-				{{$record['categories']}}
+				<?php echo $record->check_category_name($record['categories']); ?>
 				<input class="form-control" type="hidden" id="categories" name="categories" value="{{$record['categories']}}"/>
 			</div>
 			<div class="col-xs-2">
@@ -157,7 +158,7 @@ use App\Record;
 		</div>
 		<br />
 		<a class="btn btn-success" href="#" role="button" id="confirm_btn">Submit</a>
-		<a class="btn btn-primary" href="{{ url('admin/record/edit_record/'.$record['id']) }}" role="button" id="edit_btn">Edit</a>
+		<a class="btn btn-primary" href="{{ url('admin/record/edit_record/'.$record['id']) }}" role="button" id="edit_btn">แก้ไข</a>
 		<a class="btn btn-danger" href="{{ url('admin/record/list_records') }}" role="button" id="cancel_btn">Cancel</a>
 		{{ Form::close() }}
 		</div>

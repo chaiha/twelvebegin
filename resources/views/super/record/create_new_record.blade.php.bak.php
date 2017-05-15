@@ -34,9 +34,9 @@ use App\Record;
 			<div class="col-xs-3">
 				<label>Sources.</label>
 				<select name="sources"  class="selectpicker">
-					<option value="online_search" >Online Search</option>
-					<option value="dtac_recommend" >DTAC Recommend</option>
-					<option value="walking" >Walking</option>
+					<option value="online_search" >ค้นหาจากเว็บไซต์</option>
+					<option value="dtac_recommend" >ร้านแนะนำจาก dtac</option>
+					<option value="walking" >Walk in</option>
 				</select>
 			</div>
 			<div class="col-xs-3">

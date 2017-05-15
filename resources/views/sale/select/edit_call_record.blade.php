@@ -66,13 +66,12 @@
     				}
     				else if(result=="no_reply")
     				{
-    					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
     					var cannot_contact_appointment_day = $("#cannot_contact_appointment_day").val();
     					var cannot_contact_appointment_month = $("#cannot_contact_appointment_month").val();
     					var cannot_contact_appointment_year = $("#cannot_contact_appointment_year").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
+    					if(cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -82,9 +81,8 @@
     				else if(result=="rejected")
     				{
     					var no_reason = $("#no_reason").val();
-    					var no_note = $("#no_note").val();
 
-    					if(no_reason==""||no_note=="")
+    					if(no_reason=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();                                                                                                                                                                            
@@ -142,13 +140,12 @@
     				}
     				else if(result=="no_reply")
     				{
-    					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
     					var cannot_contact_appointment_day = $("#cannot_contact_appointment_day").val();
     					var cannot_contact_appointment_month = $("#cannot_contact_appointment_month").val();
     					var cannot_contact_appointment_year = $("#cannot_contact_appointment_year").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
+    					if(cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -158,9 +155,8 @@
     				else if(result=="rejected")
     				{
     					var no_reason = $("#no_reason").val();
-    					var no_note = $("#no_note").val();
 
-    					if(no_reason==""||no_note=="")
+    					if(no_reason=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();                                                                                                                                                                            
@@ -198,82 +194,102 @@
 
     });
 
-    $("#call_result").change(function(){
-    	var result = $("#call_result").val();
-    	if(result=="yes")
-    	{
-    		$("#yes_form").attr('class', 'show');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
+   $("#call_result").change(function(){
+        var result = $("#call_result").val();
+        if(result=="yes")
+        {
+            $("#yes_form").attr('class', 'show');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
 
-    		$(".no_reply_form").val('');
-    		$(".rejected_form").val('');
-    		$(".waiting_form").val('');
-    		$('#closed').prop('checked', false);
+            $(".no_reply_form").val('');
+            $(".rejected_form").val('');
+            $(".waiting_form").val('');
+            $('#closed').prop('checked', false);
 
-    	}
-    	else if(result=="no_reply")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'show');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
+        }
+        else if(result=="no_reply")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'show');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
 
-    		$(".yes_form").val('');
-    		$(".rejected_form").val('');
-    		$(".waiting_form").val('');
-    		$('#closed').prop('checked', false);
-    	}
-    	else if(result=="rejected")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'show');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".rejected_form").val('');
+            $(".waiting_form").val('');
+            $('#closed').prop('checked', false);
+        }
+        else if(result=="rejected")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'show');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
 
-	   		$(".yes_form").val('');
-	   		$(".no_reply_form").val('');
-    		$(".waiting_form").val('');
-    		$('#closed').prop('checked', false);
-    	}
-    	else if(result=="waiting")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'show');
-    		$("#closed_form").attr('class', 'hide');
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".no_reply_form").val('');
+            $(".waiting_form").val('');
+            $('#closed').prop('checked', false);
+        }
+        else if(result=="waiting")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'show');
+            $("#closed_form").attr('class', 'hide');
 
-    		$(".yes_form").val('');
-    		$(".no_reply_form").val('');
-    		$(".rejected_form").val('');
-    		$('#closed').prop('checked', false);
-    	}
-    	else if(result=="closed")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'show');
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".no_reply_form").val('');
+            $(".rejected_form").val('');
+            $('#closed').prop('checked', false);
+        }
+        else if(result=="closed")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'show');
 
-    		$(".yes_form").val('');
-    		$(".no_reply_form").val('');
-    		$(".rejected_form").val('');
-    		$(".waiting_form").val('');
-    	}
-    	else
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
-    	}
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".no_reply_form").val('');
+            $(".rejected_form").val('');
+            $(".waiting_form").val('');
+        }
+        else
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
+        }
     });
     $('input[type=radio][name=is_tel_correct]').change(function() {
         if (this.value == '1') {
@@ -284,36 +300,62 @@
         }
     });
 
+
 $("#btn_edit_address").click(function(){
-	$("#edit_address").toggle(function() {
-		var text = $("#btn_edit_address").text();
-		if(text=="แก้ไข")
-		{
-			$("#btn_edit_address").text('ซ่อน');
-		}
-		else if(text=="ซ่อน")
-		{
-			$("#btn_edit_address").text('แก้ไข');	
-		}
-    	$("#edit_address").val('');
+    $("#edit_address").toggle(function() {
+        var text = $("#btn_edit_address").text();
+        if(text=="แก้ไข")
+        {
+            $("#btn_edit_address").text('ซ่อน');
+        }
+        else if(text=="ซ่อน")
+        {
+            $("#btn_edit_address").text('แก้ไข');   
+        }
+        $("#edit_address").val('');
   });
 });
 
 $("#btn_edit_contact_person").click(function(){
-	$("#edit_contact_person").toggle(function() {
-		var text = $("#btn_edit_contact_person").text();
-		if(text=="แก้ไข")
-		{
-			$("#btn_edit_contact_person").text('ซ่อน');
-		}
-		else if(text=="ซ่อน")
-		{
-			$("#btn_edit_contact_person").text('แก้ไข');	
-		}
-    	$("#edit_contact_person").val('');
+    $("#edit_contact_person").toggle(function() {
+        var text = $("#btn_edit_contact_person").text();
+        if(text=="แก้ไข")
+        {
+            $("#btn_edit_contact_person").text('ซ่อน');
+        }
+        else if(text=="ซ่อน")
+        {
+            $("#btn_edit_contact_person").text('แก้ไข');    
+        }
+        $("#edit_contact_person").val('');
   });
 });
 
+    $('#has_confirm_product_img').click(function(){
+        var check = $('#has_confirm_product_img').is(':checked');
+        if(check==true)
+        {
+            $("#has_product_img").attr('class', 'show');
+        }
+        else if(check==false)
+        {
+            $("#has_product_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+        }
+    });
+
+    $('#has_confirm_logo_img').click(function(){
+        var check = $('#has_confirm_logo_img').is(':checked');
+        if(check==true)
+        {
+            $("#has_logo_img").attr('class', 'show');
+        }
+        else if(check==false)
+        {
+            $("#has_logo_img").prop('checked',false);
+            $("#has_logo_img").attr('class', 'hide');
+        }
+    });
 
   });
 </script>
@@ -325,7 +367,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
+		<h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@submit_edit_call_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -336,8 +378,6 @@ use App\Record;
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>No.</th>
-						<th>Code.</th>
 						<th>Status</th>
 						<th>Sources</th>
 						<th>Dtac Type</th>
@@ -346,8 +386,6 @@ use App\Record;
                         <th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->no}}</td>
-						<td>{{$select_record->record->code}}</td>
 						<td>
 							<?php
 								if($select_record->record->status=="Available")
@@ -364,43 +402,47 @@ use App\Record;
 							<?php
 								if($select_record->record->sources=="online_search")
 								{
-									echo "Online Search";
+									echo "ค้นหาจากเว็บไซต์";
 								}
 								elseif ($select_record->record->sources=="dtac_recommend") 
 								{
-									echo "DTAC Recommend";
+									echo "ร้านแนะนำจาก dtac";
 								}
 								elseif ($select_record->record->sources=="walking") 
 								{
-									echo "Walking";
+									echo "Walk in";
 								}
 								?>
 						</td>
 						<td>
 							<?php
-								if($select_record->record->dtac_type=="ร้านกทม")
+								if($select_record->record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
 								{
-									echo "ร้าน กทม";
+									echo " กทม./นนทบุรี/สมุทรปราการ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านตจว") 
+								elseif ($select_record->record->dtac_type=="ต่างจังหวัด") 
 								{
-									echo "ร้าน ตจว";
+									echo " ต่างจังหวัด";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านonline") 
+                                elseif ($select_record->record->dtac_type=="dtacแนะนำ") 
+                                {
+                                    echo " dtac แนะนำ";
+                                }
+								elseif ($select_record->record->dtac_type=="online") 
 								{
-									echo "ร้าน online";
+									echo " online";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านต่ออายุ") 
+								elseif ($select_record->record->dtac_type=="ต่ออายุ") 
 								{
-									echo "ร้านต่ออายุ";
+									echo "ต่ออายุ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านดีลอย่างเดียว") 
+								elseif ($select_record->record->dtac_type=="ดีลอย่างเดียว") 
 								{
-									echo "ร้านดีลอย่างเดียว";
+									echo "ดีลอย่างเดียว";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค") 
+								elseif ($select_record->record->dtac_type=="เฉพาะอาร์ทเวิร์ค") 
 								{
-									echo "ร้านเฉพาะอาร์ทเวิร์ค";
+									echo "เฉพาะอาร์ทเวิร์ค";
 								}
 								?>
 						</td>
@@ -408,19 +450,19 @@ use App\Record;
 							<?php
 								if($select_record->categories=="dinning_and_beverage")
 								{
-									echo "Dining & Beverage";
+									echo "Dining and Beverage";
 								}
 								elseif ($select_record->categories=="shopping_and_lifestyle") 
 								{
-									echo "Shopping & Lifestyle";
+									echo "Shopping and Lifestyle";
 								}
 								elseif ($select_record->categories=="beauty_and_healthy") 
 								{
-									echo "Beauty & Healthy";
+									echo "Beauty and Healthy";
 								}
 								elseif ($select_record->categories=="hotel_and_travel") 
 								{
-									echo "Hotel & Travel";
+									echo "Hotel and Travel";
 								}
 								elseif ($select_record->categories=="online") 
 								{
@@ -444,8 +486,8 @@ use App\Record;
 				<label>ข้อมูลของร้าน</label>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อภาษาไทย</th>
-						<th>ชื่อภาษาอังกฤษ</th>
+						<th>ชื่อไทย</th>
+						<th>ชื่ออังกฤษ</th>
 						<th>สาขา</th>
                         <th>จำนวนสาขา</th>
 					</tr>
@@ -454,13 +496,13 @@ use App\Record;
 						<td>{{$select_record->name_en}}</td>
 						<td>{{$select_record->branch}}</td>
                         <td>
-                        <input type="text" name="branch_amount" id="branch_amount" class="form-control" value="{{$select_record->branch_amount}}" />
+                        {{$select_record->branch_amount}}
                         </td>
 					</tr>
 				</table>
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th>ที่อยู่  <a href="#" class="btn btn-danger pull-right" id="btn_edit_address">แก้ไข</a></th>
+                        <th>ที่อยู่</th>
                         <th>จังหวัด</th>
                         <th>ละติจูด</th>
                         <th>ลองติจูด</th>
@@ -488,7 +530,7 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อผู้ติดต่อ <a href="#" class="btn btn-danger pull-right" id="btn_edit_contact_person">แก้ไข</a></th>
+						<th>ชื่อผู้ติดต่อ</th>
 						<th>เบอร์โทรติดต่อ</th>
 						<th>อีเมลติดต่อ</th>
 						<th>วันที่ให้ติดต่อ [ วัน / เดือน / ปี ]</th>
@@ -515,9 +557,7 @@ use App\Record;
 							?>
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
-						<td>
-                        <textarea name="sending_address" id="sending_address" class="form-control">{{$sale_filled['sending_address']}}</textarea>
-                        </td>
+						<td>{{$select_record->sending_address}}</td>
 					</tr>
 				</table>
 			</div>
@@ -533,16 +573,11 @@ use App\Record;
 					</tr>
 					<tr>
 						<td>
-							<?php
-								if($select_record->links!=NULL)
-								{
-									echo($select_record->links);
-								}
-								else
-								{
-									echo "-";
-								}
-								?>
+							@if($select_record->links!=NULL)
+                                {{ Html::link($select_record->links,null,array('target'=>'_blank')) }}
+                            @else
+                                -
+                            @endif
 						</td>
 						<td>
 							<?php
@@ -643,17 +678,48 @@ use App\Record;
 							</div>
 						</div>
 					</div>
+                    <div class="row add-margin-20">
+                    <div class="col-xs-3">
+                        <label>ตรวจสอบ</label>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>เอกสารตอบรับ</td>
+                                <td>
+                                <input type="checkbox" name="has_reply_doc" id="has_reply_doc" class="yes_form_check" value="1" <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_reply_doc']=="1"){ echo "checked";}}?>/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ยืนยันรูปสินค้า</td>
+                                <td><input type="checkbox" name="has_confirm_product_img" id="has_confirm_product_img" class="yes_form_check" value="1" <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_confirm_product_img']=="1"){ echo "checked";}}?>/></td>
+                            </tr>
+                            <tr>
+                                <td>ยืนยันรูปLogo</td>
+                                <td><input type="checkbox" name="has_confirm_logo_img" id="has_confirm_logo_img" class="yes_form_check" value="1" <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_confirm_logo_img']=="1"){ echo "checked";}}?>/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>ยืนยันตรวจสอบ</label>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>รูปหน้าร้าน</td>
+                                <td><input type="checkbox" name="has_shop_img" id="has_shop_img" class="yes_form_check" value="1" <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_shop_img']=="1"){ echo "checked";}}?>/></td>
+                            </tr>
+                            <tr>
+                                <td>รูปสินค้า</td>
+                                <td><input type="checkbox" name="has_product_img" id="has_product_img" value="1" class="yes_form_check <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_product_img']=='1'){ echo 'show';}else{ echo 'hide';}} ?>" <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_product_img']=="1"){ echo "checked";}}?>/></td>
+                            </tr>
+                            <tr>
+                                <td>Logo ร้าน</td>
+                                <td><input type="checkbox" name="has_logo_img" id="has_logo_img" value="1" class="yes_form_check <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_logo_img']=='1'){ echo 'show';}else{ echo 'hide';}} ?>" <?php if($sale_filled['call_result']=="yes"){if($sale_filled['has_logo_img']=="1"){ echo "checked";}}?>/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
 				</div>
 		</div>
 		<div class="row  <?php if($sale_filled['call_result']=="no_reply"){ echo "show"; }else{ echo "hide"; } ;?>" id="no_reply_form">
 			<div class="col-xs-12">
-				<div class="row add-margin-20">
-					<div class="col-xs-12">
-						<label>จำนวนครั้งที่โทรก่อนหน้า : </label>
-						<?php if($sale_filled['call_result']=="no_reply"){ echo $sale_filled['cannot_contact_amount_call']; } ?>
-						<input type="hidden" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="<?php if($sale_filled['call_result']=="no_reply"){ echo $sale_filled['cannot_contact_amount_call']; } ?>" class="form-control no_reply_form" />
-					</div>
-				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผล</label>
@@ -680,12 +746,6 @@ use App\Record;
 					<div class="col-xs-12">
 						<label>No Reason</label>
 						<input type="text" name="no_reason" id="no_reason" value="<?php if($sale_filled['call_result']=="rejected"){ echo $sale_filled['no_reason']; } ?>" class="form-control rejected_form" />
-					</div>
-				</div>
-				<div class="row add-margin-20">
-					<div class="col-xs-12">
-						<label>No Note</label>
-						<input type="text" name="no_note" id="no_note" value="<?php if($sale_filled['call_result']=="rejected"){ echo $sale_filled['no_note']; } ?>" class="form-control rejected_form" />
 					</div>
 				</div>
 			</div>

@@ -63,11 +63,10 @@
     				}
     				else if(result=="no_reply")
     				{
-    					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
     					var cannot_contact_appointment_date = $("#cannot_contact_appointment_date").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_date=="")
+    					if(cannot_contact_reason==""||cannot_contact_appointment_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -77,9 +76,8 @@
     				else if(result=="rejected")
     				{
     					var no_reason = $("#no_reason").val();
-    					var no_note = $("#no_note").val();
 
-    					if(no_reason==""||no_note=="")
+    					if(no_reason=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();                                                                                                                                                                            
@@ -131,11 +129,10 @@
     				}
     				else if(result=="no_reply")
     				{
-    					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
     					var cannot_contact_appointment_date = $("#cannot_contact_appointment_date").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_date=="")
+    					if(cannot_contact_reason==""||cannot_contact_appointment_date=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -145,9 +142,8 @@
     				else if(result=="rejected")
     				{
     					var no_reason = $("#no_reason").val();
-    					var no_note = $("#no_note").val();
 
-    					if(no_reason==""||no_note=="")
+    					if(no_reason=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();                                                                                                                                                                            
@@ -208,6 +204,11 @@
     		$("#closed_form").attr('class', 'hide');
 
     		$(".yes_form").val('');
+    		$('.yes_form_check').prop('checked', false);
+    		$("#has_product_img").prop('checked',false);
+    		$("#has_logo_img").prop('checked',false);
+    		$("#has_product_img").attr('class', 'hide');
+			$("#has_logo_img").attr('class', 'hide');
     		$(".rejected_form").val('');
     		$(".waiting_form").val('');
     		$('#closed').prop('checked', false);
@@ -221,6 +222,11 @@
     		$("#closed_form").attr('class', 'hide');
 
 	   		$(".yes_form").val('');
+	   		$('.yes_form_check').prop('checked', false);
+	   		$("#has_product_img").prop('checked',false);
+    		$("#has_logo_img").prop('checked',false);
+    		$("#has_product_img").attr('class', 'hide');
+			$("#has_logo_img").attr('class', 'hide');
 	   		$(".no_reply_form").val('');
     		$(".waiting_form").val('');
     		$('#closed').prop('checked', false);
@@ -234,6 +240,11 @@
     		$("#closed_form").attr('class', 'hide');
 
     		$(".yes_form").val('');
+    		$('.yes_form_check').prop('checked', false);
+    		$("#has_product_img").prop('checked',false);
+    		$("#has_logo_img").prop('checked',false);
+    		$("#has_product_img").attr('class', 'hide');
+			$("#has_logo_img").attr('class', 'hide');
     		$(".no_reply_form").val('');
     		$(".rejected_form").val('');
     		$('#closed').prop('checked', false);
@@ -247,6 +258,11 @@
     		$("#closed_form").attr('class', 'show');
 
     		$(".yes_form").val('');
+    		$('.yes_form_check').prop('checked', false);
+    		$("#has_product_img").prop('checked',false);
+    		$("#has_logo_img").prop('checked',false);
+    		$("#has_product_img").attr('class', 'hide');
+			$("#has_logo_img").attr('class', 'hide');
     		$(".no_reply_form").val('');
     		$(".rejected_form").val('');
     		$(".waiting_form").val('');
@@ -300,6 +316,31 @@ $("#btn_edit_contact_person").click(function(){
   });
 });
 
+  	$('#has_confirm_product_img').click(function(){
+  		var check = $('#has_confirm_product_img').is(':checked');
+  		if(check==true)
+  		{
+  			$("#has_product_img").attr('class', 'show');
+  		}
+  		else if(check==false)
+  		{
+  			$("#has_product_img").prop('checked',false);
+  			$("#has_product_img").attr('class', 'hide');
+  		}
+	});
+
+	$('#has_confirm_logo_img').click(function(){
+  		var check = $('#has_confirm_logo_img').is(':checked');
+  		if(check==true)
+  		{
+  			$("#has_logo_img").attr('class', 'show');
+  		}
+  		else if(check==false)
+  		{
+  			$("#has_logo_img").prop('checked',false);
+  			$("#has_logo_img").attr('class', 'hide');
+  		}
+	});
 
   });
 </script>
@@ -311,7 +352,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
+		<h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}} <a href="{{url('/sale/edit_record/record/show/'.$select_record->record_id)}}" class="btn btn-danger">แก้ไขข้อมูล</a></h3>
 		{{Form::open(array('action' => 'CallController@preview_filled_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -322,8 +363,6 @@ use App\Record;
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>No.</th>
-						<th>Code.</th>
 						<th>Status</th>
 						<th>แหล่งที่มา</th>
 						<th>dtac type</th>
@@ -332,8 +371,6 @@ use App\Record;
                         <th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->no}}</td>
-						<td>{{$select_record->record->code}}</td>
 						<td>
 							<?php
 								if($select_record->record->status=="Available")
@@ -350,47 +387,47 @@ use App\Record;
 							<?php
 								if($select_record->sources=="online_search")
 								{
-									echo "Online Search";
+									echo "ค้นหาจากเว็บไซต์";
 								}
 								elseif ($select_record->sources=="dtac_recommend") 
 								{
-									echo "dtac Recommend";
+									echo "ร้านแนะนำจาก dtac";
 								}
 								elseif ($select_record->sources=="walking") 
 								{
-									echo "Walking";
+									echo "Walk in";
 								}
 								?>
 						</td>
 						<td>
 							<?php
-								if($select_record->dtac_type=="ร้านกทม./นนทบุรี/สมุทรปราการ")
+								if($select_record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
 								{
-									echo "ร้าน กทม./นนทบุรี/สมุทรปราการ";
+									echo "กทม./นนทบุรี/สมุทรปราการ";
 								}
-								elseif($select_record->dtac_type=="ร้านต่างจังหวัด")
+								elseif($select_record->dtac_type=="ต่างจังหวัด")
 								{
-									echo "ร้าน ต่างจังหวัด";
+									echo "ต่างจังหวัด";
 								}
-								elseif($select_record->dtac_type=="ร้านdtacแนะนำ")
+								elseif($select_record->dtac_type=="dtacแนะนำ")
 								{
-									echo "ร้าน dtac แนะนำ";
+									echo "dtac แนะนำ";
 								}
-								elseif($select_record->dtac_type=="ร้านonline")
+								elseif($select_record->dtac_type=="online")
 								{
-									echo "ร้าน online";
+									echo "online";
 								}
-								elseif($select_record->dtac_type=="ร้านต่ออายุ")
+								elseif($select_record->dtac_type=="ต่ออายุ")
 								{
-									echo "ร้านต่ออายุ";
+									echo "ต่ออายุ";
 								}
-								elseif($select_record->dtac_type=="ร้านดีลอย่างเดียว")
+								elseif($select_record->dtac_type=="ดีลอย่างเดียว")
 								{
-									echo "ร้านดีลอย่างเดียว";
+									echo "ดีลอย่างเดียว";
 								}
-								elseif($select_record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค")
+								elseif($select_record->dtac_type=="เฉพาะอาร์ทเวิร์ค")
 								{
-									echo "ร้านเฉพาะอาร์ทเวิร์ค";
+									echo "เฉพาะอาร์ทเวิร์ค";
 								}
 
 								?>
@@ -399,19 +436,19 @@ use App\Record;
 							<?php
 								if($select_record->categories=="dinning_and_beverage")
 								{
-									echo "Dining & Beverage";
+									echo "Dining and Beverage";
 								}
 								elseif ($select_record->categories=="shopping_and_lifestyle") 
 								{
-									echo "Shopping & Lifestyle";
+									echo "Shopping and Lifestyle";
 								}
 								elseif ($select_record->categories=="beauty_and_healthy") 
 								{
-									echo "Beauty & Healthy";
+									echo "Beauty and Healthy";
 								}
 								elseif ($select_record->categories=="hotel_and_travel") 
 								{
-									echo "Hotel & Travel";
+									echo "Hotel and Travel";
 								}
 								elseif ($select_record->categories=="online") 
 								{
@@ -625,11 +662,11 @@ use App\Record;
 				<label>ข้อมูลของร้าน</label>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อภาษาไทย</th>
-						<th>ชื่อภาษาอังกฤษ</th>
+						<th>ชื่อไทย</th>
+						<th>ชื่ออังกฤษ</th>
 						<th>สาขา</th>
                         <th>จำนวนสาขา</th>
-						<th>ที่อยู่  <a href="#" class="btn btn-danger pull-right" id="btn_edit_address">แก้ไข</a></th>
+						<th>ที่อยู่</th>
 						<th>จังหวัด</th>
 						<th>ละติจูด</th>
 						<th>ลองติจูด</th>
@@ -639,7 +676,7 @@ use App\Record;
 						<td>{{$select_record->name_en}}</td>
 						<td>{{$select_record->branch}}</td>
                         <td>
-                        <input type="text" name="branch_amount" id="branch_amount" value="{{$select_record->branch_amount}}" class="form-control"/>
+                        {{$select_record->branch_amount}}
                         </td>
 						<td>
 							{{$select_record->address}}<br />
@@ -658,7 +695,7 @@ use App\Record;
 			<label>ข้อมูลสำหรับติดต่อ</label>
 			<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อผู้ติดต่อ <a href="#" class="btn btn-danger pull-right" id="btn_edit_contact_person">แก้ไข</a></th>
+						<th>ชื่อผู้ติดต่อ</th>
 						<th>เบอร์โทรที่ติดต่อ</th>
 						<th>อีเมลที่ติดต่อ</th>
 						<th>วันที่ให้ติดต่อ [ วัน / เดือน / ปี ]</th>
@@ -681,7 +718,7 @@ use App\Record;
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
 						<td>
-                            <textarea name="sending_address" id="sending_address" class="form-control">{{$select_record->sending_address}}</textarea>
+                            {{$select_record->sending_address}}
                         </td>
 					</tr>
 				</table>
@@ -699,7 +736,7 @@ use App\Record;
 					<tr>
 						<td>
 							@if($select_record->links!=NULL)
-								{{ Html::link($select_record->links) }}
+								{{ Html::link($select_record->links,null,array('target'=>'_blank')) }}
 							@else
 								-
 							@endif
@@ -731,7 +768,7 @@ use App\Record;
                         </tr>
                         <tr>
                             <td>
-                                <textarea id="note" name="note" class="form-control">{{$select_record->note}}</textarea>
+                                {{$select_record->note}}
                             </td>
                         </tr>
                     </table>
@@ -804,16 +841,46 @@ use App\Record;
 							</div>
 						</div>
                     </div>
+                <div class="row add-margin-20">
+                	<div class="col-xs-3">
+                		<label>ตรวจสอบ</label>
+                		<table class="table table-bordered table-striped">
+                			<tr>
+                				<td>เอกสารตอบรับ</td>
+                				<td><input type="checkbox" name="has_reply_doc" id="has_reply_doc" class="yes_form_check" value="1"/></td>
+                			</tr>
+                			<tr>
+                				<td>ยืนยันรูปสินค้า</td>
+                				<td><input type="checkbox" name="has_confirm_product_img" id="has_confirm_product_img" class="yes_form_check" value="1"/></td>
+                			</tr>
+                			<tr>
+                				<td>ยืนยันรูปLogo</td>
+                				<td><input type="checkbox" name="has_confirm_logo_img" id="has_confirm_logo_img" class="yes_form_check" value="1"/></td>
+                			</tr>
+                		</table>
+                	</div>
+                	<div class="col-xs-3">
+                		<label>ยืนยันตรวจสอบ</label>
+                		<table class="table table-bordered table-striped">
+                			<tr>
+                				<td>รูปหน้าร้าน</td>
+                				<td><input type="checkbox" name="has_shop_img" id="has_shop_img" class="yes_form_check" value="1"/></td>
+                			</tr>
+                			<tr>
+                				<td>รูปสินค้า</td>
+                				<td><input type="checkbox" name="has_product_img" id="has_product_img" value="1" class="yes_form_check hide"/></td>
+                			</tr>
+                			<tr>
+                				<td>Logo ร้าน</td>
+                				<td><input type="checkbox" name="has_logo_img" id="has_logo_img" value="1" class="yes_form_check hide"/></td>
+                			</tr>
+                		</table>
+                	</div>
+                </div>
 			</div>
 		</div>
 		<div class="row hide" id="no_reply_form">
 			<div class="col-xs-12">
-				<div class="row add-margin-20">
-					<div class="col-xs-12">
-						<label>จำนวนครั้งที่โทรก่อนหน้า</label>
-						<input type="text" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="{{$select_record->record->call_amount}}" class="form-control no_reply_form" />
-					</div>
-				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผล</label>
@@ -840,12 +907,6 @@ use App\Record;
 					<div class="col-xs-12">
 						<label>เหตุผลที่ปฏิเสธ</label>
 						<input type="text" name="no_reason" id="no_reason" value="" class="form-control rejected_form" />
-					</div>
-				</div>
-				<div class="row add-margin-20">
-					<div class="col-xs-12">
-						<label>หมายเหตุ</label>
-						<input type="text" name="no_note" id="no_note" value="" class="form-control rejected_form" />
 					</div>
 				</div>
 			</div>

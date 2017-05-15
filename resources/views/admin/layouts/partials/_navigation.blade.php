@@ -18,11 +18,11 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Record <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{url('/admin/record/create_new_record_list')}}">Create new record</a></li>
-                  <li><a href="{{url('/admin/record/list_records')}}">Show Record List</a></li>
-                  <li><a href="{{url('/admin/select_record/select_sale')}}">Select Record for sale</a></li>
-                  <li><a href="{{url('/admin/approve_record_from_sale/show_sale_list')}}">Approve Record from sale</a></li>
-                  <li><a href="{{url('/admin/export_excel/list_lot_no')}}">Export Adminกรอก Lead ลงไปในระบบ</a></li>
+                  <li><a href="{{url('/admin/record/create_new_record_list')}}">สร้าง Lead ร้านค้าใหม่</a></li>
+                  <li><a href="{{url('/admin/record/list_records')}}">รายชื่อร้านค้าทั้งหมด</a></li>
+                  <li><a href="{{url('/admin/select_record/select_sale')}}">เลือกร้านค้าให้ Sale</a></li>
+                  <li><a href="{{url('/admin/approve_record_from_sale/show_sale_list')}}">Leads Approve</a></li>
+                  <li><a href="{{url('/admin/export_excel/list_lot_no')}}">Export Leads</a></li>
                 </ul>
               </li>
               <li><a href="#">Contact</a></li>

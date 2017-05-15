@@ -24,21 +24,30 @@
   $(document).ready(function(){
 
     $("#confirm_btn").click(function(){
-        $("#submit_form").submit(); 
+        if(confirm('กรุณาตรวจสอบ และ ยืนยัน'))
+            {
+                $("#submit_form").submit(); 
+            }
        });
-   });
+
+});
        
 </script>
 @stop
 <?php
 use App\Record;
+$record = new Record;
 ?>
 <!-- Services Section -->
 <div class="container-fluid add-margin-20">
 {{Form::open(array('action' => 'AdminController@submit_approve_record','id'=>'submit_form'))}}
     <div class="row">
         <div class="form-group">
-        <h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}  ?> </h1>
+        <h1><b <?php if($select_record->result=="yes"){echo "style='color:green'";}elseif($select_record->result=="no_reply"||$select_record->result=="waiting"){echo "style='color:#FF8000'";}elseif($select_record->result=="rejected"||$select_record->result=="closed"){echo "style='color:red'";} ?> >[{{$record->check_result_and_show($select_record->result)}}] </b>/ {{$select_record->record->code}}/{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}  ?> 
+        @if($select_record->result=="yes")
+        <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$select_record->record_id.'/'.$select_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
+        @endif
+        </h1> 
         <h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
             {{csrf_field()}}
         <div class="row">
@@ -46,12 +55,10 @@ use App\Record;
                 <label>ข้อมูลสำหรับ Record</label>
                 <input type="hidden" id="record_id" name="record_id" value="{{$select_record->record->id}}" />
                 <input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-condensed">
                     <tr>
-                        <th>No.</th>
-                        <th>Code.</th>
                         <th>Status</th>
-                        <th>Sources</th>
+                        <th>แหล่งที่มา</th>
                         <th>Dtac Type</th>
                         <th>Categories</th>
                         <th>ประเภทร้าน</th>
@@ -59,12 +66,8 @@ use App\Record;
                     </tr>
                     <tr>
                         <td>
-                            {{$select_record->record->no}}
-                            <input type="hidden" name="record_id" id="record_id" value="{{$select_record->record_id}}" />
+                        <input type="hidden" name="record_id" id="record_id" value="{{$select_record->record_id}}" />
                             <input type="hidden" name="sale_id" id="sale_id" value="{{$select_record->sale_id}}" />
-                        </td>
-                        <td>{{$select_record->record->code}}</td>
-                        <td>
                             <?php
                                 if($select_record->record->status=="Available")
                                 {
@@ -80,43 +83,47 @@ use App\Record;
                             <?php
                                 if($select_record->record->sources=="online_search")
                                 {
-                                    echo "Online Search";
+                                    echo "ค้นหาจากเว็บไซต์";
                                 }
                                 elseif ($select_record->record->sources=="dtac_recommend") 
                                 {
-                                    echo "DTAC Recommend";
+                                    echo "ร้านแนะนำจาก dtac";
                                 }
                                 elseif ($select_record->record->sources=="walking") 
                                 {
-                                    echo "Walking";
+                                    echo "Walk in";
                                 }
                                 ?>
                         </td>
                         <td>
                             <?php
-                                if($select_record->record->dtac_type=="ร้านกทม")
+                                if($select_record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
                                 {
-                                    echo "ร้าน กทม";
+                                    echo "กทม./นนทบุรี/สมุทรปราการ";
                                 }
-                                elseif ($select_record->record->dtac_type=="ร้านตจว") 
+                                elseif ($select_record->dtac_type=="dtacแนะนำ") 
                                 {
-                                    echo "ร้าน ตจว";
+                                    echo "dtac แนะนำ";
                                 }
-                                elseif ($select_record->record->dtac_type=="ร้านonline") 
+                                elseif ($select_record->dtac_type=="ต่างจังหวัด") 
                                 {
-                                    echo "ร้าน online";
+                                    echo "ต่างจังหวัด";
                                 }
-                                elseif ($select_record->record->dtac_type=="ร้านต่ออายุ") 
+                                elseif ($select_record->dtac_type=="online")    
                                 {
-                                    echo "ร้านต่ออายุ";
+                                    echo "online";
                                 }
-                                elseif ($select_record->record->dtac_type=="ร้านดีลอย่างเดียว") 
+                                elseif ($select_record->dtac_type=="ต่ออายุ") 
                                 {
-                                    echo "ร้านดีลอย่างเดียว";
+                                    echo "ต่ออายุ";
                                 }
-                                elseif ($select_record->record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค") 
+                                elseif ($select_record->dtac_type=="ดีลอย่างเดียว") 
                                 {
-                                    echo "ร้านเฉพาะอาร์ทเวิร์ค";
+                                    echo "ดีลอย่างเดียว";
+                                }
+                                elseif ($select_record->dtac_type=="เฉพาะอาร์ทเวิร์ค") 
+                                {
+                                    echo "เฉพาะอาร์ทเวิร์ค";
                                 }
                                 ?>
                         </td>
@@ -124,19 +131,19 @@ use App\Record;
                             <?php
                                 if($select_record->categories=="dinning_and_beverage")
                                 {
-                                    echo "Dining & Beverage";
+                                    echo "Dining and Beverage";
                                 }
                                 elseif ($select_record->categories=="shopping_and_lifestyle") 
                                 {
-                                    echo "Shopping & Lifestyle";
+                                    echo "Shopping and Lifestyle";
                                 }
                                 elseif ($select_record->categories=="beauty_and_healthy") 
                                 {
-                                    echo "Beauty & Healthy";
+                                    echo "Beauty and Healthy";
                                 }
                                 elseif ($select_record->categories=="hotel_and_travel") 
                                 {
-                                    echo "Hotel & Travel";
+                                    echo "Hotel and Travel";
                                 }
                                 elseif ($select_record->categories=="online") 
                                 {
@@ -149,7 +156,7 @@ use App\Record;
                                 
                         </td>
                         <td>
-                            {{$select_record->record->special_type}}
+                            {{$select_record->special_type}}
                         </td>
                     </tr>
                 </table>
@@ -159,10 +166,10 @@ use App\Record;
         <div class="row">
             <div class="col-xs-12">
                 <label>ข้อมูลของร้าน</label>
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-condensed">
                     <tr>
-                        <th>ชื่อภาษาไทย</th>
-                        <th>ชื่อภาษาอังกฤษ</th>
+                        <th>ชื่อไทย</th>
+                        <th>ชื่ออังกฤษ</th>
                         <th>สาขา</th>
                         <th>จำนวนสาขา</th>
                         <th>ที่อยู่</th>
@@ -231,23 +238,18 @@ use App\Record;
         <div class="row">
             <div class="col-xs-12">
             <label>ข้อมูลอื่นๆ</label>
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped table-condensed">
                     <tr>
                         <th>Links</th>
                         <th>Remark</th>
                     </tr>
                     <tr>
                         <td>
-                            <?php
-                                if($select_record->links!=NULL)
-                                {
-                                    echo($select_record->links);
-                                }
-                                else
-                                {
-                                    echo "-";
-                                }
-                                ?>
+                            @if($select_record->links!=NULL)
+                                {{ Html::link($select_record->links,null,array('target'=>'_blank')) }}
+                            @else
+                                -
+                            @endif
                         </td>
                         <td>
                             <?php
@@ -293,23 +295,90 @@ use App\Record;
         </div>
         <div class="row">
             <div class="col-xs-12"><b>ผลการโทร : </b>
+            <input type="hidden" name="result" id="result" value="{{$select_record->result}}" /> 
                 @if($select_record->result=="yes") 
                     <span>Yes</span><br />                  
-                    <b>Feedback : </b> {{$select_record->yes_feedback}} <br />
+                    <b>Privilege : </b> {{$select_record->yes_feedback}} <br />
                     <b>เงื่อนไข : </b> {{$select_record->yes_condition}} <br />
                     <b>Start Privilege Date [ วัน / เดือน / ปี ] : </b><?php $yes_privilege_start = explode('-', $select_record->yes_privilege_start); echo $yes_privilege_start[2]."/".$yes_privilege_start[1]."/".$yes_privilege_start[0] ?> <br />
                     <b>End Privilege Date [ วัน / เดือน / ปี ] : </b> <?php $yes_privilege_end = explode('-', $select_record->yes_privilege_end); echo $yes_privilege_end[2]."/".$yes_privilege_end[1]."/".$yes_privilege_end[0] ?> 
-
+                    <div class="row add-margin-20">
+                    <h3>ตรวจสอบ</h3>
+                    <div class="col-xs-3">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <tr>
+                                <td>รายการตรวจสอบ</td>
+                                <td>ผลจากsale</td>
+                                <td>ตรวจสอบ ผ่าน</td>
+                            </tr>
+                            <tr>
+                                <td>เอกสารตอบรับ</td>
+                                <td>
+                                <?php if($select_record->has_reply_doc=="1"){ echo "มี";}else{echo "ไม่มี";}?>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="admin_has_reply_doc" id="admin_has_reply_doc" class="yes_form_check" value="1" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ยืนยันรูปสินค้า</td>
+                                <td>
+                                <?php if($select_record->has_confirm_product_img=="1"){ echo "มี";}else{echo "ไม่มี";}?>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="admin_has_confirm_product_img" id="admin_has_confirm_product_img" class="yes_form_check" value="1" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ยืนยันรูปLogo</td>
+                                <td>
+                                <?php if($select_record->has_confirm_logo_img=="1"){ echo "มี";}else{echo "ไม่มี";}?>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="admin_has_confirm_logo_img" id="admin_has_confirm_logo_img" class="yes_form_check" value="1" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-3">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <tr>
+                                <td>รายการตรวจสอบ</td>
+                                <td>ผลจากsale</td>
+                                <td>ตรวจสอบ ผ่าน</td>
+                            </tr>
+                            <tr>
+                                <td>รูปหน้าร้าน</td>
+                                <td><?php if($select_record->has_shop_img=="1"){ echo "มี";}else{echo "ไม่มี";}?></td>
+                                <td>
+                                    <input type="checkbox" name="admin_has_shop_img" id="admin_has_shop_img" class="yes_form_check" value="1" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>รูปสินค้า</td>
+                                <td><?php if($select_record->has_product_img=="1"){ echo "มี";}else{echo "ไม่มี";}?></td>
+                                <td>
+                                    <input type="checkbox" name="admin_has_product_img" id="admin_has_product_img" class="yes_form_check" value="1" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Logo ร้าน</td>
+                                <td><?php if($select_record->has_logo_img=="1"){ echo "มี";}else{echo "ไม่มี"; }?></td>
+                                <td>
+                                    <input type="checkbox" name="admin_has_logo_img" id="admin_has_logo_img" class="yes_form_check" value="1" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
                 @elseif($select_record->result=="no_reply")
                     <span>No Reply</span><br />
-                    <b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->record->call_amount ;?> <br />
                     <b>เหตุผล : </b> {{$select_record->cannot_contact_reason}} <br />
                     <b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> {{$select_record->cannot_contact_appointment_day}} / {{$select_record->cannot_contact_appointment_month}} / {{$select_record->cannot_contact_appointment_year}} <br />
                     
                 @elseif($select_record->result=="rejected")
                     <span>Rejected</span><br />
                     <b>No Reason : </b> {{$select_record->no_reason}} <br />
-                    <b>No Note : </b> {{$select_record->no_note}} <br />
 
                 @elseif($select_record->result=="waiting")
                     <span>Waiting</span><br />

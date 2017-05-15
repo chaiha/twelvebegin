@@ -463,7 +463,7 @@ class SuperController extends Controller
         $new_end_date = $end_date_array[2]."-".$end_date_array[1]."-".$end_date_array[0];
 
         //Query
-        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('yes_privilege_start', [$new_start_date, $new_end_date])->get();
+        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('approve_date', [$new_start_date, $new_end_date])->get();
 
         return view('super.show_sale_perform.show_sale_perform_by_range')->with('result',$result)->with('sale',$sale)->with('start_date',$start_date)->with('end_date',$end_date);
     }
@@ -481,7 +481,7 @@ class SuperController extends Controller
         $new_end_date = $end_date_array[2]."-".$end_date_array[1]."-".$end_date_array[0];
 
         //Query
-        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('yes_privilege_start', [$new_start_date, $new_end_date])->get();
+        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('approve_date', [$new_start_date, $new_end_date])->get();
         $file_name = "export_sale_perform_sale_id_".$sale_id;
         Excel::create($file_name,function($excel) use ($result){
             $excel->sheet('records',function($sheet) use ($result){

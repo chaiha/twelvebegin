@@ -329,15 +329,15 @@ use App\Record;
 				<?php
 				if($select_record->record->sources=="online_search")
 				{
-					echo "Online Search";
+					echo "ค้นหาจากเว็บไซต์";
 				}
 				elseif ($select_record->record->sources=="dtac_recommend") 
 				{
-					echo "DTAC Recommend";
+					echo "ร้านแนะนำจาก dtac";
 				}
 				elseif ($select_record->record->sources=="walking") 
 				{
-					echo "Walking";
+					echo "Walk in";
 				}
 				?>
 			</div>
@@ -346,19 +346,19 @@ use App\Record;
 				<?php
 				if($select_record->record->categories=="dinning_and_beverage")
 				{
-					echo "Dining & Beverage";
+					echo "Dining and Beverage";
 				}
 				elseif ($select_record->record->categories=="shopping_and_lifestyle") 
 				{
-					echo "Shopping & Lifestyle";
+					echo "Shopping and Lifestyle";
 				}
 				elseif ($select_record->record->categories=="beauty_and_healthy") 
 				{
-					echo "Beauty & Healthy";
+					echo "Beauty and Healthy";
 				}
 				elseif ($select_record->record->categories=="hotel_and_travel") 
 				{
-					echo "Hotel & Travel";
+					echo "Hotel and Travel";
 				}
 				elseif ($select_record->record->categories=="online") 
 				{

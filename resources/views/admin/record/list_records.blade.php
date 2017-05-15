@@ -3,55 +3,57 @@
 @section('content')
 <?php
 use App\Record;
+$record = new Record;
 ?>
 <!-- Services Section -->
 <div class="container-fluid">
-	<div class="row">
-		<h1>List Records</h1>
-		<table class="table table-bordered">
-		  <thead class="thead-inverse">
+	<div class="row add-margin-left-right">
+		<h1>รายชื่อร้านค้าทั้งหมด</h1>
+		{{$records->links()}}
+		<table class="table-condensed table-bordered table-striped padding_3">
+		  <thead class="thead-inverse text-center">
 		    <tr>
-		      <th>#</th>
-		      <th>no</th>
-		      <th>code</th>
-		      <th>แหล่งที่มา</th>
-		      <th>status</th>
-		      <th>categories</th>
-		      <th>ประเภทร้านค้าพิเศษ</th>
-		      <th>name_th</th>
-		      <th>name_en</th>
-		      <th>province</th>
-		      <th>contact_person</th>
-		      <th>เบอร์โทรติดต่อ</th>
-		      <th>contact_date</th>
-		      <th>created_by</th>
-		      <th>created_at</th>
-		      <th>updated_by</th>
-		      <th>updated_at</th>
-		      <th>edit</th>
+		      <th class="text-center padding_3">ID</th>
+		      <th class="text-center">แหล่งที่มา</th>
+		      <th class="text-center">status</th>
+		      <th class="text-center">categories</th>
+		      <th class="text-center">ประเภทร้านค้าพิเศษ</th>
+		      <th class="text-center">ผลการโทร</th>
+		      <th class="text-center">ชื่อไทย</th>
+		      <th class="text-center">ชื่ออังกฤษ</th>
+		      <th class="text-center">จังหวัด</th>
+		      <th class="text-center">เบอร์โทรติดต่อ</th>
+		      <th class="text-center">แก้ไข</th>
 		    </tr>
 		  </thead>
-		  <tbody>
+		  <tbody class="text-center">
 		  @foreach ($records as $each_record)
 		    <tr>
-		      <th scope="row">{{$each_record->id}}</th>
-		      <td>{{$each_record->no}}</td>
-		      <td>{{$each_record->code}}</td>
-		      <td>{{$each_record->sources}}</td>
+		      <th scope="row" class="text-center padding_3">{{$each_record->id}}</th>
+		      <td>
+		      <?php
+		      if($each_record->sources=="online_search")
+		      {
+		      	echo "ค้นหาจากเว็บไซต์";
+		      }
+		      elseif($each_record->sources=="dtac_recommend")
+		      {
+		      	echo "ร้านแนะนำจาก dtac";
+		      }
+		      elseif($each_record->sources=="walking")
+		      {
+		      	echo "Walk in";
+		      }
+		      ?></td>
 		      <td>{{$each_record->status}}</td>
-		      <td>{{$each_record->categories}}</td>
+		      <td><?php echo $record->check_category_name($each_record->categories); ?></td>
 		      <td>{{$each_record->special_type}}</td>
+		      <td><?php echo $record->check_result_and_show($each_record->result); ?></td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
 		      <td>{{$each_record->province}}</td>
-		      <td>{{$each_record->contact_person}}</td>
 		      <td>{{$each_record->contact_tel}}</td>
-		      <td>{{$each_record->contact_date}}</td>
-		      <td>{{$each_record->created_by}}</td>
-		      <td>{{$each_record->created_at}}</td>
-		      <td>{{$each_record->updated_by}}</td>
-		      <td>{{$each_record->updated_at}}</td>
-		      <td><a href="{{ url('admin/record/edit_record/'.$each_record->id) }}">Edit</a></td>
+		      <td><a href="{{ url('admin/record/edit_record/'.$each_record->id) }}">แก้ไข</a></td>
 		    </tr>
 		   @endforeach
 		  </tbody>

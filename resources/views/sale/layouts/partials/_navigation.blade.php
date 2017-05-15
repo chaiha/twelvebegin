@@ -16,6 +16,7 @@
             <ul class="nav navbar-nav">
               <li><a href="#">Home</a></li>
               <li><a href="{{url('/sale/show_selected_record_list')}}">รายการที่ต้องโทร</a></li>
+              <li><a href="{{url('sale/show_sale_perform')}}" >ดูจำนวน Lead ที่ผ่านมา</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>

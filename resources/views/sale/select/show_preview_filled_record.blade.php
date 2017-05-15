@@ -39,7 +39,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
+		<h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@submit_filled_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -50,18 +50,14 @@ use App\Record;
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>No.</th>
-						<th>Code.</th>
 						<th>Status</th>
-						<th>Sources</th>
+						<th>แหล่งที่มา</th>
 						<th>Dtac Type</th>
 						<th>Categories</th>
 						<th>ประเภทร้าน</th>
 						<th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->no}}</td>
-						<td>{{$select_record->record->code}}</td>
 						<td>
 							<?php
 								if($select_record->record->status=="Available")
@@ -78,43 +74,47 @@ use App\Record;
 							<?php
 								if($select_record->record->sources=="online_search")
 								{
-									echo "Online Search";
+									echo "ค้นหาจากเว็บไซต์";
 								}
 								elseif ($select_record->record->sources=="dtac_recommend") 
 								{
-									echo "DTAC Recommend";
+									echo "ร้านแนะนำจาก dtac";
 								}
 								elseif ($select_record->record->sources=="walking") 
 								{
-									echo "Walking";
+									echo "Walk in";
 								}
 								?>
 						</td>
 						<td>
 							<?php
-								if($select_record->record->dtac_type=="ร้านกทม")
+								if($select_record->record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
 								{
-									echo "ร้าน กทม";
+									echo "กทม./นนทบุรี/สมุทรปราการ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านตจว") 
+								elseif ($select_record->record->dtac_type=="ต่างจังหวัด") 
 								{
-									echo "ร้าน ตจว";
+									echo "ต่างจังหวัด";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านonline") 
+								elseif ($select_record->record->dtac_type=="dtacแนะนำ") 
 								{
-									echo "ร้าน online";
+									echo "dtac แนะนำ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านต่ออายุ") 
+								elseif ($select_record->record->dtac_type=="online") 
 								{
-									echo "ร้านต่ออายุ";
+									echo "online";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านดีลอย่างเดียว") 
+								elseif ($select_record->record->dtac_type=="ต่ออายุ") 
 								{
-									echo "ร้านดีลอย่างเดียว";
+									echo "ต่ออายุ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค") 
+								elseif ($select_record->record->dtac_type=="ดีลอย่างเดียว") 
 								{
-									echo "ร้านเฉพาะอาร์ทเวิร์ค";
+									echo "ดีลอย่างเดียว";
+								}
+								elseif ($select_record->record->dtac_type=="เฉพาะอาร์ทเวิร์ค") 
+								{
+									echo "เฉพาะอาร์ทเวิร์ค";
 								}
 								?>
 						</td>
@@ -122,19 +122,19 @@ use App\Record;
 							<?php
 								if($select_record->categories=="dinning_and_beverage")
 								{
-									echo "Dining & Beverage";
+									echo "Dining and Beverage";
 								}
 								elseif ($select_record->categories=="shopping_and_lifestyle") 
 								{
-									echo "Shopping & Lifestyle";
+									echo "Shopping and Lifestyle";
 								}
 								elseif ($select_record->categories=="beauty_and_healthy") 
 								{
-									echo "Beauty & Healthy";
+									echo "Beauty and Healthy";
 								}
 								elseif ($select_record->categories=="hotel_and_travel") 
 								{
-									echo "Hotel & Travel";
+									echo "Hotel and Travel";
 								}
 								elseif ($select_record->categories=="online") 
 								{
@@ -158,8 +158,8 @@ use App\Record;
 				<label>ข้อมูลของร้าน</label>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อภาษาไทย</th>
-						<th>ชื่อภาษาอังกฤษ</th>
+						<th>ชื่อไทย</th>
+						<th>ชื่ออังกฤษ</th>
 						<th>สาขา</th>
 						<th>จำนวนสาขา</th>
 						<th>ที่อยู่  </th>
@@ -171,7 +171,7 @@ use App\Record;
 						<td>{{$select_record->name_th}}</td>
 						<td>{{$select_record->name_en}}</td>
 						<td>{{$select_record->branch}}</td>
-						<td>{{$sale_filled['branch_amount']}}</td>
+						<td>{{$select_record->branch_amount}}</td>
 						<td>
 						@if($edit_address!="none")
 							{{$edit_address}}
@@ -217,7 +217,7 @@ use App\Record;
 							?>
 							{{$contact_day}} / {{$contact_month}} / {{$contact_year}}
 						</td>
-						<td>{{$sale_filled['sending_address']}}</td>
+						<td>{{$select_record->sending_address}}</td>
 					</tr>
 				</table>
 			</div>
@@ -234,7 +234,7 @@ use App\Record;
 					<tr>
 						<td>
 							@if($select_record->links!=NULL)
-								{{ Html::link($select_record->links) }}
+								{{ Html::link($select_record->links,null,array('target'=>'_blank')) }}
 							@else
 								-
 							@endif
@@ -289,17 +289,82 @@ use App\Record;
 					<b>เงื่อนไข : </b> {{$sale_filled['condition']}} <br />
 					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['start_priviledge_date']}} <br />
 					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled['end_priviledge_date']}}<br />
-
+					<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+                			<tr>
+                				<td>เอกสารตอบรับ</td>
+                				<td>
+                					@if($sale_filled['has_reply_doc']=="1")
+                						มี
+                					@else
+                						ไม่มี
+                					@endif
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>ยืนยันรูปสินค้า</td>
+                				<td>
+                					@if($sale_filled['has_confirm_product_img']=="1")
+                						มี
+                					@else
+                						ไม่มี
+                					@endif
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>ยืนยันรูปLogo</td>
+                				<td>
+                					@if($sale_filled['has_confirm_logo_img']=="1")
+                						มี
+                					@else
+                						ไม่มี
+                					@endif
+                				</td>
+                			</tr>
+                		</table>
+                	</div>
+                	<div class="col-xs-4">
+                		<table class="table table-bordered table-striped">
+                			<tr>
+                				<td>รูปหน้าร้าน</td>
+                				<td>
+                					@if($sale_filled['has_shop_img']=="1")
+                						มี
+                					@else
+                						ไม่มี
+                					@endif
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>รูปสินค้า</td>
+                				<td>
+                					@if($sale_filled['has_product_img']=="1")
+                						มี
+                					@else
+                						ไม่มี
+                					@endif
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>Logo ร้าน</td>
+                				<td>
+                					@if($sale_filled['has_logo_img']=="1")
+                						มี
+                					@else
+                						ไม่มี
+                					@endif
+                				</td>
+                			</tr>
+                		</table>
+                	</div>
 				@elseif($call_result=="no_reply")
 					<span>No Reply</span><br />
-					<b>จำนวนครั้งที่โทรก่อนหน้า : </b> <?php echo $select_record->record->call_amount ;?> <br />
 					<b>เหตุผล : </b> {{$sale_filled['cannot_contact_reason']}} <br />
 					<b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> {{$sale_filled['cannot_contact_appointment_date']}} <br />
 					
 				@elseif($call_result=="rejected")
 					<span>Rejected</span><br />
-					<b>No Reason : </b> {{$sale_filled['no_reason']}} <br />
-					<b>No Note : </b> {{$sale_filled['no_note']}} <br />
+					<b>เหตุผลที่ปฏิเสธ : </b> {{$sale_filled['no_reason']}} <br />
 
 				@elseif($call_result=="waiting")
 					<span>Waiting</span><br />

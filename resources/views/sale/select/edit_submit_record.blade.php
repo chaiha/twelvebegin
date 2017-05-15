@@ -66,13 +66,12 @@
     				}
     				else if(result=="no_reply")
     				{
-    					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
     					var cannot_contact_appointment_day = $("#cannot_contact_appointment_day").val();
     					var cannot_contact_appointment_month = $("#cannot_contact_appointment_month").val();
     					var cannot_contact_appointment_year = $("#cannot_contact_appointment_year").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
+    					if(cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -82,9 +81,8 @@
     				else if(result=="rejected")
     				{
     					var no_reason = $("#no_reason").val();
-    					var no_note = $("#no_note").val();
 
-    					if(no_reason==""||no_note=="")
+    					if(no_reason=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();                                                                                                                                                                            
@@ -142,13 +140,12 @@
     				}
     				else if(result=="no_reply")
     				{
-    					var cannot_contact_amount_call = $("#cannot_contact_amount_call").val();
     					var cannot_contact_reason = $("#cannot_contact_reason").val();
     					var cannot_contact_appointment_day = $("#cannot_contact_appointment_day").val();
     					var cannot_contact_appointment_month = $("#cannot_contact_appointment_month").val();
     					var cannot_contact_appointment_year = $("#cannot_contact_appointment_year").val();
 
-    					if(cannot_contact_amount_call==""||cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
+    					if(cannot_contact_reason==""||cannot_contact_appointment_day==""||cannot_contact_appointment_month==""||cannot_contact_appointment_year=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();
@@ -158,9 +155,8 @@
     				else if(result=="rejected")
     				{
     					var no_reason = $("#no_reason").val();
-    					var no_note = $("#no_note").val();
 
-    					if(no_reason==""||no_note=="")
+    					if(no_reason=="")
     					{
     						alert("กรุณากรอกข้อมูลให้ครบถ้วน");
     						exit();                                                                                                                                                                            
@@ -199,81 +195,101 @@
     });
 
     $("#call_result").change(function(){
-    	var result = $("#call_result").val();
-    	if(result=="yes")
-    	{
-    		$("#yes_form").attr('class', 'show');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
+        var result = $("#call_result").val();
+        if(result=="yes")
+        {
+            $("#yes_form").attr('class', 'show');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
 
-    		$(".no_reply_form").val('');
-    		$(".rejected_form").val('');
-    		$(".waiting_form").val('');
-    		$('#closed').prop('checked', false);
+            $(".no_reply_form").val('');
+            $(".rejected_form").val('');
+            $(".waiting_form").val('');
+            $('#closed').prop('checked', false);
 
-    	}
-    	else if(result=="no_reply")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'show');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
+        }
+        else if(result=="no_reply")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'show');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
 
-    		$(".yes_form").val('');
-    		$(".rejected_form").val('');
-    		$(".waiting_form").val('');
-    		$('#closed').prop('checked', false);
-    	}
-    	else if(result=="rejected")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'show');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".rejected_form").val('');
+            $(".waiting_form").val('');
+            $('#closed').prop('checked', false);
+        }
+        else if(result=="rejected")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'show');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
 
-	   		$(".yes_form").val('');
-	   		$(".no_reply_form").val('');
-    		$(".waiting_form").val('');
-    		$('#closed').prop('checked', false);
-    	}
-    	else if(result=="waiting")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'show');
-    		$("#closed_form").attr('class', 'hide');
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".no_reply_form").val('');
+            $(".waiting_form").val('');
+            $('#closed').prop('checked', false);
+        }
+        else if(result=="waiting")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'show');
+            $("#closed_form").attr('class', 'hide');
 
-    		$(".yes_form").val('');
-    		$(".no_reply_form").val('');
-    		$(".rejected_form").val('');
-    		$('#closed').prop('checked', false);
-    	}
-    	else if(result=="closed")
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'show');
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".no_reply_form").val('');
+            $(".rejected_form").val('');
+            $('#closed').prop('checked', false);
+        }
+        else if(result=="closed")
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'show');
 
-    		$(".yes_form").val('');
-    		$(".no_reply_form").val('');
-    		$(".rejected_form").val('');
-    		$(".waiting_form").val('');
-    	}
-    	else
-    	{
-    		$("#yes_form").attr('class', 'hide');
-    		$("#no_reply_form").attr('class', 'hide');
-    		$("#rejected_form").attr('class', 'hide');
-    		$("#waiting_form").attr('class', 'hide');
-    		$("#closed_form").attr('class', 'hide');
-    	}
+            $(".yes_form").val('');
+            $('.yes_form_check').prop('checked', false);
+            $("#has_product_img").prop('checked',false);
+            $("#has_logo_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+            $("#has_logo_img").attr('class', 'hide');
+            $(".no_reply_form").val('');
+            $(".rejected_form").val('');
+            $(".waiting_form").val('');
+        }
+        else
+        {
+            $("#yes_form").attr('class', 'hide');
+            $("#no_reply_form").attr('class', 'hide');
+            $("#rejected_form").attr('class', 'hide');
+            $("#waiting_form").attr('class', 'hide');
+            $("#closed_form").attr('class', 'hide');
+        }
     });
     $('input[type=radio][name=is_tel_correct]').change(function() {
         if (this.value == '1') {
@@ -284,35 +300,62 @@
         }
     });
 
+
 $("#btn_edit_address").click(function(){
-	$("#edit_address").toggle(function() {
-		var text = $("#btn_edit_address").text();
-		if(text=="แก้ไข")
-		{
-			$("#btn_edit_address").text('ซ่อน');
-		}
-		else if(text=="ซ่อน")
-		{
-			$("#btn_edit_address").text('แก้ไข');	
-		}
-    	$("#edit_address").val('');
+    $("#edit_address").toggle(function() {
+        var text = $("#btn_edit_address").text();
+        if(text=="แก้ไข")
+        {
+            $("#btn_edit_address").text('ซ่อน');
+        }
+        else if(text=="ซ่อน")
+        {
+            $("#btn_edit_address").text('แก้ไข');   
+        }
+        $("#edit_address").val('');
   });
 });
 
 $("#btn_edit_contact_person").click(function(){
-	$("#edit_contact_person").toggle(function() {
-		var text = $("#btn_edit_contact_person").text();
-		if(text=="แก้ไข")
-		{
-			$("#btn_edit_contact_person").text('ซ่อน');
-		}
-		else if(text=="ซ่อน")
-		{
-			$("#btn_edit_contact_person").text('แก้ไข');	
-		}
-    	$("#edit_contact_person").val('');
+    $("#edit_contact_person").toggle(function() {
+        var text = $("#btn_edit_contact_person").text();
+        if(text=="แก้ไข")
+        {
+            $("#btn_edit_contact_person").text('ซ่อน');
+        }
+        else if(text=="ซ่อน")
+        {
+            $("#btn_edit_contact_person").text('แก้ไข');    
+        }
+        $("#edit_contact_person").val('');
   });
 });
+
+    $('#has_confirm_product_img').click(function(){
+        var check = $('#has_confirm_product_img').is(':checked');
+        if(check==true)
+        {
+            $("#has_product_img").attr('class', 'show');
+        }
+        else if(check==false)
+        {
+            $("#has_product_img").prop('checked',false);
+            $("#has_product_img").attr('class', 'hide');
+        }
+    });
+
+    $('#has_confirm_logo_img').click(function(){
+        var check = $('#has_confirm_logo_img').is(':checked');
+        if(check==true)
+        {
+            $("#has_logo_img").attr('class', 'show');
+        }
+        else if(check==false)
+        {
+            $("#has_logo_img").prop('checked',false);
+            $("#has_logo_img").attr('class', 'hide');
+        }
+    });
 
 
   });
@@ -325,7 +368,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
 	<div class="row">
 		<div class="form-group">
-		<h1>{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?></h1>
+		<h1>{{$select_record->record->code}} /{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?></h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@preview_edit_submit_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
@@ -346,18 +389,14 @@ use App\Record;
 				<input type="hidden" id="call_amount" name="call_amount" value="{{$select_record->record->call_amount}}" />
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>No.</th>
-						<th>Code.</th>
 						<th>Status</th>
-						<th>Sources</th>
+						<th>แหล่งที่มา</th>
 						<th>dtac Type</th>
 						<th>Categories</th>
 						<th>ประเภทร้าน</th>
                         <th>ประเภทร้านพิเศษ</th>
 					</tr>
 					<tr>
-						<td>{{$select_record->record->no}}</td>
-						<td>{{$select_record->record->code}}</td>
 						<td>
 							<?php
 								if($select_record->record->status=="Available")
@@ -374,43 +413,47 @@ use App\Record;
 							<?php
 								if($select_record->record->sources=="online_search")
 								{
-									echo "Online Search";
+									echo "ค้นหาจากเว็บไซต์";
 								}
 								elseif ($select_record->record->sources=="dtac_recommend") 
 								{
-									echo "dtac Recommend";
+									echo "ร้านแนะนำจาก dtac";
 								}
 								elseif ($select_record->record->sources=="walking") 
 								{
-									echo "Walking";
+									echo "Walk in";
 								}
 								?>
 						</td>
 						<td>
 							<?php
-								if($select_record->record->dtac_type=="ร้านกทม")
+								if($select_record->record->dtac_type=="กทม./นนทบุรี/สมุทรปราการ")
 								{
-									echo "ร้าน กทม";
+									echo "กทม./นนทบุรี/สมุทรปราการ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านตจว") 
+								elseif ($select_record->record->dtac_type=="ต่างจังหวัด") 
 								{
-									echo "ร้าน ตจว";
+									echo "ต่างจังหวัด";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านonline") 
+                                elseif ($select_record->record->dtac_type=="dtacแนะนำ") 
+                                {
+                                    echo "dtac แนะนำ";
+                                }
+								elseif ($select_record->record->dtac_type=="online") 
 								{
-									echo "ร้าน online";
+									echo "online";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านต่ออายุ") 
+								elseif ($select_record->record->dtac_type=="ต่ออายุ") 
 								{
-									echo "ร้านต่ออายุ";
+									echo "ต่ออายุ";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านดีลอย่างเดียว") 
+								elseif ($select_record->record->dtac_type=="ดีลอย่างเดียว") 
 								{
-									echo "ร้านดีลอย่างเดียว";
+									echo "ดีลอย่างเดียว";
 								}
-								elseif ($select_record->record->dtac_type=="ร้านเฉพาะอาร์ทเวิร์ค") 
+								elseif ($select_record->record->dtac_type=="เฉพาะอาร์ทเวิร์ค") 
 								{
-									echo "ร้านเฉพาะอาร์ทเวิร์ค";
+									echo "เฉพาะอาร์ทเวิร์ค";
 								}
 								?>
 						</td>
@@ -418,19 +461,19 @@ use App\Record;
 							<?php
 								if($select_record->categories=="dinning_and_beverage")
 								{
-									echo "Dining & Beverage";
+									echo "Dining and Beverage";
 								}
 								elseif ($select_record->categories=="shopping_and_lifestyle") 
 								{
-									echo "Shopping & Lifestyle";
+									echo "Shopping and Lifestyle";
 								}
 								elseif ($select_record->categories=="beauty_and_healthy") 
 								{
-									echo "Beauty & Healthy";
+									echo "Beauty and Healthy";
 								}
 								elseif ($select_record->categories=="hotel_and_travel") 
 								{
-									echo "Hotel & Travel";
+									echo "Hotel and Travel";
 								}
 								elseif ($select_record->categories=="online") 
 								{
@@ -454,8 +497,8 @@ use App\Record;
 				<label>ข้อมูลของร้าน</label>
 				<table class="table table-bordered table-striped">
 					<tr>
-						<th>ชื่อภาษาไทย</th>
-						<th>ชื่อภาษาอังกฤษ</th>
+						<th>ชื่อไทย</th>
+						<th>ชื่ออังกฤษ</th>
 						<th>สาขา</th>
                         <th>จำนวนสาขา</th>
 					</tr>
@@ -555,7 +598,7 @@ use App\Record;
 					<tr>
 						<td>
 							@if($select_record->links!=NULL)
-								{{ Html::link($select_record->links) }}
+								{{ Html::link($select_record->links,null,array('target'=>'_blank')) }}
 							@else
 								-
 							@endif
@@ -600,12 +643,12 @@ use App\Record;
 		<div class="row">
 			<div class="col-xs-12">
 				<label>เบอร์โทรศัพท์ </label>
-				<label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" <?php if($select_record->is_tel_correct=="1"){echo "checked";} ;?>/>
-				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" <?php if($select_record->is_tel_correct=="0"){echo "checked";} ;?>/>
-				<div class="row <?php if($select_record->is_tel_correct=="0"){ echo "show"; }else{ echo "hide"; } ;?>" id="new_tel_form">
+                <label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" <?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="1"){echo "checked"; }}elseif($sale_filled_edit['is_tel_correct']=="1"){echo "checked";} ?>/>
+				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" <?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="0"){echo "checked"; }}elseif($sale_filled_edit['is_tel_correct']=="0"){echo "checked";} ?>/>
+				<div class="row <?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="0"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['is_tel_correct']=="0"){ echo "show"; }else{ echo "hide"; } ?>" id="new_tel_form">
 					<div class="col-xs-12  add-margin-20">
 						<label>หมายเลขที่ถูกต้องคือ</label>
-						<input type="text" name="new_tel" id="new_tel" value="<?php if($select_record->is_tel_correct=="0"){ echo $select_record->wrong_number_new_tel_number; } ?>"/>
+						<input type="text" name="new_tel" id="new_tel" value="<?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="0"){ echo $select_record->wrong_number_new_tel_number; }}elseif($sale_filled_edit['is_tel_correct']=="0"){ echo $sale_filled_edit['new_tel']; } ?>"/>
 					</div>
 				</div>
 			</div>
@@ -614,27 +657,26 @@ use App\Record;
 		<div class="row">
 			<div class="col-xs-12"><label>ผลการโทร : </label>
 				<select name="call_result" id="call_result">
-					<option value="empty">กรุณาเลือกผลการโทร</option>
-					<option value="yes" <?php if($select_record->result=="yes"){ echo "selected"; } ;?> >Yes</option>
-					<option value="no_reply" <?php if($select_record->result=="no_reply"){ echo "selected"; } ;?> >No Reply</option>
-					<option value="rejected" <?php if($select_record->result=="rejected"){ echo "selected"; } ;?> >Rejected</option>
-					<option value="waiting" <?php if($select_record->result=="waiting"){ echo "selected"; } ;?> >Waiting</option>
-					<option value="closed" <?php if($select_record->result=="closed"){ echo "selected"; } ;?> >Closed</option>
+					<option value="yes" <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="yes"){echo "selected"; }}elseif($sale_filled_edit['call_result']=="yes"){echo "selected";} ?> >Yes</option>
+					<option value="no_reply" <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="no_reply"){echo "selected"; }}elseif($sale_filled_edit['call_result']=="no_reply"){echo "selected";} ?> >No Reply</option>
+					<option value="rejected" <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="rejected"){echo "selected"; }}elseif($sale_filled_edit['call_result']=="rejected"){echo "selected";} ?> >Rejected</option>
+					<option value="waiting" <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="waiting"){echo "selected"; }}elseif($sale_filled_edit['call_result']=="waiting"){echo "selected";} ?> >Waiting</option>
+					<option value="closed" <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="closed"){echo "selected"; }}elseif($sale_filled_edit['call_result']=="closed"){echo "selected";} ?> >Closed</option>
 				</select>
 			</div>
 		</div>
-		<div class="row <?php if($select_record->result=="yes"){ echo "show"; }else{ echo "hide"; } ;?>" id="yes_form">
+		<div class="row <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="yes"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['call_result']=="yes"){echo "show";}elseif($sale_filled_edit['call_result']!="yes"){echo "hide";} ?>" id="yes_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>Feedback: </label>
-							<input type="text" name="feedback" id="feedback" value="<?php if($sale_filled_edit['feedback']==""){if($select_record->result=="yes"){ echo $select_record->yes_feedback; }}else{ echo $sale_filled_edit['feedback']; } ?>" class="form-control yes_form"/>
+							<input type="text" name="feedback" id="feedback" value="<?php if($sale_filled_edit['feedback']==""){if($select_record->result=="yes"){ echo $select_record->yes_feedback; }}elseif($sale_filled_edit['call_result']=="yes"){ echo $sale_filled_edit['feedback']; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เงื่อนไขเพิ่มเติม: </label>
-							<input type="text" name="condition" id="condition" value="<?php if($sale_filled_edit['condition']==""){if($select_record->result=="yes"){ echo $select_record->yes_condition; }}else{echo $sale_filled_edit['condition'];} ?>" class="form-control yes_form"/>
+							<input type="text" name="condition" id="condition" value="<?php if($sale_filled_edit['condition']==""){if($select_record->result=="yes"){ echo $select_record->yes_condition; }}elseif($sale_filled_edit['call_result']=="yes"){echo $sale_filled_edit['condition'];} ?>" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
@@ -657,7 +699,7 @@ use App\Record;
 						<div class="row">
 							<div class="col-xs-4">
 								<div class="input-group">
-									<input class="form-control yes_form datepicker" type="text" id="start_priviledge_date" name="start_priviledge_date" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_start[2]."/".$yes_privilege_start[1]."/".$yes_privilege_start[0]; } ?>"/>
+									<input class="form-control yes_form datepicker" type="text" id="start_priviledge_date" name="start_priviledge_date" value="<?php if($sale_filled_edit['condition']==""){if($select_record->result=="yes"){ echo $yes_privilege_start[2]."/".$yes_privilege_start[1]."/".$yes_privilege_start[0]; }}elseif($sale_filled_edit['call_result']=="yes"){echo $yes_privilege_start[2]."/".$yes_privilege_start[1]."/".$yes_privilege_start[0];} ?>"/>
 								</div>
 							</div>
 						</div>
@@ -683,42 +725,222 @@ use App\Record;
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
-										<input class="form-control yes_form datepicker" type="text" id="end_priviledge_date" name="end_priviledge_date" value="<?php if($select_record->result=="yes"){ echo $yes_privilege_end[2]."/".$yes_privilege_end[1]."/".$yes_privilege_end[0]; } ?>"/>
+										<input class="form-control yes_form datepicker" type="text" id="end_priviledge_date" name="end_priviledge_date" value="<?php if($sale_filled_edit['condition']==""){if($select_record->result=="yes"){ echo $yes_privilege_end[2]."/".$yes_privilege_end[1]."/".$yes_privilege_end[0]; }}elseif($sale_filled_edit['call_result']=="yes"){echo $yes_privilege_end[2]."/".$yes_privilege_end[1]."/".$yes_privilege_end[0];} ?>"/>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+                    <div class="row add-margin-20">
+                    <div class="col-xs-3">
+                        <label>ตรวจสอบ</label>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>เอกสารตอบรับ</td>
+                                <td>
+                                <?php
+                                    if($sale_filled_edit['has_reply_doc']==""&&$sale_filled_edit['call_result']=="") 
+                                        {
+                                            if($select_record->has_reply_doc=="1")
+                                            { $is_checked_has_reply_doc = "checked";}
+                                            else
+                                            {
+                                                $is_checked_has_reply_doc = "";
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_reply_doc']==""&&$sale_filled_edit['call_result']=="yes")
+                                        {
+                                            $is_checked_has_reply_doc = "";
+                                        }
+                                    elseif($sale_filled_edit['has_reply_doc']==""&&$sale_filled_edit['call_result']!="yes")
+                                        {
+                                            $is_checked_has_reply_doc="";
+                                        }
+                                    elseif($sale_filled_edit['has_reply_doc']=="1")
+                                        { $is_checked_has_reply_doc = "checked"; }
+                                ?>
+                                <input type="checkbox" name="has_reply_doc" id="has_reply_doc" class="yes_form_check" value="1" {{$is_checked_has_reply_doc}}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ยืนยันรูปสินค้า</td>
+                                <td>
+                                <?php 
+                                    if($sale_filled_edit['has_confirm_product_img']==""&&$sale_filled_edit['call_result']=="") 
+                                        {
+                                            if($select_record->has_confirm_product_img=="1")
+                                            { $is_checked_has_confirm_product_img = "checked";}
+                                            else
+                                            {
+                                                $is_checked_has_confirm_product_img = "";
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_confirm_product_img']==""&&$sale_filled_edit['call_result']=="yes")
+                                        {
+                                            $is_checked_has_confirm_product_img = "";
+                                        }
+                                    elseif($sale_filled_edit['has_confirm_product_img']==""&&$sale_filled_edit['call_result']!="yes")
+                                        {
+                                            $is_checked_has_confirm_product_img ="";
+                                        }
+                                    elseif($sale_filled_edit['has_confirm_product_img']=="1")
+                                        { $is_checked_has_confirm_product_img = "checked"; }
+                                ?>
+                                <input type="checkbox" name="has_confirm_product_img" id="has_confirm_product_img" class="yes_form_check" value="1" {{$is_checked_has_confirm_product_img}}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ยืนยันรูปLogo</td>
+                                <?php 
+                                    if($sale_filled_edit['has_confirm_logo_img']==""&&$sale_filled_edit['call_result']=="") 
+                                        {
+                                            if($select_record->has_confirm_logo_img=="1")
+                                            { $is_checked_has_confirm_logo_img = "checked";}
+                                            else
+                                            {
+                                                $is_checked_has_confirm_logo_img = "";
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_confirm_logo_img']==""&&$sale_filled_edit['call_result']=="yes")
+                                        {
+                                            $is_checked_has_confirm_logo_img = "";
+                                        }
+                                    elseif($sale_filled_edit['has_confirm_logo_img']==""&&$sale_filled_edit['call_result']!="yes")
+                                        {
+                                             $is_checked_has_confirm_logo_img = "";
+                                        }
+                                    elseif($sale_filled_edit['has_confirm_logo_img']=="1")
+                                        { $is_checked_has_confirm_logo_img = "checked"; }
+                                ?>
+                                <td><input type="checkbox" name="has_confirm_logo_img" id="has_confirm_logo_img" class="yes_form_check" value="1" {{$is_checked_has_confirm_logo_img}}/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>ยืนยันตรวจสอบ</label>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>รูปหน้าร้าน</td>
+                                <?php 
+                                    if($sale_filled_edit['has_shop_img']==""&&$sale_filled_edit['call_result']=="") 
+                                        {
+                                            if($select_record->has_shop_img=="1")
+                                            { $is_checked_has_shop_img = "checked";}
+                                            else
+                                            {
+                                                $is_checked_has_shop_img = "";
+                                            }
+
+                                        }
+                                    elseif($sale_filled_edit['has_shop_img']==""&&$sale_filled_edit['call_result']=="yes")
+                                        {
+                                            $is_checked_has_shop_img = "";
+                                        }
+                                    elseif($sale_filled_edit['has_shop_img']==""&&$sale_filled_edit['call_result']!="yes")
+                                        {
+                                            $is_checked_has_shop_img = "";
+                                        }
+                                    elseif($sale_filled_edit['has_shop_img']=="1")
+                                        { $is_checked_has_shop_img = "checked"; }
+                                ?>
+                                <td><input type="checkbox" name="has_shop_img" id="has_shop_img" class="yes_form_check" value="1" {{$is_checked_has_shop_img}}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>รูปสินค้า</td>
+                                <?php 
+                                    if($sale_filled_edit['has_product_img']==""&&$sale_filled_edit['call_result']=="") 
+                                        {
+                                            if($select_record->has_product_img=="1")
+                                            { $is_checked_has_product_img = "checked"; $display_has_product_img = "show";}
+                                            else
+                                            {
+                                                $is_checked_has_product_img = "";
+                                                if($is_checked_has_confirm_product_img=="checked")
+                                                {
+                                                    $display_has_product_img = "show";
+                                                }   
+                                                else
+                                                {
+                                                    $display_has_product_img = "hide";    
+                                                }
+                                                
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_product_img']==""&&$sale_filled_edit['call_result']=="yes")
+                                        {
+                                            $is_checked_has_product_img = "";
+                                            if($is_checked_has_confirm_product_img=="checked")
+                                            {
+                                                    $display_has_product_img = "show";
+                                            }   
+                                            else
+                                            {
+                                                    $display_has_product_img = "hide";    
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_product_img']==""&&$sale_filled_edit['call_result']!="yes")
+                                        {
+                                            $is_checked_has_product_img = "";
+                                            $display_has_product_img = "hide";    
+                                        }
+                                    elseif($sale_filled_edit['has_product_img']=="1")
+                                        { $is_checked_has_product_img = "checked"; $display_has_product_img = "show"; }
+                                ?>
+                                <td><input type="checkbox" name="has_product_img" id="has_product_img" value="1" class="yes_form_check {{$display_has_product_img}}" {{$is_checked_has_product_img}}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Logo ร้าน</td>
+                                <?php 
+                                    if($sale_filled_edit['has_logo_img']==""&&$sale_filled_edit['call_result']=="") 
+                                        {
+                                            if($select_record->has_logo_img=="1")
+                                            { $is_checked_has_logo_img = "checked"; $display_has_logo_img = "show";}
+                                            else
+                                            {
+                                                $is_checked_has_logo_img = ""; 
+                                                if($is_checked_has_confirm_logo_img=="checked")
+                                                {
+                                                    $display_has_logo_img = "show";
+                                                }   
+                                                else
+                                                {
+                                                    $display_has_logo_img = "hide";    
+                                                }
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_logo_img']==""&&$sale_filled_edit['call_result']=="yes")
+                                        {
+                                            $is_checked_has_logo_img = "";
+                                            if($is_checked_has_confirm_logo_img=="checked")
+                                            {
+                                                    $display_has_logo_img = "show";
+                                            }   
+                                            else
+                                            {
+                                                    $display_has_logo_img = "hide";    
+                                            }
+                                        }
+                                    elseif($sale_filled_edit['has_logo_img']==""&&$sale_filled_edit['call_result']!="yes")
+                                        {
+                                            $is_checked_has_logo_img = "";
+                                            $display_has_logo_img = "hide";    
+                                        }
+                                    elseif($sale_filled_edit['has_logo_img']=="1")
+                                        { $is_checked_has_logo_img = "checked"; $display_has_logo_img = "show"; }
+                                ?>
+                                <td><input type="checkbox" name="has_logo_img" id="has_logo_img" value="1" class="yes_form_check {{$display_has_logo_img}}" {{$is_checked_has_logo_img}}/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
 				</div>
 		</div>
-		<div class="row  <?php if($select_record->result=="no_reply"){ echo "show"; }else{ echo "hide"; } ;?>" id="no_reply_form">
+		<div class="row  <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="no_reply"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['call_result']=="no_reply"){echo "show";}elseif($sale_filled_edit['call_result']!="no_reply"){echo "hide";} ?>" id="no_reply_form">
 			<div class="col-xs-12">
-				<div class="row add-margin-20">
-					<div class="col-xs-12">
-						<label>จำนวนครั้งที่โทรก่อนหน้า : </label>
-						<?php 
-                        if($sale_filled_edit['cannot_contact_amount_call']=="")
-                        {
-                            if($select_record->cannot_contact_amount_call==NULL)
-                            {
-                                echo "0";
-                                $cannot_contact_amount_call = 0;
-                            } 
-                            else
-                            {
-                                echo $select_record->cannot_contact_amount_call; 
-                                $cannot_contact_amount_call = $select_record->cannot_contact_amount_call; 
-                            }
-                        }
-                        else
-                        {
-                            echo $sale_filled_edit['cannot_contact_amount_call'];
-                            $cannot_contact_amount_call = $sale_filled_edit['cannot_contact_amount_call'];
-                        }
-                        ?>
-						<input type="hidden" name="cannot_contact_amount_call" id="cannot_contact_amount_call" value="<?php echo $cannot_contact_amount_call ;?>" class="form-control no_reply_form" />
-					</div>
-				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผล</label>
@@ -729,24 +951,37 @@ use App\Record;
 					<div class="col-xs-12">
 						<label>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ]</label>
                         <?php
-                        if($select_record->result=="no_reply")
+                        if($sale_filled_edit['call_result']=="")
                         {
-                            if($sale_filled_edit['cannot_contact_appointment']=="")
+                            if($select_record->result=="no_reply")
+                            {
+                                if($sale_filled_edit['cannot_contact_appointment_date']=="")
+                                {
+                                    $cannot_contact_appointment = explode('-', $select_record->cannot_contact_appointment);
+                                }
+                                else
+                                {
+                                    $cannot_contact_appointment = explode('/', $sale_filled_edit['cannot_contact_appointment_date']);   
+                                }
+                            }
+                        }
+                        elseif($sale_filled_edit['call_result']=="no_reply")
+                        {
+                            if($sale_filled_edit['cannot_contact_appointment_date']=="")
                             {
                                 $cannot_contact_appointment = explode('-', $select_record->cannot_contact_appointment);
                             }
                             else
                             {
-                                $cannot_contact_appointment = explode('/', $sale_filled_edit['cannot_contact_reason']);   
+                                $cannot_contact_appointment = explode('/', $sale_filled_edit['cannot_contact_appointment_date']);   
                             }
                         }
-                        
                         ?>
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">วัน</span>
-										<input class="form-control no_reply_form datepicker" type="text" id="cannot_contact_appointment_date" name="cannot_contact_appointment_date" value="<?php if($select_record->result=="no_reply"){ echo $cannot_contact_appointment[2]."/".$cannot_contact_appointment[1]."/".$cannot_contact_appointment[0]; } ?>"/>
+										<input class="form-control no_reply_form datepicker" type="text" id="cannot_contact_appointment_date" name="cannot_contact_appointment_date" value="<?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="no_reply"){ echo $cannot_contact_appointment[2]."/".$cannot_contact_appointment[1]."/".$cannot_contact_appointment[0]; }}elseif($sale_filled_edit['call_result']=="no_reply"){ echo $cannot_contact_appointment[0]."/".$cannot_contact_appointment[1]."/".$cannot_contact_appointment[2]; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -754,52 +989,63 @@ use App\Record;
 				</div>
 			</div>
 		</div>
-		<div class="row  <?php if($select_record->result=="rejected"){ echo "show"; }else{ echo "hide"; } ;?>" id="rejected_form">
+		<div class="row  <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="rejected"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['call_result']=="rejected"){echo "show";}elseif($sale_filled_edit['call_result']!="rejected"){echo "hide";} ?>" id="rejected_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>No Reason</label>
-						<input type="text" name="no_reason" id="no_reason" value="<?php if($sale_filled_edit['no_reason']==""){if($select_record->result=="rejected"){ echo $select_record->no_reason; }}else{ echo $sale_filled_edit['no_reason']; } ?>" class="form-control rejected_form" />
-					</div>
-				</div>
-				<div class="row add-margin-20">
-					<div class="col-xs-12">
-						<label>No Note</label>
-						<input type="text" name="no_note" id="no_note" value="<?php if($sale_filled_edit['no_note']=="") {if($select_record->result=="rejected"){ echo $select_record->no_note; }}else{ echo $sale_filled_edit['no_note'];} ?>" class="form-control rejected_form" />
+						<input type="text" name="no_reason" id="no_reason" value="<?php if($sale_filled_edit['no_reason']==""){if($select_record->result=="rejected"){ echo $select_record->no_reason; }}elseif($sale_filled_edit['call_result']=="rejected"){ echo $sale_filled_edit['no_reason']; } ?>" class="form-control rejected_form" />
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row  <?php if($select_record->result=="waiting"){ echo "show"; }else{ echo "hide"; } ;?>" id="waiting_form">
+		<div class="row  <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="waiting"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['call_result']=="waiting"){echo "show";}elseif($sale_filled_edit['call_result']!="waiting"){echo "hide";} ?>" id="waiting_form">
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผลที่ขอพิจารณาดูก่อน</label>
-						<input type="text" name="consider_reason" value="<?php if($sale_filled_edit['consider_reason']=="") {if($select_record->result=="waiting"){ echo $select_record->consider_reason; }}else{ echo $sale_filled_edit['consider_reason']; } ?>" class="form-control waiting_form" />
+						<input type="text" name="consider_reason" value="<?php if($sale_filled_edit['consider_reason']=="") {if($select_record->result=="waiting"){ echo $select_record->consider_reason; }}elseif($sale_filled_edit['call_result']=="waiting"){ echo $sale_filled_edit['consider_reason']; } ?>" class="form-control waiting_form" />
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ]</label>
                         <?php
+                        if($sale_filled_edit['call_result']=="")
+                        {
                             if($select_record->result=="waiting")
                             {
-                                if($sale_filled_edit['consider_appointment_feedback']=="")
+                                if($sale_filled_edit['consider_appointment_feedback_date']=="")
                                 {
                                     $consider_appointment_feedback=explode('-', $select_record->consider_appointment_feedback);
                                 }
                                 else
                                 {
-                                    $consider_appointment_feedback=explode('/', $sale_filled_edit['consider_appointment_feedback']);
+                                    $consider_appointment_feedback=explode('/', $sale_filled_edit['consider_appointment_feedback_date']);
                                 }
                             }
+                        }
+                        elseif($sale_filled_edit['call_result']=="waiting")
+                        {
+                            if($select_record->result=="waiting")
+                            {
+                                if($sale_filled_edit['consider_appointment_feedback_date']=="")
+                                {
+                                    $consider_appointment_feedback=explode('-', $select_record->consider_appointment_feedback);
+                                }
+                                else
+                                {
+                                    $consider_appointment_feedback=explode('/', $sale_filled_edit['consider_appointment_feedback_date']);
+                                }
+                            }
+                        }
                         ?>
 							<div class="row">
 								<div class="col-xs-4">
 									<div class="input-group">
 										<span class="input-group-addon">วัน</span>
-										<input class="form-control waiting_form datepicker" type="text" id="consider_appointment_feedback_date" name="consider_appointment_feedback_date" value="<?php if($select_record->result=="waiting"){ echo $consider_appointment_feedback[2].
-                                            "/".$consider_appointment_feedback[1]."/".$consider_appointment_feedback[0]; } ?>"/>
+										<input class="form-control waiting_form datepicker" type="text" id="consider_appointment_feedback_date" name="consider_appointment_feedback_date" value="<?php if($sale_filled_edit['call_result']==""){if($select_record->result=="waiting"){ echo $consider_appointment_feedback[2].
+                                            "/".$consider_appointment_feedback[1]."/".$consider_appointment_feedback[0]; }}elseif($sale_filled_edit['call_result']=="waiting"){echo $sale_filled_edit['consider_appointment_feedback_date']; } ?>"/>
 									</div>
 								</div>
 							</div>
@@ -807,10 +1053,10 @@ use App\Record;
 				</div>
 			</div>
 		</div>
-		<div class="row  <?php if($select_record->result=="closed"){ echo "show"; }else{ echo "hide"; } ;?>" id="closed_form">
+		<div class="row  <?php if($sale_filled_edit['call_result']==""){ if($select_record->result=="closed"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['call_result']=="closed"){echo "show";}elseif($sale_filled_edit['call_result']!="closed"){echo "hide";} ?>" id="closed_form">
 			<div class="col-xs-12">
 				<label>ร้านปิดไปแล้ว </label>
-				<input type="checkbox" name="closed" id="closed" value="1" <?php if($select_record->result=="closed"){ echo "checked"; }else{ echo ""; } ;?>/>
+				<input type="checkbox" name="closed" id="closed" value="1" <?php if($sale_filled_edit['call_result']==""){if($select_record->result=="closed"){ echo "checked"; }else{ echo ""; }}elseif($sale_filled_edit['call_result']=="closed"){echo "checked";} ;?>/>
 			</div>
 		</div>
 		<br />

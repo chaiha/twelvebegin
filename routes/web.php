@@ -26,6 +26,8 @@ Route::get('/login', function () {
     return view('pages.login');
 });
 
+Route::get('/diff_database/{start_master}/{start_second}','AdminController@diff_database');
+
 Route::get('/test_sentitnel','AdminController@test_sentitnel');
 
 Route::get('/test_date','AdminController@test_date');
@@ -157,6 +159,15 @@ Route::get('/admin/approve_record_from_sale/select_sale/{sale_id}','AdminControl
 Route::get('/admin/approve_record_from_sale/show_record_detail/{record_id}/{sale_id}','AdminController@show_record_detail');
 Route::post('/admin/approve_record_from_sale/show_record_detail','AdminController@submit_approve_record');
 Route::post('/admin/approve_record_from_sale/select_sale/','AdminController@submit_all_approve_record');
+Route::get('/admin/approve_record_from_sale/edit_record/{record_id}/{sale_id}','AdminController@edit_submit_select_record');
+Route::post('/admin/approve_record_from_sale/preview_edit_submit_select_record','AdminController@preview_edit_submit_select_record');
+Route::get('/admin/approve_record_from_sale/show_preview_edit_info','AdminController@show_preview_edit_info');
+Route::post('/admin/approve_record_from_sale/show_preview_edit_info','AdminController@submit_edit_record_info');
+Route::get('/admin/approve_record_from_sale/edit_preview_edit_info/{record_id}/{sale_id}','AdminController@edit_preview_edit_info');
+Route::get('/admin/approve_record_from_sale/success_edit_submit_record/{record_id}/{sale_id}','AdminController@success_edit_submit_record');
+
+//cancel edit record
+Route::get('/admin/approve_record_from_sale/edit_submit_select_record_cancel/{sale_id}','AdminController@edit_submit_select_record_cancel');
 
 //Export date to excel file
 Route::get('/admin/export_excel/list_lot_no','AdminController@list_lot_no');
@@ -193,3 +204,6 @@ Route::get('/sale/edit_record/record/edit_record_info/{record_id}','CallControll
 Route::post('/sale/edit_record/record/submit_edit_record_info','CallController@submit_edit_record_info');
 Route::get('/sale/edit_record/record/success_edit_info','CallController@success_edit_info');
 Route::get('/sale/edit_record/record/cancel_edit_record','CallController@cancel_edit_info');
+
+Route::get('/sale/show_sale_perform','CallController@show_sale_perform');
+Route::post('/sale/show_sale_perform/show_sale_perform_by_range','CallController@show_sale_perform_by_range');

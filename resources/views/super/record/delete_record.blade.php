@@ -49,9 +49,9 @@ use App\Record;
 		<div class="row">
 			<div class="col-xs-3">
 				<label>Sources.</label>
-					<?php if($record->sources=="online_search"){echo "Online Search";}?>
-					<?php if($record->sources=="dtac_recommend"){echo "DTAC Recommend";}?>
-					<?php if($record->sources=="walking"){echo "Walking";}?>
+					<?php if($record->sources=="online_search"){echo "ค้นหาจากเว็บไซต์";}?>
+					<?php if($record->sources=="dtac_recommend"){echo "ร้านแนะนำจาก dtac";}?>
+					<?php if($record->sources=="walking"){echo "Walk in";}?>
 			</div>
 			<div class="col-xs-3">
 				<label>Categories.</label>

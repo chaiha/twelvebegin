@@ -11,6 +11,7 @@ use App\User;
 use App\Record;
 use App\SelectRecord;
 use App\YesRecords;
+use App\SaleRecordYesCollection;
 
 class CallController extends Controller
 {
@@ -34,6 +35,9 @@ class CallController extends Controller
 
         $SelectRecord = new SelectRecord;
         $has_sending_status_null = $SelectRecord->has_sending_status_null($user->id);
+        $has_is_corrected_result = $SelectRecord->has_is_corrected_result($user->id);
+        $has_status_sent = $SelectRecord->has_status_sent($user->id);
+        $check_cannot_send = $SelectRecord->check_cannot_send($user->id);
 
         //print_r($selected_record);
         // $n=0;
@@ -66,7 +70,7 @@ class CallController extends Controller
         // $result_noreply = DB::table('records')->whereIn('id', $record_list_noreply)->get();
         // $result_new = DB::table('records')->whereIn('id', $record_list_new)->get();
         // print_r($has_sending_status_null);
-        return view('sale.select.show_select_list')->with('sale',$user)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new)->with('has_sending_status_null',$has_sending_status_null);
+        return view('sale.select.show_select_list')->with('sale',$user)->with('record_list_extend',$selected_record_extend)->with('record_list_waiting',$selected_record_waiting)->with('record_list_noreply',$selected_record_noreply)->with('record_list_new',$selected_record_new)->with('has_sending_status_null',$has_sending_status_null)->with('has_is_corrected_result',$has_is_corrected_result)->with('has_status_sent',$has_status_sent)->with('check_cannot_send',$check_cannot_send);
 
     }
 
@@ -134,18 +138,22 @@ class CallController extends Controller
             $sale_filled['condition'] = $request->input('condition');
             $sale_filled['start_priviledge_date'] = $request->input('start_priviledge_date');
             $sale_filled['end_priviledge_date'] = $request->input('end_priviledge_date');
+            $sale_filled['has_reply_doc'] = $request->input('has_reply_doc');
+            $sale_filled['has_confirm_product_img'] = $request->input('has_confirm_product_img');
+            $sale_filled['has_confirm_logo_img'] = $request->input('has_confirm_logo_img');
+            $sale_filled['has_shop_img'] = $request->input('has_shop_img');
+            $sale_filled['has_product_img'] = $request->input('has_product_img');
+            $sale_filled['has_logo_img'] = $request->input('has_logo_img');
 
         }
         else if($call_result=="no_reply")
         {
-            $sale_filled['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
             $sale_filled['cannot_contact_reason'] = $request->input('cannot_contact_reason');
             $sale_filled['cannot_contact_appointment_date'] = $request->input('cannot_contact_appointment_date');
         }
         else if($call_result=="rejected")
         {
             $sale_filled['no_reason'] = $request->input('no_reason');
-            $sale_filled['no_note'] = $request->input('no_note');
         }
         else if($call_result=="waiting")
         {
@@ -156,6 +164,7 @@ class CallController extends Controller
         {
             $sale_filled['closed'] = "1";
         }
+
 
         session(['sale_filled' => $sale_filled]);
         
@@ -213,12 +222,17 @@ class CallController extends Controller
             $select_record->yes_privilege_end = $new_yes_privilege_end[2]."-".$new_yes_privilege_end[1]."-".$new_yes_privilege_end[0];
             $select_record->yes_feedback = $sale_filled['feedback'];
             $select_record->yes_condition = $sale_filled['condition'];
+            $select_record->has_reply_doc = $sale_filled['has_reply_doc'];
+            $select_record->has_confirm_product_img = $sale_filled['has_confirm_product_img'];
+            $select_record->has_confirm_logo_img = $sale_filled['has_confirm_logo_img'];
+            $select_record->has_shop_img = $sale_filled['has_shop_img'];
+            $select_record->has_product_img = $sale_filled['has_product_img'];
+            $select_record->has_logo_img = $sale_filled['has_logo_img'];
 
             $select_record->status="Not_Available";
         }
         else if($sale_filled['call_result']=="no_reply")
         {
-            $select_record->cannot_contact_amount_call = $sale_filled['cannot_contact_amount_call'];
             $select_record->cannot_contact_reason = $sale_filled['cannot_contact_reason'];
             $new_cannot_contact_appointment = explode('/', $sale_filled['cannot_contact_appointment_date']);
             $select_record->cannot_contact_appointment = $new_cannot_contact_appointment[2]."-".$new_cannot_contact_appointment[1]."-".$new_cannot_contact_appointment[0];
@@ -226,7 +240,6 @@ class CallController extends Controller
         else if($sale_filled['call_result']=="rejected")
         {
             $select_record->no_reason = $sale_filled['no_reason'];
-            $select_record->no_note = $sale_filled['no_note'];
             $select_record->status="Not_Available";
         }
         else if($sale_filled['call_result']=="waiting")
@@ -260,9 +273,22 @@ class CallController extends Controller
         // print_r($select_record);
         $select_record->save();
 
-        Session::forget('sale_filled');
+        
 
-        return redirect('/sale/select_record/call/success/'.$submit_record_id);
+        if($sale_filled['call_result']=="yes")
+        {
+            //redirect to edit_record_info
+            Session::forget('sale_filled');
+            return redirect('/sale/edit_record/record/show/'.$submit_record_id);
+
+        }
+        else
+        {
+            //redirect to success page
+            Session::forget('sale_filled');
+            return redirect('/sale/select_record/call/success/'.$submit_record_id);
+        }
+        
 
     }
 
@@ -339,11 +365,16 @@ class CallController extends Controller
             $sale_filled_new['condition'] = $request->input('condition');
             $sale_filled_new['start_priviledge_date'] = $request->input('start_priviledge_date');
             $sale_filled_new['end_priviledge_date'] = $request->input('end_priviledge_date');
+            $sale_filled_new['has_reply_doc'] = $request->input('has_reply_doc');
+            $sale_filled_new['has_confirm_product_img'] = $request->input('has_confirm_product_img');
+            $sale_filled_new['has_confirm_logo_img'] = $request->input('has_confirm_logo_img');
+            $sale_filled_new['has_shop_img'] = $request->input('has_shop_img');
+            $sale_filled_new['has_product_img'] = $request->input('has_product_img');
+            $sale_filled_new['has_logo_img'] = $request->input('has_logo_img');
 
         }
         else if($call_result=="no_reply")
         {
-            $sale_filled_new['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
             $sale_filled_new['cannot_contact_reason'] = $request->input('cannot_contact_reason');
             $sale_filled_new['cannot_contact_appointment_date'] = $request->input('cannot_contact_appointment_date');
         }
@@ -392,7 +423,7 @@ class CallController extends Controller
         $tomorrow = date("Y-m-d", strtotime("+1 day"));
 
         //Update all records of this sale_id = sending_status = 'sent' AND can_approve = $tomorrow
-        SelectRecord::where('sale_id','=',$sale_id)->update(['sending_status'=>'sent','can_approve'=>$tomorrow]);
+        SelectRecord::where('sale_id','=',$sale_id)->update(['sending_status'=>'sent','can_approve'=>$tomorrow,'cannot_send'=>'1']);
 
         return redirect('/sale/show_selected_record_list');
 
@@ -549,6 +580,12 @@ class CallController extends Controller
             $sale_filled_edit['condition'] = $request->input('condition');
             $sale_filled_edit['start_priviledge_date'] = $request->input('start_priviledge_date');
             $sale_filled_edit['end_priviledge_date'] = $request->input('end_priviledge_date');
+            $sale_filled_edit['has_reply_doc'] = $request->input('has_reply_doc');
+            $sale_filled_edit['has_confirm_product_img'] = $request->input('has_confirm_product_img');
+            $sale_filled_edit['has_confirm_logo_img'] = $request->input('has_confirm_logo_img');
+            $sale_filled_edit['has_shop_img'] = $request->input('has_shop_img');
+            $sale_filled_edit['has_product_img'] = $request->input('has_product_img');
+            $sale_filled_edit['has_logo_img'] = $request->input('has_logo_img');
             $sale_filled_edit['cannot_contact_amount_call'] = "";
             $sale_filled_edit['cannot_contact_reason'] = "";
             $sale_filled_edit['cannot_contact_appointment_date'] = "";
@@ -564,7 +601,12 @@ class CallController extends Controller
             $sale_filled_edit['condition'] = "";
             $sale_filled_edit['start_priviledge_date'] = "";
             $sale_filled_edit['end_priviledge_date'] = "";
-            $sale_filled_edit['cannot_contact_amount_call'] = $request->input('cannot_contact_amount_call');
+            $sale_filled_edit['has_reply_doc'] = "";
+            $sale_filled_edit['has_confirm_product_img'] = "";
+            $sale_filled_edit['has_confirm_logo_img'] = "";
+            $sale_filled_edit['has_shop_img'] = "";
+            $sale_filled_edit['has_product_img'] = "";
+            $sale_filled_edit['has_logo_img'] = "";
             $sale_filled_edit['cannot_contact_reason'] = $request->input('cannot_contact_reason');
             $sale_filled_edit['cannot_contact_appointment_date'] = $request->input('cannot_contact_appointment_date');
             $sale_filled_edit['no_reason'] = "";
@@ -579,6 +621,12 @@ class CallController extends Controller
             $sale_filled_edit['condition'] = "";
             $sale_filled_edit['start_priviledge_date'] = "";
             $sale_filled_edit['end_priviledge_date'] = "";
+            $sale_filled_edit['has_reply_doc'] = "";
+            $sale_filled_edit['has_confirm_product_img'] = "";
+            $sale_filled_edit['has_confirm_logo_img'] = "";
+            $sale_filled_edit['has_shop_img'] = "";
+            $sale_filled_edit['has_product_img'] = "";
+            $sale_filled_edit['has_logo_img'] = "";
             $sale_filled_edit['cannot_contact_amount_call'] = "";
             $sale_filled_edit['cannot_contact_reason'] = "";
             $sale_filled_edit['cannot_contact_appointment_date'] = "";
@@ -594,6 +642,12 @@ class CallController extends Controller
             $sale_filled_edit['condition'] = "";
             $sale_filled_edit['start_priviledge_date'] = "";
             $sale_filled_edit['end_priviledge_date'] = "";
+            $sale_filled_edit['has_reply_doc'] = "";
+            $sale_filled_edit['has_confirm_product_img'] = "";
+            $sale_filled_edit['has_confirm_logo_img'] = "";
+            $sale_filled_edit['has_shop_img'] = "";
+            $sale_filled_edit['has_product_img'] = "";
+            $sale_filled_edit['has_logo_img'] = "";
             $sale_filled_edit['cannot_contact_amount_call'] = "";
             $sale_filled_edit['cannot_contact_reason'] = "";
             $sale_filled_edit['cannot_contact_appointment_date'] = "";
@@ -609,6 +663,12 @@ class CallController extends Controller
             $sale_filled_edit['condition'] = "";
             $sale_filled_edit['start_priviledge_date'] = "";
             $sale_filled_edit['end_priviledge_date'] = "";
+            $sale_filled_edit['has_reply_doc'] = "";
+            $sale_filled_edit['has_confirm_product_img'] = "";
+            $sale_filled_edit['has_confirm_logo_img'] = "";
+            $sale_filled_edit['has_shop_img'] = "";
+            $sale_filled_edit['has_product_img'] = "";
+            $sale_filled_edit['has_logo_img'] = "";
             $sale_filled_edit['cannot_contact_amount_call'] = "";
             $sale_filled_edit['cannot_contact_reason'] = "";
             $sale_filled_edit['cannot_contact_appointment_date'] = "";
@@ -659,6 +719,10 @@ class CallController extends Controller
         $select_record->branch_amount = $sale_filled_edit['branch_amount'];
         $select_record->note = $sale_filled_edit['note'];
         $select_record->sending_address = $sale_filled_edit['sending_address'];
+        if($select_record->sending_status=="not_approve")
+        {
+            $select_record->is_corrected = "1";
+        }
 
         if($sale_filled_edit['edit_address']!="")//มีการแก้ไข
         {
@@ -679,33 +743,123 @@ class CallController extends Controller
             $select_record->yes_privilege_end = $new_yes_privilege_end[2]."-".$new_yes_privilege_end[1]."-".$new_yes_privilege_end[0];
             $select_record->yes_feedback = $sale_filled_edit['feedback'];
             $select_record->yes_condition = $sale_filled_edit['condition'];
+            $select_record->has_reply_doc = $sale_filled_edit['has_reply_doc'];
+            $select_record->has_confirm_product_img = $sale_filled_edit['has_confirm_product_img'];
+            $select_record->has_confirm_logo_img = $sale_filled_edit['has_confirm_logo_img'];
+            $select_record->has_shop_img = $sale_filled_edit['has_shop_img'];
+            $select_record->has_product_img = $sale_filled_edit['has_product_img'];
+            $select_record->has_logo_img = $sale_filled_edit['has_logo_img'];
 
             $select_record->status="Not_Available";
+
+            //Reset the rest
+            $select_record->cannot_contact_amount_call = NULL;
+            $select_record->cannot_contact_reason = NULL;
+            $select_record->cannot_contact_appointment = NULL;
+            $select_record->no_reason = NULL;
+            $select_record->no_note = NULL;
+            $select_record->consider_reason = NULL;
+            $select_record->consider_appointment_feedback = NULL;
+            $select_record->close = NULL;
         }
         else if($sale_filled_edit['call_result']=="no_reply")
         {
-            $select_record->cannot_contact_amount_call = $sale_filled_edit['cannot_contact_amount_call'];
             $select_record->cannot_contact_reason = $sale_filled_edit['cannot_contact_reason'];
             $new_cannot_contact_appointment = explode('/', $sale_filled_edit['cannot_contact_appointment_date']);
             $select_record->cannot_contact_appointment = $new_cannot_contact_appointment[2]."-".$new_cannot_contact_appointment[1]."-".$new_cannot_contact_appointment[0];
+
+            //Reset the rest
+            $select_record->yes_sale_name = NULL;
+            $select_record->yes_privilege_start = NULL;
+            $select_record->yes_privilege_end = NULL;
+            $select_record->yes_feedback =NULL;
+            $select_record->yes_condition = NULL;
+            $select_record->has_reply_doc = "";
+            $select_record->has_confirm_product_img = "";
+            $select_record->has_confirm_logo_img = "";
+            $select_record->has_shop_img = "";
+            $select_record->has_product_img = "";
+            $select_record->has_logo_img = "";
+            $select_record->no_reason = NULL;
+            $select_record->no_note = NULL;
+            $select_record->consider_reason = NULL;
+            $select_record->consider_appointment_feedback = NULL;
+            $select_record->close = NULL;
         }
         else if($sale_filled_edit['call_result']=="rejected")
         {
             $select_record->no_reason = $sale_filled_edit['no_reason'];
             $select_record->no_note = $sale_filled_edit['no_note'];
             $select_record->status="Not_Available";
+
+            //Reset the rest
+            $select_record->yes_sale_name = NULL;
+            $select_record->yes_privilege_start = NULL;
+            $select_record->yes_privilege_end = NULL;
+            $select_record->yes_feedback =NULL;
+            $select_record->yes_condition = NULL;
+            $select_record->has_reply_doc = "";
+            $select_record->has_confirm_product_img = "";
+            $select_record->has_confirm_logo_img = "";
+            $select_record->has_shop_img = "";
+            $select_record->has_product_img = "";
+            $select_record->has_logo_img = "";
+            $select_record->cannot_contact_amount_call = NULL;
+            $select_record->cannot_contact_reason = NULL;
+            $select_record->cannot_contact_appointment = NULL;
+            $select_record->consider_reason = NULL;
+            $select_record->consider_appointment_feedback = NULL;
+            $select_record->close = NULL;
         }
         else if($sale_filled_edit['call_result']=="waiting")
         {
             $select_record->consider_reason = $sale_filled_edit['consider_reason'];
             $new_consider_appointment_feedback = explode('/', $sale_filled_edit['consider_appointment_feedback_date']);
             $select_record->consider_appointment_feedback = $new_consider_appointment_feedback[2]."-".$new_consider_appointment_feedback[1]."-".$new_consider_appointment_feedback[0];
+
+            //Reset the rest
+            $select_record->yes_sale_name = NULL;
+            $select_record->yes_privilege_start = NULL;
+            $select_record->yes_privilege_end = NULL;
+            $select_record->yes_feedback =NULL;
+            $select_record->yes_condition = NULL;
+            $select_record->has_reply_doc = "";
+            $select_record->has_confirm_product_img = "";
+            $select_record->has_confirm_logo_img = "";
+            $select_record->has_shop_img = "";
+            $select_record->has_product_img = "";
+            $select_record->has_logo_img = "";
+            $select_record->cannot_contact_amount_call = NULL;
+            $select_record->cannot_contact_reason = NULL;
+            $select_record->cannot_contact_appointment = NULL;
+            $select_record->no_reason = NULL;
+            $select_record->no_note = NULL;
+            $select_record->close = NULL;
         }
         else if($sale_filled_edit['call_result']=="closed")
         {
             $select_record->close = "1";
             $select_record->status="Not_Available";
+
+            //Reset the rest
+            $select_record->yes_sale_name = NULL;
+            $select_record->yes_privilege_start = NULL;
+            $select_record->yes_privilege_end = NULL;
+            $select_record->yes_feedback =NULL;
+            $select_record->yes_condition = NULL;
+            $select_record->has_reply_doc = "";
+            $select_record->has_confirm_product_img = "";
+            $select_record->has_confirm_logo_img = "";
+            $select_record->has_shop_img = "";
+            $select_record->has_product_img = "";
+            $select_record->has_logo_img = "";
+            $select_record->cannot_contact_amount_call = NULL;
+            $select_record->cannot_contact_reason = NULL;
+            $select_record->cannot_contact_appointment = NULL;
+            $select_record->no_reason = NULL;
+            $select_record->no_note = NULL;
         }
+
 
         if($sale_filled_edit['is_tel_correct']=="0")
         {
@@ -726,9 +880,18 @@ class CallController extends Controller
         // print_r($select_record);
         $select_record->save();
 
-        Session::forget('sale_filled_edit');
-
-        return redirect('/sale/select_record/submit_ediit_submit_record/success/'.$edit_record_id);
+         if($sale_filled_edit['call_result']=="yes")
+        {
+            //redirect to edit_record_info
+            Session::forget('sale_filled_edit');
+            return redirect('/sale/edit_record/record/show/'.$edit_record_id);
+        }
+        else
+        {
+            Session::forget('sale_filled_edit');
+            return redirect('/sale/select_record/submit_ediit_submit_record/success/'.$edit_record_id);
+        }
+        
     }
 
     public function success_edit_submit_record($record_id)
@@ -781,6 +944,7 @@ class CallController extends Controller
 
         $select_record['record_id'] = $request->input('record_id');
 
+
         session(['select_record_info' => $select_record]);
 
         return redirect('/sale/edit_record/record/show_preview_edit_info');
@@ -790,7 +954,7 @@ class CallController extends Controller
     {
         $preview_record = session('select_record_info');
         $select_record = SelectRecord::where('record_id',$preview_record['record_id'])->first();
-        //print_r($preview_record);
+        //print_r($select_record);
         return view('sale.select.show_preview_edit_info')->with('select_record',$preview_record)->with('select_record_info',$select_record);   
     }
 
@@ -800,6 +964,12 @@ class CallController extends Controller
         $record_id = $request->input('record_id');
         $edit_record_info = session('select_record_info');
         $select_record = SelectRecord::where('record_id','=',$record_id)->first();
+
+        if($select_record->sending_status=="not_approve")
+        {
+            $select_record->is_corrected = "1";
+        }
+
         $select_record->categories = $edit_record_info['categories'];
         $select_record->shop_type = $edit_record_info['shop_type'];
         $select_record->name_th = $edit_record_info['name_th'];
@@ -839,6 +1009,30 @@ class CallController extends Controller
         Session::forget('edit_record_info');
         return redirect('/sale/show_selected_record_list');
     }
+
+    public function show_sale_perform()
+    {
+        $sale = Sentinel::check();
+        return view('sale.show_sale_perform.show_sale_perform')->with('sale',$sale);
+    }
+
+    public function show_sale_perform_by_range(Request $request)
+    {
+        $sale_id = $request->input('sale_id');
+        $sale = Sentinel::findUserById($sale_id);
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $start_date_array = explode('/', $start_date);
+        $new_start_date = $start_date_array[2]."-".$start_date_array[1]."-".$start_date_array[0];
+        $end_date_array = explode('/', $end_date);
+        $new_end_date = $end_date_array[2]."-".$end_date_array[1]."-".$end_date_array[0];
+
+        //Query
+        $result = SaleRecordYesCollection::where('sale_id','=',$sale_id)->whereBetween('approve_date', [$new_start_date, $new_end_date])->get();
+
+        return view('sale.show_sale_perform.show_sale_perform_by_range')->with('result',$result)->with('sale',$sale)->with('start_date',$start_date)->with('end_date',$end_date);
+    }
+
 }   
 
 ?>

@@ -22,7 +22,7 @@ use App\Record;
 <div class="container-fluid">
 	<div class="row">
 		<div class="form-group">
-		<h1>Create new record</h1>
+		<h1>สร้าง Lead ร้านค้าใหม่</h1>
 		<h3>ข้อมูลได้ถูกจัดเก็บเป็นที่เรียบร้อยแล้ว</h3>
 		
 		<br />

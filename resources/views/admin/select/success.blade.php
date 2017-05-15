@@ -45,8 +45,8 @@ use App\SelectRecord;
 <!-- Services Section -->
 <div class="container">
 	<div class="row">
-		<h1>Reocord ที่เลือกให้สำหรับ เซล {{$sale->first_name}}</h1>
-		<h2>ทำการเลือก Record ให้เซล {{$sale->first_name}} เสร็จสิ้น</h2>
+		<h1>เลือกร้านค้าให้ {{$sale->first_name}}</h1>
+		<h2>ทำการเลือก Leads ให้เซล {{$sale->first_name}} เสร็จสิ้น</h2>
 		
 	</div>
 	<a class="btn btn-primary" href="{{url('/admin/select_record/select_sale')}}" role="button" id="confirm_btn">ย้อนกลับ</a>
