@@ -10,10 +10,10 @@ $record = new Record;
 	<div class="row add-margin-left-right">
 		<h1>รายชื่อร้านค้าทั้งหมด</h1>
 		{{$records->links()}}
-		<table class="table-condensed table-bordered table-striped padding_3">
-		  <thead class="thead-inverse text-center">
+		<table class="table table-bordered table-striped">
+		  <thead class="thead-inverse">
 		    <tr>
-		      <th class="text-center padding_3">ID</th>
+		      <th class="text-center">ID</th>
 		      <th class="text-center">แหล่งที่มา</th>
 		      <th class="text-center">status</th>
 		      <th class="text-center">categories</th>
@@ -29,7 +29,7 @@ $record = new Record;
 		  <tbody class="text-center">
 		  @foreach ($records as $each_record)
 		    <tr>
-		      <th scope="row" class="text-center padding_3">{{$each_record->id}}</th>
+		      <th scope="row" class="text-center">{{$each_record->id}}</th>
 		      <td>
 		      <?php
 		      if($each_record->sources=="online_search")

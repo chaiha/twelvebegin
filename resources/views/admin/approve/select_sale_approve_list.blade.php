@@ -10,7 +10,7 @@ use App\SelectRecord;
 <div class="container">
 	<div class="row">
 		<h1>เลือกเซลเพื่อ Approve Leads | <?php echo date('Y-m-d H:i:s');?></h1>
-		<table class="table text-center">
+		<table class="table">
 		  <thead class="thead-inverse text-center">
 		  	<tr>
 		  		<th class="text-center">Sale ID</th>

@@ -1645,6 +1645,7 @@ class AdminController extends Controller
                     }
                         $record->branch_amount = $result_each->branch_amount;
                         $record->result = $result_each->result;
+                        $record->selective_status = "extend";
                         $record->call_status = $result_each->call_status;
                         $record->result_date = $result_each->result_date;
                         $record->yes_lot_no = date('Y-m-d');
@@ -1749,6 +1750,9 @@ class AdminController extends Controller
                     $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
                     $record->save();
 
                     $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
@@ -1805,6 +1809,9 @@ class AdminController extends Controller
                     $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
                     $record->save();
 
                     $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
@@ -1875,6 +1882,9 @@ class AdminController extends Controller
                     $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
                     $record->save();
 
                     $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
@@ -1931,6 +1941,9 @@ class AdminController extends Controller
                     $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
                     $record->save();
 
                     $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
@@ -1990,6 +2003,9 @@ class AdminController extends Controller
                     $record->lot_no = NULL;
                     $record->updated_by = $user->id;
                     $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
                     $record->save();
 
                     $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();

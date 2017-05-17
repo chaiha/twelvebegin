@@ -9,7 +9,7 @@ use App\SelectRecord;
 <div class="container">
 	<div class="row">
 		<h1>เลือกร้านค้าให้เซล</h1>
-		<table class="table text-center">
+		<table class="table">
 		  <thead class="thead-inverse">
 		  	<tr>
 		  		<th class="text-center">Sale ID</th>

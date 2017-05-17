@@ -374,7 +374,7 @@ $record = new Record;
                 @elseif($select_record->result=="no_reply")
                     <span>No Reply</span><br />
                     <b>เหตุผล : </b> {{$select_record->cannot_contact_reason}} <br />
-                    <b>นัดโทรครั้งถัดไป [ วัน / เดือน / ปี ] : </b> {{$select_record->cannot_contact_appointment_day}} / {{$select_record->cannot_contact_appointment_month}} / {{$select_record->cannot_contact_appointment_year}} <br />
+                    <b>นัดโทรครั้งถัดไป [ วัน - เดือน - ปี ] : </b> <?php echo $record->convert_date_format_dash($select_record->cannot_contact_appointment); ?> <br />
                     
                 @elseif($select_record->result=="rejected")
                     <span>Rejected</span><br />
@@ -383,7 +383,7 @@ $record = new Record;
                 @elseif($select_record->result=="waiting")
                     <span>Waiting</span><br />
                     <b>เหตุผลที่ขอพิจารณาดูก่อน : </b> {{$select_record->consider_reason}} <br />
-                    <b>วันที่นัดรับ Feedback [ วัน / เดือน / ปี ] </b> {{$select_record->consider_appointment_feedback_day}} / {{$select_record->consider_appointment_feedback_month}} / {{$select_record->consider_appointment_feedback_year}} <br />
+                    <b>วันที่นัดรับ Feedback [ วัน - เดือน - ปี ] </b> <?php echo $record->convert_date_format_dash($select_record->consider_appointment_feedback);?><br />
 
                 @elseif($select_record->result=="closed")
                     <span>ร้านปิดไปแล้ว</span><br />
