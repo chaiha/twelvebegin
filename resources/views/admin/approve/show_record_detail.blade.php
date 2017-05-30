@@ -47,7 +47,81 @@ $record = new Record;
         @if($select_record->result=="yes")
         <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$select_record->record_id.'/'.$select_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
         @endif
-        </h1> 
+        </h1>
+        <h3>ผลการโทร</h3>
+        @if($select_record->result=="yes") 
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ผลการโทร : Yes</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>Privilege</th>
+                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>Privilege-start</th>
+                <th>Privilege-end</th>
+            </tr>
+            <tr>
+                <td>{{$select_record->yes_feedback}}</td>
+                <td>{{$select_record->yes_condition}}</td>
+                <td><?php echo $record->convert_date_format_dash($select_record->yes_privilege_start); ?></td>
+                <td><?php echo $record->convert_date_format_dash($select_record->yes_privilege_end); ?></td>
+            </tr>
+            </table>
+            </div>
+        </div>
+        @elseif($select_record->result=="no_reply")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ผลการโทร : No Reply</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>เหตุผลที่ไม่สามารถติดต่อได้</th>
+                <th>นัดโทรครั้งถัดไป [ วัน - เดือน - ปี ] : </th>
+            <tr>
+                <td>{{$select_record->cannot_contact_reason}}</td>
+                <td><?php echo $record->convert_date_format_dash($select_record->cannot_contact_appointment); ?></td>
+            </tr>
+            </table>
+            </div>
+        </div>
+                    
+        @elseif($select_record->result=="rejected")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ผลการโทร : Rejected</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>เหตุผลที่ปฏิเสธ</th>
+            <tr>
+                <td>{{$select_record->no_reason}}</td>
+            </tr>
+            </table>
+            </div>
+        </div>
+
+        @elseif($select_record->result=="waiting")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ผลการโทร : Waiting</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>เหตุผลที่ขอพิจารณาดูก่อน</th>
+                <th>วันที่นัดรับ Feedback [ วัน - เดือน - ปี ] </th>
+            <tr>
+                <td>{{$select_record->consider_reason}}</td>
+                <td><?php echo $record->convert_date_format_dash($select_record->consider_appointment_feedback);?></td>
+            </tr>
+            </table>
+            </div>
+        </div>
+
+        @elseif($select_record->result=="closed")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ร้านปิดไปแล้ว</label><br />
+            </div>
+        </div>
+        @endif
         <h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
             {{csrf_field()}}
         <div class="row">
@@ -269,30 +343,8 @@ $record = new Record;
             </div>
             </div>
             <br />
-            <div class="row">
-                <div class="col-xs-12">
-                <label>หมายเหตุ</label>
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th>หมายเหตุ</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{$select_record->note}}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </div>
         <hr>
-        <div class="row">
-            <div class="col-xs-12">
-                <label>เบอร์โทรศัพท์: </label> <?php if($select_record->is_tel_correct=="1"){ echo "ถูกต้อง";} else { echo "เบอร์โทรศัพท์ไม่ถูกต้อง เบอร์ที่ถูกต้องคือ <b>".$select_record->wrong_number_new_tel_number."</b>"; } ?>
-                
-            </div>
-            <div class="row">
-        </div>
         <div class="row">
             <div class="col-xs-12"><b>ผลการโทร : </b>
             <input type="hidden" name="result" id="result" value="{{$select_record->result}}" /> 

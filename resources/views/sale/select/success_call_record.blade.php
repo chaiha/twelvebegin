@@ -25,6 +25,7 @@
 @stop
 <?php
 use App\Record;
+$record = new Record;
 ?>
 <!-- Services Section -->
 <div class="container-fluid add-margin-20">
@@ -32,6 +33,27 @@ use App\Record;
 		<div class="form-group">
 		<h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?></h1>
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}}</h3>
+		 @if($select_record->record->yes_feedback!=NULL||$select_record->record->yes_feedback!="")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ข้อมูล Privilege ก่อนหน้า</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>Privilege</th>
+                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>Privilege-start</th>
+                <th>Privilege-end</th>
+            </tr>
+            <tr>
+                <td>{{$select_record->record->yes_feedback}}</td>
+                <td>{{$select_record->record->yes_condition}}</td>
+                <td><?php echo $record->convert_date_format_dash($select_record->record->yes_privilege_start); ?></td>
+                <td><?php echo $record->convert_date_format_dash($select_record->record->yes_privilege_end); ?></td>
+            </tr>
+            </table>
+            </div>
+        </div>
+        @endif
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
@@ -274,13 +296,6 @@ use App\Record;
 			</div>
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-xs-12">
-				<label>เบอร์โทรศัพท์: </label> <?php if($select_record->is_tel_correct=="1"){ echo "ถูกต้อง";} else { echo "เบอร์โทรศัพท์ไม่ถูกต้อง เบอร์ที่ถูกต้องคือ ".$select_record->wrong_number_new_tel_number; } ?>
-				
-			</div>
-			<div class="row">
-		</div>
 		<div class="row">
 			<div class="col-xs-12"><b>ผลการโทร : </b>
 				@if($select_record->result=="yes") 

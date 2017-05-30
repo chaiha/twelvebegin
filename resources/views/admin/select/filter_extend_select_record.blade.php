@@ -126,18 +126,15 @@ $record = new Record;
 		    <tr>
 		      <th>Select<input type="hidden" name="sale_id" id="sale_id" value="{{$sale->id}}" /></th>
 		      <th>ID<input type="hidden" name="currentPage" id="currentPage" value="{{$record_list->currentPage()}}"</th>
-		      <th>status</th>
-		      <th>แหล่งที่มา</th>
-		      <th>categories</th>
-		      <th>dtact type</th>
-		      <th>ประเภทร้านพิเศษ</th>
-		      <th>input date</th>
-		      <th>ชื่อไทย</th>
+			  <th>Month</th>
+			  <th>categories</th>
+			  <th>dtac type</th>
+			  <th>ประเภทร้านพิเศษ</th>
+			  <th>ชื่อไทย</th>
 		      <th>ชื่ออังกฤษ</th>
-		      <th>สาขา</th>
-		      <th>จังหวัด</th>
-		      <th>ที่อยู่</th>
-		      <th>ชื่อsale</th>
+			  <th>จังหวัด</th>
+			  <th>Start Date</th>
+		      <th>End Date</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -145,16 +142,7 @@ $record = new Record;
 		    <tr>
 		      <td><input type="checkbox" class="select_checkbox" name="selected_record[]" id="{{$each_record->id}}" value="{{$each_record->id}}" onClick="select_record_checkbox({{$each_record->id}})"/></td>
 		      <td>{{$each_record->id}}</td>
-		      <td>{{$each_record->status}}</td>
-		      <td>
-		      @if($each_record->sources=="online_search")
-		      ค้นหาจากเว็บไซต์
-		      @elseif($each_record->sources=="dtac_recommend")
-		      ร้านแนะนำจาก dtac
-		      @elseif($each_record->sources=="walking")
-		      Walk in
-		      @endif
-		      </td>
+			  <td>{{$each_record->month}}</td>
 		      <td>
 		      <?php echo $record->check_category_name($each_record->categories); ?>
 		      </td>
@@ -192,13 +180,21 @@ $record = new Record;
 						
 		      </td>
 		      <td>{{$each_record->special_type}}</td>
-		      <td><?php echo $record->convert_date_formate($each_record->input_date); ?></td>
 		      <td>{{$each_record->name_th}}</td>
 		      <td>{{$each_record->name_en}}</td>
-		      <td>{{$each_record->branch}}</td>
 		      <td>{{$each_record->province}}</td>
-		      <td>{{$each_record->address}}</td>
-		      <td>{{$each_record->sale_name}}</td>
+		      <td><?php 
+		      if($each_record->yes_privilege_start!=NULL)
+		      {
+		      	echo $record->convert_date_format_dash($each_record->yes_privilege_start); 
+		      }
+		      	?></td>
+		      <td><?php 
+		      if($each_record->yes_privilege_end!=NULL)
+		      {
+		      	echo $record->convert_date_format_dash($each_record->yes_privilege_end); 
+		      }
+		      	?></td>
 		    </tr>
 		   @endforeach
 		  </tbody>

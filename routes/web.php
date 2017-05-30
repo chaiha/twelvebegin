@@ -29,6 +29,9 @@ Route::get('/login', function () {
 Route::get('/diff_database/{start_master}/{start_second}','AdminController@diff_database');
 
 Route::get('/test_sentitnel','AdminController@test_sentitnel');
+Route::get('/test_update','AdminController@test_update');
+Route::get('/insert_record_to_select_record','AdminController@insert_record_to_select_record');
+Route::geT('/update_info_from_records_to_select_records','AdminController@update_info_from_records_to_select_records');
 
 Route::get('/test_date','AdminController@test_date');
 Route::get('/create_user_admin','UserController@create_user_admin');

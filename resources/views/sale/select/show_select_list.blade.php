@@ -40,7 +40,7 @@ $record = new Record
 		      <th class="text-center">สาขา</th>
 		      <th class="text-center">แหล่งที่มา</th>
 		      <th class="text-center">categories</th>
-		      <th class="text-center">dtact type</th>
+		      <th class="text-center">dtac type</th>
 		    </tr>
 		  </thead>
 		  <tbody class="text-center">
@@ -108,7 +108,7 @@ $record = new Record
 		      <th class="text-center">สาขา</th>
 		      <th class="text-center">แหล่งที่มา</th>
 		      <th class="text-center">categories</th>
-		      <th class="text-center">dtact type</th>
+		      <th class="text-center">dtac type</th>
 		    </tr>
 		  </thead>
 		  <tbody class="text-center">
@@ -176,7 +176,7 @@ $record = new Record
 		      <th class="text-center">สาขา</th>
 		      <th class="text-center">แหล่งที่มา</th>
 		      <th class="text-center">categories</th>
-		      <th class="text-center">dtact type</th>
+		      <th class="text-center">dtac type</th>
 		    </tr>
 		  </thead>
 		  <tbody class="text-center">
@@ -244,7 +244,7 @@ $record = new Record
 		      <th class="text-center">สาขา</th>
 		      <th class="text-center">แหล่งที่มา</th>
 		      <th class="text-center">categories</th>
-		      <th class="text-center">dtact type</th>
+		      <th class="text-center">dtac type</th>
 		    </tr>
 		  </thead>
 		  <tbody class="text-center">

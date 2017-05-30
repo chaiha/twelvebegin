@@ -621,39 +621,8 @@ use App\Record;
 			</div>
 			</div>
             <br />
-        <div class="row">
-            <div class="col-xs-12">
-            <label>หมายเหตุ</label>
-            <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>หมายเหตุ</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{$select_record->note}}
-                            <input type="hidden" name="note" id="note" class="form-control" value="{{$select_record->note}}" />
-                            
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            </div>
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-xs-12">
-				<label>เบอร์โทรศัพท์ </label>
-                <label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" <?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="1"){echo "checked"; }}elseif($sale_filled_edit['is_tel_correct']=="1"){echo "checked";} ?>/>
-				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" <?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="0"){echo "checked"; }}elseif($sale_filled_edit['is_tel_correct']=="0"){echo "checked";} ?>/>
-				<div class="row <?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="0"){ echo "show"; }else{ echo "hide"; }}elseif($sale_filled_edit['is_tel_correct']=="0"){ echo "show"; }else{ echo "hide"; } ?>" id="new_tel_form">
-					<div class="col-xs-12  add-margin-20">
-						<label>หมายเลขที่ถูกต้องคือ</label>
-						<input type="text" name="new_tel" id="new_tel" value="<?php if($sale_filled_edit['is_tel_correct']==""){ if($select_record->is_tel_correct=="0"){ echo $select_record->wrong_number_new_tel_number; }}elseif($sale_filled_edit['is_tel_correct']=="0"){ echo $sale_filled_edit['new_tel']; } ?>"/>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-		</div>
 		<div class="row">
 			<div class="col-xs-12"><label>ผลการโทร : </label>
 				<select name="call_result" id="call_result">

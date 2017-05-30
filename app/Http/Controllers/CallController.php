@@ -90,14 +90,13 @@ class CallController extends Controller
         $sale_filled = array();
         $sale_filled['call_result'] = $request->input('call_result');
         $call_result = $request->input('call_result');
-        $sale_filled['is_tel_correct'] = $request->input('is_tel_correct');
-        $is_tel_correct = $request->input('is_tel_correct');
+        $sale_filled['is_tel_correct'] = '1';
+        $is_tel_correct = '1';
         $sale_filled['record_id'] = $request->input('record_id');
         $sale_filled['sending_address'] = $request->input('sending_address');
         $record_id = $request->input('record_id');
 
         $sale_filled['branch_amount'] = $request->input('branch_amount');
-        $sale_filled['note'] = $request->input('note');
         $edit_address = $request->input('edit_address');
         $edit_contact_person = $request->input('edit_contact_person');
         if($edit_address!="")
@@ -178,7 +177,7 @@ class CallController extends Controller
         
         $record_id = $sale_filled['record_id'];
         $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
-        $is_tel_correct = $sale_filled['is_tel_correct'];
+        $is_tel_correct = '1';
         $edit_address = $sale_filled['edit_address'];
         $sending_address =$sale_filled['sending_address'];
         $edit_contact_person = $sale_filled['edit_contact_person'];
@@ -200,7 +199,6 @@ class CallController extends Controller
         $select_record->result_date = date("Y-m-d");
 
         $select_record->branch_amount = $sale_filled['branch_amount'];
-        $select_record->note = $sale_filled['note'];
         $select_record->sending_address = $sale_filled['sending_address'];
 
         if($sale_filled['edit_address']!="")
@@ -317,13 +315,12 @@ class CallController extends Controller
         $sale_filled_new = array();
         $sale_filled_new['call_result'] = $request->input('call_result');
         $call_result = $request->input('call_result');
-        $sale_filled_new['is_tel_correct'] = $request->input('is_tel_correct');
-        $is_tel_correct = $request->input('is_tel_correct');
+        $sale_filled_new['is_tel_correct'] = '1';
+        $is_tel_correct = '1';
         $sale_filled_new['record_id'] = $request->input('record_id');
         $record_id = $request->input('record_id');
 
         $sale_filled_new['branch_amount'] = $request->input('branch_amount');
-        $sale_filled_new['note'] = $request->input('note');
         $sale_filled_new['sending_address'] = $request->input('sending_address');
 
         $edit_address = $request->input('edit_address');
@@ -532,13 +529,12 @@ class CallController extends Controller
         $sale_filled_edit = array();
         $sale_filled_edit['call_result'] = $request->input('call_result');
         $call_result = $request->input('call_result');
-        $sale_filled_edit['is_tel_correct'] = $request->input('is_tel_correct');
-        $is_tel_correct = $request->input('is_tel_correct');
+        $sale_filled_edit['is_tel_correct'] = '1';
+        $is_tel_correct = '1';
         $sale_filled_edit['record_id'] = $request->input('record_id');
         $record_id = $request->input('record_id');
 
         $sale_filled_edit['branch_amount'] = $request->input('branch_amount');
-        $sale_filled_edit['note'] = $request->input('note');
         $sale_filled_edit['sending_address'] = $request->input('sending_address');
         $edit_address = $request->input('edit_address');
         $edit_contact_person = $request->input('edit_contact_person');
@@ -695,7 +691,7 @@ class CallController extends Controller
         $sale_filled_edit = session('sale_filled_edit');
         $record_id = $sale_filled_edit['record_id'];
         $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
-        $is_tel_correct = $sale_filled_edit['is_tel_correct'];
+        $is_tel_correct = '1';
         $sending_address = $sale_filled_edit['sending_address'];
         $edit_address = $sale_filled_edit['edit_address'];
         $edit_contact_person = $sale_filled_edit['edit_contact_person'];
@@ -717,7 +713,6 @@ class CallController extends Controller
         $select_record->result_date = date("Y-m-d");
 
         $select_record->branch_amount = $sale_filled_edit['branch_amount'];
-        $select_record->note = $sale_filled_edit['note'];
         $select_record->sending_address = $sale_filled_edit['sending_address'];
         if($select_record->sending_status=="not_approve")
         {
@@ -940,7 +935,6 @@ class CallController extends Controller
         $select_record['province'] = $request->input('province');
         $select_record['links'] = $request->input('links');
         $select_record['remarks'] = $request->input('remarks');
-        $select_record['note'] = $request->input('note');
 
         $select_record['record_id'] = $request->input('record_id');
 
@@ -986,7 +980,6 @@ class CallController extends Controller
         $select_record->province = $edit_record_info['province'];
         $select_record->links = $edit_record_info['links'];
         $select_record->remarks = $edit_record_info['remarks'];
-        $select_record->note = $edit_record_info['note'];
         $select_record->updated_at = date('Y-m-d H:i:s');
         $select_record->updated_by = $user->id;
         $select_record->save();

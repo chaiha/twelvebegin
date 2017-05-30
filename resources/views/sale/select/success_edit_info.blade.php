@@ -246,30 +246,6 @@ use App\Record;
 			</div>
 			</div>
 		<br />
-		<div class="row">
-			<div class="col-xs-12">
-			<label>หมายเหตุ</label>
-			<table class="table table-bordered table-striped">
-					<tr>
-						<th>หมายเหตุ</th>
-					</tr>
-					<tr>
-						<td>
-							<?php
-								if($select_record->note!=NULL)
-								{
-									echo($select_record->note);
-								}
-								else
-								{
-									echo "-";
-								}
-								?>
-						</td>
-					</tr>
-				</table>
-			</div>
-			</div>
 		</div>
 		<hr>
 		<br />

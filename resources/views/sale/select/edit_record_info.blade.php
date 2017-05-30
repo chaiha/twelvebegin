@@ -383,21 +383,6 @@ use App\Record;
 			</div>
 			</div>
             <br />
-            <div class="row">
-                <div class="col-xs-12">
-                <label>หมายเหตุ</label>
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th>หมายเหตุ</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <textarea id="note" name="note" class="form-control">{{$select_record->note}}</textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
 		</div>
 		<hr>
 	<div class="row">

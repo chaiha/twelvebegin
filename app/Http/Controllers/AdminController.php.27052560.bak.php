@@ -39,9 +39,30 @@ class AdminController extends Controller
         echo "next 2 month".$plus60;
     }
 
+    public function forget_cookie()
+    {
+        $cookie = \Cookie::forget('is_update');
+        return response('view')->withCookie($cookie);
+    }
+    public function test_cookie()
+    {
+        $is_update = Cookie::get('is_update');
+        echo $is_update;
+    }
+
+    public function test_update()
+    {
+        $record = Record::where('id','=','142')->first();
+        $record->name_th = "เส้นจัส";
+        $record->save();
+        echo "ok";
+
+    }
+
     public function insert_record_to_select_record()
     {
-        $record = DB::table('merge_leads_ext')->where('exec','=','0')->get();
+        $record = DB::table('merge_leads_ext')->where('sale','<>',NULL)->get();
+        //$record = DB::table('records')->where('id','=','1')->get();
         
             foreach($record as $selected_record_each)
             {
@@ -78,71 +99,6 @@ class AdminController extends Controller
             }
             echo "finish";
             
-    }
-
-        public function update_info_from_records_to_select_records()
-    {
-        $select_record =SelectRecord::where('call_status','=',NULL)->get();
-        
-            foreach($select_record as $selected_record_each)
-            {
-
-                $record = DB::table('records')->where('id','=',$selected_record_each->record_id)->first();
-                $select_record_update = SelectRecord::where('record_id','=',$selected_record_each->record_id)->first();
-                $dt = date("Y-m-d");
-                $user = Sentinel::check();
-
-                $select_record_update->input_date = $record->input_date;
-                $select_record_update->sources = $record->sources;
-                $select_record_update->categories = $record->categories;
-                $select_record_update->dtac_type = $record->dtac_type;
-                $select_record_update->shop_type = $record->shop_type;
-                $select_record_update->special_type = $record->special_type;
-                $select_record_update->name_th = $record->name_th;
-                $select_record_update->name_en = $record->name_en;
-                $select_record_update->branch = $record->branch;
-                $select_record_update->branch_amount = $record->branch_amount;
-                $select_record_update->province = $record->province;
-                $select_record_update->address = $record->address;
-                $select_record_update->contact_person = $record->contact_person;
-                $select_record_update->contact_email = $record->contact_email;
-                $select_record_update->contact_tel = $record->contact_tel;
-                $select_record_update->sending_address = $record->sending_address;
-                $select_record_update->latitude = $record->latitude;
-                $select_record_update->longtitude = $record->longtitude;
-                $select_record_update->links = $record->links;
-                $select_record_update->remarks = $record->remarks;
-
-                $select_record_update->created_at = date("Y-m-d");
-                $select_record_update->created_by = '4';
-                $select_record_update->updated_at = date("Y-m-d");
-                $select_record_update->updated_by = '4';
-
-                $select_record_update->save();
-
-            }
-            echo "finish";
-            
-    }
-
-    public function forget_cookie()
-    {
-        $cookie = \Cookie::forget('is_update');
-        return response('view')->withCookie($cookie);
-    }
-    public function test_cookie()
-    {
-        $is_update = Cookie::get('is_update');
-        echo $is_update;
-    }
-
-    public function test_update()
-    {
-        $record = Record::where('id','=','142')->first();
-        $record->name_th = "เส้นจัส";
-        $record->save();
-        echo "ok";
-
     }
 
     public function check_is_update()
@@ -1178,7 +1134,6 @@ class AdminController extends Controller
                 $user = Sentinel::check();
                 $select_record_extend = new SelectRecord;
 
-                $selected_array_extend->input_date = $selected_record_each->input_date;
                 $select_record_extend->sources = $selected_record_each->sources;
                 $select_record_extend->categories = $selected_record_each->categories;
                 $select_record_extend->dtac_type = $selected_record_each->dtac_type;
@@ -1187,15 +1142,8 @@ class AdminController extends Controller
                 $select_record_extend->name_th = $selected_record_each->name_th;
                 $select_record_extend->name_en = $selected_record_each->name_en;
                 $select_record_extend->branch = $selected_record_each->branch;
-                $select_record_extend->branch_amount = $selected_record_each->branch_amount;
                 $select_record_extend->province = $selected_record_each->province;
-                $select_record_extend->address = $selected_record_each->address;
-                $select_record_extend->contact_person = $selected_record_each->contact_person;
-                $select_record_extend->contact_email = $selected_record_each->contact_email;
                 $select_record_extend->contact_tel = $selected_record_each->contact_tel;
-                $select_record_extend->sending_address = $selected_record_each->sending_address;
-                $select_record_extend->latitude = $selected_record_each->latitude;
-                $select_record_extend->longtitude = $selected_record_each->longtitude;
                 $select_record_extend->links = $selected_record_each->links;
                 $select_record_extend->remarks = $selected_record_each->remarks;
 
@@ -1225,7 +1173,6 @@ class AdminController extends Controller
                 $user = Sentinel::check();
                 $select_record_waiting = new SelectRecord;
 
-                $select_record_waiting->input_date = $selected_record_each->input_date;
                 $select_record_waiting->sources = $selected_record_each->sources;
                 $select_record_waiting->categories = $selected_record_each->categories;
                 $select_record_waiting->dtac_type = $selected_record_each->dtac_type;
@@ -1234,15 +1181,8 @@ class AdminController extends Controller
                 $select_record_waiting->name_th = $selected_record_each->name_th;
                 $select_record_waiting->name_en = $selected_record_each->name_en;
                 $select_record_waiting->branch = $selected_record_each->branch;
-                $select_record_waiting->branch_amount = $selected_record_each->branch_amount;
                 $select_record_waiting->province = $selected_record_each->province;
-                $select_record_waiting->address = $selected_record_each->address;
-                $select_record_waiting->contact_person = $selected_record_each->contact_person;
-                $select_record_waiting->contact_email = $selected_record_each->contact_email;
                 $select_record_waiting->contact_tel = $selected_record_each->contact_tel;
-                $select_record_waiting->sending_address = $selected_record_each->sending_address;
-                $select_record_waiting->latitude = $selected_record_each->latitude;
-                $select_record_waiting->longtitude = $selected_record_each->longtitude;
                 $select_record_waiting->links = $selected_record_each->links;
                 $select_record_waiting->remarks = $selected_record_each->remarks;
 
@@ -1271,7 +1211,6 @@ class AdminController extends Controller
                 $user = Sentinel::check();
                 $select_record_noreply = new SelectRecord;
 
-                $select_record_noreply->input_date = $selected_record_each->input_date;
                 $select_record_noreply->sources = $selected_record_each->sources;
                 $select_record_noreply->categories = $selected_record_each->categories;
                 $select_record_noreply->dtac_type = $selected_record_each->dtac_type;
@@ -1280,15 +1219,8 @@ class AdminController extends Controller
                 $select_record_noreply->name_th = $selected_record_each->name_th;
                 $select_record_noreply->name_en = $selected_record_each->name_en;
                 $select_record_noreply->branch = $selected_record_each->branch;
-                $select_record_noreply->branch_amount = $selected_record_each->branch_amount;
                 $select_record_noreply->province = $selected_record_each->province;
-                $select_record_noreply->address = $selected_record_each->address;
-                $select_record_noreply->contact_person = $selected_record_each->contact_person;
-                $select_record_noreply->contact_email = $selected_record_each->contact_email;
                 $select_record_noreply->contact_tel = $selected_record_each->contact_tel;
-                $select_record_noreply->sending_address = $selected_record_each->sending_address;
-                $select_record_noreply->latitude = $selected_record_each->latitude;
-                $select_record_noreply->longtitude = $selected_record_each->longtitude;
                 $select_record_noreply->links = $selected_record_each->links;
                 $select_record_noreply->remarks = $selected_record_each->remarks;
 
@@ -1317,7 +1249,6 @@ class AdminController extends Controller
                 $user = Sentinel::check();
                 $select_record_new = new SelectRecord;
 
-                $select_record_new->input_date = $selected_record_each->input_date;
                 $select_record_new->sources = $selected_record_each->sources;
                 $select_record_new->categories = $selected_record_each->categories;
                 $select_record_new->dtac_type = $selected_record_each->dtac_type;
@@ -1326,15 +1257,8 @@ class AdminController extends Controller
                 $select_record_new->name_th = $selected_record_each->name_th;
                 $select_record_new->name_en = $selected_record_each->name_en;
                 $select_record_new->branch = $selected_record_each->branch;
-                $select_record_new->branch_amount = $selected_record_each->branch_amount;
                 $select_record_new->province = $selected_record_each->province;
-                $select_record_new->address = $selected_record_each->address;
-                $select_record_new->contact_person = $selected_record_each->contact_person;
-                $select_record_new->contact_email = $selected_record_each->contact_email;
                 $select_record_new->contact_tel = $selected_record_each->contact_tel;
-                $select_record_new->sending_address = $selected_record_each->sending_address;
-                $select_record_new->latitude = $selected_record_each->latitude;
-                $select_record_new->longtitude = $selected_record_each->longtitude;
                 $select_record_new->links = $selected_record_each->links;
                 $select_record_new->remarks = $selected_record_each->remarks;
                 

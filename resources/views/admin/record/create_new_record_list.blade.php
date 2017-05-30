@@ -284,7 +284,7 @@ use App\Record;
 					<td class="add_padding_15"><input type="text" name="name_th-{{$i}}" id="name_th-{{$i}}" value="" /></td>
 					<td class="add_padding_15"><input type="text" name="name_en-{{$i}}" id="name_en-{{$i}}" value="" /></td>
 					<td class="add_padding_15">
-						<textarea name="branch-{{$i}}" id="branch-{{$i}}" cols="50" /></textarea>
+						<textarea name="branch-{{$i}}" id="branch-{{$i}}" cols="20" /></textarea>
 					</td>
 					<td class="add_padding_15">
 						<select name="province-{{$i}}" id="province-{{$i}}" class="selectpicker">

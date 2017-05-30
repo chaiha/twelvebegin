@@ -31,6 +31,7 @@
 @stop
 <?php
 use App\Record;
+$record = new Record;
 ?>
 <!-- Services Section -->
 <div class="container-fluid add-margin-20">
@@ -40,6 +41,27 @@ use App\Record;
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@submit_edit_submit_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
+		 @if($select_record->record->yes_feedback!=NULL||$select_record->record->yes_feedback!="")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ข้อมูล Privilege ก่อนหน้า</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>Privilege</th>
+                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>Privilege-start</th>
+                <th>Privilege-end</th>
+            </tr>
+            <tr>
+                <td>{{$select_record->record->yes_feedback}}</td>
+                <td>{{$select_record->record->yes_condition}}</td>
+                <td><?php echo $record->convert_date_format_dash($select_record->record->yes_privilege_start); ?></td>
+                <td><?php echo $record->convert_date_format_dash($select_record->record->yes_privilege_end); ?></td>
+            </tr>
+            </table>
+            </div>
+        </div>
+        @endif
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
@@ -265,30 +287,8 @@ use App\Record;
 			</div>
 			</div>
 		<br />
-		<div class="row">
-			<div class="col-xs-12">
-			<label>หมายเหตุ</label>
-			<table class="table table-bordered table-striped">
-					<tr>
-						<th>หมายเหตุ</th>
-					</tr>
-					<tr>
-						<td>
-							{{$sale_filled_edit['note']}}
-						</td>
-					</tr>
-				</table>
-			</div>
-			</div>
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-xs-12">
-				<label>เบอร์โทรศัพท์: </label> <?php if($sale_filled_edit['is_tel_correct']=="1"){ echo "ถูกต้อง";} else { echo "เบอร์โทรศัพท์ไม่ถูกต้อง เบอร์ที่ถูกต้องคือ ".$sale_filled_edit['new_tel']; } ?>
-				
-			</div>
-			<div class="row">
-		</div>
 		<div class="row">
 			<div class="col-xs-12"><b>ผลการโทร : </b>
 				@if($call_result=="yes") 

@@ -362,6 +362,7 @@ $("#btn_edit_contact_person").click(function(){
 @stop
 <?php
 use App\Record;
+$record = new Record;
 ?>
 <!-- Services Section -->
 <div class="container-fluid add-margin-20">
@@ -371,6 +372,27 @@ use App\Record;
 		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}}</h3>
 		{{Form::open(array('action' => 'CallController@submit_edit_call_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
+         @if($select_record->record->yes_feedback!=NULL||$select_record->record->yes_feedback!="")
+        <div class="row">
+            <div class="col-xs-12">
+            <label>ข้อมูล Privilege ก่อนหน้า</label>
+            <table class="table table-bordered table-striped">
+            <tr>
+                <th>Privilege</th>
+                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>Privilege-start</th>
+                <th>Privilege-end</th>
+            </tr>
+            <tr>
+                <td>{{$select_record->record->yes_feedback}}</td>
+                <td>{{$select_record->record->yes_condition}}</td>
+                <td><?php echo $record->convert_date_format_dash($select_record->record->yes_privilege_start); ?></td>
+                <td><?php echo $record->convert_date_format_dash($select_record->record->yes_privilege_end); ?></td>
+            </tr>
+            </table>
+            </div>
+        </div>
+        @endif
 		<div class="row">
 			<div class="col-xs-12">
 				<label>ข้อมูลสำหรับ Record</label>
@@ -597,37 +619,8 @@ use App\Record;
 			</div>
 			</div>
             <br />
-        <div class="row">
-            <div class="col-xs-12">
-            <label>หมายเหตุ</label>
-            <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>หมายเหตุ</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <textarea name="note" id="note" class="form-control">{{$sale_filled['note']}}</textarea>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            </div>
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-xs-12">
-				<label>เบอร์โทรศัพท์ </label>
-				<label>ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_correct" value="1" checked="1" <?php if($sale_filled['is_tel_correct']=="1"){echo "checked";} ;?>/>
-				<label>ไม่ถูกต้อง</label> <input type="radio" name="is_tel_correct" id="is_tel_not_correct" value="0" <?php if($sale_filled['is_tel_correct']=="0"){echo "checked";} ;?>/>
-				<div class="row <?php if($sale_filled['is_tel_correct']=="0"){ echo "show"; }else{ echo "hide"; } ;?>" id="new_tel_form">
-					<div class="col-xs-12  add-margin-20">
-						<label>หมายเลขที่ถูกต้องคือ</label>
-						<input type="text" name="new_tel" id="new_tel" value="<?php if($sale_filled['is_tel_correct']=="0"){ echo $sale_filled['new_tel']; } ?>"/>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-		</div>
 		<div class="row">
 			<div class="col-xs-12"><label>ผลการโทร : </label>
 				<select name="call_result" id="call_result">

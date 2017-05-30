@@ -9,14 +9,14 @@ use App\SelectRecord;
 <div class="container">
 	<div class="row">
 		<h1>เลือกร้านค้าให้เซล</h1>
-		<table class="table">
+		<table class="table table-bordered">
 		  <thead class="thead-inverse">
 		  	<tr>
 		  		<th class="text-center">Sale ID</th>
 		  		<th class="text-center">ชื่อพนักงานขาย</th>
 		  		<th class="text-center">ตำแหน่ง</th>
 		  		<th class="text-center">Username</th>
-		  		<th class="text-center"> จำนวน lead ที่มีอยู่ จำนวนร้านค้าคงค้าง</th>
+		  		<th class="text-center" style="width:70px;">จำนวน lead ที่มีอยู่</th>
 		  		<th class="text-center">เลือก</th>
 		  	</tr>
 		  </thead>

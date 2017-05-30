@@ -43,7 +43,7 @@ use App\Record;
 <div class="container-fluid add-margin-20">
     <div class="row">
         <div class="form-group">
-        <h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}    ?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
+        <h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}    ?> </h1>
         <h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}} </h3>
         {{Form::open(array('action' => 'CallController@submit_edit_record_info','id'=>'submit_form'))}}
             {{csrf_field()}}
@@ -238,21 +238,6 @@ use App\Record;
             </div>
             </div>
             <br />
-            <div class="row">
-                <div class="col-xs-12">
-                <label>หมายเหตุ</label>
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th>หมายเหตุ</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{$select_record->note}}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </div>
         <hr>
     <div class="row" id="yes_form">

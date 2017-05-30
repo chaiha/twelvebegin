@@ -283,13 +283,6 @@ use App\Record;
 		</div>
 		<hr>
 		<div class="row">
-			<div class="col-xs-12">
-				<label>เบอร์โทรศัพท์: </label> <?php if($select_record->is_tel_correct=="1"){ echo "ถูกต้อง";} else { echo "เบอร์โทรศัพท์ไม่ถูกต้อง เบอร์ที่ถูกต้องคือ ".$select_record->wrong_number_new_tel_number; } ?>
-				
-			</div>
-			<div class="row">
-		</div>
-		<div class="row">
 			<div class="col-xs-12"><b>ผลการโทร : </b>
 				@if($select_record->result=="yes") 
 					<span>Yes</span><br />
