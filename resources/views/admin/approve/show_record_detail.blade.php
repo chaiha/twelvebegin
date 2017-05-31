@@ -48,6 +48,19 @@ $record = new Record;
         <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$select_record->record_id.'/'.$select_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
         @endif
         </h1>
+        <!-- Approve -->
+        <div class="row" style="margin:5px;">
+        <h3>Approve Lead</h3>
+        <div class="radio">
+          <label><input type="radio" name="is_approve" id="is_approve" value="approve" <?php if($select_record->sending_status=="approve"){ echo "checked='checked'";}?>> Approve</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="is_approve" id="is_not_approve" value="not_approve" <?php if($select_record->sending_status=="not_approve"){ echo "checked='checked'";}?>> Not Approve</label>
+        </div>
+        <label>เหตุผลที่ไม่ Approve</label>
+        <textarea name="admin_message" id="admin_message" class="form-control"><?php if(isset($select_record->admin_message)){ echo $select_record->admin_message;}?></textarea>
+        </div>
+        <!-- End approve -->
         <h3>ผลการโทร</h3>
         @if($select_record->result=="yes") 
         <div class="row">
@@ -445,15 +458,6 @@ $record = new Record;
         </div>
         <br />
         <hr />
-        <div class="radio">
-          <label><input type="radio" name="is_approve" id="is_approve" value="approve" <?php if($select_record->sending_status=="approve"){ echo "checked='checked'";}?>> Approve</label>
-        </div>
-        <div class="radio">
-          <label><input type="radio" name="is_approve" id="is_not_approve" value="not_approve" <?php if($select_record->sending_status=="not_approve"){ echo "checked='checked'";}?>> Not Approve</label>
-        </div>
-        <label>เหตุผลที่ไม่ Approve</label>
-        <textarea name="admin_message" id="admin_message" class="form-control"><?php if(isset($select_record->admin_message)){ echo $select_record->admin_message;}?></textarea>
-        </div>
     </div>
     <br />
     <div class="row">

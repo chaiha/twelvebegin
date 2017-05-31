@@ -1178,7 +1178,7 @@ class AdminController extends Controller
                 $user = Sentinel::check();
                 $select_record_extend = new SelectRecord;
 
-                $selected_array_extend->input_date = $selected_record_each->input_date;
+                $select_record_extend->input_date = $selected_record_each->input_date;
                 $select_record_extend->sources = $selected_record_each->sources;
                 $select_record_extend->categories = $selected_record_each->categories;
                 $select_record_extend->dtac_type = $selected_record_each->dtac_type;
