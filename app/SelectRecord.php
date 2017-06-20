@@ -147,6 +147,13 @@ class SelectRecord extends Model
     static public function check_cannot_send($sale_id)
     {
         $result = SelectRecord::where('sale_id','=',$sale_id)->where('cannot_send','=','1')->first();
-        return $result;
+        if($result!=NULL)
+        {
+            return $result->cannot_send;    
+        }
+        else
+        {
+            return 0;
+        }
     }
 }

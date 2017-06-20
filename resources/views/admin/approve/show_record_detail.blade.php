@@ -45,7 +45,7 @@ $record = new Record;
         <div class="form-group">
         <h1><b <?php if($select_record->result=="yes"){echo "style='color:green'";}elseif($select_record->result=="no_reply"||$select_record->result=="waiting"){echo "style='color:#FF8000'";}elseif($select_record->result=="rejected"||$select_record->result=="closed"){echo "style='color:red'";} ?> >[{{$record->check_result_and_show($select_record->result)}}] </b>/ {{$select_record->record->code}}/{{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}  ?> 
         @if($select_record->result=="yes")
-        <a href="{{url('/admin/approve_record_from_sale/edit_record/'.$select_record->record_id.'/'.$select_record->sale_id)}}" class="btn btn-warning">แก้ไขข้อมูล</a>
+        
         @endif
         </h1>
         <!-- Approve -->
@@ -69,7 +69,7 @@ $record = new Record;
             <table class="table table-bordered table-striped">
             <tr>
                 <th>Privilege</th>
-                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>เงื่อนไขเพิ่มเติม</th>
                 <th>Privilege-start</th>
                 <th>Privilege-end</th>
             </tr>
@@ -382,7 +382,7 @@ $record = new Record;
                                 <?php if($select_record->has_reply_doc=="1"){ echo "มี";}else{echo "ไม่มี";}?>
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="admin_has_reply_doc" id="admin_has_reply_doc" class="yes_form_check" value="1" />
+                                    <input type="checkbox" name="admin_has_reply_doc" id="admin_has_reply_doc" class="yes_form_check" value="1" <?php if($select_record->admin_has_reply_doc=="1"){ echo "checked"; } ?> />
                                 </td>
                             </tr>
                             <tr>
@@ -391,7 +391,7 @@ $record = new Record;
                                 <?php if($select_record->has_confirm_product_img=="1"){ echo "มี";}else{echo "ไม่มี";}?>
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="admin_has_confirm_product_img" id="admin_has_confirm_product_img" class="yes_form_check" value="1" />
+                                    <input type="checkbox" name="admin_has_confirm_product_img" id="admin_has_confirm_product_img" class="yes_form_check" value="1" <?php if($select_record->admin_has_confirm_product_img=="1"){ echo "checked"; } ?> />
                                 </td>
                             </tr>
                             <tr>
@@ -400,7 +400,7 @@ $record = new Record;
                                 <?php if($select_record->has_confirm_logo_img=="1"){ echo "มี";}else{echo "ไม่มี";}?>
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="admin_has_confirm_logo_img" id="admin_has_confirm_logo_img" class="yes_form_check" value="1" />
+                                    <input type="checkbox" name="admin_has_confirm_logo_img" id="admin_has_confirm_logo_img" class="yes_form_check" value="1" <?php if($select_record->admin_has_confirm_logo_img=="1"){ echo "checked"; } ?> />
                                 </td>
                             </tr>
                         </table>
@@ -416,21 +416,21 @@ $record = new Record;
                                 <td>รูปหน้าร้าน</td>
                                 <td><?php if($select_record->has_shop_img=="1"){ echo "มี";}else{echo "ไม่มี";}?></td>
                                 <td>
-                                    <input type="checkbox" name="admin_has_shop_img" id="admin_has_shop_img" class="yes_form_check" value="1" />
+                                    <input type="checkbox" name="admin_has_shop_img" id="admin_has_shop_img" class="yes_form_check" value="1" <?php if($select_record->admin_has_shop_img=="1"){ echo "checked"; } ?> />
                                 </td>
                             </tr>
                             <tr>
                                 <td>รูปสินค้า</td>
                                 <td><?php if($select_record->has_product_img=="1"){ echo "มี";}else{echo "ไม่มี";}?></td>
                                 <td>
-                                    <input type="checkbox" name="admin_has_product_img" id="admin_has_product_img" class="yes_form_check" value="1" />
+                                    <input type="checkbox" name="admin_has_product_img" id="admin_has_product_img" class="yes_form_check" value="1" <?php if($select_record->admin_has_product_img=="1"){ echo "checked"; } ?> />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Logo ร้าน</td>
                                 <td><?php if($select_record->has_logo_img=="1"){ echo "มี";}else{echo "ไม่มี"; }?></td>
                                 <td>
-                                    <input type="checkbox" name="admin_has_logo_img" id="admin_has_logo_img" class="yes_form_check" value="1" />
+                                    <input type="checkbox" name="admin_has_logo_img" id="admin_has_logo_img" class="yes_form_check" value="1" <?php if($select_record->admin_has_logo_img=="1"){ echo "checked"; } ?> />
                                 </td>
                             </tr>
                         </table>

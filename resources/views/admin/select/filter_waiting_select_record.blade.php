@@ -126,6 +126,7 @@ $record = new Record;
 			  <th>จังหวัด</th>
 		      <th>End date</th>
 			  <th>Updated</th>
+			  <th>Effective date</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -178,6 +179,7 @@ $record = new Record;
 		      }
 		      	?></td>
 			  <td>{{$each_record->updated_at}}</td>
+			  <td>{{$each_record->effective_date}}</td>
 		    </tr>
 		   @endforeach
 		  </tbody>

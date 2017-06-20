@@ -354,7 +354,7 @@ $record = new Record;
 	<div class="row">
 		<div class="form-group">
 		<h1>{{$select_record->record->code}} / {{$select_record->name_th}} <?php if($select_record->name_en!=""){ echo "/ ".$select_record->name_en;}	?> / โทรครั้งที่ {{$select_record->call_amount}}</h1>
-		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}} <a href="{{url('/sale/edit_record/record/show/'.$select_record->record_id)}}" class="btn btn-danger">แก้ไขข้อมูล</a></h3>
+		<h3>ข้อมูลเบื้องต้นของ {{$select_record->name_th}} / {{$select_record->name_en}} / ติดต่อ {{$select_record->contact_person}} / โทร {{$select_record->contact_tel}} </h3>
 		{{Form::open(array('action' => 'CallController@preview_filled_record','id'=>'submit_form'))}}
 			{{csrf_field()}}
         @if($select_record->record->yes_feedback!=NULL||$select_record->record->yes_feedback!="")
@@ -364,7 +364,7 @@ $record = new Record;
             <table class="table table-bordered table-striped">
             <tr>
                 <th>Privilege</th>
-                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>เงื่อนไขเพิ่มเติม</th>
                 <th>Privilege-start</th>
                 <th>Privilege-end</th>
             </tr>
@@ -800,12 +800,30 @@ $record = new Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>Privilege: </label>
+                        <?php
+                        if($select_record->result=="yes")
+                        {
+                            if($select_record->yes_feedback!=NULL||$select_record->yes_feedback!="")
+                            {
+                                echo "<span class='red'> : Privilege ก่อนหน้านี้ = ".$select_record->yes_feedback."</span>";
+                            }
+                        }
+                        ?>
 							<input type="text" name="feedback" id="feedback" value="" class="form-control yes_form"/>
 					</div>
 				</div>
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เงื่อนไขเพิ่มเติม: </label>
+                        <?php
+                        if($select_record->result=="yes")
+                        {
+                            if($select_record->yes_condition!=NULL||$select_record->yes_condition!="")
+                            {
+                                echo "<span class='red'> : เงื่อนไขเพิ่มเติม ก่อนหน้านี้ = ".$select_record->yes_condition."</span>";
+                            }
+                        }
+                        ?>
 							<input type="text" name="condition" id="condition" value="" class="form-control yes_form"/>
 					</div>
 				</div>
@@ -877,6 +895,15 @@ $record = new Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผล</label>
+                        <?php
+                        if($select_record->result=="no_reply")
+                        {
+                            if($select_record->cannot_contact_reason!=NULL||$select_record->cannot_contact_reason!="")
+                            {
+                                echo "<span class='red'> : เหตุผลที่ไม่สามารถติดต่อได้ก่อนหน้านี้ = ".$select_record->cannot_contact_reason."</span>";
+                            }
+                        }
+                        ?>
 						<input type="text" name="cannot_contact_reason" id="cannot_contact_reason" value="" class="form-control no_reply_form" />
 					</div>
 				</div>
@@ -899,6 +926,15 @@ $record = new Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผลที่ปฏิเสธ</label>
+                         <?php
+                        if($select_record->result=="rejected")
+                        {
+                            if($select_record->no_reason!=NULL||$select_record->no_reason!="")
+                            {
+                                echo "<span class='red'> : เหตุผลที่ปฏิเสธก่อนหน้านี้ = ".$select_record->no_reason."</span>";
+                            }
+                        }
+                        ?>
 						<input type="text" name="no_reason" id="no_reason" value="" class="form-control rejected_form" />
 					</div>
 				</div>
@@ -909,6 +945,15 @@ $record = new Record;
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
 						<label>เหตุผลที่ขอพิจารณาดูก่อน</label>
+                        <?php
+                        if($select_record->result=="waiting")
+                        {
+                            if($select_record->consider_reason!=NULL||$select_record->consider_reason!="")
+                            {
+                                echo "<span class='red'> : เหตุผลที่ขอพิจารณาดูก่อนหน้านี้ = ".$select_record->consider_reason."</span>";
+                            }
+                        }
+                        ?>
 						<input type="text" name="consider_reason" value="" class="form-control waiting_form" />
 					</div>
 				</div>

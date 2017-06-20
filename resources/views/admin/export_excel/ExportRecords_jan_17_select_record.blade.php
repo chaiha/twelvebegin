@@ -1,39 +1,26 @@
-@extends('admin.layouts.master')
-@section('js_files')
-
-<script type="text/javascript">
-function submit_all_result()
-{
-	if(confirm("กรุณายืนยัน?"))
-	{
-		document.getElementById("submit_form").submit();	
-	}
-}
-</script>
-@stop
-@section('content')
 <?php
 use App\Record;
 use App\SelectRecord;
 use App\User;
 $record = new Record;
-
 ?>
-<!-- Services Section -->
-<div class="container" style="margin-left: 5px;">
-	<div class="row" style="width:2000px;">
-		<h1>รายการที่ต้องการ Export</h1>
-		<table class="table table-bordered">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Export</title>
+</head>
+<body>
+	<table class="table table-bordered">
 		  <thead class="thead-inverse">
 		    <tr>
               <th>ID</th>
+              <th>No.</th>
               <th>Date</th>
 		      <th>Lot#</th>
-		      <th>Month</th>
-		      <th>Sales</th>
+		      <th>Result</th>
 		      <th>Type</th>
 		      <th>ประเภทร้านพิเศษ</th>
-		      <th>No</th>
 		      <th>All</th>
 		      <th>ประเภทธุรกิจ</th>
 		      <th>USSD No.</th>
@@ -63,33 +50,32 @@ $record = new Record;
 		      <th>TentCard-A5</th>
 		      <th>ที่อยู่จัดส่ง</th>
 		      <th>C/FDoc</th>
-		      <th>A.logo</th>
 		      <th>Logo</th>
+		      <th>C/FLogo</th>
 		      <th>A.product</th>
 		      <th>Product</th>
 		      <th>Shop</th>
 		      <th>Remark</th>
+		      <th>เหตุผลที่ปฏิเสธ</th>
+		      <th>หมายเหตุที่ปฏิเสธ</th>
+		      <th>สาเหตุที่ไม่สามารถติดต่อได้</th>
+		      <th>นัดให้ติดต่อครั้งต่อไป</th>
+		      <th>เหตุผลที่ขอพิจารณา</th>
+		      <th>นัดขอพิจารณาครั้งถัดไป</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  @foreach ($list_lot_no as $each_record)
 		    <tr>
-		      <td>{{$each_record->id}}</td>
+		      <td>{{$each_record->record_id}}</td>
+              <td><?php echo $record->find_record_no($each_record->record_id); ?></td>
 		      <td>
 		      <?php
 		      echo $record->convert_date_format_dash($each_record->lot_date);
 		      ?></td>
 		      <td>{{$each_record->lot_no}}</td>
 		      <td>
-		      <?php
-		      echo $record->excel_month($each_record->lot_date);
-		      ?>
-		      </td>
-		      <td>
-		      <?php
-		      $user = new User;
-		      echo $user->get_first_name_by_id($each_record->sale);
-		      ?>
+		      {{$each_record->result}}
 		      </td>
 		      <td>
 		      <?php
@@ -127,7 +113,6 @@ $record = new Record;
 		      <td>
 		      {{$each_record->special_type}}
 		      </td>
-		      <td></td>
 		      <td></td>
 		      <td>
 		      <?php
@@ -236,20 +221,17 @@ $record = new Record;
 		      	?>
 		      </td>
 		      <td>{{$each_record->remarks}}</td>
+		      <td>{{$each_record->no_reason}}</td>
+		      <td>{{$each_record->no_note}}</td>
+		      <td>{{$each_record->cannot_contact_reason}}</td>
+		      <td>{{$each_record->cannot_contact_appointment}}</td>
+		      <td>{{$each_record->consider_reason}}</td>
+		      <td>{{$each_record->consider_appointment_feedback}}</td>
+		      
 		    </tr>
 		   @endforeach
 		  </tbody>
 		
 		</table>
-	</div>
-	<div class="row">
-		<div class="col-md-12" style="margin-left: 5px;">
-				<hr>
-				<a href="{{url('/admin/export_excel/export_excel/'.$lot_no)}}" class="btn btn-success">Export</a>
-				<a href="{{url('admin/export_excel/list_lot_no')}}" class="btn btn-danger">ยกเลิก</a>
-		</div>
-	</div>
-</div>
-
-
-@endsection
+</body>
+</html>

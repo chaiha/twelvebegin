@@ -119,6 +119,33 @@ class UserController extends Controller
 
     public function logout()
     {
+      Session::forget('new_record');
+      Session::forget('record');
+      Session::forget('edit_record');
+      Session::forget('mem_sale');
+      Session::forget('mem_selected_record');
+      Session::forget('mem_selected_record_list');
+      Session::forget('mem_selected_record_extend');
+      Session::forget('mem_selected_record_waiting');
+      Session::forget('mem_selected_record_noreply');
+      Session::forget('mem_selected_record_new');
+      Session::forget('mem_selected_record_list_noreply');
+      Session::forget('mem_selected_record_list_extend');
+      Session::forget('mem_selected_record_list_waiting');
+      Session::forget('mem_selected_record_list_new');
+      Session::forget('preview_record_list_array');
+      Session::forget('select_record_info');
+
+
+      // session(['mem_selected_record_extend'
+      //   session(['mem_selected_record_list_new'
+      //sale
+      Session::forget('user');
+      Session::forget('sale_filled');
+      Session::forget('select_record');
+      Session::forget('sale_filled_edit');
+      Session::forget('select_record_info');
+      Session::forget('edit_record_info');
     	Sentinel::logout();
     	return Redirect('/login');
    }

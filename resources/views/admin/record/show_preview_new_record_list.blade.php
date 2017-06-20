@@ -212,6 +212,12 @@ use App\Record;
 							<a href="{{url('/admin/record/edit_duplicate_new_record_list/'.$j)}}"><i class="glyphicon glyphicon-remove" style="color:red;""></i></a>
 						<?php
 						}
+						else
+						{
+							//echo $result;
+							//echo $preview_new_record_list_each['name_th'];
+							//echo $preview_new_record_list_each['province'];
+						}
 					?>
 					</td>
 					<td class="add_padding_15">{{$i}}</td>

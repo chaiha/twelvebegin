@@ -23,11 +23,15 @@ class CallController extends Controller
     public function show_list_record()
     {
         $user = session('user');
-
-        $selected_record_extend = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','extend')->get();
-        $selected_record_waiting = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','waiting')->get();
-        $selected_record_noreply = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','noreply')->get();
-        $selected_record_new = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','new')->get();
+        $today = date('Y-m-d');
+        $selected_record_extend = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','extend')->whereDate('sale_can_see','<=',$today)->get();
+        $selected_record_waiting = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','waiting')->whereDate('sale_can_see','<=',$today)->get();
+        $selected_record_noreply = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','noreply')->whereDate('sale_can_see','<=',$today)->get();
+        $selected_record_new = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','new')->whereDate('sale_can_see','<=',$today)->get();
+        // $selected_record_extend = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','extend')->get();
+        // $selected_record_waiting = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','waiting')->get();
+        // $selected_record_noreply = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','noreply')->get();
+        // $selected_record_new = SelectRecord::where('sale_id','=',$user->id)->where('selective_status','=','new')->get();
         $record_list_extend = array();
         $record_list_waiting = array();
         $record_list_noreply = array();
@@ -415,14 +419,430 @@ class CallController extends Controller
                 3.remove records in select_record.
             4.redirect back to show_selected_record_list.
         */
+        $record_id_list = $request->input('record_id_list');
         $user = session('user');
         $sale_id = $request->input('sale_id');
         $tomorrow = date("Y-m-d", strtotime("+1 day"));
 
         //Update all records of this sale_id = sending_status = 'sent' AND can_approve = $tomorrow
-        SelectRecord::where('sale_id','=',$sale_id)->update(['sending_status'=>'sent','can_approve'=>$tomorrow,'cannot_send'=>'1']);
+        SelectRecord::where('sale_id','=',$sale_id)->whereIn('record_id',$record_id_list)->update(['sending_status'=>'sent','can_approve'=>$tomorrow,'cannot_send'=>'1']);
+
+        //---------------- Process to submit to records table -------
+
+        $today = date('Y-m-d');
+        $user = Sentinel::check();
+        $result = SelectRecord::where('sale_id','=',$sale_id)->whereIn('record_id',$record_id_list)->get(); // You should modify this line.
+        
+        foreach ($result as $result_each) 
+        {
+                if($result_each->result=="no_reply")
+                {
+                    $record = Record::where('id','=',$result_each->record_id)->first();
+                    $waiting_count = $record->waiting_count;
+                    $new_waiting_count = $waiting_count + 1;
+                    $record->is_selected = "0";
+                    if($new_waiting_count < 5 )
+                    {
+                        $record->status = "Available";
+                        $record->selective_status = "noreply";
+                        $record->waiting_count = $new_waiting_count;
+                        $record->effective_date = $result_each->cannot_contact_appointment;
+                    }
+                    elseif($new_waiting_count >= 5 )
+                    {
+                        $record->status = "Not_Available";
+                        $record->selective_status = "reject";//this one should be "reject"?
+                        $record->waiting_count = 0;
+                        $record->effective_date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+                    }
+                    if($result_each->edit_address!="none")
+                    {
+                        $record->address = $result_each->edit_address;
+                    }
+                    if($result_each->edit_contact_person!="none")
+                    {
+                        $record->contact_person = $result_each->edit_contact_person;
+                    }
+                    if($result_each->is_tel_correct==0)
+                    {
+                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
+                    }
+                    $record->categories = $result_each->categories;
+                    $record->shop_type = $result_each->shop_type;
+                    $record->name_th = $result_each->name_th;
+                    $record->name_en = $result_each->name_en;
+                    $record->branch = $result_each->branch;
+                    $record->address = $result_each->address;
+                    $record->province = $result_each->province;
+                    $record->latitude = $result_each->latitude;
+                    $record->longtitude = $result_each->longtitude;
+                    $record->contact_person = $result_each->contact_person;
+                    $record->contact_tel = $result_each->contact_tel;
+                    $record->contact_email = $result_each->contact_email;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->links = $result_each->links;
+                    $record->remarks = $result_each->remarks;
+
+                    $record->branch_amount = $result_each->branch_amount;
+                    $record->result = $result_each->result;
+                    $record->call_status = $result_each->call_status;
+                    $record->result_date = $result_each->result_date;
+                    $record->yes_lot_no = NULL;
+                    $record->yes_sale_name = $result_each->yes_sale_name;
+                    $record->yes_privilege_start = $result_each->yes_privilege_start;
+                    $record->yes_privilege_end = $result_each->yes_privilege_end;
+                    $record->yes_feedback = $result_each->yes_feedback;
+                    $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->no_reason = $result_each->no_reason;
+                    $record->no_note = $result_each->no_note;
+                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
+                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
+                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
+                    $record->cannot_contact_times = $result_each->cannot_contact_times;
+                    $record->consider_reason = $result_each->consider_reason;
+                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
+                    $record->is_tel_correct = $result_each->is_tel_correct;
+                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
+                    $record->close = $result_each->close;
+                    $record->result_remark = $result_each->result_remark;
+                    $record->lot_date = NULL;
+                    $record->lot_no = NULL;
+                    $record->updated_by = $user->id;
+                    $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
+                    $record->save();
+
+                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
+                    $select_record->delete();
+                }
+                elseif($result_each->result=="rejected")
+                {
+                    $record = Record::where('id','=',$result_each->record_id)->first();
+                    $record->status = "Not_Available";
+                    $record->is_selected = "0";
+                    if($result_each->edit_address!="none")
+                    {
+                        $record->address = $result_each->edit_address;
+                    }
+                    if($result_each->edit_contact_person!="none")
+                    {
+                        $record->contact_person = $result_each->edit_contact_person;
+                    }
+                    if($result_each->is_tel_correct==0)
+                    {
+                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
+                    }
+                    $record->categories = $result_each->categories;
+                    $record->shop_type = $result_each->shop_type;
+                    $record->name_th = $result_each->name_th;
+                    $record->name_en = $result_each->name_en;
+                    $record->branch = $result_each->branch;
+                    $record->address = $result_each->address;
+                    $record->province = $result_each->province;
+                    $record->latitude = $result_each->latitude;
+                    $record->longtitude = $result_each->longtitude;
+                    $record->contact_person = $result_each->contact_person;
+                    $record->contact_tel = $result_each->contact_tel;
+                    $record->contact_email = $result_each->contact_email;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->links = $result_each->links;
+                    $record->remarks = $result_each->remarks;
+                    $record->effective_date = date('Y-m-d', strtotime('+1 month', strtotime($today))); //update 04-05-2560
+                    $record->branch_amount = $result_each->branch_amount;
+                    $record->result = $result_each->result;
+                    $record->call_status = $result_each->call_status;
+                    $record->result_date = $result_each->result_date;
+                    $record->yes_lot_no = NULL;
+                    $record->yes_sale_name = $result_each->yes_sale_name;
+                    $record->yes_privilege_start = $result_each->yes_privilege_start;
+                    $record->yes_privilege_end = $result_each->yes_privilege_end;
+                    $record->yes_feedback = $result_each->yes_feedback;
+                    $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->no_reason = $result_each->no_reason;
+                    $record->no_note = $result_each->no_note;
+                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
+                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
+                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
+                    $record->cannot_contact_times = $result_each->cannot_contact_times;
+                    $record->consider_reason = $result_each->consider_reason;
+                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
+                    $record->is_tel_correct = $result_each->is_tel_correct;
+                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
+                    $record->close = $result_each->close;
+                    $record->result_remark = $result_each->result_remark;
+                    $record->lot_date = NULL;
+                    $record->lot_no = NULL;
+                    $record->updated_by = $user->id;
+                    $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
+                    $record->save();
+
+                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
+                    $select_record->delete();
+                }
+                elseif($result_each->result=="waiting")
+                {
+                    $record = Record::where('id','=',$result_each->record_id)->first();
+                    $waiting_count = $record->waiting_count;
+                    $new_waiting_count = $waiting_count + 1;
+                    $record->is_selected = "0";
+                    if($new_waiting_count < 5 )
+                    {
+                        $record->status = "Available";
+                        $record->selective_status = "waiting";
+                        $record->waiting_count = $new_waiting_count;
+                        $record->effective_date = $result_each->consider_appointment_feedback;
+                    }
+                    elseif($new_waiting_count >= 5 )
+                    {
+                        $record->status = "Not_Available";
+                        $record->selective_status = "reject";// is this should be "reject"?
+                        $record->waiting_count = 0;
+                        $record->effective_date = date('Y-m-d', strtotime('+2 month', strtotime($today)));
+                    }
+                    if($result_each->edit_address!="none")
+                    {
+                        $record->address = $result_each->edit_address;
+                    }
+                    if($result_each->edit_contact_person!="none")
+                    {
+                        $record->contact_person = $result_each->edit_contact_person;
+                    }
+                    if($result_each->is_tel_correct==0)
+                    {
+                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
+                    }
+                    $record->categories = $result_each->categories;
+                    $record->shop_type = $result_each->shop_type;
+                    $record->name_th = $result_each->name_th;
+                    $record->name_en = $result_each->name_en;
+                    $record->branch = $result_each->branch;
+                    $record->address = $result_each->address;
+                    $record->province = $result_each->province;
+                    $record->latitude = $result_each->latitude;
+                    $record->longtitude = $result_each->longtitude;
+                    $record->contact_person = $result_each->contact_person;
+                    $record->contact_tel = $result_each->contact_tel;
+                    $record->contact_email = $result_each->contact_email;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->links = $result_each->links;
+                    $record->remarks = $result_each->remarks;
+                    $record->branch_amount = $result_each->branch_amount;
+                    $record->result = $result_each->result;
+                    $record->call_status = $result_each->call_status;
+                    $record->result_date = $result_each->result_date;
+                    $record->yes_lot_no = NULL;
+                    $record->yes_sale_name = $result_each->yes_sale_name;
+                    $record->yes_privilege_start = $result_each->yes_privilege_start;
+                    $record->yes_privilege_end = $result_each->yes_privilege_end;
+                    $record->yes_feedback = $result_each->yes_feedback;
+                    $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->no_reason = $result_each->no_reason;
+                    $record->no_note = $result_each->no_note;
+                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
+                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
+                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
+                    $record->cannot_contact_times = $result_each->cannot_contact_times;
+                    $record->consider_reason = $result_each->consider_reason;
+                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
+                    $record->is_tel_correct = $result_each->is_tel_correct;
+                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
+                    $record->close = $result_each->close;
+                    $record->result_remark = $result_each->result_remark;
+                    $record->lot_date = NULL;
+                    $record->lot_no = NULL;
+                    $record->updated_by = $user->id;
+                    $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
+                    $record->save();
+
+                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
+                    $select_record->delete();
+                }
+                elseif($result_each->result=="closed")
+                {
+                    $record = Record::where('id','=',$result_each->record_id)->first();
+                    $record->status = "Not_Available";
+                    $record->is_selected = "0";
+                    if($result_each->edit_address!="none")
+                    {
+                        $record->address = $result_each->edit_address;
+                    }
+                    if($result_each->edit_contact_person!="none")
+                    {
+                        $record->contact_person = $result_each->edit_contact_person;
+                    }
+                    if($result_each->is_tel_correct==0)
+                    {
+                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
+                    }
+                    $record->categories = $result_each->categories;
+                    $record->shop_type = $result_each->shop_type;
+                    $record->name_th = $result_each->name_th;
+                    $record->name_en = $result_each->name_en;
+                    $record->branch = $result_each->branch;
+                    $record->address = $result_each->address;
+                    $record->province = $result_each->province;
+                    $record->latitude = $result_each->latitude;
+                    $record->longtitude = $result_each->longtitude;
+                    $record->contact_person = $result_each->contact_person;
+                    $record->contact_tel = $result_each->contact_tel;
+                    $record->contact_email = $result_each->contact_email;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->links = $result_each->links;
+                    $record->remarks = $result_each->remarks;
+                    $record->effective_date = NULL;
+                    $record->branch_amount = $result_each->branch_amount;
+                    $record->result = $result_each->result;
+                    $record->call_status = $result_each->call_status;
+                    $record->result_date = $result_each->result_date;
+                    $record->yes_lot_no = NULL;
+                    $record->yes_sale_name = $result_each->yes_sale_name;
+                    $record->yes_privilege_start = $result_each->yes_privilege_start;
+                    $record->yes_privilege_end = $result_each->yes_privilege_end;
+                    $record->yes_feedback = $result_each->yes_feedback;
+                    $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->no_reason = $result_each->no_reason;
+                    $record->no_note = $result_each->no_note;
+                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
+                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
+                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
+                    $record->cannot_contact_times = $result_each->cannot_contact_times;
+                    $record->consider_reason = $result_each->consider_reason;
+                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
+                    $record->is_tel_correct = $result_each->is_tel_correct;
+                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
+                    $record->close = $result_each->close;
+                    $record->result_remark = $result_each->result_remark;
+                    $record->lot_date = NULL;
+                    $record->lot_no = NULL;
+                    $record->updated_by = $user->id;
+                    $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
+                    $record->save();
+
+                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
+                    $select_record->delete();
+                }
+                elseif($result_each->result=="")
+                {
+                    $record = Record::where('id','=',$result_each->record_id)->first();
+                    $record->is_selected = "0";
+                    $record->status = "Available";
+                    $record->selective_status = $record->selective_status;
+                    $record->waiting_count = $record->waiting_count;
+
+                    if($result_each->edit_address!="none")
+                    {
+                        $record->address = $result_each->edit_address;
+                    }
+                    if($result_each->edit_contact_person!="none")
+                    {
+                        $record->contact_person = $result_each->edit_contact_person;
+                    }
+                    if($result_each->is_tel_correct==0)
+                    {
+                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
+                    }
+                    $record->categories = $result_each->categories;
+                    $record->shop_type = $result_each->shop_type;
+                    $record->name_th = $result_each->name_th;
+                    $record->name_en = $result_each->name_en;
+                    $record->branch = $result_each->branch;
+                    $record->address = $result_each->address;
+                    $record->province = $result_each->province;
+                    $record->latitude = $result_each->latitude;
+                    $record->longtitude = $result_each->longtitude;
+                    $record->contact_person = $result_each->contact_person;
+                    $record->contact_tel = $result_each->contact_tel;
+                    $record->contact_email = $result_each->contact_email;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->links = $result_each->links;
+                    $record->remarks = $result_each->remarks;
+                    $record->branch_amount = $result_each->branch_amount;
+                    $record->result = $result_each->result;
+                    $record->call_status = $result_each->call_status;
+                    $record->result_date = $result_each->result_date;
+                    $record->yes_lot_no = NULL;
+                    $record->yes_sale_name = $result_each->yes_sale_name;
+                    $record->yes_privilege_start = $result_each->yes_privilege_start;
+                    $record->yes_privilege_end = $result_each->yes_privilege_end;
+                    $record->yes_feedback = $result_each->yes_feedback;
+                    $record->yes_condition = $result_each->yes_condition;
+                    $record->has_reply_doc = $result_each->has_reply_doc;
+                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
+                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
+                    $record->has_shop_img = $result_each->has_shop_img;
+                    $record->has_product_img = $result_each->has_product_img;
+                    $record->has_logo_img = $result_each->has_logo_img;
+                    $record->sending_address = $result_each->sending_address;
+                    $record->no_reason = $result_each->no_reason;
+                    $record->no_note = $result_each->no_note;
+                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
+                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
+                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
+                    $record->cannot_contact_times = $result_each->cannot_contact_times;
+                    $record->consider_reason = $result_each->consider_reason;
+                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
+                    $record->is_tel_correct = $result_each->is_tel_correct;
+                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
+                    $record->close = $result_each->close;
+                    $record->result_remark = $result_each->result_remark;
+                    $record->lot_date = NULL;
+                    $record->lot_no = NULL;
+                    $record->updated_by = $user->id;
+                    $record->updated_at = date('Y-m-d');
+                    $record->sale = $result_each->sale_id;
+                    $user_info = new User;
+                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
+                    $record->save();
+
+                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
+                    $select_record->delete();
+                }
+
+
+            }
 
         return redirect('/sale/show_selected_record_list');
+
+        //---------------- End Process to submit to records table -------
 
         // foreach ($sale_selected_record as $sale_selected_record_each ) 
         // {
@@ -984,7 +1404,7 @@ class CallController extends Controller
         $select_record->updated_by = $user->id;
         $select_record->save();
 
-        Session::forget('edit_record_info');
+        Session::forget('select_record_info');
         $select_record = SelectRecord::where('record_id','=',$record_id)->where('sale_id','=',$user->id)->first();
         return view('sale.select.success_edit_info')->with('select_record',$select_record);
 
@@ -999,7 +1419,7 @@ class CallController extends Controller
 
     public function cancel_edit_info()
     {
-        Session::forget('edit_record_info');
+        Session::forget('select_record_info');
         return redirect('/sale/show_selected_record_list');
     }
 

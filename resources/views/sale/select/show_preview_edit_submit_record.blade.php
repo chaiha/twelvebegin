@@ -48,7 +48,7 @@ $record = new Record;
             <table class="table table-bordered table-striped">
             <tr>
                 <th>Privilege</th>
-                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>เงื่อนไขเพิ่มเติม</th>
                 <th>Privilege-start</th>
                 <th>Privilege-end</th>
             </tr>
@@ -293,7 +293,7 @@ $record = new Record;
 			<div class="col-xs-12"><b>ผลการโทร : </b>
 				@if($call_result=="yes") 
 					<span>Yes</span><br />					
-					<b>Feedback : </b> {{$sale_filled_edit['feedback']}} <br />
+					<b>Privilege : </b> {{$sale_filled_edit['feedback']}} <br />
 					<b>เงื่อนไข : </b> {{$sale_filled_edit['condition']}} <br />
 					<b>Start Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled_edit['start_priviledge_date']}}  <br />
 					<b>End Privilege Date [ วัน / เดือน / ปี ] : </b> {{$sale_filled_edit['end_priviledge_date']}} <br />

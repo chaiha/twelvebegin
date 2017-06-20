@@ -25,6 +25,23 @@ Route::get('/test', function () {
 Route::get('/login', function () {
     return view('pages.login');
 });
+Route::get('/test_date'.'AdminController@test_date');
+
+//Remove leads lot "Jan" from database
+Route::get('/delete_763_1119_in_records','AdminController@delete_763_1119_in_records');
+Route::get('/delete_1508_1946_in_records','AdminController@delete_1508_1946_in_records');
+Route::get('/export_records_after_remove_763_1119','AdminController@export_records_after_remove_763_1119');
+Route::get('/export_select_records_after_remove_1_1119','AdminController@export_select_records_after_remove_1_1119');
+//
+
+Route::get('/test_month','AdminController@test_month');
+Route::get('/export_records_jan_17_exclude_select_record','AdminController@export_records_jan_17_exclude_select_record');
+Route::get('/export_select_records_jan_17','AdminController@export_select_records_jan_17');
+
+//------ Start Export 16-06-2560
+Route::get('/export_records_feb_17_exclude_select_record_16062560','AdminController@export_records_feb_17_exclude_select_record_16062560');
+Route::get('/export_select_records_feb_17_16062560','AdminController@export_select_records_feb_17_16062560');
+//------ End Export 16-06-2560
 
 Route::get('/diff_database/{start_master}/{start_second}','AdminController@diff_database');
 

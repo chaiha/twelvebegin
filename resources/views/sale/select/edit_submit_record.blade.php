@@ -638,7 +638,7 @@ use App\Record;
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
-						<label>Feedback: </label>
+						<label>Privilege: </label>
 							<input type="text" name="feedback" id="feedback" value="<?php if($sale_filled_edit['feedback']==""){if($select_record->result=="yes"){ echo $select_record->yes_feedback; }}elseif($sale_filled_edit['call_result']=="yes"){ echo $sale_filled_edit['feedback']; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>

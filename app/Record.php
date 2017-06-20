@@ -166,7 +166,7 @@ class Record extends Model
 
     static public function province_list()
     {
-        $province = array("กระบี่","กรุงเทพฯ","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยโสธร","ยะลา","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อำนาจเจริญ","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี");
+        $province = array("กระบี่","กรุงเทพฯ","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บึงกาฬ","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยโสธร","ยะลา","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อำนาจเจริญ","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี");
 
         return $province;
     }
@@ -178,22 +178,98 @@ class Record extends Model
 
     static public function check_duplicate_record($name_th,$name_en,$province)
     {
-        $check_dupl_name = Record::where('name_th','=',$name_th)->orwhere('name_en','=',$name_en)->first();
-        if($check_dupl_name!=NULL)
+        $check_dupl_name_th = Record::where('name_th','=',$name_th)->first();
+        $check_dupl_name_en = Record::where('name_en','=',$name_en)->first();
+
+        //print_r($check_dupl_name);
+        if($name_th!="-")
         {
-            //check province is duplicate?
-            if($check_dupl_name->province==$province)
+            if($check_dupl_name_th!=NULL)
             {
-                return 1;
+                if($name_en!="-")
+                {
+                    if($check_dupl_name_en!=NULL)
+                    {
+                        if($check_dupl_name_en->province==$province)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                    elseif($check_dupl_name_en==NULL)
+                    {
+                        if($check_dupl_name_th->province==$province)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                }
+                else //name_en=="-"
+                {
+                    if($check_dupl_name_th->province==$province)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                }
+                
             }
-            else
+            elseif($check_dupl_name_th==NULL)
             {
-                return 0;
+                if($name_en!="-")
+                {
+                    if($check_dupl_name_en!=NULL)
+                    {
+                        if($check_dupl_name_en->province==$province)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
             }
         }
         else
         {
-            return 0;
+            if($name_en!="-")
+            {
+                if($check_dupl_name_en!=NULL)
+                {
+                    if($check_dupl_name_en->province==$province)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                elseif($check_dupl_name_en==NULL)
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 
@@ -238,6 +314,7 @@ class Record extends Model
 
     static public function amount_waiting_record($sale_id)
     {
+         $today = date('Y-m-d');
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
         if(sizeof($select_record)==0)
@@ -259,6 +336,7 @@ class Record extends Model
                 $query->where('sale','=',$sale_id);
             })
         ->where('status','=','Available')
+        ->whereDate('effective_date','<=',$today)
         ->whereNotIn('id',$select_record_array)
         ->get();
         $size_of_result = sizeof($result);
@@ -267,6 +345,7 @@ class Record extends Model
 
     static public function amount_noreply_record($sale_id)
     {
+        $today = date('Y-m-d');
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
         if(sizeof($select_record)==0)
@@ -289,6 +368,7 @@ class Record extends Model
                 $query->where('sale','=',$sale_id);
             })
         ->where('status','=','Available')
+        ->whereDate('effective_date','<=',$today)
         ->whereNotIn('id',$select_record_array)
         ->get();
         $size_of_result = sizeof($result);
@@ -297,6 +377,7 @@ class Record extends Model
 
     static public function amount_new_record()
     {
+        $today = date('Y-m-d');
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
         if(sizeof($select_record)==0)
@@ -374,40 +455,40 @@ class Record extends Model
 
         switch ($month) {
             case '01':
-                $month_text = "January-".$year_2;
+                $month_text = "Jan/".$year_2;
                 break;
             case '02':
-                $month_text = "February-".$year_2;
+                $month_text = "Feb/".$year_2;
                 break;
             case '03':
-                $month_text = "March-".$year_2;
+                $month_text = "Mar/".$year_2;
                 break;
             case '04':
-                $month_text = "April-".$year_2;
+                $month_text = "Apr/".$year_2;
                 break;
             case '05':
-                $month_text = "May-".$year_2;
+                $month_text = "May/".$year_2;
                 break;
             case '06':
-                $month_text = "June-".$year_2;
+                $month_text = "June/".$year_2;
                 break;
             case '07':
-                $month_text = "July-".$year_2;
+                $month_text = "July/".$year_2;
                 break;
             case '08':
-                $month_text = "August-".$year_2;
+                $month_text = "Aug/".$year_2;
                 break;
             case '09':
-                $month_text = "September-".$year_2;
+                $month_text = "Sept/".$year_2;
                 break;
             case '10':
-                $month_text = "October-".$year_2;
+                $month_text = "Oct/".$year_2;
                 break;
             case '11':
-                $month_text = "November-".$year_2;
+                $month_text = "Nov/".$year_2;
                 break;
             case '12':
-                $month_text = "December-".$year_2;
+                $month_text = "Dec/".$year_2;
                 break;
         }
         return $month_text;
@@ -417,6 +498,13 @@ class Record extends Model
     {
         $date_array = explode('-', $date);
         $new_date = $date_array[2].'/'.$date_array[1].'/'.$date_array[0];
+        return $new_date;
+    }
+
+    static public function convert_datetime_to_date($datetime)
+    {
+        $old_date_timestamp = strtotime($datetime);
+        $new_date = date('d/m/Y', $old_date_timestamp);  
         return $new_date;
     }
 
@@ -441,6 +529,12 @@ class Record extends Model
         {
             return "Walk in";
         }
+    }
+
+    static public function find_record_no($record_id)
+    {
+        $result = Record::where('id','=',$record_id)->first();
+        return $result->no;
     }
 
 }

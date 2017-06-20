@@ -26,6 +26,13 @@ class AdminController extends Controller
         echo "<br /><br /><br />";
         echo $user->id;
     }
+
+    public function test_month()
+    {
+        $month = date('M');
+        echo $month;
+    }
+
     public function test_date()
     {
         $today = date('Y-m-d');
@@ -39,6 +46,181 @@ class AdminController extends Controller
         echo "next 2 month".$plus60;
     }
 
+    public function export_records_jan_17_exclude_select_record()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id FROM select_record LEFT JOIN records ON select_record.record_id = records.id WHERE records.month='Jan/17' ) AND month='Jan/17'") );
+
+        $file_name = "jan_17_ex_select_record";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+
+
+    }
+
+    public function export_select_records_jan_17()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT select_record.* , records.month FROM select_record LEFT JOIN records ON select_record.record_id = records.id WHERE records.month='Jan/17'") );
+
+        $file_name = "jan_17_select_record";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+
+
+    }
+
+    public function export_records_jan_17_exclude_select_record_09062560()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 763 AND 1119 ) AND records.id BETWEEN 763 AND 1119") );
+
+        $file_name = "jan_17_ex_select_record_09062560";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+
+
+    }
+
+        public function export_select_records_jan_17_09062560()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT select_record.*  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 763 AND 1119") );
+
+        $file_name = "jan_17_select_record_09062560";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+
+
+    }
+
+//------- remove lead lot "Jan"
+
+    public function delete_763_1119_in_records()
+    {
+        $result = DB::select(DB::raw("SELECT id FROM records WHERE id NOT IN
+(SELECT select_record.record_id
+FROM select_record
+INNER JOIN records ON select_record.record_id = records.id WHERE records.id BETWEEN '763' AND '1119') AND id BETWEEN '763' AND '1119'"));
+        foreach($result as $result_each)
+        {
+            $record = Record::where('id','=',$result_each->id)->first();
+            $record->delete();
+        }
+        echo "ok";
+
+    }
+
+        public function delete_1508_1946_in_records()
+    {
+        $result = DB::select(DB::raw("SELECT id FROM records WHERE id NOT IN
+(SELECT select_record.record_id
+FROM select_record
+INNER JOIN records ON select_record.record_id = records.id WHERE records.id BETWEEN '1508' AND '1946') AND id BETWEEN '1508' AND '1946'"));
+        foreach($result as $result_each)
+        {
+            $record = Record::where('id','=',$result_each->id)->first();
+            $record->delete();
+        }
+        echo "ok";
+
+    }
+
+    public function export_records_after_remove_763_1119()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT id FROM records WHERE id IN
+(SELECT select_record.record_id
+FROM select_record
+INNER JOIN records ON select_record.record_id = records.id WHERE records.id BETWEEN '763' AND '1119') AND id BETWEEN '763' AND '1119' ") );
+
+        $file_name = "jan_17_ex_select_record";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+    }
+
+    public function export_select_records_after_remove_1_1119()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT * FROM records WHERE id IN
+('830','831','959','1058','1061','882','883','972','1000','1088','996','1036','1579' )") );
+
+         $file_name = "jan_17_select_record";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17_select_record_14062560')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+    }
+
+    //----------Start Export 16-06-2560
+       public function export_records_feb_17_exclude_select_record_16062560()
+    {
+        $list_lot_no_1 = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 3840 ) AND records.id BETWEEN 2840 AND 3840") );
+         $list_lot_no_2 = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 3840 ) AND records.id BETWEEN 3841 AND 4840") );
+        $list_lot_no_3 = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 3840 ) AND records.id BETWEEN 4841 AND 5840") );
+        // $list_lot_no_4 = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 3840 ) AND records.id BETWEEN 5841 AND 6840") );
+        // $list_lot_no_5 = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 3840 ) AND records.id BETWEEN 6841 AND 7840") );
+        // $list_lot_no_6 = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 3840 ) AND records.id BETWEEN 7841 AND 8702") );
+
+        // $list_lot_no = DB::select( DB::raw("SELECT * FROM records WHERE id NOT IN (SELECT select_record.record_id  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 8702 ) AND records.id BETWEEN 2840 AND 8702") );
+
+        $list_lot_no = new Record();
+
+        $list_lot_no = $list_lot_no_1;
+        $list_lot_no = $list_lot_no+$list_lot_no_2;
+        $list_lot_no = $list_lot_no+$list_lot_no_3;
+
+         $file_name = "feb_17_ex_select_record_16062560";
+
+        // Excel::create($file_name,function($excel) use ($list_lot_no_1,$list_lot_no_2,$list_lot_no_3,$list_lot_no_4,$list_lot_no_5,$list_lot_no_6){
+        //     $excel->sheet('records',function($sheet) use ($list_lot_no_1,$list_lot_no_2,$list_lot_no_3,$list_lot_no_4,$list_lot_no_5,$list_lot_no_6){
+        //         $sheet->loadView('admin.export_excel.ExportRecords_feb_17_record_16062560')->with('list_lot_no_1',$list_lot_no_1)->with('list_lot_no_2',$list_lot_no_2)->with('list_lot_no_3',$list_lot_no_3)->with('list_lot_no_4',$list_lot_no_4)->with('list_lot_no_5',$list_lot_no_5)->with('list_lot_no_6',$list_lot_no_6);
+        //     });
+        // })->export('xlsx');
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+
+
+    }
+
+        public function export_select_records_feb_17_16062560()
+    {
+        $list_lot_no = DB::select( DB::raw("SELECT select_record.*  FROM select_record LEFT JOIN records ON select_record.record_id = records.id  WHERE records.id BETWEEN 2840 AND 8702") );
+
+        $file_name = "feb_17_select_record_16062560";
+
+        Excel::create($file_name,function($excel) use ($list_lot_no){
+            $excel->sheet('records',function($sheet) use ($list_lot_no){
+                $sheet->loadView('admin.export_excel.ExportRecords_jan_17')->with('list_lot_no',$list_lot_no);
+            });
+        })->export('xlsx');
+
+
+    }
+
+    //---------- End Export 16-06-2560
+
+//------------
     public function insert_record_to_select_record()
     {
         $record = DB::table('merge_leads_ext')->where('exec','=','0')->get();
@@ -125,6 +307,22 @@ class AdminController extends Controller
             
     }
 
+    public function corrected_data()
+    {
+        $result_record = Record::where('id','=','1339')->get();
+        
+        echo sizeof($result_record);
+        echo "<br />";
+        $max_new = 1119;
+        foreach($result_record as $result_record_each)
+        {
+            $max_new = $max_new+1;
+            echo $max_new."-".$result_record_each->code;
+            $xx = DB::table('records')->where('code',$result_record_each->code)->update(['id'=>$max_new]);
+        }
+    }
+
+
     public function forget_cookie()
     {
         $cookie = \Cookie::forget('is_update');
@@ -174,12 +372,14 @@ class AdminController extends Controller
                         {
                             
                             //Update record Yes status
+                            /*
                             $result_yes = DB::table('records')
                             ->where('status','=','Not_Available')
                             ->where('result','=','yes')
                             ->whereMonth('yes_privilege_end', $next_array[1])
                             ->whereYear('yes_privilege_end',$next_array[0])
                             ->update(['status'=>'Available','selective_status'=>'extend','is_selected'=>'0']);
+                            */
                             //return view('admin.index');
 
                             //Update record Reject status -> check for "effective_date" if it reach the condition , turn tha status from "Not_Available" to "Available"
@@ -443,7 +643,8 @@ class AdminController extends Controller
         // //สามารถเลือกไปให้ sale โทรได้
 
         //--- original
-        return view('admin.index');
+        $user = Sentinel::check();
+        return view('admin.index')->with('user',$user);
     }
     
     public function earnings()
@@ -744,7 +945,8 @@ class AdminController extends Controller
             ->whereNotIn('id',$select_record_array)
             ->paginate(20);
         }
-        
+
+        //echo sizeof($record_list);
         return view('admin.select.filter_extend_select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
 
@@ -754,6 +956,7 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
+        $today = date('Y-m-d');
         $selected_array = session('mem_selected_record_waiting');
         foreach($select_record as $select_record_each)
         {
@@ -765,6 +968,7 @@ class AdminController extends Controller
             $record_list = Record::where('status','=','Available')
             ->where('selective_status','=','waiting')
             ->where('is_selected','=','0')
+            ->whereDate('effective_date','<=',$today)
              ->where(function ($query) use ($id)
             {
                 //$query->where('sale','=',$id)->orWhere('sale','=',NULL);
@@ -778,6 +982,7 @@ class AdminController extends Controller
         {
             $record_list = Record::where('status','=','Available')
             ->where('selective_status','=','waiting')
+            ->whereDate('effective_date','<=',$today)
             ->where('is_selected','=','0')
             ->where(function ($query) use ($id)
             {
@@ -787,7 +992,7 @@ class AdminController extends Controller
             ->whereNotIn('id',$select_record_array)
             ->paginate(20);
         }
-        
+        //echo sizeof($record_list);
         return view('admin.select.filter_waiting_select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
 
@@ -797,6 +1002,7 @@ class AdminController extends Controller
         $sale = Sentinel::findUserById($id);
         $select_record = SelectRecord::groupBy('record_id')->get();
         $i = 0;
+        $today = date('Y-m-d');
         $selected_array = session('mem_selected_record_noreply');
         foreach($select_record as $select_record_each)
         {
@@ -807,6 +1013,7 @@ class AdminController extends Controller
         {
             $record_list = Record::where('status','=','Available')
             ->where('selective_status','=','noreply')
+            ->whereDate('effective_date','<=',$today)
             ->where('is_selected','=','0')
             ->where(function ($query) use ($id)
             {
@@ -820,6 +1027,7 @@ class AdminController extends Controller
         {
             $record_list = Record::where('status','=','Available')
             ->where('selective_status','=','noreply')
+            ->whereDate('effective_date','<=',$today)
             ->where('is_selected','=','0')
             ->where(function ($query) use ($id)
             {
@@ -829,7 +1037,7 @@ class AdminController extends Controller
             ->whereNotIn('id',$select_record_array)
             ->paginate(20);
         }
-        
+        //print_r($record_list);
         return view('admin.select.filter_noreply_select_record')->with('sale',$sale)->with('record_list',$record_list);
     }
 
@@ -1168,14 +1376,14 @@ class AdminController extends Controller
         $selected_record_list_waiting = session('mem_selected_record_list_waiting');
         $selected_record_list_noreply = session('mem_selected_record_list_noreply');
         $selected_record_list_new = session('mem_selected_record_list_new');
-
+        $user = Sentinel::check();
 
         if($selected_record_list_extend!=NULL)
         {
             foreach($selected_record_list_extend as $selected_record_each)
             {
                 $dt = date("Y-m-d");
-                $user = Sentinel::check();
+
                 $select_record_extend = new SelectRecord;
 
                 $select_record_extend->input_date = $selected_record_each->input_date;
@@ -1222,7 +1430,6 @@ class AdminController extends Controller
             foreach($selected_record_list_waiting as $selected_record_each)
             {
                 $dt = date("Y-m-d");
-                $user = Sentinel::check();
                 $select_record_waiting = new SelectRecord;
 
                 $select_record_waiting->input_date = $selected_record_each->input_date;
@@ -1268,7 +1475,6 @@ class AdminController extends Controller
             foreach($selected_record_list_noreply as $selected_record_each)
             {
                 $dt = date("Y-m-d");
-                $user = Sentinel::check();
                 $select_record_noreply = new SelectRecord;
 
                 $select_record_noreply->input_date = $selected_record_each->input_date;
@@ -1314,7 +1520,6 @@ class AdminController extends Controller
             foreach($selected_record_list_new as $selected_record_each)
             {
                 $dt = date("Y-m-d");
-                $user = Sentinel::check();
                 $select_record_new = new SelectRecord;
 
                 $select_record_new->input_date = $selected_record_each->input_date;
@@ -1586,8 +1791,8 @@ class AdminController extends Controller
             $result = DB::table('select_record')
             ->select([DB::raw('count(*) as record_count, sale_id')])
                      ->where('can_approve','<=',$today)
-                     ->where('sending_status','=','sent')
                      ->where('is_admin_submit_approve','=','0')
+                     ->where('cannot_send','=','1')
                      //->orWhere('sending_status','=','approve')
                      //->orWhere('sending_status','=','not_approve')
                      ->groupBy('sale_id')
@@ -1663,17 +1868,21 @@ class AdminController extends Controller
         return redirect('/admin/approve_record_from_sale/select_sale/'.$sale_id);
     }
 
-    public function submit_all_approve_record(Request $request)
+ public function submit_all_approve_record(Request $request)
     {
+        $record_id_list = $request->input('record_id_list');
+
         $today = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
         $lot_no_number_1 = $request->input('lot_no_number_1');
         $lot_no_number_2 = $request->input('lot_no_number_2');
         $lot_no_month = $request->input('lot_no_month');
         $lot_no = $lot_no_number_1."-".$lot_no_number_2."-".$lot_no_month;
-        $new_lot_no_month = explode('-', $lot_no_month);
+        $new_lot_no_month_2 = explode('-', $lot_no_month);
+        $new_lot_no_month = $new_lot_no_month_2[0].'/'.$new_lot_no_month_2[1];
         $user = Sentinel::check();
         $sale_id = $request->input('sale_id');
-        $result = SelectRecord::where('sale_id','=',$sale_id)->get();
+        $result = SelectRecord::where('sale_id','=',$sale_id)->whereIn('record_id',$record_id_list)->get();
 
         foreach ($result as $result_each) 
         {
@@ -1698,7 +1907,7 @@ class AdminController extends Controller
                     $yes_record = new YesRecords;
                     $yes_record->lot_date = date('Y-m-d');
                     $yes_record->lot_no = $lot_no;
-                    $yes_record->month = $new_lot_no_month[0];
+                    $yes_record->month = $new_lot_no_month;
                     $yes_record->approve_date = date('Y-m-d');
                     $yes_record->record_id = $result_each->record_id;
                     $yes_record->sale_id = $result_each->sale_id;
@@ -1729,7 +1938,7 @@ class AdminController extends Controller
 
                     $sale_record_yes_collection = new SaleRecordYesCollection;
                     $sale_record_yes_collection->lot_no = $lot_no;
-                    $sale_record_yes_collection->month = $new_lot_no_month[0];
+                    $sale_record_yes_collection->month = $new_lot_no_month;
                     $sale_record_yes_collection->approve_date = date('Y-m-d');
                     $sale_record_yes_collection->record_id = $result_each->record_id;
                     $sale_record_yes_collection->sale_id = $result_each->sale_id;
@@ -1819,7 +2028,7 @@ class AdminController extends Controller
                         $record->result_remark = $result_each->result_remark;
                         $record->lot_date = date('Y-m-d');
                         $record->lot_no = $lot_no;
-                        $record->month = $new_lot_no_month[0];
+                        $record->month = $new_lot_no_month;
                         $record->updated_by = $user->id;
                         $record->updated_at = date('Y-m-d');
                         $record->sale = $result_each->sale_id;
@@ -1831,409 +2040,6 @@ class AdminController extends Controller
                         $select_record->delete();
 
                 }
-                elseif($result_each->result=="no_reply")
-                {
-                    $record = Record::where('id','=',$result_each->record_id)->first();
-                    $waiting_count = $record->waiting_count;
-                    $new_waiting_count = $waiting_count + 1;
-                    $record->is_selected = "0";
-                    if($new_waiting_count < 3 )
-                    {
-                        $record->status = "Available";
-                        $record->selective_status = "noreply";
-                        $record->waiting_count = $new_waiting_count;
-                        $record->effective_date = $result_each->cannot_contact_appointment;
-                    }
-                    elseif($new_waiting_count >= 3 )
-                    {
-                        $record->status = "Not_Available";
-                        $record->selective_status = "noreply";
-                        $record->waiting_count = 0;
-                        $record->effective_date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                    }
-                    if($result_each->edit_address!="none")
-                    {
-                        $record->address = $result_each->edit_address;
-                    }
-                    if($result_each->edit_contact_person!="none")
-                    {
-                        $record->contact_person = $result_each->edit_contact_person;
-                    }
-                    if($result_each->is_tel_correct==0)
-                    {
-                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
-                    }
-                    $record->categories = $result_each->categories;
-                    $record->shop_type = $result_each->shop_type;
-                    $record->name_th = $result_each->name_th;
-                    $record->name_en = $result_each->name_en;
-                    $record->branch = $result_each->branch;
-                    $record->address = $result_each->address;
-                    $record->province = $result_each->province;
-                    $record->latitude = $result_each->latitude;
-                    $record->longtitude = $result_each->longtitude;
-                    $record->contact_person = $result_each->contact_person;
-                    $record->contact_tel = $result_each->contact_tel;
-                    $record->contact_email = $result_each->contact_email;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->links = $result_each->links;
-                    $record->remarks = $result_each->remarks;
-
-                    $record->branch_amount = $result_each->branch_amount;
-                    $record->result = $result_each->result;
-                    $record->call_status = $result_each->call_status;
-                    $record->result_date = $result_each->result_date;
-                    $record->yes_lot_no = NULL;
-                    $record->yes_sale_name = $result_each->yes_sale_name;
-                    $record->yes_privilege_start = $result_each->yes_privilege_start;
-                    $record->yes_privilege_end = $result_each->yes_privilege_end;
-                    $record->yes_feedback = $result_each->yes_feedback;
-                    $record->yes_condition = $result_each->yes_condition;
-                    $record->has_reply_doc = $result_each->has_reply_doc;
-                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
-                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
-                    $record->has_shop_img = $result_each->has_shop_img;
-                    $record->has_product_img = $result_each->has_product_img;
-                    $record->has_logo_img = $result_each->has_logo_img;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->no_reason = $result_each->no_reason;
-                    $record->no_note = $result_each->no_note;
-                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
-                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
-                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
-                    $record->cannot_contact_times = $result_each->cannot_contact_times;
-                    $record->consider_reason = $result_each->consider_reason;
-                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
-                    $record->is_tel_correct = $result_each->is_tel_correct;
-                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
-                    $record->close = $result_each->close;
-                    $record->result_remark = $result_each->result_remark;
-                    $record->lot_date = NULL;
-                    $record->lot_no = NULL;
-                    $record->updated_by = $user->id;
-                    $record->updated_at = date('Y-m-d');
-                    $record->sale = $result_each->sale_id;
-                    $user_info = new User;
-                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
-                    $record->save();
-
-                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
-                    $select_record->delete();
-                }
-                elseif($result_each->result=="rejected")
-                {
-                    $record = Record::where('id','=',$result_each->record_id)->first();
-                    $record->status = "Not_Available";
-                    $record->is_selected = "0";
-                    if($result_each->edit_address!="none")
-                    {
-                        $record->address = $result_each->edit_address;
-                    }
-                    if($result_each->edit_contact_person!="none")
-                    {
-                        $record->contact_person = $result_each->edit_contact_person;
-                    }
-                    if($result_each->is_tel_correct==0)
-                    {
-                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
-                    }
-                    $record->categories = $result_each->categories;
-                    $record->shop_type = $result_each->shop_type;
-                    $record->name_th = $result_each->name_th;
-                    $record->name_en = $result_each->name_en;
-                    $record->branch = $result_each->branch;
-                    $record->address = $result_each->address;
-                    $record->province = $result_each->province;
-                    $record->latitude = $result_each->latitude;
-                    $record->longtitude = $result_each->longtitude;
-                    $record->contact_person = $result_each->contact_person;
-                    $record->contact_tel = $result_each->contact_tel;
-                    $record->contact_email = $result_each->contact_email;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->links = $result_each->links;
-                    $record->remarks = $result_each->remarks;
-                    $record->effective_date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                    $record->branch_amount = $result_each->branch_amount;
-                    $record->result = $result_each->result;
-                    $record->call_status = $result_each->call_status;
-                    $record->result_date = $result_each->result_date;
-                    $record->yes_lot_no = NULL;
-                    $record->yes_sale_name = $result_each->yes_sale_name;
-                    $record->yes_privilege_start = $result_each->yes_privilege_start;
-                    $record->yes_privilege_end = $result_each->yes_privilege_end;
-                    $record->yes_feedback = $result_each->yes_feedback;
-                    $record->yes_condition = $result_each->yes_condition;
-                    $record->has_reply_doc = $result_each->has_reply_doc;
-                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
-                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
-                    $record->has_shop_img = $result_each->has_shop_img;
-                    $record->has_product_img = $result_each->has_product_img;
-                    $record->has_logo_img = $result_each->has_logo_img;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->no_reason = $result_each->no_reason;
-                    $record->no_note = $result_each->no_note;
-                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
-                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
-                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
-                    $record->cannot_contact_times = $result_each->cannot_contact_times;
-                    $record->consider_reason = $result_each->consider_reason;
-                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
-                    $record->is_tel_correct = $result_each->is_tel_correct;
-                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
-                    $record->close = $result_each->close;
-                    $record->result_remark = $result_each->result_remark;
-                    $record->lot_date = NULL;
-                    $record->lot_no = NULL;
-                    $record->updated_by = $user->id;
-                    $record->updated_at = date('Y-m-d');
-                    $record->sale = $result_each->sale_id;
-                    $user_info = new User;
-                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
-                    $record->save();
-
-                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
-                    $select_record->delete();
-                }
-                elseif($result_each->result=="waiting")
-                {
-                    $record = Record::where('id','=',$result_each->record_id)->first();
-                    $waiting_count = $record->waiting_count;
-                    $new_waiting_count = $waiting_count + 1;
-                    $record->is_selected = "0";
-                    if($new_waiting_count < 3 )
-                    {
-                        $record->status = "Available";
-                        $record->selective_status = "waiting";
-                        $record->waiting_count = $new_waiting_count;
-                        $record->effective_date = $result_each->consider_appointment_feedback;
-                    }
-                    elseif($new_waiting_count >= 3 )
-                    {
-                        $record->status = "Not_Available";
-                        $record->selective_status = "waiting";
-                        $record->waiting_count = 0;
-                        $record->effective_date = date('Y-m-d', strtotime('+1 month', strtotime($today)));
-                    }
-                    if($result_each->edit_address!="none")
-                    {
-                        $record->address = $result_each->edit_address;
-                    }
-                    if($result_each->edit_contact_person!="none")
-                    {
-                        $record->contact_person = $result_each->edit_contact_person;
-                    }
-                    if($result_each->is_tel_correct==0)
-                    {
-                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
-                    }
-                    $record->categories = $result_each->categories;
-                    $record->shop_type = $result_each->shop_type;
-                    $record->name_th = $result_each->name_th;
-                    $record->name_en = $result_each->name_en;
-                    $record->branch = $result_each->branch;
-                    $record->address = $result_each->address;
-                    $record->province = $result_each->province;
-                    $record->latitude = $result_each->latitude;
-                    $record->longtitude = $result_each->longtitude;
-                    $record->contact_person = $result_each->contact_person;
-                    $record->contact_tel = $result_each->contact_tel;
-                    $record->contact_email = $result_each->contact_email;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->links = $result_each->links;
-                    $record->remarks = $result_each->remarks;
-                    $record->branch_amount = $result_each->branch_amount;
-                    $record->result = $result_each->result;
-                    $record->call_status = $result_each->call_status;
-                    $record->result_date = $result_each->result_date;
-                    $record->yes_lot_no = NULL;
-                    $record->yes_sale_name = $result_each->yes_sale_name;
-                    $record->yes_privilege_start = $result_each->yes_privilege_start;
-                    $record->yes_privilege_end = $result_each->yes_privilege_end;
-                    $record->yes_feedback = $result_each->yes_feedback;
-                    $record->yes_condition = $result_each->yes_condition;
-                    $record->has_reply_doc = $result_each->has_reply_doc;
-                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
-                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
-                    $record->has_shop_img = $result_each->has_shop_img;
-                    $record->has_product_img = $result_each->has_product_img;
-                    $record->has_logo_img = $result_each->has_logo_img;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->no_reason = $result_each->no_reason;
-                    $record->no_note = $result_each->no_note;
-                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
-                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
-                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
-                    $record->cannot_contact_times = $result_each->cannot_contact_times;
-                    $record->consider_reason = $result_each->consider_reason;
-                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
-                    $record->is_tel_correct = $result_each->is_tel_correct;
-                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
-                    $record->close = $result_each->close;
-                    $record->result_remark = $result_each->result_remark;
-                    $record->lot_date = NULL;
-                    $record->lot_no = NULL;
-                    $record->updated_by = $user->id;
-                    $record->updated_at = date('Y-m-d');
-                    $record->sale = $result_each->sale_id;
-                    $user_info = new User;
-                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
-                    $record->save();
-
-                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
-                    $select_record->delete();
-                }
-                elseif($result_each->result=="closed")
-                {
-                    $record = Record::where('id','=',$result_each->record_id)->first();
-                    $record->status = "Not_Available";
-                    $record->is_selected = "0";
-                    if($result_each->edit_address!="none")
-                    {
-                        $record->address = $result_each->edit_address;
-                    }
-                    if($result_each->edit_contact_person!="none")
-                    {
-                        $record->contact_person = $result_each->edit_contact_person;
-                    }
-                    if($result_each->is_tel_correct==0)
-                    {
-                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
-                    }
-                    $record->categories = $result_each->categories;
-                    $record->shop_type = $result_each->shop_type;
-                    $record->name_th = $result_each->name_th;
-                    $record->name_en = $result_each->name_en;
-                    $record->branch = $result_each->branch;
-                    $record->address = $result_each->address;
-                    $record->province = $result_each->province;
-                    $record->latitude = $result_each->latitude;
-                    $record->longtitude = $result_each->longtitude;
-                    $record->contact_person = $result_each->contact_person;
-                    $record->contact_tel = $result_each->contact_tel;
-                    $record->contact_email = $result_each->contact_email;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->links = $result_each->links;
-                    $record->remarks = $result_each->remarks;
-                    $record->effective_date = NULL;
-                    $record->branch_amount = $result_each->branch_amount;
-                    $record->result = $result_each->result;
-                    $record->call_status = $result_each->call_status;
-                    $record->result_date = $result_each->result_date;
-                    $record->yes_lot_no = NULL;
-                    $record->yes_sale_name = $result_each->yes_sale_name;
-                    $record->yes_privilege_start = $result_each->yes_privilege_start;
-                    $record->yes_privilege_end = $result_each->yes_privilege_end;
-                    $record->yes_feedback = $result_each->yes_feedback;
-                    $record->yes_condition = $result_each->yes_condition;
-                    $record->has_reply_doc = $result_each->has_reply_doc;
-                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
-                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
-                    $record->has_shop_img = $result_each->has_shop_img;
-                    $record->has_product_img = $result_each->has_product_img;
-                    $record->has_logo_img = $result_each->has_logo_img;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->no_reason = $result_each->no_reason;
-                    $record->no_note = $result_each->no_note;
-                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
-                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
-                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
-                    $record->cannot_contact_times = $result_each->cannot_contact_times;
-                    $record->consider_reason = $result_each->consider_reason;
-                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
-                    $record->is_tel_correct = $result_each->is_tel_correct;
-                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
-                    $record->close = $result_each->close;
-                    $record->result_remark = $result_each->result_remark;
-                    $record->lot_date = NULL;
-                    $record->lot_no = NULL;
-                    $record->updated_by = $user->id;
-                    $record->updated_at = date('Y-m-d');
-                    $record->sale = $result_each->sale_id;
-                    $user_info = new User;
-                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
-                    $record->save();
-
-                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
-                    $select_record->delete();
-                }
-                elseif($result_each->result=="")
-                {
-                    $record = Record::where('id','=',$result_each->record_id)->first();
-                    $record->is_selected = "0";
-
-                    $record->status = "Available";
-                    $record->selective_status = $record->selective_status;
-                    $record->waiting_count = $record->waiting_count;
-
-                    if($result_each->edit_address!="none")
-                    {
-                        $record->address = $result_each->edit_address;
-                    }
-                    if($result_each->edit_contact_person!="none")
-                    {
-                        $record->contact_person = $result_each->edit_contact_person;
-                    }
-                    if($result_each->is_tel_correct==0)
-                    {
-                        $record->contact_tel = $result_each->wrong_number_new_tel_number;
-                    }
-                    $record->categories = $result_each->categories;
-                    $record->shop_type = $result_each->shop_type;
-                    $record->name_th = $result_each->name_th;
-                    $record->name_en = $result_each->name_en;
-                    $record->branch = $result_each->branch;
-                    $record->address = $result_each->address;
-                    $record->province = $result_each->province;
-                    $record->latitude = $result_each->latitude;
-                    $record->longtitude = $result_each->longtitude;
-                    $record->contact_person = $result_each->contact_person;
-                    $record->contact_tel = $result_each->contact_tel;
-                    $record->contact_email = $result_each->contact_email;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->links = $result_each->links;
-                    $record->remarks = $result_each->remarks;
-                    $record->branch_amount = $result_each->branch_amount;
-                    $record->result = $result_each->result;
-                    $record->call_status = $result_each->call_status;
-                    $record->result_date = $result_each->result_date;
-                    $record->yes_lot_no = NULL;
-                    $record->yes_sale_name = $result_each->yes_sale_name;
-                    $record->yes_privilege_start = $result_each->yes_privilege_start;
-                    $record->yes_privilege_end = $result_each->yes_privilege_end;
-                    $record->yes_feedback = $result_each->yes_feedback;
-                    $record->yes_condition = $result_each->yes_condition;
-                    $record->has_reply_doc = $result_each->has_reply_doc;
-                    $record->has_confirm_product_img = $result_each->has_confirm_product_img;
-                    $record->has_confirm_logo_img = $result_each->has_confirm_logo_img;
-                    $record->has_shop_img = $result_each->has_shop_img;
-                    $record->has_product_img = $result_each->has_product_img;
-                    $record->has_logo_img = $result_each->has_logo_img;
-                    $record->sending_address = $result_each->sending_address;
-                    $record->no_reason = $result_each->no_reason;
-                    $record->no_note = $result_each->no_note;
-                    $record->cannot_contact_amount_call = $result_each->cannot_contact_amount_call;
-                    $record->cannot_contact_reason = $result_each->cannot_contact_reason;
-                    $record->cannot_contact_appointment = $result_each->cannot_contact_appointment;
-                    $record->cannot_contact_times = $result_each->cannot_contact_times;
-                    $record->consider_reason = $result_each->consider_reason;
-                    $record->consider_appointment_feedback = $result_each->consider_appointment_feedback;
-                    $record->is_tel_correct = $result_each->is_tel_correct;
-                    $record->wrong_number_new_tel_number = $result_each->wrong_number_new_tel_number;
-                    $record->close = $result_each->close;
-                    $record->result_remark = $result_each->result_remark;
-                    $record->lot_date = NULL;
-                    $record->lot_no = NULL;
-                    $record->updated_by = $user->id;
-                    $record->updated_at = date('Y-m-d');
-                    $record->sale = $result_each->sale_id;
-                    $user_info = new User;
-                    $record->sale_name = $user_info->get_first_name_by_id($result_each->sale_id);
-                    $record->save();
-
-                    $select_record = SelectRecord::where('record_id','=',$result_each->record_id)->first();
-                    $select_record->delete();
-                }
-
 
             }
             elseif($result_each->sending_status=="not_approve")
@@ -2245,6 +2051,7 @@ class AdminController extends Controller
                 $select_record->updated_at = date('Y-m-d H:i:s');
                 $select_record->updated_by = $user->id;
                 $select_record->is_admin_submit_approve = 0;
+                $select_record->sale_can_see = $tomorrow;
                 $select_record->save();
             }
             elseif($result_each->sending_status=="sent")
@@ -2256,6 +2063,7 @@ class AdminController extends Controller
                 $select_record->updated_at = date('Y-m-d H:i:s');
                 $select_record->updated_by = $user->id;
                 $select_record->is_admin_submit_approve = 0;
+                $select_record->sale_can_see = $tomorrow;
                 $select_record->save();
             }
         }
@@ -2265,14 +2073,14 @@ class AdminController extends Controller
 
     public function list_lot_no()
     {
-        $list_lot_date = DB::table('records')->select('lot_no', DB::raw('count(*) as total'))->where('result','=','yes')->where('lot_no','<>',NULL)->groupBy('lot_no')->orderBy('lot_date','desc')->paginate(20);
+        $list_lot_date = DB::table('records')->select('lot_no', DB::raw('count(*) as total'))->where('result','=','yes')->where('lot_no','<>',NULL)->where('lot_date','<>',NULL)->where('lot_date','<>','0000-00-00')->groupBy('lot_no')->orderBy('lot_date','desc')->paginate(20);
         
         return view('admin.export_excel.list')->with('list_lot_date',$list_lot_date);
     }
 
     public function show_lot_no($lot_no)
     {
-        $list_lot_no = Record::where('lot_no','=',$lot_no)->get();
+        $list_lot_no = Record::where('lot_no','=',$lot_no)->where('lot_date','<>',NULL)->get();
         $lot_no = $lot_no;
         return view('admin.export_excel.show_lot_date')->with('list_lot_no',$list_lot_no)->with('lot_no',$lot_no);
     }

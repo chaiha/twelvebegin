@@ -15,13 +15,13 @@ $record = new Record;
 		  <thead class="thead-inverse">
 		    <tr>
               <th>ID</th>
-              <th>No.</th>
               <th>Date</th>
 		      <th>Lot#</th>
 		      <th>Month</th>
 		      <th>Sales</th>
 		      <th>Type</th>
 		      <th>ประเภทร้านพิเศษ</th>
+		      <th>No</th>
 		      <th>All</th>
 		      <th>ประเภทธุรกิจ</th>
 		      <th>USSD No.</th>
@@ -51,6 +51,7 @@ $record = new Record;
 		      <th>TentCard-A5</th>
 		      <th>ที่อยู่จัดส่ง</th>
 		      <th>C/FDoc</th>
+		      <th>A.logo</th>
 		      <th>Logo</th>
 		      <th>A.product</th>
 		      <th>Product</th>
@@ -62,7 +63,6 @@ $record = new Record;
 		  @foreach ($list_lot_no as $each_record)
 		    <tr>
 		      <td>{{$each_record->id}}</td>
-              <td></td>
 		      <td>
 		      <?php
 		      echo $record->convert_date_format_dash($each_record->lot_date);
@@ -115,6 +115,7 @@ $record = new Record;
 		      <td>
 		      {{$each_record->special_type}}
 		      </td>
+		      <td></td>
 		      <td></td>
 		      <td>
 		      <?php

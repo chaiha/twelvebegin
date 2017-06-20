@@ -379,7 +379,7 @@ $record = new Record;
             <table class="table table-bordered table-striped">
             <tr>
                 <th>Privilege</th>
-                <th>เงิ้อรไขเพิ่มเติม</th>
+                <th>เงื่อนไขเพิ่มเติม</th>
                 <th>Privilege-start</th>
                 <th>Privilege-end</th>
             </tr>
@@ -637,7 +637,7 @@ $record = new Record;
 			<div class="col-xs-12">
 				<div class="row add-margin-20">
 					<div class="col-xs-12">
-						<label>Feedback: </label>
+						<label>Privilege: </label>
 							<input type="text" name="feedback" id="feedback" value="<?php if($sale_filled['call_result']=="yes"){ echo $sale_filled['feedback']; } ?>" class="form-control yes_form"/>
 					</div>
 				</div>

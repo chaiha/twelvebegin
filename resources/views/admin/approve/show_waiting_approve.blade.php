@@ -35,6 +35,7 @@ $record = new Record;
 	<div class="row" style="width:2000px;">
 		<h1>รายการที่รอการ Approve ของ {{$sale->first_name}}</h1>
 		<h3>Lead ต่ออายุ : <span class="red"><?php echo sizeof($record_list_extend); ?></span></h3>
+		{{Form::open(array('action' => 'AdminController@submit_all_approve_record','id'=>'submit_form'))}}
 		<table class=" table-condensed table-bordered table-striped">
 		  <thead class="thead-inverse">
 		    <tr>
@@ -70,6 +71,7 @@ $record = new Record;
 		      		echo "<span style='color:black'>Lead แก้ไข</span>";
 		      	}
 		      ?>
+		      <input type="hidden" name="record_id_list[]" value="{{$each_record->record_id}}" />
 		      </td>
               <td>
               <a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
@@ -160,6 +162,7 @@ $record = new Record;
 		      		echo "<span style='color:red'>Lead แก้ไข</span>";
 		      	}
 		      ?>
+		      <input type="hidden" name="record_id_list[]" value="{{$each_record->record_id}}" />
 		      </td>
               <td>
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
@@ -250,6 +253,7 @@ $record = new Record;
 		      		echo "<span style='color:black'>Lead แก้ไข</span>";
 		      	}
 		      ?>
+		      <input type="hidden" name="record_id_list[]" value="{{$each_record->record_id}}" />
 		      </td>
               <td>
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
@@ -340,6 +344,7 @@ $record = new Record;
 		      		echo "<span style='color:black'>Lead แก้ไข</span>";
 		      	}
 		      ?>
+		      <input type="hidden" name="record_id_list[]" value="{{$each_record->record_id}}" />
 		      </td>
               <td>
               	<a href="{{url('admin/approve_record_from_sale/show_record_detail/'.$each_record->record_id.'/'.$sale->id)}}">ดูรายละเอียด</a>
@@ -398,24 +403,24 @@ $record = new Record;
 	<div class="row">
 		<div class="col-md-12" style="margin-left: 5px;">
 		<hr>
-			{{Form::open(array('action' => 'AdminController@submit_all_approve_record','id'=>'submit_form'))}}
+			
 				{{csrf_field()}}
 				<b>Lot Number: </b>
 				<input type="text" name="lot_no_number_1" id="lot_no_number_1" value="" size="3"/> - <input type="text" name="lot_no_number_2" id="lot_no_number_2" value="" size="3"/> -
 				<?php $current_year = date('y');?>
 				<select name="lot_no_month">
-					<option value="January-{{$current_year}}">January-{{$current_year}}</option>
-					<option value="February-{{$current_year}}">February-{{$current_year}}</option>
-					<option value="March-{{$current_year}}">March-{{$current_year}}</option>
-					<option value="April-{{$current_year}}">April-{{$current_year}}</option>
+					<option value="Jan-{{$current_year}}">Jan-{{$current_year}}</option>
+					<option value="Feb-{{$current_year}}">Feb-{{$current_year}}</option>
+					<option value="Mar-{{$current_year}}">Mar-{{$current_year}}</option>
+					<option value="Apr-{{$current_year}}">Apr-{{$current_year}}</option>
 					<option value="May-{{$current_year}}">May-{{$current_year}}</option>
 					<option value="June-{{$current_year}}">June-{{$current_year}}</option>
 					<option value="July-{{$current_year}}">July-{{$current_year}}</option>
-					<option value="August-{{$current_year}}">August-{{$current_year}}</option>
-					<option value="September-{{$current_year}}">September-{{$current_year}}</option>
-					<option value="October-{{$current_year}}">October-{{$current_year}}</option>
-					<option value="November-{{$current_year}}">November-{{$current_year}}</option>
-					<option value="December-{{$current_year}}">December-{{$current_year}}</option>
+					<option value="Aug-{{$current_year}}">Aug-{{$current_year}}</option>
+					<option value="Sept-{{$current_year}}">Sept-{{$current_year}}</option>
+					<option value="Oct-{{$current_year}}">Oct-{{$current_year}}</option>
+					<option value="Nov-{{$current_year}}">Nov-{{$current_year}}</option>
+					<option value="Dec-{{$current_year}}">Dec-{{$current_year}}</option>
 				</select>
 				<input type="hidden" name="sale_id" value="{{$sale->id}}" />
 				<hr>
